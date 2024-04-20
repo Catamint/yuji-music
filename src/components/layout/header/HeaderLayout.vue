@@ -1,6 +1,6 @@
 <template>
     <div class="player">
-        <p>player</p>
+        <h2>player</h2>
     </div>
 </template>
 
@@ -16,12 +16,10 @@ export default {
 <style scoped>
 .player{
     display: flex;
-    align-content: center;
     justify-content: center;
-    background-color: white;
-    height: 80px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    background-color: rgba(0,0,0,0.7);
+    height: 10%;
+    border-radius: 20px;
     width: 100%;
 }
 </style>

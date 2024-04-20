@@ -17,10 +17,9 @@ export default {
 .player{
     display: flex;
     justify-content: center;
-    background-color: white;
+    background-color: rgba(0,0,0,0.7);
     height: 80px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-radius: 20px;
     width: 100%;
 }
 </style>
