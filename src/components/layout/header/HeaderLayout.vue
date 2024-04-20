@@ -6,20 +6,22 @@
 
 <script>
 export default {
-    name: 'PlayerControl',
+    name: 'HeaderLayout',
     props: {
     msg: String
   }
 }
 </script>
 
-<style>
+<style scoped>
 .player{
     display: flex;
-    width: 100%;
     align-content: center;
-    background-color: gray;
-    position: absolute;
-    bottom: 0;
+    justify-content: center;
+    background-color: white;
+    height: 80px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
 }
 </style>

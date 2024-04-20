@@ -1,21 +1,18 @@
 <template>
-  <div class="container">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <PlayerControl />
+  <div class="base-background-image"></div>
+  <div class="base-container">
+    <IndexView />
   </div>
 </template>
 
 <script>
 
-import HelloWorld from './components/HelloWorld.vue'
-import PlayerControl from './components/PlayerControl.vue'
+import IndexView from './components/IndexView.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    PlayerControl
+    IndexView
   }
 }
 </script>
@@ -29,8 +26,26 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.container {
-  width: 100vh;
-  height: 100vh;
+.base-container {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+.base-background-image {
+  background-image: url(./assets/image/background.jpg);
+  background-size: cover;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 </style>
