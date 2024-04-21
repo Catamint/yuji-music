@@ -1,8 +1,11 @@
 <template>
     <div class="container">
+        <!-- <n-menu :options="menuOptions" @update:value="handleUpdateValue" /> -->
         <router-link to="/">首页</router-link>
         <router-link to="/favorite">收藏</router-link>
         <router-link to="/mv">mv</router-link>
+        <router-link to="/settings">设置</router-link>
+        <router-link to="/list">列表**</router-link>
     </div>
 </template>
 

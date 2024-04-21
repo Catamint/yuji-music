@@ -1,15 +1,20 @@
 <template>
     <div class="player">
-        <p>player</p>
+        <PlayerController />
     </div>
 </template>
 
 <script>
+import PlayerController from './PlayerController.vue';
+
 export default {
     name: 'FooterLayout',
     props: {
     msg: String
-  }
+  },
+    components:{
+        PlayerController
+    }
 }
 </script>
 
