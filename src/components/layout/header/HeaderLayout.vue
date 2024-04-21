@@ -1,12 +1,14 @@
 <template>
     <div class="player">
-        <h2>player</h2>
-        <n-input v-model:value="value" type="text" placeholder="搜索" />
+        <h2>烟火音乐</h2>
+        <n-input v-model:value="value" round type="text" placeholder="搜索" />
+        <n-button>设置</n-button>
+        <n-button>登录</n-button>
     </div>
 </template>
 
 <script>
-import { NInput } from 'naive-ui';
+import { NButton, NInput } from 'naive-ui';
 
 export default {
     name: 'HeaderLayout',
@@ -14,7 +16,8 @@ export default {
     msg: String
   },
     components:{
-        NInput
+        NInput,
+        NButton
     }
 }
 </script>
@@ -33,7 +36,8 @@ export default {
     display: inline-flex;
     align-items: center;
     width: 40%;
+    max-width: 200px;
     height: 80%;
-    max-height: 50px;
+    max-height: 34px;
 }
 </style>

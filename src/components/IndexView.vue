@@ -37,10 +37,13 @@ export default {
 }
 .col-2 {
   display: flex;
+  padding: 1%;
   width: 20%;
 }
 .col-8 {
   display: flex;
+  padding: 1%;
+  padding-left: 0;
   width:100%;
 }
 </style>

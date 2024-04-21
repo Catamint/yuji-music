@@ -1,17 +1,17 @@
 <template>
     <div class="container">
-        <div class="col-6">设置</div>
-        <div class="col-4"></div>
+        <div class="line-4">
+
+        </div>
+        <div class="line-6"></div>
     </div>
 
 </template>
 
 <script>
+
 export default {
-  name: 'Settings',
-  props: {
-    msg: String
-  }
+  name: 'List',
 }
 </script>
 
@@ -19,22 +19,25 @@ export default {
 <style scoped>
 .container{
     display: flex;
+    flex-direction: column;
     height: 100%;
     border: 50px;
     border-radius: 10px;
     background-color: rgba(0,0,0,0.5);
     justify-content: center;
 }
-.col-4{
+.line-4{
     background-color: rgba(0,0,0,0.5);
-    margin: 50px;
+    border: 2%;
+    width: 100%;
     border-radius: 10px;
-    width: 40%;
+    height: 40%;
 }
-.col-6{
+.line-6{
     background-color: rgba(0,0,0,0.5);
-    margin: 50px;
+    border: 2%;
+    width: 100%;
     border-radius: 10px;
-    width: 60%;
+    height: 60%;
 }
 </style>

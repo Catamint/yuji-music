@@ -1,14 +1,16 @@
 <template>
     <div class="container">
-        <div class="line-4"></div>
+        <div class="line-4">
+        </div>
         <div class="line-6"></div>
     </div>
 
 </template>
 
 <script>
+
 export default {
-  name: 'List',
+  name: 'Card',
   props: {
     msg: String
   }

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="col-3"></div>
+        <div class="col-3">收藏</div>
         <div class="col-7"></div>
     </div>
 

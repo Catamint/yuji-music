@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="col-6"></div>
+        <div class="col-6">mv</div>
         <div class="col-4"></div>
     </div>
 

@@ -2,6 +2,7 @@
     <div class="player">
         <h3>正在播放</h3>
         <PlayerController />
+        <h3>00:00</h3>
     </div>
 </template>
 

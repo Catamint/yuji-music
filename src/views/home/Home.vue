@@ -1,16 +1,20 @@
 <template>
     <div class="container">
-        <div class="col-6"></div>
-        <div class="col-4"></div>
+        <div class="col-6">
+            <HotSongs />
+        </div>
+        <div class="col-4">首页</div>
     </div>
 
 </template>
 
 <script>
+import HotSongs from "./HotSongs.vue"
+
 export default {
   name: 'Home',
-  props: {
-    msg: String
+  components: {
+    HotSongs
   }
 }
 </script>
@@ -27,13 +31,13 @@ export default {
 }
 .col-4{
     background-color: rgba(0,0,0,0.5);
-    margin: 50px;
+    margin: 10px;
     border-radius: 10px;
     width: 40%;
 }
 .col-6{
-    background-color: rgba(0,0,0,0.5);
-    margin: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 10px; 
     border-radius: 10px;
     width: 60%;
 }

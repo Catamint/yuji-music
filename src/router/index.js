@@ -3,7 +3,7 @@ import Home from "../views/home/Home.vue"
 import Favorite from "../views/favorite/Favorite.vue"
 import Mv from "../views/mv/Mv.vue"
 import Settings from "../views/settings/Settings.vue"
-import List from "../views/List.vue"
+import List from "../views/public/List.vue"
 
 const routes = [
     {
