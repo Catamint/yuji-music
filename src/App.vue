@@ -18,14 +18,14 @@ export default {
 </script>
 
 <style>
-#app {
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
+} */
 .base-container {
   top: 0;
   bottom: 0;
@@ -47,5 +47,12 @@ export default {
   right: 0;
   position: absolute;
   z-index: -1;
+}
+.n-icon{
+  color:rgba(197, 255, 231, 0.64);
+}
+#app{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  color: white;
 }
 </style>

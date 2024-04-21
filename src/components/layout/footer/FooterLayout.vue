@@ -1,5 +1,6 @@
 <template>
     <div class="player">
+        <h3>正在播放</h3>
         <PlayerController />
     </div>
 </template>
@@ -22,6 +23,7 @@ export default {
 .player{
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: rgba(0,0,0,0.7);
     height: 80px;
     border-radius: 20px;

@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-        <n-icon size="60">
+        <n-icon size="40">
             <Previous32Filled />
         </n-icon>
-        <n-icon size="60">
+        <n-icon size="40">
             <Play32Filled />
         </n-icon>
-        <n-icon size="60">
+        <n-icon size="40">
             <Next32Filled />
         </n-icon>
     </div>
