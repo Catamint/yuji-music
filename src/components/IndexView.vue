@@ -1,7 +1,8 @@
 <template>
     <HeaderLayout />
     <div class="container">
-      <Home />
+      <div class="col-2"><SidebarLayout /></div>
+      <div class="col-8"> <router-view></router-view> </div>
     </div>
     <FooterLayout />
 </template>
@@ -10,7 +11,8 @@
 
 import FooterLayout from './layout/footer/FooterLayout.vue';
 import HeaderLayout from './layout/header/HeaderLayout.vue';
-import Home from './views/home/Home.vue';
+import SidebarLayout from "./layout/sidebar/SidebarLayout.vue";
+import Home from '../views/home/Home.vue';
 
 export default {
   name: 'IndexView',
@@ -20,6 +22,7 @@ export default {
   components: {
     HeaderLayout,
     FooterLayout,
+    SidebarLayout,
     Home
   }
 }
@@ -29,7 +32,15 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  justify-content: center;
+  justify-content:space-between;
   flex: 1 1 auto;
+}
+.col-2 {
+  display: flex;
+  width: 20%;
+}
+.col-8 {
+  display: flex;
+  width:100%;
 }
 </style>

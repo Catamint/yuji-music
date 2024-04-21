@@ -1,19 +1,17 @@
 # music-2
 
-## Project setup
-```
-npm install
-```
+vue + NaiveUI 音乐APP前端
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## TODO:
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- ~~布局~~
+- ~~路由~~
+- 获取歌曲
+- 后端数据(axios)
+- 播放控件
+- 搜索
+- 登录  
+- 设置如何保存
+- sidebar 拖动
+- 设置
+- 主题色如何实现
