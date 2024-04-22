@@ -1,5 +1,8 @@
 <template>
-    <SongCard :music_info="musicinfo" />
+    <div class="cards-block">
+        <SongCard :music_info="musicinfo" />
+        <SongCard :music_info="musicinfo" />
+    </div>
 </template>
 
 <script>
@@ -150,4 +153,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.cards-block{
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 10px; 
+    border-radius: 10px;
+    width: 100%;
+    height: 40%;
+    max-height: 300px;
+}
+</style>

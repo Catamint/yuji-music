@@ -3,16 +3,19 @@
   <div class="base-container">
     <IndexView />
   </div>
+  <!-- <PlayList /> -->
 </template>
 
 <script>
 
 import IndexView from './components/IndexView.vue';
+// import PlayList from './components/layout/footer/PlayList.vue';
 
 export default {
   name: 'App',
   components: {
     IndexView
+    // PlayList
   }
 }
 </script>

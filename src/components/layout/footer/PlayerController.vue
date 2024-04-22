@@ -12,7 +12,7 @@
         <n-icon size="32">
             <Next32Filled />
         </n-icon>
-        <audio controls :src="get_current_url"></audio>
+        <audio controls :src="get_current_url" ref="audio"></audio>
     </div>
 
 </template>
@@ -37,11 +37,18 @@ export default{
         player
     }
   },
+  mounted(){
+    console.log(this.$refs.audio);
+    this.$refs.audio.play();
+  },
   methods:{
-    playOrPause(event){
+    playOrPause(){
         if(this.player.is_playing){
+            console.log(this.$refs.audio.value)
+            this.$refs.audio.pause();
             this.player.is_playing = false;
         }else{
+            this.$refs.audio.play();
             this.player.is_playing = true;
         }
     }

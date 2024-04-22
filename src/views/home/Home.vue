@@ -36,6 +36,7 @@ export default {
     width: 40%;
 }
 .col-6{
+    display: flex;
     background-color: rgba(0, 0, 0, 0.5);
     margin: 10px; 
     border-radius: 10px;

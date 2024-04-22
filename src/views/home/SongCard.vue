@@ -1,11 +1,11 @@
 <template>
     <n-card>
         <template #cover>
-            <img :src="music_detials.album_img">
+            <img @click="music_play" :src="music_detials.album_img">
         </template>
         <h3>{{ music_detials.song_name }}</h3>
-        <p>{{ music_detials.author_name }}</p>
-        <p @click="music_play">播放</p>
+        <span>{{ music_detials.author_name }}</span>
+        <!-- <p @click="music_play">播放</p> -->
         <!-- <audio controls :src="music_detials.url">播放</audio> -->
         <!-- <p>地址: {{ music_detials.url }}</p> -->
     </n-card>
@@ -41,7 +41,7 @@ export default {
         return{
             player,
             music_detials: {
-                album_img: " ",
+                album_img: "../../assets/image/default_covor.jpg",
                 song_name: " ",
                 song_id: " ",
                 album_name: " ",
@@ -69,10 +69,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .n-card {
-    width: 180px;
-}
-.n-card.div{
-    padding: 5px;
+    width: 30%;
+    min-width: 100px;
+    max-width: 180px;
+    margin-right: 10px;
 }
 
 </style>
