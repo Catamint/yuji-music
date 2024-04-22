@@ -2,24 +2,33 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true
 })
+
+//为避免跨域问题,访问api和后端服务器要走代理
 module.exports = {
   devServer: {
       open: true,
       host: 'localhost',
       port: 8080,
       proxy: {
-          '/kugou': {    //1
-              target: 'http://m.kugou.com',    //2
+          '/kugou': {
+              target: 'https://m.kugou.com',
               changOrigin: true,
-              pathRewrite: {    //3
+              pathRewrite: {
                   '^/kugou': ''
               }
           },
-          '/kugou-api':{
-            target:'http://mobilecdnbj.kugou.com/api',
+          '/mobilecdngz-kugou':{
+            target:'http://mobilecdngz.kugou.com',
             changOrigin: true,
-            pathRewrite: {    //3
-                '^/kugou-api': ''
+            pathRewrite: {
+                '^/mobilecdngz-kugou': ''
+            }
+          },
+          '/flask':{
+            target:'localhost:5000',
+            changOrigin: true,
+            pathRewrite: {
+                '^/flask': ''
             }
           }
           

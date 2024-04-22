@@ -1,22 +1,27 @@
 <template>
     <div class="container">
-        <n-icon size="40">
+        <n-icon size="32">
             <Previous32Filled />
         </n-icon>
-        <n-icon size="40">
+        <n-icon v-if="player.is_playing" size="40" @click="playOrPause">
+            <Pause48Filled />
+        </n-icon>
+        <n-icon v-else size="40" @click="playOrPause">
             <Play32Filled />
         </n-icon>
-        <n-icon size="40">
+        <n-icon size="32">
             <Next32Filled />
         </n-icon>
+        <audio controls :src="get_current_url"></audio>
     </div>
 
 </template>
 
 <script>
 
-import { Previous32Filled, Next32Filled, Play32Filled } from "@vicons/fluent";
+import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled } from "@vicons/fluent";
 import { NIcon } from "naive-ui";
+import { player } from "../../../stores/player";
 
 export default{
   name: 'PlayerController',
@@ -24,7 +29,31 @@ export default{
     NIcon,
     Previous32Filled,
     Next32Filled,
+    Pause48Filled,
     Play32Filled
+  },
+  data(){
+    return {
+        player
+    }
+  },
+  methods:{
+    playOrPause(event){
+        if(this.player.is_playing){
+            this.player.is_playing = false;
+        }else{
+            this.player.is_playing = true;
+        }
+    }
+  },
+  computed:{
+    get_current_url(){
+        if (this.player.playlist.length != 0){
+            return this.player.playlist.at(this.player.current).url; //播放列表非空
+        }else{
+            return "";
+        }
+    }
   }
 }
 </script>
