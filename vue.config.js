@@ -14,7 +14,15 @@ module.exports = {
               pathRewrite: {    //3
                   '^/kugou': ''
               }
+          },
+          '/kugou-api':{
+            target:'http://mobilecdnbj.kugou.com/api',
+            changOrigin: true,
+            pathRewrite: {    //3
+                '^/kugou-api': ''
+            }
           }
+          
       }
   }
 }

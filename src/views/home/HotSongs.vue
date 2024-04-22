@@ -107,8 +107,16 @@ const musicinfo = {
 export default {
     name: 'HotSongs',
     mounted() {
-        this.$axios.get("/kugou/?json=true").then(res => {
-            console.log(res.data);
+        // this.$axios.get("/kugou/?json=true").then(res => {
+        //     var getted = res.data;
+        //     this.music_info_list = getted;
+        //     console.log(this.music_info_list);
+        // })
+
+        this.$axios.get("/kugou-api/v3/tag/list?pid=0&apiver=2&plat=0").then(res => {
+            var getted = res.data;
+            this.music_info_list = getted;
+            console.log(this.music_info_list);
         })
     },
     components:{
@@ -116,6 +124,7 @@ export default {
     },
     data(){
     return {
+        music_info_list: "",
         musicinfo: musicinfo
     }
   }
