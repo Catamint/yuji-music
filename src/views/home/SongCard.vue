@@ -21,6 +21,7 @@ export default {
         this.$axios.get(url).then(res => {
             // console.log(res.data)
             this.music_detials = res.data
+            this.music_detials.album_img = this.music_detials.album_img.replace("{size}","240")
         })
     },
     data() {
