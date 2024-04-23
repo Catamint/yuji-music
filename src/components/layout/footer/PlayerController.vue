@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <n-icon size="32">
+        <n-icon size="32" @click="player.play_prev()">
             <Previous32Filled />
         </n-icon>
         <n-icon v-if="player.is_playing" size="40" @click="playOrPause">
@@ -12,7 +12,7 @@
         <n-icon size="32" @click="player.play_next()">
             <Next32Filled />
         </n-icon>
-        <audio autoplay controls @play="starting" @pause="pausing" :src="get_current_url" ref="audio"></audio>
+        <audio autoplay controls @play="starting" @pause="pausing" @ended="onEnded" :src="get_current_url" ref="audio"></audio>
     </div>
 
 </template>
@@ -38,20 +38,18 @@ export default{
     }
   },
   mounted(){
-    // console.log(this.$refs.audio);
-    // this.$refs.audio.play();
-    console.log(this.player);
+    
   },
   methods:{
     // 用player控制dom播放/暂停
     playOrPause(){
         if(this.player.is_playing){
-            console.log(this.$refs.audio.value)
+            // console.log(this.$refs.audio.value)
             this.$refs.audio.pause();
-            this.player.set_pause();
+            // this.player.set_pause(); //弃用，已改为绑定dom事件实现
         }else{
             this.$refs.audio.play();
-            this.player.set_play();
+            // this.player.set_play();
         }
     },
     // 当dom的状态改变，让player的状态跟着改变
@@ -60,6 +58,9 @@ export default{
     },
     pausing(){
         this.player.set_pause();
+    },
+    onEnded(){
+        this.player.end_and_next();
     }
   },
   computed:{

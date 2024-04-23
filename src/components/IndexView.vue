@@ -4,7 +4,9 @@
       <div class="col-2"><SidebarLayout /></div>
       <div class="col-8"> <router-view></router-view> </div>
     </div>
+    <Play v-show="utils.play_component.showing"/>
     <FooterLayout />
+
 </template>
 
 <script>
@@ -13,17 +15,22 @@ import FooterLayout from './layout/footer/FooterLayout.vue';
 import HeaderLayout from './layout/header/HeaderLayout.vue';
 import SidebarLayout from "./layout/sidebar/SidebarLayout.vue";
 import Home from '../views/home/Home.vue';
+import Play from './Play.vue';
+import { utils } from '@/stores/utils';
 
 export default {
   name: 'IndexView',
-  props: {
-    msg: String
-  },
   components: {
     HeaderLayout,
     FooterLayout,
     SidebarLayout,
-    Home
+    Home,
+    Play
+  },
+  data(){
+    return {
+      utils
+    }
   }
 }
 </script>

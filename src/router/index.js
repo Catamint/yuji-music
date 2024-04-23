@@ -5,6 +5,7 @@ import Mv from "../views/mv/Mv.vue"
 import Settings from "../views/settings/Settings.vue"
 import List from "../views/public/List.vue"
 import PlayList from "../views/PlayList.vue"
+import Play from "../components/Play.vue"
 
 const routes = [
     {
@@ -30,6 +31,10 @@ const routes = [
     {
         path:"/playlist",
         component: PlayList
+    },
+    {
+        path:"/play",
+        component: Play
     }
 ]
 

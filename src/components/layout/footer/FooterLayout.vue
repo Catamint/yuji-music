@@ -3,10 +3,12 @@
         <h3>正在播放</h3>
         <PlayerController />
         <h3>00:00</h3>
+        <button @click="utils.play_component.show()">播放详情页</button>
     </div>
 </template>
 
 <script>
+import { utils } from '@/stores/utils';
 import PlayerController from './PlayerController.vue';
 
 export default {
@@ -16,6 +18,11 @@ export default {
   },
     components:{
         PlayerController
+    },
+    data(){
+        return {
+            utils
+        }
     }
 }
 </script>

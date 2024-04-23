@@ -30,6 +30,9 @@ export const player = reactive({
     set_pause(){
         this.is_playing = false;
     },
+    set_playmode(mode){
+        this.playmode = mode;
+    },
     is_in_list(hash){
         for(let item of this.playlist){
             if (hash == item.hash){
@@ -58,31 +61,39 @@ export const player = reactive({
         //如果不是当前在播的歌曲(待定)
         if(1) {
             this.playlist.splice(this.playlist.indexOf(music_detials),1);
-        } else {
-
-        }
+        } else {}
     },
     //排序(hash, pre, after)
 
     //下一首
     play_next(){
         var current = this.current; 
-        this.playlist[this.current].playing = false;
-        if(this.playmode == 0){
-            if(this.current == this.playlist.length - 1){
-                this.current = 0;
-                this.playlist[0].playing = true;
-            } else {
-                this.current += 1;
-                this.playlist[this.current].playing = true;
-            }
+        this.playlist[current].playing = false;
+        if(current == this.playlist.length - 1){
+            this.current = 0;
+            this.playlist[0].playing = true;
+        } else {
+            this.current += 1;
+            this.playlist[this.current].playing = true;
         }
-    }
+    },
     //上一首
     play_prev(){
-        
-    }
+        var current = this.current; 
+        this.playlist[current].playing = false;
+        if(current == 0) {
+            this.current = this.playlist.length - 1;
+            this.playlist.at(-1).playing = true;
+        } else {
+            this.current -= 1;
+            this.playlist[this.current].playing = true;
+        }
+    },
     //播完后播放下一首
-
+    end_and_next(){
+        if(this.playmode == 0){
+            this.play_next();
+        }
+    }
     //进度条
 })
