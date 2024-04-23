@@ -67,6 +67,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .n-card {
+    display: block;
     width: 30%;
     min-width: 100px;
     max-width: 180px;

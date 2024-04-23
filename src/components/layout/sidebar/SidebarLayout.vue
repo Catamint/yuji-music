@@ -45,9 +45,9 @@ const menuOptions = [
         label: () => h(
             RouterLink,
             {
-                to: "/mv"
+                to: "/playlist"
             },
-            { default: () => "mv" }
+            { default: () => "播放列表" }
         ),
         key: "mv",
         icon: renderIcon(MoviesAndTv24Filled)

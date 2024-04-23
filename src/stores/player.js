@@ -30,11 +30,20 @@ export const player = reactive({
     set_pause(){
         this.is_playing = false;
     },
+    is_in_list(hash){
+        for(let item of this.playlist){
+            if (hash == item.hash){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    },
     //添加到播放列表(尾)
     put_in_playlist(music_detials){
         // 尾
         if(music_detials.url != ""){
-            if(this.playlist.indexOf(music_detials) == -1){
+            if(!this.is_in_list(music_detials.hash)){
                 this.playlist.push(music_detials);
             } else {
                 console.log("歌曲已存在")
@@ -70,6 +79,9 @@ export const player = reactive({
         }
     }
     //上一首
+    play_prev(){
+        
+    }
     //播完后播放下一首
 
     //进度条

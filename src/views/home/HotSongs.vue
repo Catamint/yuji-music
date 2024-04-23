@@ -1,7 +1,7 @@
 <template>
     <div class="cards-block">
         <SongCard :music_info="musicinfo" />
-        <SongCard :music_info="musicinfo" />
+        <SongCard v-for="info in music_info_list" :music_info="info" />
     </div>
 </template>
 
@@ -120,20 +120,16 @@ export default {
     name: 'HotSongs',
     methods: {
         getTopMusic() {
-            return
+            this.$axios.get("/mobilecdngz-kugou/api/v3/rank/song?version=9068&ranktype=2&plat=0&pagesize=100&area_code=1&page=1&volid=34533&rankid=8888&with_res_tag=1").then(res => {
+                var getted = JSON.parse(res.data.replace("<!--KG_TAG_RES_START-->","").replace("<!--KG_TAG_RES_END-->","")).data.info.slice(80,85);
+                this.music_info_list = getted;
+                // console.log(getted);
+            })
+            // return
         }
     },
     mounted() {
-        // this.$axios.get("/kugou/?json=true").then(res => {
-        //     var getted = res.data;
-        //     // this.music_info_list = getted;
-        //     console.log(getted);
-        // })
-        this.$axios.get("/mobilecdngz-kugou/api/v3/rank/song?version=9068&ranktype=2&plat=0&pagesize=100&area_code=1&page=1&volid=34533&rankid=8888&with_res_tag=1").then(res => {
-            var getted = res.data;
-            // this.music_info_list = getted;
-            // console.log(getted);
-        })
+        this.getTopMusic();
         // this.$axios.get("/kugou-api/v3/tag/list?pid=0&apiver=2&plat=0").then(res => {
         //     var getted2 = res.data;
         //     // this.music_info_list = getted2;
