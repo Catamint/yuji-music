@@ -9,7 +9,7 @@
         <n-icon v-else size="40" @click="playOrPause">
             <Play32Filled />
         </n-icon>
-        <n-icon size="32">
+        <n-icon size="32" @click="player.play_next()">
             <Next32Filled />
         </n-icon>
         <audio autoplay controls @play="starting" @pause="pausing" :src="get_current_url" ref="audio"></audio>

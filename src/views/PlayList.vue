@@ -1,10 +1,12 @@
 <template>
     <div class="container">
         <ul>
-            <li v-for="item in player.playlist">
-            {{item.song_name}}
-            <span>播放</span>
-            <span>删除</span>
+            <li v-for="music_detials in player.playlist">
+            {{music_detials.song_name}}
+            <span @click="player.play_in_playlist()" >播放 </span>
+            <span @click="player.del_from_list(music_detials)">删除 </span>
+            {{music_detials.playing}}
+            <!-- <span @click="">添加到播放列表 </span> -->
             </li>
         </ul>
     </div>
@@ -22,7 +24,10 @@ export default {
     }
   },
   mounted(){
-    console.log(this.player);
+    // console.log(this.player);
+  },
+  methods:{
+    // play()
   }
 }
 </script>

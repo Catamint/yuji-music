@@ -1,11 +1,11 @@
 <template>
     <n-card>
         <template #cover>
-            <img @click="music_play" :src="music_detials.album_img">
+            <img @click="player.play(music_detials);" :src="music_detials.album_img">
         </template>
         <h3>{{ music_detials.song_name }}</h3>
         <span>{{ music_detials.author_name }}</span>
-        <!-- <p @click="music_play">播放</p> -->
+        <p @click="player.put_in_playlist(music_detials)">添加到播放列表</p>
         <!-- <audio controls :src="music_detials.url">播放</audio> -->
         <!-- <p>地址: {{ music_detials.url }}</p> -->
     </n-card>
@@ -22,16 +22,13 @@ export default {
         get_music_detials(hash){
             const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
             this.$axios.get(url + hash).then(res => {
-                console.log(res.data)
-                this.music_detials.song_name = res.data.songName
-                this.music_detials.author_name = res.data.author_name
-                this.music_detials.url = res.data.url
-                this.music_detials.album_img = res.data.album_img.replace("{size}","240")
+                console.log(res.data);
+                this.music_detials.song_name = res.data.songName;
+                this.music_detials.author_name = res.data.author_name;
+                this.music_detials.url = res.data.url;
+                this.music_detials.album_img = res.data.album_img.replace("{size}","240");
+                this.music_detials.hash = res.data.hash;
             })
-        },
-        music_play(){
-            console.log(this.music_detials);
-            this.player.play(this.music_detials);
         }
     },
     mounted() {
@@ -43,11 +40,12 @@ export default {
             music_detials: {
                 album_img: "../../assets/image/default_covor.jpg",
                 song_name: " ",
-                song_id: " ",
                 album_name: " ",
                 album_id: " ",
                 author_name: " ",
-                url: " "
+                url: " ",
+                hash:" ",
+                playing: false
             }
         }
     },
