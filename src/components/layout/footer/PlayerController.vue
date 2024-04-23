@@ -12,7 +12,7 @@
         <n-icon size="32">
             <Next32Filled />
         </n-icon>
-        <audio controls :src="get_current_url" ref="audio"></audio>
+        <audio autoplay controls @play="starting" @pause="pausing" :src="get_current_url" ref="audio"></audio>
     </div>
 
 </template>
@@ -38,19 +38,28 @@ export default{
     }
   },
   mounted(){
-    console.log(this.$refs.audio);
-    this.$refs.audio.play();
+    // console.log(this.$refs.audio);
+    // this.$refs.audio.play();
+    console.log(this.player);
   },
   methods:{
+    // 用player控制dom播放/暂停
     playOrPause(){
         if(this.player.is_playing){
             console.log(this.$refs.audio.value)
             this.$refs.audio.pause();
-            this.player.is_playing = false;
+            this.player.set_pause();
         }else{
             this.$refs.audio.play();
-            this.player.is_playing = true;
+            this.player.set_play();
         }
+    },
+    // 当dom的状态改变，让player的状态跟着改变
+    starting(){
+        this.player.set_play();
+    },
+    pausing(){
+        this.player.set_pause();
     }
   },
   computed:{

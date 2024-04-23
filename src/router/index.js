@@ -4,6 +4,7 @@ import Favorite from "../views/favorite/Favorite.vue"
 import Mv from "../views/mv/Mv.vue"
 import Settings from "../views/settings/Settings.vue"
 import List from "../views/public/List.vue"
+import PlayList from "../views/PlayList.vue"
 
 const routes = [
     {
@@ -25,6 +26,10 @@ const routes = [
     {
         path:"/list",
         component: List
+    },
+    {
+        path:"/playlist",
+        component: PlayList
     }
 ]
 

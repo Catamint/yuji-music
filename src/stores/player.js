@@ -17,13 +17,30 @@ export const player = reactive({
         if(music_detials.url != ""){
             this.playlist = [music_detials];
             this.current = 0;
-            this.is_playing = true;
+            // this.set_play(); //dom开启了自动播放所以无需setplay
         } else {
             console.log("歌曲url为空");
         }
-    }
+    },
+    set_play(){
+        this.is_playing = true;
+    },
+    set_pause(){
+        this.is_playing = false;
+    },
     //添加到播放列表(头/尾)
+    put_in_playlist(music_detials, location){
+        // 尾
+        if(music_detials.url != ""){
+            this.playlist.append(music_detials);
+        }
+    }
     //暂停
     //从播放列表删除(hash)
     //排序(hash, pre, after)
+
+    //下一首
+    //上一首
+    //播完后播放下一首
+    //进度条
 })
