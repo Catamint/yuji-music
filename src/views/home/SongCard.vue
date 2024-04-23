@@ -15,7 +15,6 @@
 import { NCard } from 'naive-ui';
 import { player } from '../../stores/player';
 
-
 export default {
     name: 'SongCard',
     methods:{
@@ -29,6 +28,13 @@ export default {
                 this.music_detials.album_img = res.data.album_img.replace("{size}","240");
                 this.music_detials.hash = res.data.hash;
             })
+        },
+        put_in_playlist(detials){
+
+            var message = this.player.put_in_playlist(detials);
+            if(message != 0){
+                console.log("???")
+            }
         }
     },
     mounted() {

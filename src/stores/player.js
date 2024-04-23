@@ -20,8 +20,10 @@ export const player = reactive({
             this.playlist = [music_detials];
             this.current = 0;
             // this.set_play(); //dom开启了自动播放所以无需setplay
+            return 0;
         } else {
             console.log("歌曲url为空");
+            return "歌曲url为空";
         }
     },
     set_play(){
