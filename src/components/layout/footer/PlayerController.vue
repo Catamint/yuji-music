@@ -12,6 +12,7 @@
         <n-icon size="32" @click="player.play_next()">
             <Next32Filled />
         </n-icon>
+        <h3>00:00</h3>
         <audio autoplay controls @play="starting" @pause="pausing" @ended="onEnded" :src="get_current_url" ref="audio"></audio>
     </div>
 

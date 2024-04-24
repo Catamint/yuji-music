@@ -1,7 +1,7 @@
 <template>
     <HeaderLayout />
     <div class="container">
-      <div class="col-2"><SidebarLayout /></div>
+      <SidebarLayout />
       <div class="col-8"> <router-view></router-view> </div>
     </div>
     <Play v-show="utils.play_component.showing"/>
@@ -42,15 +42,10 @@ export default {
   justify-content:space-between;
   flex: 1 1 auto;
 }
-.col-2 {
-  display: flex;
-  padding: 1%;
-  width: 20%;
-}
 .col-8 {
   display: flex;
-  padding: 1%;
-  padding-left: 0;
+  /* padding: 1%; */
+  /* padding-left: 0; */
   width:100%;
 }
 </style>

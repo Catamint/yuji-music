@@ -15,5 +15,12 @@ export const utils = reactive({
     n_tooltip:{
         show: false,
         text: ""
+    },
+    user_config:{
+        theme: "light",
+        color: "",
+        backgroundPic:"",
+        transparent:"",
+        saturate:""
     }
 })

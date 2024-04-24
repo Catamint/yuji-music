@@ -1,7 +1,7 @@
 <template>
     <div class="cards-block">
-        <SongCard :music_info="musicinfo" />
-        <SongCard v-for="info in music_info_list" :music_info="info" />
+        <SongCard class="item" :music_info="musicinfo" />
+        <SongCard class="item" v-for="info in music_info_list" :music_info="info" />
     </div>
 </template>
 
@@ -121,7 +121,7 @@ export default {
     methods: {
         getTopMusic() {
             this.$axios.get("/mobilecdngz-kugou/api/v3/rank/song?version=9068&ranktype=2&plat=0&pagesize=100&area_code=1&page=1&volid=34533&rankid=8888&with_res_tag=1").then(res => {
-                var getted = JSON.parse(res.data.replace("<!--KG_TAG_RES_START-->","").replace("<!--KG_TAG_RES_END-->","")).data.info.slice(80,85);
+                var getted = JSON.parse(res.data.replace("<!--KG_TAG_RES_START-->","").replace("<!--KG_TAG_RES_END-->","")).data.info.slice(82,92);
                 this.music_info_list = getted;
                 // console.log(getted);
             })
@@ -152,11 +152,18 @@ export default {
 <style scoped>
 .cards-block{
     display: flex;
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     margin: 10px; 
     border-radius: 10px;
     width: 100%;
-    height: 40%;
-    max-height: 300px;
+    /* height: 40%; */
+    /* max-height: 300px; */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* firefox */
+    /* -ms-overflow-style: none; */
+}
+.cards-block .item{
+    scroll-snap-align: start;
 }
 </style>

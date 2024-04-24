@@ -27,7 +27,7 @@ export default {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.7);
+    /* background-color: rgba(0,0,0,0.7); */
     height: 10%;
     border-radius: 20px;
     width: 100%;

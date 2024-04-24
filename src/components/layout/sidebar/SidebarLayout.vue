@@ -82,9 +82,13 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* padding: 1%; */
+    width: 18%;
+    min-width: 140px;
+    max-width: 230px;
     height: 100%;
     /* border: 50px; */
     border-radius: 10px;
-    background-color: rgba(0,0,0,0.5);
+    /* background-color: rgba(0,0,0,0.5); */
 }
 </style>

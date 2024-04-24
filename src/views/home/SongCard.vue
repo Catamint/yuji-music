@@ -3,7 +3,7 @@
         <template #cover>
             <img @click="player.play(music_detials);" :src="music_detials.album_img">
         </template>
-        <h3>{{ music_detials.song_name }}</h3>
+        <h>{{ music_detials.song_name }}</h>
         <span>{{ music_detials.author_name }}</span>
         <p @click="player.put_in_playlist(music_detials)">添加到播放列表</p>
         <!-- <audio controls :src="music_detials.url">播放</audio> -->
@@ -75,9 +75,16 @@ export default {
 .n-card {
     display: block;
     width: 30%;
-    min-width: 100px;
+    min-width: 120px;
     max-width: 180px;
+    max-height: 180px;
     margin-right: 10px;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.23) 2px 8px 12px;
+}
+.n-card img{
+    border-radius: 12px;
+    /* box-shadow: inset; */
 }
 
 </style>

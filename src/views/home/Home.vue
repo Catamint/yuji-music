@@ -26,7 +26,7 @@ export default {
     height: 100%;
     border: 50px;
     border-radius: 10px;
-    background-color: rgba(0,0,0,0.5);
+    /* background-color: rgba(0,0,0,0.5); */
     justify-content: center;
 }
 .col-4{
