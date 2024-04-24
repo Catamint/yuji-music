@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div style="height: 100%;">
-            <img style="height: 100%;" src="{../../../assets/image/default_covor.jpg}" alt="">
+            <img style="height: 100%;" src="../../../assets/image/default_covor.jpg" alt="">
         </div>
         <div>
-            <h3>{{ player.is_playing ? songOnPlay.song_name : "正在播放" }}</h3>
+            <h3>{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h3>
         <p>
-            <span>{{ player.is_playing ? songOnPlay.author_name : "歌手" }}</span> · 
-            <span>{{ player.is_playing ? songOnPlay.album_name : "专辑" }}</span>
+            <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span> · 
+            <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span>
         </p>
         </div>
         <button @click="utils.play_component.show()">播放详情页</button>
@@ -35,6 +35,9 @@ export default {
     computed: {
         songOnPlay(){
             return this.player.playlist.at(this.player.current);
+        },
+        playlistNotNull(){
+            return this.player.playlist.length != 0;
         }
     }
 }

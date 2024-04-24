@@ -3,7 +3,7 @@
         <template #cover>
             <img @click="player.play(music_detials);" :src="music_detials.album_img">
         </template>
-        <h>{{ music_detials.song_name }}</h>
+        <h3>{{ music_detials.song_name }}</h3>
         <span>{{ music_detials.author_name }}</span>
         <p @click="player.put_in_playlist(music_detials)">添加到播放列表</p>
         <!-- <audio controls :src="music_detials.url">播放</audio> -->
@@ -21,7 +21,7 @@ export default {
         get_music_detials(hash){
             const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
             this.$axios.get(url + hash).then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.music_detials.song_name = res.data.songName;
                 this.music_detials.author_name = res.data.author_name;
                 this.music_detials.url = res.data.url;

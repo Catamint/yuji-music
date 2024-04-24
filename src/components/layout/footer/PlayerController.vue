@@ -49,7 +49,9 @@ export default{
             this.$refs.audio.pause();
             // this.player.set_pause(); //弃用，已改为绑定dom事件实现
         }else{
-            this.$refs.audio.play();
+            if(this.player.playlist.length != 0){
+                this.$refs.audio.play(); //如果播放列表中有歌曲
+            }
             // this.player.set_play();
         }
     },

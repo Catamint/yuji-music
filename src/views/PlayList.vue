@@ -1,12 +1,11 @@
 <template>
     <div class="container">
         <ul>
-            <li v-for="music_detials in player.playlist">
-            {{music_detials.song_name}}
-            <span @click="player.play_in_playlist()" >播放 </span>
-            <span @click="player.del_from_list(music_detials)">删除 </span>
-            {{music_detials.playing}}
-            <!-- <span @click="">添加到播放列表 </span> -->
+            <li v-for="item in player.playlist">
+            {{item.song_name}}
+            <span @click="player.play_in_playlist(item.hash)" >播放 </span>
+            <span @click="player.del_from_list(item.hash)">删除 </span>
+            {{item.playing}}
             </li>
         </ul>
     </div>
@@ -39,7 +38,7 @@ export default {
     height: 100%;
     border: 50px;
     border-radius: 10px;
-    background-color: rgba(0,0,0,0.5);
+    /* background-color: rgba(0,0,0,0.5); */
     justify-content: center;
 }
 </style>

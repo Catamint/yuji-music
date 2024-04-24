@@ -6,13 +6,6 @@ export const player = reactive({
     is_playing: false,
     playmode: 0, // 0: 列表循环 1：单曲循环
 
-    play_in_playlist(num){
-        if(num > 0 && num < this.playlist.length()){
-            this.current = num;
-        } else {
-            console.log("num out of playlist.length");
-        }
-    },
     //直接播放
     play(music_detials){
         if(music_detials.url != ""){
@@ -56,14 +49,40 @@ export const player = reactive({
             
         }
     },
-    //下一首播放（头）
-
+    //从列表中播放
+    play_in_playlist(hash){
+        for(let item of this.playlist){
+            if (hash == item.hash){
+                var num = this.playlist.indexOf(item);
+                this.playlist[this.current].playing = false;
+                this.current = num;
+                this.playlist[this.current].playing = true;
+                return
+            }
+        }
+    },
     //从播放列表删除(hash)
-    del_from_list(music_detials){
-        //如果不是当前在播的歌曲(待定)
-        if(1) {
-            this.playlist.splice(this.playlist.indexOf(music_detials),1);
-        } else {}
+    del_from_list(hash){
+        for(let item of this.playlist){
+            if (hash == item.hash){
+                var num = this.playlist.indexOf(item);
+                var list_len = this.playlist.length;
+                //如果不是最后一首歌曲(待定)
+                if(this.current != list_len - 1) {
+                    this.playlist.splice(num,1);
+                    this.playlist[this.current].playing = true;
+                } else if (list_len != 1){
+                    this.current = 0;
+                    this.playlist[0].playing = true;
+                    this.playlist.splice(list_len - 1, 1);
+                } else {
+                    this.current = 0;
+                    //停止播放事件
+                    this.playlist.splice(list_len - 1, 1);
+                }
+                return;
+            }
+        }
     },
     //排序(hash, pre, after)
 
@@ -93,6 +112,7 @@ export const player = reactive({
     },
     //播完后播放下一首
     end_and_next(){
+        this.playlist[current].playing = false;
         if(this.playmode == 0){
             this.play_next();
         }
