@@ -36,20 +36,20 @@ export default {
 .base-container {
   top: 0;
   bottom: 0;
-  /* left: 0;
-  right: 0; */
-  width: 100vw;
+  left: 0;
+  right: 0;
+  /* width: 100vw; */
   position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* overflow: hidden; */
-  background-color: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
 }
 .base-background-image {
   background-image: url(./assets/image/background.jpg);
-  filter: saturate(3.6); /* 饱和度，与遮罩透明度搭配使用，避免遮罩后背景变灰 */
+  filter: saturate(1.5); /* 饱和度，与遮罩透明度搭配使用，避免遮罩后背景变灰 */
   background-size: cover;
   top: 0;
   bottom: 0;

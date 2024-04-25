@@ -3,7 +3,7 @@
         <template #cover>
             <img class="cover-img" @click="player.play(music_detials);" :src="music_detials.album_img">
         </template>
-        <n-ellipsis style="font-size: 1.2rem; max-width: 100%">
+        <n-ellipsis style="font-size: 1.2rem; max-width: 100%; font-weight: bold;">
             {{ music_detials.song_name }}
         </n-ellipsis>
         <p>
@@ -18,11 +18,6 @@
                 </template>
             </n-button>
         </p>
-        <!-- <span>{{ music_detials.author_name }}</span> -->
-        <!-- <p @click="player.put_in_playlist(music_detials)">添加到播放列表</p> -->
-
-        <!-- <audio controls :src="music_detials.url">播放</audio> -->
-        <!-- <p>地址: {{ music_detials.url }}</p> -->
     </n-card>
 </template>
 
@@ -94,12 +89,13 @@ export default {
 .n-card {
     /* display: block; */
     width: 40%;
-    min-width: 22%;
+    min-width: 180px;
+    width: 22%;
     max-width: 260px;
     max-height: 300px;
     margin-right: 20px;
     border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.23) 2px 8px 12px;
+    box-shadow: rgba(0, 0, 0, 0.1) 2px 8px 12px;
     transition: transform 0.3s
 }
 .n-card:hover{
@@ -111,9 +107,8 @@ export default {
     transition: filter 0.3s ease;
     /* box-shadow: inset; */
 }
-.cover-img:hover::before{
+/* .cover-img:hover::before{
     content: "播放";
-    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -123,7 +118,7 @@ export default {
     border-radius: 5px;
     transition: opacity 0.3s ease;
     opacity: 1;
-}
+} */
 .cover-img:hover {
     filter: brightness(50%);
 }

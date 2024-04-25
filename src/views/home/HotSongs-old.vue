@@ -125,7 +125,7 @@ const musicinfo = {
     "fail_process_sq": 4
 }
 export default {
-    name: 'Container',
+    name: 'HotSongs',
     methods: {
 
     },
@@ -144,12 +144,12 @@ export default {
         }
     },
     components: {
-        SongCard
+        SongCard,
+        ChevronRight16Filled
     },
     data() {
         return {
-            musicinfo: musicinfo,
-            ChevronRight16Filled
+            musicinfo: musicinfo
         }
     }
 }
@@ -160,13 +160,17 @@ export default {
 .cards-block{
     display: flex;
     box-sizing: border-box;
+    /* background-color: rgba(0, 0, 0, 0.5); */
     padding: 20px; 
     border-radius: 10px;
     width: 100%;
     max-width: 100%;
+    /* height: 40%; */
+    /* max-height: 300px; */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none; /* firefox */
+    /* -ms-overflow-style: none; */
 }
 .cards-block .item{
     scroll-snap-align: start;

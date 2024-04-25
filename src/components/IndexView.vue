@@ -67,7 +67,7 @@ export default {
   display: block;
   box-sizing: border-box;
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.352);
+  /* background-color: rgba(255, 255, 255, 0.352); */
   padding: 30px;
   /* border-radius: 20px; */
   border-top-left-radius: 20px;

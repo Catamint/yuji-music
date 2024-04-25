@@ -7,26 +7,18 @@
                     {{ music_detials.song_name }}
                 </n-ellipsis>
                 <span class="info" style="padding-left: 20px;">{{ music_detials.author_name }}</span>
-                <span class="info">{{ music_detials.song_name }}</span>
+                <!-- <span class="info">{{ music_detials.song_name }}</span> -->
             </div>
             <n-flex>
-                <n-button style="font-size: 18px" @click="player.play(music_detials)">
-                    <template #icon>
-                        <n-icon><Play24Regular/></n-icon>
-                    </template>
-                    播放
-                </n-button>
-                <n-button style="font-size: 18px">
+                <n-button round style="font-size: 18px">
                     <template #icon>
                         <n-icon><Heart28Regular /></n-icon>
                     </template>
-                    收藏
                 </n-button>
-                <n-button style="font-size: 18px" @click="player.put_in_playlist(music_detials)">
+                <n-button round style="font-size: 18px" @click="player.put_in_playlist(music_detials)">
                     <template #icon>
                         <n-icon><TextBulletListAdd24Filled /></n-icon>
                     </template>
-                添加到播放列表
                 </n-button>
             </n-flex>
         </n-flex>
@@ -39,7 +31,7 @@ import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
 export default {
-    name: 'List',
+    name: 'HalfList',
     methods:{
         get_music_detials(hash){
             const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
@@ -106,20 +98,17 @@ export default {
 .n-card {
     display: flex;
     flex-direction: row;
-    width: 100%;
-    min-width: 100%;
+    width: 40%;
+    min-width: 40%;
     padding: 10px;
-    /* max-width: 260px; */
     height: 100px;
     margin-right: 20px;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 2px 8px 12px;
-    transition: transform 0.3s;
-    /* transition: filter 0.3s ease; */
+    transition: transform 0.3s
 }
 .n-card:hover{
     transform: scale(1.02);
-    /* filter: brightness(5%); */
 }
 .n-card img{
     height: 100%;
@@ -127,7 +116,25 @@ export default {
     object-fit: cover;
     border-radius: 12px;
     position: relative;
+    transition: filter 0.3s ease;
     /* box-shadow: inset; */
+}
+/* .cover-img:hover::before{
+    content: "播放";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+} */
+
+.cover-img:hover {
+    filter: brightness(50%);
 }
 
 .text {
@@ -140,6 +147,7 @@ export default {
     padding-left: 10px;
 }
 n-button{
+    /* padding-left: 2px; */
     padding-right: 2px;
 }
 

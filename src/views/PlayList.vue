@@ -1,5 +1,6 @@
 <template>
-    <div class="container">
+
+      <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" />
         <ul>
             <li v-for="item in player.playlist">
             {{item.song_name}}
@@ -8,15 +9,19 @@
             {{item.playing}}
             </li>
         </ul>
-    </div>
+
 
 </template>
 
 <script>
+import PlayListContent from "@/components/public/PlayListContent.vue";
 import { player } from "../stores/player";
 
 export default {
   name: 'PlayList',
+  components: {
+    PlayListContent
+  },
   data() {
     return{
         player

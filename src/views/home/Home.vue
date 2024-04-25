@@ -1,16 +1,18 @@
 <template>
-  <HotSongs :music_info_list="music_info_list" />
-  <HotSongs :music_info_list="music_info_list" />
-  <HotSongs :music_info_list="music_info_list" />
+  <CardContainer subcomponent="list" :music_info_list="music_info_list" />
+  <CardContainer :music_info_list="music_info_list" />
+  <CardContainer subcomponent="halflist" :music_info_list="music_info_list" />
 </template>
 
 <script>
-import HotSongs from "./HotSongs.vue"
+import CardContainer from "@/components/public/CardContainer.vue";
+// import HotSongs from "./HotSongs.vue"
 
 export default {
   name: 'Home',
   components: {
-    HotSongs
+    // HotSongs,
+    CardContainer
   },
   data(){
     return {

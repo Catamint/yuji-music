@@ -22,11 +22,11 @@
                     </template>
                     收藏
                 </n-button>
-                <n-button style="font-size: 18px" @click="player.put_in_playlist(music_detials)">
+                <n-button style="font-size: 18px" @click="player.del_from_list(music_detials.hash)">
                     <template #icon>
                         <n-icon><TextBulletListAdd24Filled /></n-icon>
                     </template>
-                添加到播放列表
+                    从播放列表移除
                 </n-button>
             </n-flex>
         </n-flex>
@@ -39,7 +39,7 @@ import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
 export default {
-    name: 'List',
+    name: 'PlayListContent',
     methods:{
         get_music_detials(hash){
             const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
@@ -112,6 +112,7 @@ export default {
     /* max-width: 260px; */
     height: 100px;
     margin-right: 20px;
+    margin-bottom: 10px;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 2px 8px 12px;
     transition: transform 0.3s;
