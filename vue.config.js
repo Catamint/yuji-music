@@ -7,8 +7,9 @@ module.exports = defineConfig({
 module.exports = {
   devServer: {
       open: true,
-      host: 'localhost',
+      host: '0.0.0.0',
       port: 8080,
+      allowedHosts: 'all',
       proxy: {
           '/kugou': {
               target: 'https://m.kugou.com',

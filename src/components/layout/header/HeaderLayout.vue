@@ -1,6 +1,6 @@
 <template>
     <div class="player">
-        <h2>烟火音乐</h2>
+        <h2>雨霁音乐</h2>
         <n-input v-model:value="value" round type="text" placeholder="搜索" />
         <n-button>设置</n-button>
         <n-button>登录</n-button>
