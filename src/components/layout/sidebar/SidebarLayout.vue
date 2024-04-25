@@ -84,7 +84,7 @@ export default {
     justify-content: center;
     /* padding: 1%; */
     width: 18%;
-    min-width: 140px;
+    min-width: 160px;
     max-width: 230px;
     height: 100%;
     /* border: 50px; */

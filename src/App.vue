@@ -36,13 +36,14 @@ export default {
 .base-container {
   top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
+  /* left: 0;
+  right: 0; */
+  width: 100vw;
   position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
 }
@@ -56,10 +57,10 @@ export default {
   right: 0;
   position: absolute;
   z-index: -1;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .n-icon{
-  color:rgba(197, 255, 231, 0.64);
+  color:rgba(170, 40, 40, 0.64);
 }
 #app{
   font-family: Avenir, Helvetica, Arial, sans-serif;

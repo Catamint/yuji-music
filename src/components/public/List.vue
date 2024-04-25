@@ -18,21 +18,16 @@
                 </template>
             </n-button>
         </p>
-        <!-- <span>{{ music_detials.author_name }}</span> -->
-        <!-- <p @click="player.put_in_playlist(music_detials)">添加到播放列表</p> -->
-
-        <!-- <audio controls :src="music_detials.url">播放</audio> -->
-        <!-- <p>地址: {{ music_detials.url }}</p> -->
     </n-card>
 </template>
 
 <script>
 import { NCard, NEllipsis } from 'naive-ui';
-import { player } from '../../stores/player';
+import { player } from '@/stores/player';
 import { Heart28Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
 export default {
-    name: 'SongCard',
+    name: 'List',
     methods:{
         get_music_detials(hash){
             const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';

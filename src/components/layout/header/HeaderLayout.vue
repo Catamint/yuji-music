@@ -2,8 +2,7 @@
     <div class="player">
         <h2>雨霁音乐</h2>
         <n-input v-model:value="value" round type="text" placeholder="搜索" />
-        <n-button>设置</n-button>
-        <n-button>登录</n-button>
+        <div><n-button>设置</n-button><n-button>登录</n-button></div>
     </div>
 </template>
 
@@ -24,8 +23,11 @@ export default {
 
 <style scoped>
 .player{
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
     display: inline-flex;
-    justify-content: center;
+    justify-content:space-between;
     align-items: center;
     /* background-color: rgba(0,0,0,0.7); */
     height: 10%;

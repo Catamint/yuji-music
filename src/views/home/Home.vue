@@ -1,11 +1,7 @@
 <template>
-    <div class="container">
-        <div class="col-6">
-            <HotSongs />
-        </div>
-        <div class="col-4">首页</div>
-    </div>
-
+  <HotSongs :music_info_list="music_info_list" />
+  <HotSongs :music_info_list="music_info_list" />
+  <HotSongs :music_info_list="music_info_list" />
 </template>
 
 <script>
@@ -15,31 +11,29 @@ export default {
   name: 'Home',
   components: {
     HotSongs
-  }
+  },
+  data(){
+    return {
+        music_info_list: []
+    }
+  },
+  methods:{
+    getTopMusic() {
+            this.$axios.get("/mobilecdngz-kugou/api/v3/rank/song?version=9068&ranktype=2&plat=0&pagesize=100&area_code=1&page=1&volid=34533&rankid=8888&with_res_tag=1").then(res => {
+                var getted = JSON.parse(res.data.replace("<!--KG_TAG_RES_START-->","").replace("<!--KG_TAG_RES_END-->","")).data.info.slice(82,92);
+                this.music_info_list = getted;
+                // console.log(getted);
+            })
+            // return
+    }
+  },
+  mounted() {
+    this.getTopMusic();
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container{
-    display: flex;
-    height: 100%;
-    border: 50px;
-    border-radius: 10px;
-    /* background-color: rgba(0,0,0,0.5); */
-    justify-content: center;
-}
-.col-4{
-    background-color: rgba(0,0,0,0.5);
-    margin: 10px;
-    border-radius: 10px;
-    width: 40%;
-}
-.col-6{
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.5);
-    margin: 10px; 
-    border-radius: 10px;
-    width: 60%;
-}
+
 </style>

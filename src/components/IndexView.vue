@@ -1,11 +1,17 @@
 <template>
-    <HeaderLayout />
-    <div class="container">
-      <SidebarLayout />
-      <div class="col-8"> <router-view></router-view> </div>
+  <HeaderLayout />
+  <div class="container">
+    <SidebarLayout />
+    <div class="col-8">
+      <div class="model">
+        <div class="col">
+          <router-view></router-view>
+        </div>
+      </div>
     </div>
-    <Play v-show="utils.play_component.showing"/>
-    <FooterLayout />
+  </div>
+  <Play v-show="utils.play_component.showing" />
+  <FooterLayout />
 
 </template>
 
@@ -27,7 +33,7 @@ export default {
     Home,
     Play
   },
-  data(){
+  data() {
     return {
       utils
     }
@@ -39,13 +45,35 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   flex: 1 1 auto;
 }
+
 .col-8 {
   display: flex;
   /* padding: 1%; */
   /* padding-left: 0; */
-  width:100%;
+  width: 100%;
+}
+
+.model {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.col {
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.352);
+  padding: 20px;
+  /* border-radius: 20px; */
+  border-top-left-radius: 20px;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
 }
 </style>
