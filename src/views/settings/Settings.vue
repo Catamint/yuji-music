@@ -1,40 +1,55 @@
 <template>
-    <div class="container">
-        <div class="col-6">设置</div>
-        <div class="col-4"></div>
-    </div>
+  <ul>
+    <li>
+      <n-space>
+        <span>背景 </span><n-switch v-model:value="active" />
+        <!-- <n-switch v-model:value="active" disabled /> -->
+      </n-space>
+    </li>
+    <li>
+      <span>主题</span>
+      <n-space vertical>
+        <n-select v-model:value="value" :options="options" />
+        <!-- <n-select v-model:value="value" disabled :options="options" /> -->
+      </n-space>
+    </li>
+  </ul>
+
 
 </template>
 
 <script>
+import { NSelect, NSwitch } from 'naive-ui';
+import { ref } from 'vue';
+
 export default {
   name: 'Settings',
   props: {
     msg: String
+  },
+  components:{
+    NSwitch,
+    NSelect
+  },
+  setup() {
+    return {
+      value: ref(null),
+      options: [
+        {
+          label: "浅色",
+          value: "light",
+        },
+        {
+          label: "深色",
+          value: "dark"
+        }
+      ]
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container{
-    display: flex;
-    height: 100%;
-    border: 50px;
-    border-radius: 10px;
-    background-color: rgba(0,0,0,0.5);
-    justify-content: center;
-}
-.col-4{
-    background-color: rgba(0,0,0,0.5);
-    margin: 50px;
-    border-radius: 10px;
-    width: 40%;
-}
-.col-6{
-    background-color: rgba(0,0,0,0.5);
-    margin: 50px;
-    border-radius: 10px;
-    width: 60%;
-}
+
 </style>

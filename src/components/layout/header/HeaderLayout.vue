@@ -2,12 +2,15 @@
     <div class="player">
         <h2>雨霁音乐</h2>
         <n-input v-model:value="value" round type="text" placeholder="搜索" />
-        <div><n-button>设置</n-button><n-button>登录</n-button></div>
+        <div>
+            <router-link to="/settings"><n-button>设置</n-button></router-link>
+            <n-button>登录</n-button></div>
     </div>
 </template>
 
 <script>
 import { NButton, NInput } from 'naive-ui';
+import { RouterLink } from 'vue-router';
 
 export default {
     name: 'HeaderLayout',
@@ -16,7 +19,8 @@ export default {
   },
     components:{
         NInput,
-        NButton
+        NButton,
+        RouterLink
     }
 }
 </script>
@@ -29,7 +33,6 @@ export default {
     display: inline-flex;
     justify-content:space-between;
     align-items: center;
-    /* background-color: rgba(0,0,0,0.7); */
     height: 10%;
     border-radius: 20px;
     width: 100%;

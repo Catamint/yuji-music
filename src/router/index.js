@@ -5,7 +5,7 @@ import Mv from "../views/mv/Mv.vue"
 import Settings from "../views/settings/Settings.vue"
 import List from "../views/public/List.vue"
 import PlayList from "../views/PlayList.vue"
-import Play from "../components/Play.vue"
+import Play from "../views/Play.vue"
 
 const routes = [
     {

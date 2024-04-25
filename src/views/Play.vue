@@ -5,8 +5,8 @@
 </template>
 
 <script>
+import PlayerController from '@/components/layout/footer/PlayerController.vue';
 import { utils } from '@/stores/utils';
-import PlayerController from './layout/footer/PlayerController.vue';
 
 export default {
   name: 'Play',

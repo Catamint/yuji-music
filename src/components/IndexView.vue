@@ -21,7 +21,7 @@ import FooterLayout from './layout/footer/FooterLayout.vue';
 import HeaderLayout from './layout/header/HeaderLayout.vue';
 import SidebarLayout from "./layout/sidebar/SidebarLayout.vue";
 import Home from '../views/home/Home.vue';
-import Play from './Play.vue';
+import Play from '@/views/Play.vue';
 import { utils } from '@/stores/utils';
 
 export default {
@@ -68,7 +68,7 @@ export default {
   box-sizing: border-box;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.352);
-  padding: 20px;
+  padding: 30px;
   /* border-radius: 20px; */
   border-top-left-radius: 20px;
   width: 100%;

@@ -1,14 +1,13 @@
 <template>
-    <ViewModel />
+
 </template>
 
 <script>
-import ViewModel from '@/components/public/ViewModel.vue';
 
 export default {
   name: 'Favorite',
   components: {
-    ViewModel
+
   },
   data(){
     return {

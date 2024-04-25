@@ -4,10 +4,9 @@
         <!-- <router-link to="/">首页</router-link>
         <router-link to="/favorite">收藏</router-link>
         <router-link to="/mv">mv</router-link> -->
-        <router-link to="/settings">设置</router-link>
-        <router-link to="/play">播放页**</router-link>
+        <!-- <router-link to="/play">播放页**</router-link> -->
         <router-link to="/list">列表**</router-link>
-        <router-link to="/playlist">播放列表**</router-link>
+        <!-- <router-link to="/playlist">播放列表**</router-link> -->
     </div>
 </template>
 
