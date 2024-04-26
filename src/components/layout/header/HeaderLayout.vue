@@ -43,26 +43,11 @@ export default {
     methods: {
         search_music(){
             this.$router.push({ name: 'listpage', params: {
-                // query_info: {
                     kw: this.kw,
                     page: 1,
                     qurl: '/host/get_search_result'
-                // }
-            }
-        });
-            // const url = '/host/get_search_result';
-            // this.$axios.get(url, {
-            //     params: {
-            //         kw: this.kw,
-            //         page: 1
-            //     }
-            // }).then(res => {
-            //     var data =res.data
-            //     console.log(data);
-            //     this.$router.push({ name: 'listpage', params: {music_info_list: data}});
-            // }).catch(function (error) {
-            //     console.log(error);
-            // })
+                }
+            });
         }
     }
 }

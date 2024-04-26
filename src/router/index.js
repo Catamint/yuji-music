@@ -7,6 +7,7 @@ import Settings from "../views/settings/Settings.vue"
 import PlayList from "../views/PlayList.vue"
 import Play from "../views/Play.vue"
 import ListPage from "@/components/public/ListPage.vue"
+import Login from "../views/Login.vue"
 
 const routes = [
     {
@@ -42,6 +43,10 @@ const routes = [
         name: 'listpage',
         component: ListPage,
         props: true
+    },
+    {
+        path:"/login",
+        component: Login
     }
 ]
 
