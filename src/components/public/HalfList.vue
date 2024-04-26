@@ -52,7 +52,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.music_info)
+        // console.log(this.music_info)
         this.get_music_detials(this.music_info.hash);
     },
     data() {

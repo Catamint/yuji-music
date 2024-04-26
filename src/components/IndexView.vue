@@ -5,9 +5,11 @@
     <div class="col-8">
       <div class="model">
         <div class="col">
-          <!-- <keep-alive include="/"> -->
+          <n-scrollbar>
+            <!-- <keep-alive include="/"> -->
             <router-view></router-view>
-          <!-- </keep-alive> -->
+            <!-- </keep-alive> -->
+          </n-scrollbar>
         </div>
       </div>
     </div>
@@ -25,6 +27,7 @@ import SidebarLayout from "./layout/sidebar/SidebarLayout.vue";
 import Home from '../views/home/Home.vue';
 import Play from '@/views/Play.vue';
 import { utils } from '@/stores/utils';
+import { NScrollbar } from 'naive-ui';
 
 export default {
   name: 'IndexView',
@@ -33,7 +36,8 @@ export default {
     FooterLayout,
     SidebarLayout,
     Home,
-    Play
+    Play,
+    NScrollbar
   },
   data() {
     return {
@@ -70,7 +74,8 @@ export default {
   box-sizing: border-box;
   position: absolute;
   /* background-color: rgba(255, 255, 255, 0.352); */
-  padding: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
   /* border-radius: 20px; */
   border-top-left-radius: 20px;
   width: 100%;

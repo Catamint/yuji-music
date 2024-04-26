@@ -1,25 +1,25 @@
 <template>
-    <div class="container">
-        <n-icon size="32" @click="player.play_prev()">
-            <Previous32Filled />
-        </n-icon>
-        <n-icon v-if="player.is_playing" size="40" @click="playOrPause">
-            <Pause48Filled />
-        </n-icon>
-        <n-icon v-else size="40" @click="playOrPause">
-            <Play32Filled />
-        </n-icon>
-        <n-icon size="32" @click="player.play_next()">
-            <Next32Filled />
-        </n-icon>
-        <h4>{{ currentMinSec(player.currentTime) }}</h4>
-        <n-slider style="width: 200px;" v-model:value="player.currentTime" :step="1" :max="player.duration"
-            :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
-        <h4>{{ currentMinSec(player.duration) }}</h4>
-        <audio autoplay @play="starting" @pause="pausing" @ended="onEnded" @timeupdate="onCurrentTime"
-            @durationchange="onDuration" :src="get_current_url" ref="audio"></audio>
-    </div>
+    <div></div>
+    <n-icon size="32" @click="player.play_prev()">
+        <Previous32Filled />
+    </n-icon>
+    <n-icon v-if="player.is_playing" size="40" @click="playOrPause">
+        <Pause48Filled />
+    </n-icon>
+    <n-icon v-else size="40" @click="playOrPause">
+        <Play32Filled />
+    </n-icon>
+    <n-icon size="32" @click="player.play_next()">
+        <Next32Filled />
+    </n-icon>
+    <h4 style="margin-left: 10px;">{{ currentMinSec(player.currentTime) }}</h4>
+    <n-slider style="width: 400px; margin-left: 10px;" v-model:value="player.currentTime" :step="1" :max="player.duration"
+        :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
+    <h4 style="margin-left: 10px;">{{ currentMinSec(player.duration) }}</h4>
+    <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" />
 
+    <audio autoplay @play="starting" @pause="pausing" @ended="onEnded" @timeupdate="onCurrentTime"
+        @durationchange="onDuration" :src="get_current_url" ref="audio"></audio>
 </template>
 
 <script>
@@ -120,7 +120,7 @@ export default {
 .container {
     display: flex;
     height: 100%;
-    width: 50%;
+    /* width: 50%; */
     /* border: 50px; */
     border-radius: 10px;
     /* background-color: rgba(255, 255, 255, 0.3); */

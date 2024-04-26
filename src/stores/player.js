@@ -128,5 +128,4 @@ export const player = reactive({
             this.play_next();
         }
     }
-    //进度条
 })

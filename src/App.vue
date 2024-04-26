@@ -19,7 +19,11 @@ export default {
   name: 'App',
   components: {
     IndexView
-    // PlayList
+  },
+  setup(){
+    return {
+
+    }
   }
 }
 </script>
@@ -63,7 +67,12 @@ export default {
   color:rgba(170, 40, 40, 0.64);
 }
 #app{
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* color: white; */
 }
+.n-card {
+  background-color: rgba(255, 255, 255, 0.247);
+  border: none ! important;
+}
+
 </style>

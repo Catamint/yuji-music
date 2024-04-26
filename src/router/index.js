@@ -6,7 +6,7 @@ import Settings from "../views/settings/Settings.vue"
 // import List from "../components/layout/public/List.vue"
 import PlayList from "../views/PlayList.vue"
 import Play from "../views/Play.vue"
-import List from "@/components/public/List.vue"
+import ListPage from "@/components/public/ListPage.vue"
 
 const routes = [
     {
@@ -26,8 +26,8 @@ const routes = [
         component: Settings
     },
     {
-        path:"/list",
-        component: List
+        path:"/listpage",
+        component: ListPage
     },
     {
         path:"/playlist",
@@ -36,6 +36,12 @@ const routes = [
     {
         path:"/play",
         component: Play
+    },
+    {
+        path:"/listpage/:kw:page:qurl",
+        name: 'listpage',
+        component: ListPage,
+        props: true
     }
 ]
 

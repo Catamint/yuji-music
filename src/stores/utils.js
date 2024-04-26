@@ -17,6 +17,8 @@ export const utils = reactive({
         text: ""
     },
     user_config:{
+        session:"",
+        uid: "",
         theme: "light",
         color: "",
         backgroundPic:"",

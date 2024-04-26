@@ -1,15 +1,23 @@
 <template>
     <div class="player">
-        <h2>雨霁音乐</h2>
-        <n-input v-model:value="value" round type="text" placeholder="搜索" />
-        <div>
-            <router-link to="/settings"><n-button>设置</n-button></router-link>
-            <n-button>登录</n-button></div>
+        <h1 style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" >雨霁音乐</h1>
+        <div style="width: 40%; display: inline-flex; justify-content: end;">
+            <n-input-group style="width: 40%; display: inline-flex; justify-content: end;">
+                <n-input style="background-color: rgba(255, 255, 255, 0);"
+                    v-model:value="kw"  
+                    type="text" placeholder="搜索" />
+                <n-button ghost @click="search_music"> GO </n-button>
+            </n-input-group>
+            <NSpace style="padding-left: 20px;">
+                <router-link to="/settings"><n-button>设置</n-button></router-link>
+                <n-button>登录</n-button>
+            </NSpace>
+        </div>
     </div>
 </template>
 
 <script>
-import { NButton, NInput } from 'naive-ui';
+import { NButton, NInput, NSpace, NInputGroup } from 'naive-ui';
 import { RouterLink } from 'vue-router';
 
 export default {
@@ -19,8 +27,43 @@ export default {
   },
     components:{
         NInput,
+        NInputGroup,
         NButton,
-        RouterLink
+        RouterLink,
+        NSpace
+    },
+    mounted(){
+
+    },
+    data(){
+        return {
+            kw: ""
+        }
+    },
+    methods: {
+        search_music(){
+            this.$router.push({ name: 'listpage', params: {
+                // query_info: {
+                    kw: this.kw,
+                    page: 1,
+                    qurl: '/host/get_search_result'
+                // }
+            }
+        });
+            // const url = '/host/get_search_result';
+            // this.$axios.get(url, {
+            //     params: {
+            //         kw: this.kw,
+            //         page: 1
+            //     }
+            // }).then(res => {
+            //     var data =res.data
+            //     console.log(data);
+            //     this.$router.push({ name: 'listpage', params: {music_info_list: data}});
+            // }).catch(function (error) {
+            //     console.log(error);
+            // })
+        }
     }
 }
 </script>
@@ -28,8 +71,8 @@ export default {
 <style scoped>
 .player{
     box-sizing: border-box;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
     display: inline-flex;
     justify-content:space-between;
     align-items: center;

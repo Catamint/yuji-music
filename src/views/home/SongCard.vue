@@ -97,7 +97,7 @@ export default {
     margin-right: 20px;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 2px 8px 12px;
-    transition: transform 0.3s
+    transition: transform 0.3s;
 }
 .n-card:hover{
     transform: scale(1.04);

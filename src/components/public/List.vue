@@ -60,7 +60,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.music_info)
+        // console.log(this.music_info)
         this.get_music_detials(this.music_info.hash);
     },
     data() {
@@ -110,8 +110,9 @@ export default {
     min-width: 100%;
     padding: 10px;
     /* max-width: 260px; */
-    height: 100px;
+    height: 90px;
     margin-right: 20px;
+    margin-bottom: 20px;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 2px 8px 12px;
     transition: transform 0.3s;
