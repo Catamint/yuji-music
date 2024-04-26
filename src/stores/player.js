@@ -4,6 +4,9 @@ export const player = reactive({
     playlist:[], //播放列表
     current: 0,
     is_playing: false,
+    dragging: false,
+    currentTime: 0,
+    duration: 0,
     playmode: 0, // 0: 列表循环 1：单曲循环
 
     //直接播放
@@ -27,6 +30,14 @@ export const player = reactive({
     },
     set_playmode(mode){
         this.playmode = mode;
+    },
+    set_current_time(currentTime){
+        // console.log(currentTime);
+        this.currentTime = currentTime;
+    },
+    set_duration(duration){
+        // console.log(duration);
+        this.duration = duration;
     },
     is_in_list(hash){
         for(let item of this.playlist){

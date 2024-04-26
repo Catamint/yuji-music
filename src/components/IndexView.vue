@@ -5,7 +5,9 @@
     <div class="col-8">
       <div class="model">
         <div class="col">
-          <router-view></router-view>
+          <!-- <keep-alive include="/"> -->
+            <router-view></router-view>
+          <!-- </keep-alive> -->
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* background-color: rgba(0,0,0,0.7); */
+    background-color: rgba(255, 255, 255, 0.3);
     height: 80px;
     border-radius: 20px;
     width: 100%;

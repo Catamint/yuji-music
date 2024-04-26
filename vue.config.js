@@ -31,6 +31,13 @@ module.exports = {
             pathRewrite: {
                 '^/flask': ''
             }
+          },
+          '/host':{
+            target:'http://192.168.43.101:5000',
+            changOrigin: true,
+            pathRewrite: {
+                '^/host': ''
+            }
           }
           
       }

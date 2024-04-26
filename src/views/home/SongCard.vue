@@ -54,14 +54,15 @@ export default {
         return{
             player,
             music_detials: {
-                album_img: "../../assets/image/default_covor.jpg",
-                song_name: " ",
-                album_name: " ",
-                album_id: " ",
-                author_name: " ",
-                url: " ",
-                hash:" ",
-                playing: false
+                album_img: "../../assets/image/default_covor.jpg", //专辑背景
+                song_name: " ", //歌名
+                album_name: " ", //专辑名
+                album_hash: " ", //专辑hash
+                author_name: " ", //歌手名
+                author_hash: " ", //歌手hash
+                url: " ", //url
+                hash:" ", //歌曲hash
+                playing: false //一律设为false (或"false")
             }
         }
     },

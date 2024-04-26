@@ -1,6 +1,6 @@
 <template>
     <n-button text style="display: flex;">
-        <h2>Top 100</h2>
+        <h2>{{ head }}</h2>
         <template #icon>
         <n-icon> <ChevronRight16Filled /> </n-icon>
         </template>
@@ -42,7 +42,7 @@ export default {
         head:{
             type:String,
             default: function(){
-                return ""
+                return "Top 100"
             }
         },
         subcomponent:{

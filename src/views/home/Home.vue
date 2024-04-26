@@ -1,6 +1,6 @@
 <template>
   <CardContainer subcomponent="list" :music_info_list="music_info_list" />
-  <CardContainer :music_info_list="music_info_list" />
+  <CardContainer head="精选" :music_info_list="top_10_list" />
   <CardContainer subcomponent="halflist" :music_info_list="music_info_list" />
 </template>
 
@@ -16,7 +16,8 @@ export default {
   },
   data(){
     return {
-        music_info_list: []
+        music_info_list: [],
+        top_10_list: [],
     }
   },
   methods:{
@@ -31,6 +32,11 @@ export default {
   },
   mounted() {
     this.getTopMusic();
+    this.$axios.get("/host/get_home_info").then(res => {
+                var getted = res.data;
+                this.top_10_list = getted;
+                // console.log(getted);
+            })
   },
 }
 </script>
