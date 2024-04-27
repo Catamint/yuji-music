@@ -123,7 +123,7 @@ export const player = reactive({
     },
     //播完后播放下一首
     end_and_next(){
-        this.playlist[current].playing = false;
+        this.playlist[this.current].playing = false;
         if(this.playmode == 0){
             this.play_next();
         }

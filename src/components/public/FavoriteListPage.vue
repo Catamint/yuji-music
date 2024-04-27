@@ -12,27 +12,27 @@
 import { NCard, NEllipsis, NIcon } from 'naive-ui';
 import { ChevronRight16Filled, Heart28Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 import List from './List.vue';
+import querystring from 'querystring';
 
 export default {
-    name: 'ListPage',
+    name: 'FavoriteListPage',
     methods: {
-        search_music(page){
-            this.$axios.get(this.qurl, {
-                params: {
-                    kw: this.kw,
-                    page: page
-                }
-            }).then(res => {
+        search_music(){
+            console.log(this.qurl);
+            console.log(this.uid);
+            this.$axios.post(this.qurl, querystring.stringify(
+                this.uid
+            )).then(res => {
                 var data =res.data
-                // console.log(data);
-                this.music_info_list = this.music_info_list.concat(data);
+                console.log(data);
+                this.music_info_list = data;
             }).catch(function (error) {
                 console.log(error);
             })
         }
     },
     mounted() {
-        this.search_music(this.currentPage)
+        this.search_music()
     },
     // updated() {
     //     this.search_music(this.currentPage)
@@ -44,13 +44,9 @@ export default {
         }
     },
     props:{
-        kw:{
+        uid:{
             type: String,
             default: ""
-        },
-        page:{
-            type: String,
-            default: 1
         },
         qurl:{
             type: String,

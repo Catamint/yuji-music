@@ -2,7 +2,7 @@
     <div class="container">
         <div v-show="current_login" id="content">
             <span id="type-name">用户登录</span>
-            <div><img class="round_icon" id="login_icon" src="" alt=""></div>
+            <div><img class="round_icon" id="login_icon" src="../assets/image/user_default.png" alt=""></div>
             <form action="#" method="post" id="info">
                 <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="账号">
                 <input v-model="pwd" class="info-input" type="password" name="password" id="password" placeholder="密码">
@@ -12,13 +12,13 @@
             <p id="change-type">还没有账号?<a @click="current_login = false">点击注册</a></p>
         </div>
         <div v-show="!current_login">
-            <span id="type-name">用户注册</span>
+            <span style="margin-left: 50px" id="type-name">用户注册</span>
             <form id="info" enctype="multipart/form-data">
                 <div>
                     <div id="b1">
                         <a onclick="" id="avator-upload">
                             <input name="avator" id="avator" type="file" style="display: none">
-                            <img class="round_icon" id="signup_icon" src="" alt="">
+                            <img class="round_icon" id="signup_icon" src="../assets/image/user_default.png" alt="">
                         </a>
                         <div id="change-type-box">
                             <span id="change-type">已经有账号?<a @click="current_login = true" >点击登录</a></span>
@@ -46,9 +46,7 @@
 <script>
 import { utils } from '@/stores/utils';
 import { NButton } from 'naive-ui';
-import querystring from 'querystring'
-
-// import {user_default} from '../assets/image/user_default.png';
+import querystring from 'querystring';
 
 export default {
     name: 'Login',
@@ -73,12 +71,12 @@ export default {
             var url = "/host/login";
             this.$axios.post(url, querystring.stringify({
                     uid: this.username,
-                    pw: this.psw
+                    pw: this.pwd
             })).then(res => {
                 var data = res.data
                 if(data.status == 'true') {
                     this.onError = false;
-                    this.utils.uid = uid;
+                    this.utils.user_config.uid = data.uid;
                     this.$router.push({ path: '/'});
                 } else {
                     this.onError = true;

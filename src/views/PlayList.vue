@@ -1,14 +1,14 @@
 <template>
 
       <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" :key="info.hash" />
-        <ul>
+        <!-- <ul>
             <li v-for="item in player.playlist" :key="item.hash">
             {{item.song_name}}
             <span @click="player.play_in_playlist(item.hash)" >播放 </span>
             <span @click="player.del_from_list(item.hash)">删除 </span>
             {{item.playing}}
             </li>
-        </ul>
+        </ul> -->
 
 </template>
 

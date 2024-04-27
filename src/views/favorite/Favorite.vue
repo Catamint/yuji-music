@@ -20,7 +20,7 @@ export default {
   },
   created(){
     this.musicinfo=info
-    // console.log(this.musicinfo)
+    console.log(this.musicinfo)
   },
   methods:{
 

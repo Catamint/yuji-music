@@ -6,7 +6,17 @@
         <n-ellipsis style="font-size: 1.2rem; max-width: 100%; font-weight: bold;">
             {{ music_detials.song_name }}
         </n-ellipsis>
-        <p>
+        <n-space>
+            <n-button circle  v-if="music_detials.url != ''" style="font-size: 18px" @click="player.play(music_detials)">
+                <template #icon>
+                    <n-icon><Play24Regular/></n-icon>
+                </template>
+            </n-button>
+            <n-button circle  disabled v-else style="font-size: 18px" @click="player.play(music_detials)">
+                <template #icon>
+                    <n-icon><Play24Regular/></n-icon>
+                </template>
+            </n-button>
             <n-button circle style="font-size: 24px">
             <template #icon>
                 <n-icon><Heart28Regular /></n-icon>
@@ -17,14 +27,14 @@
                     <n-icon><TextBulletListAdd24Filled /></n-icon>
                 </template>
             </n-button>
-        </p>
+        </n-space>
     </n-card>
 </template>
 
 <script>
-import { NCard, NEllipsis } from 'naive-ui';
+import { NCard, NEllipsis, NSpace } from 'naive-ui';
 import { player } from '../../stores/player';
-import { Heart28Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
+import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
 export default {
     name: 'SongCard',
@@ -78,8 +88,10 @@ export default {
         NCard,
         player,
         Heart28Regular,
+        Play24Regular,
         TextBulletListAdd24Filled,
-        NEllipsis
+        NEllipsis,
+        NSpace
     }
   }
 
@@ -92,7 +104,7 @@ export default {
     width: 40%;
     min-width: 180px;
     width: 22%;
-    max-width: 260px;
+    max-width: 250px;
     max-height: 300px;
     margin-right: 20px;
     border-radius: 12px;

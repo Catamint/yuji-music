@@ -1,71 +1,95 @@
 <template>
     <div class="player">
-        <h1 style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" >雨霁音乐</h1>
-        <div style="width: 40%; display: inline-flex; justify-content: end;">
-            <n-input-group style="width: 40%; display: inline-flex; justify-content: end;">
-                <n-input style="background-color: rgba(255, 255, 255, 0);"
-                    v-model:value="kw"  
-                    type="text" placeholder="搜索" />
+        <h1
+            style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+            雨霁音乐</h1>
+        <n-space>
+            <n-input-group style="display: inline-flex; justify-content: end;">
+                <n-input style="background-color: rgba(255, 255, 255, 0); width:200px ;" v-model:value="kw" type="text"
+                    placeholder="搜索" />
                 <n-button ghost @click="search_music"> GO </n-button>
             </n-input-group>
-            <NSpace style="padding-left: 20px;">
-                <router-link to="/settings"><n-button>设置</n-button></router-link>
-                <n-button>登录</n-button>
-            </NSpace>
-        </div>
+            <router-link to="/settings"><n-button>设置</n-button></router-link>
+            <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link>
+            <div v-else >
+                <n-dropdown n-button :options="options">
+                <n-button>{{ this.utils.user_config.uid }}</n-button>
+            </n-dropdown>
+            </div>
+        </n-space>
     </div>
 </template>
 
 <script>
-import { NButton, NInput, NSpace, NInputGroup } from 'naive-ui';
+import { utils } from '@/stores/utils';
+import { NButton, NInput, NSpace, NInputGroup, NDropdown } from 'naive-ui';
 import { RouterLink } from 'vue-router';
 
 export default {
     name: 'HeaderLayout',
     props: {
-    msg: String
-  },
-    components:{
+        msg: String
+    },
+    components: {
         NInput,
         NInputGroup,
         NButton,
         RouterLink,
-        NSpace
+        NSpace,
+        NDropdown
     },
-    mounted(){
+    mounted() {
 
     },
-    data(){
+    data() {
         return {
-            kw: ""
+            kw: "",
+            utils
         }
     },
     methods: {
-        search_music(){
-            this.$router.push({ name: 'listpage', params: {
+        search_music() {
+            this.$router.push({path: '/'})
+            this.$router.push({
+                name: 'listpage', params: {
                     kw: this.kw,
                     page: 1,
                     qurl: '/host/get_search_result'
                 }
             });
         }
+    },
+    setup() {
+        return {
+            options: [
+                {
+                    label: "编辑用户资料",
+                    key: "editProfile",
+                },
+                {
+                    label: "退出登录",
+                    key: "logout",
+                }
+            ]
+        };
     }
 }
 </script>
 
 <style scoped>
-.player{
+.player {
     box-sizing: border-box;
     padding-left: 40px;
     padding-right: 40px;
     display: inline-flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
     height: 10%;
     border-radius: 20px;
     width: 100%;
 }
-.n-input{
+
+.n-input {
     display: inline-flex;
     align-items: center;
     width: 40%;

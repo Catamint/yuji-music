@@ -1,23 +1,28 @@
 <template>
     <div class="container">
-        <div style="height: 100%;">
-            <img style="height: 100%;" src="../../../assets/image/default_covor.jpg" alt="">
+        <div style="height: 100%; padding: 10px">
+            <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album_img" alt="">
         </div>
         <div>
             <h3>{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h3>
         <p>
-            <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span> · 
-            <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span>
+            <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
+            <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
         </p>
         </div>
-        <button @click="utils.play_component.show()">播放详情页</button>
-        <button>收藏</button>
+        <n-button round style="font-size: 18px; margin-left: 5px;">
+            <template #icon>
+                <n-icon><Heart28Regular /></n-icon>
+            </template>
+        </n-button>
+        <!-- <button @click="utils.play_component.show()">播放详情页</button> -->
     </div>
 </template>
 
 <script>
 import { utils } from '@/stores/utils';
 import { player } from "../../../stores/player";
+import { Heart28Regular } from '@vicons/fluent/lib';
 
 export default {
     name: 'FooterLayout',
@@ -25,6 +30,7 @@ export default {
     msg: String
   },
     components:{
+        Heart28Regular
     },
     data(){
         return {

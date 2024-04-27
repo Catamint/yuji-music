@@ -2,11 +2,13 @@
     <div class="player">
         <music-info />
         <PlayerController />
-        <n-button circle style="font-size: 30px">
-            <template #icon>
-                <n-icon><TextBulletListLtr24Filled /></n-icon>
-            </template>
-        </n-button>
+        <router-link to="/playlist">
+            <n-button circle style="font-size: 30px">
+                <template #icon>
+                    <n-icon><TextBulletListLtr24Filled /></n-icon>
+                </template>
+            </n-button>
+        </router-link>
         <!-- <button>播放列表</button> -->
     </div>
 </template>
@@ -45,7 +47,10 @@ export default {
     align-items: center;
     background-color: rgba(255, 255, 255, 0.3);
     height: 80px;
-    border-radius: 20px;
+    border: 2px;
+    border-color: #ffffff29;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     width: 100%;
 }
 </style>

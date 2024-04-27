@@ -1,6 +1,7 @@
 <template>
   <ul>
     <li>
+      <p>{{ utils.user_config }}</p> 
       <n-space>
         <span>背景 </span><n-switch v-model:value="active" />
         <!-- <n-switch v-model:value="active" disabled /> -->
@@ -21,11 +22,17 @@
 <script>
 import { NSelect, NSwitch } from 'naive-ui';
 import { ref } from 'vue';
+import { utils } from '@/stores/utils';
 
 export default {
   name: 'Settings',
   props: {
     msg: String
+  },
+  data(){
+    return {
+      utils
+    }
   },
   components:{
     NSwitch,

@@ -1,13 +1,22 @@
 <template>
     <n-button text style="display: flex;">
-        <h2>Top 100</h2>
+        <h2>{{ head }}</h2>
         <template #icon>
         <n-icon> <ChevronRight16Filled /> </n-icon>
         </template>
     </n-button>
 
     <div class="cards-block">
-        <List class="item" v-for="info in music_info_list" :music_info="info" />
+        <!-- <Card class="item" :music_info="musicinfo" /> -->
+        <template v-if="subcomponent == 'card'">
+            <SongCard class="item" v-for="info in music_info_list" :music_info="info" />
+        </template>
+        <template v-else-if="subcomponent == 'list'">
+            <List class="item" v-for="info in music_info_list" :music_info="info" />
+        </template>
+        <template v-else-if="subcomponent == 'halflist'">
+            <HalfList class="item" v-for="info in music_info_list" :music_info="info" />
+        </template>
     </div>
 </template>
 
@@ -15,9 +24,11 @@
 import { ChevronRight16Filled } from '@vicons/fluent/lib';
 
 import List from './List.vue';
+import HalfList from './HalfList.vue';
+import SongCard from '@/views/home/SongCard.vue';
 
 export default {
-    name: 'ListContainer',
+    name: 'CardContainerCol',
     methods: {
 
     },
@@ -31,7 +42,7 @@ export default {
         head:{
             type:String,
             default: function(){
-                return ""
+                return "Top 100"
             }
         },
         subcomponent:{
@@ -42,7 +53,9 @@ export default {
         }
     },
     components: {
+        SongCard,
         List,
+        HalfList,
         ChevronRight16Filled
     },
     data() {

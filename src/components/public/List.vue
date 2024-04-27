@@ -10,7 +10,13 @@
                 <span class="info">{{ music_detials.song_name }}</span>
             </div>
             <n-flex>
-                <n-button style="font-size: 18px" @click="player.play(music_detials)">
+                <n-button v-if="music_detials.url != ''" style="font-size: 18px" @click="player.play(music_detials)">
+                    <template #icon>
+                        <n-icon><Play24Regular/></n-icon>
+                    </template>
+                    播放
+                </n-button>
+                <n-button disabled v-else style="font-size: 18px" @click="player.play(music_detials)">
                     <template #icon>
                         <n-icon><Play24Regular/></n-icon>
                     </template>
