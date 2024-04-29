@@ -10,10 +10,9 @@
 
 <script>
 
-import { NMessageProvider, NConfigProvider } from "naive-ui";
+// import { NMessageProvider, NConfigProvider } from "naive-ui";
 import IndexView from './components/IndexView.vue';
 // import MessageApi from "./stores/MessageApi";
-// import PlayList from './components/layout/footer/PlayList.vue';
 
 export default {
   name: 'App',

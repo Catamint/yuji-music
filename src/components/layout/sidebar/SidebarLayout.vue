@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { h, Component } from "vue";
+import { h } from "vue";
 import { NButton, NIcon, NMenu } from "naive-ui";
 import { RouterLink } from "vue-router";
 import { Home24Filled, MoviesAndTv24Filled, Star12Regular } from "@vicons/fluent";
