@@ -8,6 +8,7 @@ import PlayList from "../views/PlayList.vue"
 import Play from "../views/Play.vue"
 import ListPage from "@/components/public/ListPage.vue"
 import Login from "../views/Login.vue"
+import SignUp from "../views/SignUp.vue"
 
 const routes = [
     {
@@ -47,6 +48,10 @@ const routes = [
     {
         path:"/login",
         component: Login
+    },
+    {
+        path:"/signup",
+        component: SignUp
     }
 ]
 

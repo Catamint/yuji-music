@@ -15,7 +15,7 @@
                 <n-icon><Heart28Regular /></n-icon>
             </template>
         </n-button>
-        <!-- <button @click="utils.play_component.show()">播放详情页</button> -->
+        <button @click="utils.play_component.show()">播放详情页</button>
     </div>
 </template>
 

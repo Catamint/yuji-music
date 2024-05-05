@@ -1,15 +1,34 @@
 <template>
     <div class="container">
-        <div id="content">
-            <span id="type-name">用户登录</span>
-            <div><img class="round_icon" id="login_icon" src="../assets/image/user_default.png" alt=""></div>
-            <form action="#" method="post" id="info">
-                <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="账号">
-                <input v-model="pwd" class="info-input" type="password" name="password" id="password" placeholder="密码">
-                <p v-show="onError" style="color: red;">账号或密码错误</p>
+        <div>
+            <span style="margin-left: 50px" id="type-name">用户注册</span>
+            <form id="info" enctype="multipart/form-data">
+                <div>
+                    <div id="b1">
+                        <a onclick="" id="avator-upload">
+                            <input name="avator" id="avator" type="file" style="display: none">
+                            <img class="round_icon" id="signup_icon" src="../assets/image/user_default.png" alt="">
+                        </a>
+                        <div id="change-type-box">
+                            <span id="change-type">已经有账号?<a @click="gotoLogin" >点击登录</a></span>
+                        </div>
+                    </div>
+                    <div id="b2">
+                        <div>
+                            <input v-model="signup_form.uid" class="info-input" type="text" name="uid" id="uid" placeholder="账号">
+                            <input v-model="signup_form.name" class="info-input" type="username" name="username" id="username" placeholder="昵称">
+                        </div>
+                        <div>
+                            <input v-model="signup_form.pwd" class="info-input" type="password" name="pw" id="pw" placeholder="密码">
+                            <input v-model="signup_form.pwd_again" class="info-input" type="password" name="cpw" id="cpw" placeholder="确认密码">
+                        </div>
+                        <div>
+                            <n-button @click="signup" type="primary" style="width: 100%; height:45px; margin-top:10px;" >开始音乐之旅吧！</n-button>
+                            <!-- <button id="btn-sumit" class="btn-signup"></button> -->
+                        </div>
+                    </div>
+                </div>
             </form>
-            <n-button @click="login" type="primary" style="width: 80%; height:45px; ">登录</n-button>
-            <p id="change-type">还没有账号?<a @click="gotoSignUp">点击注册</a></p>
         </div>
     </div>
 </template>
@@ -20,14 +39,18 @@ import { NButton } from 'naive-ui';
 import querystring from 'querystring';
 
 export default {
-    name: 'Login',
+    name: 'SignUp',
     data(){
         return {
-            username : '',
-            pwd : '',
             utils,
             onError: false,
             // user_default
+            signup_form: {
+                uid:"",
+                name: "",
+                pwd: "",
+                pwd_again: ""
+            }
         }
     }, 
     mounted(){
@@ -37,12 +60,18 @@ export default {
         NButton
     },
     methods:{
-        login(){
+        signup(){
             this.onError = false;
-            var url = "/host/login";
+            var url = "/host/signup";
+            console.log(this.signup_form.uid)
+            console.log(this.signup_form.name)
+            console.log(this.signup_form.pwd)
+            console.log(this.signup_form.pwd_again)
             this.$axios.post(url, querystring.stringify({
-                    uid: this.username,
-                    pw: this.pwd
+                    uid: this.signup_form.uid,
+                    username: this.signup_form.name,
+                    pw: this.signup_form.pwd,
+                    cpw: this.signup_form.pwd_again
             })).then(res => {
                 var data = res.data
                 if(data.status == 'true') {
@@ -57,9 +86,9 @@ export default {
                 console.log(error);
             })
         },
-        gotoSignUp(){
+        gotoLogin(){
             this.$router.push({
-                path: 'signup'
+                path: 'login'
             });
         }
     }

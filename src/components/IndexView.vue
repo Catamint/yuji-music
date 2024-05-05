@@ -1,6 +1,6 @@
 <template>
-  <HeaderLayout />
-  <div class="container">
+  <HeaderLayout  v-show="!utils.play_component.showing"/>
+  <div class="container"  v-show="!utils.play_component.showing">
     <SidebarLayout />
     <div class="col-8">
       <div class="model">
