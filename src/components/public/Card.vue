@@ -144,7 +144,7 @@ export default {
     opacity: 1;
 } */
 .cover-img:hover {
-    filter: brightness(50%);
+    filter: brightness(80%);
 }
 n-button{
     padding-right: 2px;

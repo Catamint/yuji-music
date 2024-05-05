@@ -145,7 +145,7 @@ export default {
 } */
 
 .cover-img:hover {
-    filter: brightness(50%);
+    filter: brightness(80%);
 }
 
 .text {
