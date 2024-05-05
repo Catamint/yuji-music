@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { NCard, NEllipsis, NFlex } from 'naive-ui';
+import { NButton, NCard, NEllipsis, NFlex, NIcon } from 'naive-ui';
 import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
@@ -58,6 +58,14 @@ export default {
                 this.music_detials.hash = res.data.hash;
             })
         },
+        get_music_detials_props(){
+            // console.log(this.music_info)
+            this.music_detials.song_name = this.music_info.songname;
+            this.music_detials.author_name = this.music_info.author_name;
+            this.music_detials.url = this.music_info.url;
+            this.music_detials.album_img = this.music_info.album_img;
+            this.music_detials.hash = this.music_info.hash;
+        },
         put_in_playlist(detials){
             var message = this.player.put_in_playlist(detials);
             if(message != 0){
@@ -67,7 +75,8 @@ export default {
     },
     mounted() {
         // console.log(this.music_info)
-        this.get_music_detials(this.music_info.hash);
+        // this.get_music_detials(this.music_info.hash);
+        this.get_music_detials_props();
     },
     data() {
         return{
@@ -101,7 +110,9 @@ export default {
         TextBulletListAdd24Filled,
         NEllipsis,
         NFlex,
-        Play24Regular
+        Play24Regular,
+        NIcon,
+        NButton
     }
   }
 

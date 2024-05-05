@@ -24,6 +24,7 @@
 import { utils } from '@/stores/utils';
 import { NButton, NInput, NSpace, NInputGroup, NDropdown } from 'naive-ui';
 import { RouterLink } from 'vue-router';
+import { inject } from "vue";
 
 export default {
     name: 'HeaderLayout',
@@ -49,16 +50,21 @@ export default {
     },
     methods: {
         search_music() {
-            this.$router.push({path: '/'})
+            // this.$router.push({path: '/'})
+            // this.reloadPage();
+            var kw = this.kw;
+            this.reloadPage();
             this.$router.push({
                 name: 'listpage', params: {
-                    kw: this.kw,
+                    kw: kw,
                     page: 1,
                     qurl: '/host/get_search_result'
                 }
             });
+            this.reloadPage();
         }
     },
+    inject: ["reloadPage"],
     setup() {
         return {
             options: [

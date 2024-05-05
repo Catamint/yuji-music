@@ -18,6 +18,7 @@ import { utils } from '@/stores/utils';
 import PlayerController from './PlayerController.vue';
 import MusicInfo from './MusicInfo.vue';
 import { TextBulletListLtr24Filled } from '@vicons/fluent/lib';
+import { NButton, NIcon } from 'naive-ui';
 
 export default {
     name: 'FooterLayout',
@@ -31,7 +32,9 @@ export default {
     },
     data(){
         return {
-            utils
+            utils,
+            NButton,
+            NIcon
         }
     }
 }

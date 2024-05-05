@@ -7,7 +7,7 @@
         <div class="col">
           <n-scrollbar>
             <!-- <keep-alive include="/"> -->
-            <router-view></router-view>
+            <router-view v-if="isRefreshFlag"></router-view>
             <!-- </keep-alive> -->
           </n-scrollbar>
         </div>
@@ -28,6 +28,7 @@ import Home from '../views/home/Home.vue';
 import Play from '@/views/Play.vue';
 import { utils } from '@/stores/utils';
 import { NScrollbar } from 'naive-ui';
+import {ref, nextTick, provide} from "vue";
 
 export default {
   name: 'IndexView',
@@ -41,7 +42,21 @@ export default {
   },
   data() {
     return {
-      utils
+      utils,
+      isRefreshFlag: true
+    }
+  },
+  methods: {
+    reloadPage() {
+      this.isRefreshFlag = false
+      nextTick(() => {
+        this.isRefreshFlag = true
+      })
+    }
+  },
+  provide(){
+    return {
+      reloadPage: this.reloadPage
     }
   }
 }

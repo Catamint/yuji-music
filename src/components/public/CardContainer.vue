@@ -9,7 +9,7 @@
     <div class="cards-block">
         <!-- <Card class="item" :music_info="musicinfo" /> -->
         <template v-if="subcomponent == 'card'">
-            <SongCard class="item" v-for="info in music_info_list" :music_info="info" />
+            <Card class="item" v-for="info in music_info_list" :music_info="info" />
         </template>
         <template v-else-if="subcomponent == 'list'">
             <List class="item" v-for="info in music_info_list" :music_info="info" />
@@ -25,7 +25,8 @@ import { ChevronRight16Filled } from '@vicons/fluent/lib';
 
 import List from './List.vue';
 import HalfList from './HalfList.vue';
-import SongCard from '@/views/home/SongCard.vue';
+import Card from './Card.vue';
+import { NButton, NIcon } from 'naive-ui';
 
 export default {
     name: 'CardContainer',
@@ -53,10 +54,12 @@ export default {
         }
     },
     components: {
-        SongCard,
+        Card,
         List,
         HalfList,
-        ChevronRight16Filled
+        ChevronRight16Filled,
+        NIcon,
+        NButton
     },
     data() {
         return {

@@ -1,21 +1,20 @@
 <template>
-  <CardContainer subcomponent="list" :music_info_list="music_info_list" />
+  <CardContainer subcomponent="list" :music_info_list="top_10_list" />
   <CardContainer head="精选" :music_info_list="top_10_list" />
-  <CardContainerCol subcomponent="halflist" :music_info_list="music_info_list" />
-  <CardContainerCol head="精选" subcomponent="halflist" :music_info_list="top_10_list" />
+  <!-- <CardContainerCol subcomponent="halflist" :music_info_list="music_info_list" /> -->
+  <CardContainer head="精选" subcomponent="halflist" :music_info_list="top_10_list" />
 </template>
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
-import CardContainerCol from "@/components/public/CardContainerCol.vue";
+// import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 
 export default {
   name: 'Home',
   components: {
     // HotSongs,
-    CardContainer,
-    CardContainerCol
+    CardContainer
   },
   data(){
     return {

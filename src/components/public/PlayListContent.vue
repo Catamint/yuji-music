@@ -1,16 +1,16 @@
 <template>
     <n-card content-style="padding: 0; display: flex; align-items: center;">
-        <img class="cover-img" @click="player.play(music_detials);" :src="music_detials.album_img">
+        <img class="cover-img" @click="player.play(music_info);" :src="music_info.album_img">
         <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
             <div class="text">
                 <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
-                    {{ music_detials.song_name }}
+                    {{ music_info.song_name }}
                 </n-ellipsis>
-                <span class="info" style="padding-left: 20px;">{{ music_detials.author_name }}</span>
-                <span class="info">{{ music_detials.song_name }}</span>
+                <span class="info" style="padding-left: 20px;">{{ music_info.author_name }}</span>
+                <span class="info">{{ music_info.song_name }}</span>
             </div>
             <n-flex>
-                <n-button style="font-size: 18px" @click="player.play(music_detials)">
+                <n-button :disabled="music_info.playing" style="font-size: 18px" @click="player.play_in_playlist(music_info.hash)">
                     <template #icon>
                         <n-icon><Play24Regular/></n-icon>
                     </template>
@@ -22,7 +22,7 @@
                     </template>
                     收藏
                 </n-button>
-                <n-button style="font-size: 18px" @click="player.del_from_list(music_detials.hash)">
+                <n-button style="font-size: 18px" @click="player.del_from_list(music_info.hash)">
                     <template #icon>
                         <n-icon><TextBulletListAdd24Filled /></n-icon>
                     </template>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { NCard, NEllipsis, NFlex } from 'naive-ui';
+import { NButton, NCard, NEllipsis, NFlex, NIcon } from 'naive-ui';
 import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
@@ -83,7 +83,14 @@ export default {
             type:Object,
             default: function(){
                 return {
-                    // hash: "71194BC4C1F44C344774719CED11839B"
+                    album_img: "../../assets/image/default_covor.jpg",
+                    song_name: " ",
+                    album_name: " ",
+                    album_id: " ",
+                    author_name: " ",
+                    url: " ",
+                    hash:" ",
+                    playing: false
                 }
             }
         }
@@ -95,7 +102,9 @@ export default {
         TextBulletListAdd24Filled,
         NEllipsis,
         NFlex,
-        Play24Regular
+        Play24Regular,
+        NIcon,
+        NButton
     }
   }
 

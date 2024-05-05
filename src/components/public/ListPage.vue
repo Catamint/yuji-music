@@ -17,7 +17,7 @@ export default {
     name: 'ListPage',
     methods: {
         search_music(page){
-            this.$axios.get(this.qurl, {
+            this.$axios.get(this.qurl, { 
                 params: {
                     kw: this.kw,
                     page: page

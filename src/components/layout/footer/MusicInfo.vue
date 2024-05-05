@@ -23,6 +23,7 @@
 import { utils } from '@/stores/utils';
 import { player } from "../../../stores/player";
 import { Heart28Regular } from '@vicons/fluent/lib';
+import { NButton, NIcon } from 'naive-ui';
 
 export default {
     name: 'FooterLayout',
@@ -35,7 +36,9 @@ export default {
     data(){
         return {
             utils,
-            player
+            player,
+            NButton,
+            NIcon
         }
     },
     computed: {

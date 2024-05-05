@@ -14,7 +14,7 @@
 
 <script>
 import { ChevronRight16Filled } from '@vicons/fluent/lib';
-import SongCard from './SongCard.vue';
+import SongCard from '../../components/public/SongCard.vue';
 
 const musicinfo = {
     "last_sort": 62,
