@@ -1,28 +1,22 @@
 <template>
+  <n-message-provider>
     <div class="base-background-image"></div>
     <div class="base-container">
       <IndexView />
     </div>
-
-    <!-- <PlayList /> -->
-
+  </n-message-provider>
 </template>
 
 <script>
 
-// import { NMessageProvider, NConfigProvider } from "naive-ui";
 import IndexView from './components/IndexView.vue';
-// import MessageApi from "./stores/MessageApi";
+import { NMessageProvider } from 'naive-ui';
 
 export default {
   name: 'App',
   components: {
-    IndexView
-  },
-  setup(){
-    return {
-
-    }
+    IndexView,
+    NMessageProvider
   }
 }
 </script>

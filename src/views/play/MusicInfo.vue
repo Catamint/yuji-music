@@ -1,33 +1,28 @@
 <template>
     <div class="container">
-        <div style="height: 100%; padding: 10px">
-            <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album_img" alt="">
-        </div>
-        <div>
-            <h3>{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h3>
-        <p>
-            <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
-            <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
-        </p>
+        <div class="line">
+            <div style="height: 100%; padding: 10px">
+                <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album_img" alt="">
+            </div>
+            <div>
+                <h1>{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h1>
+                <p>
+                    <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
+                    <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
+                </p>
+            </div>
         </div>
         <n-button round style="font-size: 18px; margin-left: 5px;">
             <template #icon>
                 <n-icon><Heart28Regular /></n-icon>
             </template>
         </n-button>
-        <n-button round style=" margin-left: 5px;" @click="utils.play_component.show()">
-            <template #icon>
-                <n-icon><ChevronDoubleUp16Filled /></n-icon>
-            </template>
-            详情页
-        </n-button>
-        <!-- <button @click="utils.play_component.show()">播放详情页</button> -->
     </div>
 </template>
 
 <script>
+import { player } from '@/stores/player';
 import { utils } from '@/stores/utils';
-import { player } from "../../../stores/player";
 import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent/lib';
 import { NButton, NIcon } from 'naive-ui';
 
@@ -62,11 +57,20 @@ export default {
 <style scoped>
 .container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     /* background-color: rgba(255, 255, 255, 0.3); */
     height: 100%;
     border-radius: 20px;
-    min-width: 100px;
+    /* width: 100%; */
+}
+.line{
+  /* min-height: 30%; */
+  min-width: fit-content ;
+  display: flex;
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; */
 }
 </style>

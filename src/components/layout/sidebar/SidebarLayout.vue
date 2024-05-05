@@ -8,7 +8,7 @@
 import { h } from "vue";
 import { NButton, NIcon, NMenu } from "naive-ui";
 import { RouterLink } from "vue-router";
-import { Home24Filled, MoviesAndTv24Filled, Star12Regular } from "@vicons/fluent";
+import { Heart28Filled, Home24Filled, MoviesAndTv24Filled, Star12Regular, TextBulletListSquare24Filled } from "@vicons/fluent";
 
 function renderIcon (icon) {
     return () => h(NIcon, null, {default: () => h(icon) });
@@ -34,7 +34,7 @@ const menuOptions = [
             { default: () => "收藏" }
         ),
         key: "favorite",
-        icon: renderIcon(Star12Regular)
+        icon: renderIcon(Heart28Filled)
     },{
         label: () => h(
             RouterLink,
@@ -43,8 +43,8 @@ const menuOptions = [
             },
             { default: () => "播放列表" }
         ),
-        key: "mv",
-        icon: renderIcon(MoviesAndTv24Filled)
+        key: "playlist",
+        icon: renderIcon(TextBulletListSquare24Filled)
     }
 ];
 
@@ -59,7 +59,9 @@ export default {
     NIcon,
     Home24Filled,
     Star12Regular,
-    MoviesAndTv24Filled
+    MoviesAndTv24Filled,
+    Heart28Filled,
+    TextBulletListSquare24Filled
   },
   setup(){
     return {

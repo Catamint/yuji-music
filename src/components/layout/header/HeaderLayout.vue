@@ -75,6 +75,11 @@ export default {
                 {
                     label: "退出登录",
                     key: "logout",
+                    props: {
+                        onClick: () => {
+                        message.success('Good!')
+                    }
+          }
                 }
             ]
         };

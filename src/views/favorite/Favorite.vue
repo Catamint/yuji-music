@@ -1,10 +1,28 @@
 <template>
-  <List  v-for="info in musicinfo_list" :music_info="info" />
+  <div class="no-login-box" v-if="utils.user_config.uid == ''">
+    <n-empty size="large" description="登录后查看你的收藏">
+      <template #icon>
+        <n-icon>
+          <Heart28Filled />
+        </n-icon>
+      </template>
+      <template #extra>
+        <n-button @click="gotoLogin" size="small">
+          登录
+        </n-button>
+      </template>
+    </n-empty>
+  </div>
+  <template v-else>
+    <List v-for="info in musicinfo_list" :music_info="info" />
+  </template>
 </template>
 
 <script>
 import List from '@/components/public/List.vue';
 import { utils } from '@/stores/utils';
+import { Heart28Filled } from '@vicons/fluent';
+import { NButton, NEmpty, NIcon } from 'naive-ui';
 
 const info = {
   hash: "71194BC4C1F44C344774719CED11839B"
@@ -13,12 +31,17 @@ const info = {
 export default {
   name: 'Favorite',
   components: {
-    List
+    List,
+    NEmpty,
+    NIcon,
+    NButton,
+    Heart28Filled
   },
   data() {
     return {
       musicinfo_list: [],
-      logined: false
+      logined: false,
+      utils
     }
   },
   created() {
@@ -27,7 +50,7 @@ export default {
   },
   methods: {
     getFavorites() {
-      if (this.utils.user_config.uid == ""){
+      if (this.utils.user_config.uid == "") {
         logined = false;
       } else {
         this.onError = false;
@@ -41,10 +64,23 @@ export default {
           console.log(error);
         })
       }
+    },
+    gotoLogin() {
+      this.$router.push({
+        path: 'login'
+      });
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.no-login-box {
+  display: flex;
+  height: 60vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+</style>

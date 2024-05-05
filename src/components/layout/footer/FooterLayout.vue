@@ -28,13 +28,13 @@ export default {
     components:{
         PlayerController,
         MusicInfo,
-        TextBulletListLtr24Filled
+        TextBulletListLtr24Filled,
+        NButton,
+        NIcon
     },
     data(){
         return {
-            utils,
-            NButton,
-            NIcon
+            utils
         }
     }
 }
