@@ -45,6 +45,16 @@ const menuOptions = [
         ),
         key: "playlist",
         icon: renderIcon(TextBulletListSquare24Filled)
+    },{
+        label: () => h(
+            RouterLink,
+            {
+                to: "/piano"
+            },
+            { default: () => "钢琴" }
+        ),
+        key: "piano",
+        icon: renderIcon(TextBulletListSquare24Filled)
     }
 ];
 

@@ -10,6 +10,8 @@ import ListPage from "@/components/public/ListPage.vue"
 import Login from "../views/Login.vue"
 import SignUp from "../views/SignUp.vue"
 
+import Piano from '../music_create/components/Piano.vue';
+
 const routes = [
     {
         path:"/",
@@ -52,6 +54,11 @@ const routes = [
     {
         path:"/signup",
         component: SignUp
+    },
+    {
+      path: '/piano',
+      name: 'piano',
+      component: Piano,
     }
 ]
 
