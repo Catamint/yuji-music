@@ -75,8 +75,8 @@ export default {
             })).then(res => {
                 var data = res.data
                 if(data.status == 'true') {
-                    this.utils.user_config.uid = data.uid;
-                    this.$router.push({ path: '/'});
+                    // this.utils.user_config.uid = data.uid;
+                    this.$router.push({ path: '/login'});
                 } else {
                     this.onError = true;
                     console.log(data.error);

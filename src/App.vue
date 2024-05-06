@@ -1,22 +1,52 @@
 <template>
-  <n-message-provider>
-    <div class="base-background-image"></div>
-    <div class="base-container">
-      <IndexView />
-    </div>
-  </n-message-provider>
+  <n-config-provider :theme-overrides="themeOverrides">
+    <n-message-provider>
+      <div class="base-background-image"></div>
+      <div class="base-container">
+        <IndexView />
+      </div>
+    </n-message-provider>
+  </n-config-provider>
 </template>
 
 <script>
 
 import IndexView from './components/IndexView.vue';
-import { NMessageProvider } from 'naive-ui';
+import { NConfigProvider, NMessageProvider } from 'naive-ui';
+
+// @type import('naive-ui').GlobalThemeOverrides
 
 export default {
   name: 'App',
   components: {
     IndexView,
-    NMessageProvider
+    NMessageProvider,
+    NConfigProvider
+  },
+  data() {
+    return {
+      themeOverrides: {
+        common: {
+          // primaryColor: '#FF0000'
+          primaryColorHover: '#A43117'
+        },
+        Button: {
+          // textColor: '#FF0000'
+          textColorHover: '#A43117',
+          colorHoverPrimary: '#0c7a43'
+        },
+        menu: {
+          itemColorActive:"rgba(24, 160, 88, 0.1)"
+        },
+        Select: {
+          peers: {
+            InternalSelection: {
+              // textColor: '#FF0000'
+            }
+          }
+        }
+      }
+    }
   }
 }
 </script>
@@ -44,9 +74,11 @@ export default {
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
 }
+
 .base-background-image {
   background-image: url(./assets/image/background.jpg);
-  filter: saturate(1.5); /* 饱和度，与遮罩透明度搭配使用，避免遮罩后背景变灰 */
+  filter: saturate(1.5);
+  /* 饱和度，与遮罩透明度搭配使用，避免遮罩后背景变灰 */
   background-size: cover;
   top: 0;
   bottom: 0;
@@ -56,16 +88,18 @@ export default {
   z-index: -1;
   /* overflow: hidden; */
 }
-.n-icon{
-  color:rgba(170, 40, 40, 0.64);
+
+.n-icon {
+  color: rgba(170, 40, 40, 0.64);
 }
-#app{
+
+#app {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* color: white; */
 }
+
 .n-card {
   background-color: rgba(255, 255, 255, 0.247);
   border: none ! important;
 }
-
 </style>

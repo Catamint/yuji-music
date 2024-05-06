@@ -14,7 +14,7 @@
     </n-empty>
   </div>
   <template v-else>
-    <List v-for="info in musicinfo_list" :music_info="info" />
+    <List v-for="info in musicinfo_list" :music_info="info" :isFavorite="true"/>
   </template>
 </template>
 
@@ -23,6 +23,7 @@ import List from '@/components/public/List.vue';
 import { utils } from '@/stores/utils';
 import { Heart28Filled } from '@vicons/fluent';
 import { NButton, NEmpty, NIcon } from 'naive-ui';
+import querystring from 'querystring';
 
 const info = {
   hash: "71194BC4C1F44C344774719CED11839B"
@@ -45,25 +46,32 @@ export default {
     }
   },
   created() {
-    this.musicinfo_list = [info]
-    console.log(this.musicinfo)
+    this.getFavorites();
+    console.log(this.musicinfo_list);
+  },
+  mounted() {
+
   },
   methods: {
     getFavorites() {
       if (this.utils.user_config.uid == "") {
-        logined = false;
+        // logined = false;
+        // console.log("未登录")
       } else {
-        this.onError = false;
         var url = "/host/get_collections";
-        this.$axios.post(url, querystring.stringify({
-          uid: this.utils.user_config.uid
-        })).then(res => {
-          var data = res.data;
-          this.musicinfo_list = data;
+        this.$axios.post(url, querystring.stringify({ 
+            uid: this.utils.user_config.uid
+        })).then(res => { 
+            var data =res.data
+            console.log(data);
+            this.musicinfo_list = data;
         }).catch(function (error) {
-          console.log(error);
+            console.log(error);
         })
       }
+    },
+    search_music(page){
+
     },
     gotoLogin() {
       this.$router.push({

@@ -10,7 +10,7 @@
                 <!-- <span class="info">{{ music_detials.song_name }}</span> -->
             </div>
             <n-flex>
-                <n-button round style="font-size: 18px">
+                <n-button round style="font-size: 18px"  @click="put_in_favorites(music_detials)">
                     <template #icon>
                         <n-icon><Heart28Regular /></n-icon>
                     </template>
@@ -29,13 +29,17 @@
 import { NButton, NCard, NEllipsis, NFlex, NIcon } from 'naive-ui';
 import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
+import { utils } from '@/stores/utils';
+import querystring from 'querystring';
 
 export default {
     name: 'HalfList',
     methods:{
         get_music_detials(hash){
-            const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
-            this.$axios.get(url + hash).then(res => {
+            const url = '/host/get_song_info';
+            this.$axios.get(url, {params:{
+                hash: hash
+            }}).then(res => {
                 // console.log(res.data);
                 this.music_detials.song_name = res.data.songName;
                 this.music_detials.author_name = res.data.author_name;
@@ -57,16 +61,39 @@ export default {
             if(message != 0){
                 console.log("???")
             }
+        },
+        put_in_favorites(detials){
+            if (this.utils.user_config.uid == "") {
+                console.log("未登录")
+            } else {
+                this.onError = false;
+                var url = "/host/collect";
+                this.$axios.post(url, querystring.stringify({
+                    id: this.utils.user_config.uid,
+                    name: detials.song_name,
+                    singer: detials.author_name,
+                    hash: detials.hash,
+                    url: detials.url,
+                    album: detials.song_name
+                    // album_url: detials.song_name
+                })).then(res => {
+                var data = res.data;
+                console.log(data.status)
+                }).catch(function (error) {
+                console.log(error);
+                })
+            }
         }
     },
     mounted() {
         // console.log(this.music_info)
-        // this.get_music_detials(this.music_info.hash);
-        this.get_music_detials_props();
+        this.get_music_detials(this.music_info.hash);
+        // this.get_music_detials_props();
     },
     data() {
         return{
             player,
+            utils,
             music_detials: {
                 album_img: "../../assets/image/default_covor.jpg",
                 song_name: " ",

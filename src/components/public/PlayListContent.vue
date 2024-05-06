@@ -1,6 +1,6 @@
 <template>
     <n-card content-style="padding: 0; display: flex; align-items: center;">
-        <img class="cover-img" @click="player.play(music_info);" :src="music_info.album_img">
+        <img class="cover-img" @click="player.play_in_playlist(music_info.hash);" :src="music_info.album_img">
         <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
             <div class="text">
                 <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">

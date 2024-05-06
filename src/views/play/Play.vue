@@ -9,6 +9,7 @@
     <div class="line">
       <MusicInfo />
       <n-divider vertical style="height:80%;" />
+      <canvas id="myCanvas"></canvas>
     </div>
     <div></div>
   </div>
@@ -25,8 +26,16 @@ export default {
   name: 'Play',
   data() {
     return {
-      utils
+      utils,
+      canvas: null
     }
+  },
+  mounted(){
+    var c = document.getElementById("myCanvas");
+    this.canvas = c.getContext('2d');
+    let ctx = this.canvas;
+    ctx.fillStyle = "green";
+    ctx.fillRect(50, 50, 250, 20);
   },
   components:{
     MusicInfo,

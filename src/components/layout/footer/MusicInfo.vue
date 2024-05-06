@@ -15,7 +15,8 @@
                 <n-icon><Heart28Regular /></n-icon>
             </template>
         </n-button>
-        <n-button round style=" margin-left: 5px;" @click="utils.play_component.show()">
+        <n-button round style=" margin-left: 5px;" 
+        @click="utils.play_component.showing ? utils.play_component.hide() : utils.play_component.show()">
             <template #icon>
                 <n-icon><ChevronDoubleUp16Filled /></n-icon>
             </template>

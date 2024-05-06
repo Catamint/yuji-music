@@ -3,10 +3,11 @@
         <music-info />
         <PlayerController />
         <router-link to="/playlist">
-            <n-button circle style="font-size: 30px">
+            <n-button round style="">
                 <template #icon>
                     <n-icon><TextBulletListLtr24Filled /></n-icon>
                 </template>
+                播放列表
             </n-button>
         </router-link>
         <!-- <button>播放列表</button> -->
@@ -55,5 +56,6 @@ export default {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     width: 100%;
+    z-index: 10;
 }
 </style>

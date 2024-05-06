@@ -13,10 +13,10 @@
         <Next32Filled />
     </n-icon>
     <h4 style="margin-left: 10px;">{{ currentMinSec(player.currentTime) }}</h4>
-    <n-slider style="width: 400px; margin-left: 10px;" v-model:value="player.currentTime" :step="1" :max="player.duration"
+    <n-slider style="width: 30vw; margin-left: 10px;" v-model:value="player.currentTime" :step="1" :max="player.duration"
         :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
     <h4 style="margin-left: 10px;">{{ currentMinSec(player.duration) }}</h4>
-    <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" />
+    <!-- <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" /> -->
 
     <audio autoplay @play="starting" @pause="pausing" @ended="onEnded" @timeupdate="onCurrentTime"
         @durationchange="onDuration" :src="get_current_url" ref="audio"></audio>
@@ -71,7 +71,7 @@ export default {
             this.player.end_and_next();
         },
         onCurrentTime() {
-            console.log(this.player.dragging)
+            // console.log(this.player.dragging)
             if (!this.player.dragging) {
                 this.player.set_current_time(this.$refs.audio.currentTime);
             }
@@ -88,12 +88,12 @@ export default {
         onDragstart() {
             this.player.dragging = true;
             // this.player.currentTime = this.$refs.slider.value;
-            console.log('0')
+            // console.log('0')
         },
         onDragend() {
             this.player.dragging = false;
             this.$refs.audio.currentTime = this.player.currentTime;
-            console.log('1')
+            // console.log('1')
         }
     },
     computed: {

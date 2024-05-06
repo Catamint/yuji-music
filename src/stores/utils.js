@@ -19,10 +19,20 @@ export const utils = reactive({
     user_config:{
         session:"",
         uid: "",
+        name:"",
         theme: "light",
         color: "",
         backgroundPic:"",
         transparent:"",
-        saturate:""
+        saturate:"",
+        login(uid, name){
+            console.log(uid)
+            this.uid = uid;
+            this.name = name;
+        },
+        logout(){
+            this.uid = "";
+            this.name = "";
+        }
     }
 })

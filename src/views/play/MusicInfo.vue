@@ -5,18 +5,30 @@
                 <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album_img" alt="">
             </div>
             <div>
-                <h1>{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h1>
+                <h1 style="white-space: nowrap;">{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h1>
                 <p>
-                    <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
+                    <span  style="white-space: nowrap;">{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
                     <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
                 </p>
             </div>
         </div>
-        <n-button round style="font-size: 18px; margin-left: 5px;">
-            <template #icon>
-                <n-icon><Heart28Regular /></n-icon>
-            </template>
-        </n-button>
+        <div>
+            <n-button round style="font-size: 18px; margin-left: 5px;">
+                <template #icon>
+                    <n-icon><Heart28Regular /></n-icon>
+                </template>
+            </n-button>
+            <n-button round style="font-size: 18px; margin-left: 5px;">
+                <template #icon>
+                    <n-icon><Heart28Regular /></n-icon>
+                </template>
+            </n-button>
+            <n-button round style="font-size: 18px; margin-left: 5px;">
+                <template #icon>
+                    <n-icon><Heart28Regular /></n-icon>
+                </template>
+            </n-button>
+        </div>
     </div>
 </template>
 
@@ -63,12 +75,14 @@ export default {
     /* background-color: rgba(255, 255, 255, 0.3); */
     height: 100%;
     border-radius: 20px;
+    margin: 20px;
     /* width: 100%; */
 }
 .line{
   /* min-height: 30%; */
   min-width: fit-content ;
   display: flex;
+  margin-bottom: 40px;
   /* flex-direction: column; */
   /* align-items: center; */
   /* justify-content: center; */

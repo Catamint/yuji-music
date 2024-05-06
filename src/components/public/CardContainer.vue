@@ -67,7 +67,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.subcomponent);
+        // console.log(this.subcomponent);
     }
 }
 </script>

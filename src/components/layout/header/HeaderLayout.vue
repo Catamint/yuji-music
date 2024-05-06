@@ -11,10 +11,10 @@
             </n-input-group>
             <router-link to="/settings"><n-button>设置</n-button></router-link>
             <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link>
-            <div v-else >
-                <n-dropdown n-button :options="options">
-                <n-button>{{ this.utils.user_config.uid }}</n-button>
-            </n-dropdown>
+            <div v-else>
+                <n-dropdown n-button :options="options" @select="handleSelect">
+                    <n-button>{{ this.utils.user_config.name }}</n-button>
+                </n-dropdown>
             </div>
         </n-space>
     </div>
@@ -24,7 +24,6 @@
 import { utils } from '@/stores/utils';
 import { NButton, NInput, NSpace, NInputGroup, NDropdown } from 'naive-ui';
 import { RouterLink } from 'vue-router';
-import { inject } from "vue";
 
 export default {
     name: 'HeaderLayout',
@@ -62,24 +61,25 @@ export default {
                 }
             });
             this.reloadPage();
+        },
+        handleSelect(key){
+            // console.log(key);
+            if(key == "logout"){
+                this.utils.user_config.logout();
+            }
         }
     },
     inject: ["reloadPage"],
     setup() {
         return {
             options: [
-                {
-                    label: "编辑用户资料",
-                    key: "editProfile",
-                },
+                // {
+                //     label: "编辑用户资料",
+                //     key: "editProfile",
+                // },
                 {
                     label: "退出登录",
                     key: "logout",
-                    props: {
-                        onClick: () => {
-                        message.success('Good!')
-                    }
-          }
                 }
             ]
         };
