@@ -1,50 +1,53 @@
 <template>
-    <!-- Piano -->
-    <ul class="piano" style="display: ;">
-        <li class="key" v-for="ns in NotesInfo">
-            <span v-for="n in ns" :class="`${n.type}-key`" :data-key="n.keyCode" :data-note="n.name" :key="n.id"
-                @click="playOneNote(n.name)" :id="n.name">
-                <div :class="`key-info-${n.type}`">
-                    <div class="key-note-name-info">{{ n.name }}</div>
-                    <div class="key-keyboard-info">{{ n.key }}</div>
-                    <div v-if="n.type == 'black'">⇧</div>
-                    <audio :id="`${n.name}-audio`" :src='n.url'></audio>
-                </div>
-            </span>
-        </li>
-    </ul>
-    <!-- End Piano -->
+    <div class="box">
+        <!-- Piano -->
+        <ul class="piano glass">
+            <li class="key" v-for="ns in NotesInfo">
+                <span v-for="n in ns" :class="`${n.type}-key`" :data-key="n.keyCode" :data-note="n.name" :key="n.id"
+                    @click="playOneNote(n.name)" :id="n.name">
+                    <div :class="`key-info-${n.type}`">
+                        <div class="key-note-name-info">{{ n.name }}</div>
+                        <div class="key-keyboard-info">{{ n.key }}</div>
+                        <div v-if="n.type == 'black'">⇧</div>
+                        <audio :id="`${n.name}-audio`" :src='n.url'></audio>
+                    </div>
+                </span>
+            </li>
+        </ul>
+        <!-- End Piano -->
 
-    <!-- 功能区 -->
-    
-    <button @click="playMusic(Sanye)" style="font-size: 30px;background-color: aquamarine;">播放三叶的主题曲</button>
-    <button @click="playMusic(UnderTale)" style="font-size: 30px;background-color: aquamarine;">播放传说之下</button>
-    <hr>
-    <div style="margin-top: 20px;">
-        <span id="recordStatus">未在录制</span>
-        <button @click="record()">录制</button>
-        <button @click="finishRecord()">结束录制</button>
-        <button @click="playRecord()">播放录制</button>
+        <!-- 功能区 -->
+        <div class="glass" style="width:100%; margin-top:10px;" v-if="!props.asComponent">
+            <div class="message" style="width:100%">
+                <span style="margin-left:15px;" id="recordStatus">未在录制</span>
+            </div>
+            <div class="controls">
+                <n-space>
+                    <n-button type="success" @click="record()">录制</n-button>
+                    <n-button type="error"  @click="finishRecord()">结束录制</n-button>
+                    <n-button @click="playRecord()">播放录制</n-button>
+                    <n-button @click="downloadRecord">导出录制文件</n-button>
+                </n-space>
+                <div>
+                    <n-button @click="uploadFile">{{ fileName }}</n-button>
+                    <input type="file" style="display:none;" name="" id="uploadFileBtn" @change="handleUploadFile">
+                    <n-button style="margin-left:10px;" @click="playMusic(recordFile)">播放上传的录制文件</n-button>
+                </div>
+                <div>
+                    播放倍速：{{ times }}<input type="range" v-model="times" max="5" step="1" min="1">
+                </div>
+            </div>
+        </div>
+        <div v-if="!props.asComponent">
+            <n-button style="margin:10px;" color="#2fcfa4" @click="playMusic(Sanye)">播放三叶的主题曲</n-button>
+            <n-button style="margin:10px;" color="#2fcfa4" @click="playMusic(UnderTale)">播放传说之下</n-button>
+        </div>
     </div>
-    <hr>
-    <div>
-        <button @click="downloadRecord">导出录制文件</button>
-        导出文件名：<input type="text" v-model="musicFileName">
-    </div>
-    <hr>
-    <div>
-        上传录制文件json：<input type="file" name="" id="" @change="handleUploadFile">
-        <button @click="playMusic(recordFile)">播放上传的录制文件</button>
-    </div>
-    <hr>
-    <div style="margin-top: 20px;">
-        播放倍速：{{ times }}<input type="range" v-model="times" max="5" step="1" min="1">
-    </div>
-    
-    <!-- End 功能区 -->
+
 </template>
 
 <script lang="ts" setup>
+import a48 from '@/music_create/static/sounds/piano/a48.mp3'
 import a49 from '@/music_create/static/sounds/piano/a49.mp3'
 import b49 from '@/music_create/static/sounds/piano/b49.mp3'
 import a50 from '@/music_create/static/sounds/piano/a50.mp3'
@@ -105,8 +108,18 @@ import b89 from '@/music_create/static/sounds/piano/b89.mp3'
 import a90 from '@/music_create/static/sounds/piano/a90.mp3'
 import b90 from '@/music_create/static/sounds/piano/b90.mp3'
 import a77 from '@/music_create/static/sounds/piano/a77.mp3'
+// import * from '@/music_create/static/sounds/piano'
 
 import {ref} from 'vue';
+import { NButton, NInput, NSlider, NFloatButton, NIcon,NSpace } from 'naive-ui'
+
+
+const props = defineProps({
+    asComponent: {
+        type: Boolean,
+        default: false
+    }
+});
 
 
 let noteBaseUrl = '../static/piano/'
@@ -129,7 +142,7 @@ let NotesInfo = [
     { id: 41, name: 'C#3', keyCode: 'b56', key: '8', url: b56, type: 'black' }],
     [{ id: 9, name: 'D3', keyCode: '57', key: '9', url: a57, type: 'white' },
     { id: 42, name: 'D#3', keyCode: 'b57', key: '9', url: b57, type: 'black' }],
-    [{ id: 10, name: 'E3', keyCode: '48', key: '0', url: b57, type: 'white' }],
+    [{ id: 10, name: 'E3', keyCode: '48', key: '0', url: a48, type: 'white' }],
     [{ id: 26, name: 'F3', keyCode: '81', key: 'Q', url: a81, type: 'white' },
     { id: 43, name: 'F#3', keyCode: 'b81', key: 'Q', url: b81, type: 'black' }],
     [{ id: 32, name: 'G3', keyCode: '87', key: 'W', url: a87, type: 'white' },
@@ -429,11 +442,12 @@ document.addEventListener("keyup", (event) => {
 
 );
 
+var fileName = ref("上传录制文件")
+
 function handleUploadFile(event){
     const target = event.target as HTMLInputElement;
       const file = target.files?.[0]; // 获取上传的文件
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = (event) => {
         const result = event.target?.result as string;
@@ -445,6 +459,7 @@ function handleUploadFile(event){
           console.error('Error parsing JSON file:', error);
         }
       };
+      fileName.value = file.name;
       reader.readAsText(file); // 以文本格式读取文件内容
     }
 
@@ -574,13 +589,50 @@ function downloadRecord(){
 }
 
 
-
+function uploadFile(){
+    document.getElementById('uploadFileBtn').click()
+}
 
 </script>
 
-
-
 <style scoped>
+.box{
+    width:100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    display:flex; 
+    flex-direction: column;
+    justify-content: center;
+    /* align-items:center; */
+}
+
+.glass{
+    /* padding: 40px; */
+    /* padding-left: 80px; */
+    /* padding-right: 80px; */
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2); */
+}
+.message{
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    padding: 10px 0 0 0;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.controls{
+    box-sizing: border-box;
+    padding: 10px;
+    width:100%;
+    height: 50px;
+    display:flex; 
+    justify-content: space-between;
+    align-items:center;
+    border-radius: 0 0 15px 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 .info {
     font-size: 18px;
     margin: 20px;
@@ -592,7 +644,6 @@ function downloadRecord(){
 
 }
 
-
 .piano {
     /* background: -webkit-linear-gradient(-65deg, #000, #222, #000, #666, #222 75%);
         background: -moz-linear-gradient(-65deg, #000, #222, #000, #666, #222 75%);
@@ -601,17 +652,19 @@ function downloadRecord(){
         border-top: 2px solid #111;
         box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.5), inset 0 -4px 5px #000; */
     margin: 0;
-    padding: 0 1% 3%;
+    padding: 3% 3% 3%;
     text-align: center;
+    white-space: nowrap;
 }
 
 .key {
     display: inline-block;
     position: relative;
     margin: 0 2px;
-    width: 2%;
+    width: 2.4%;
     max-width: 85px;
     box-shadow: 1px 1px 1px;
+    border-radius: 5px;
 
     &:active,
     &.active {
@@ -627,6 +680,8 @@ function downloadRecord(){
         background: linear-gradient(-30deg, #f8f8f8, #fff);
         box-shadow: inset 0 1px 0px rgba(255, 255, 255, 1), inset 0 -1px 0px rgba(255, 255, 255, 1), inset 1px 0px 0px rgba(255, 255, 255, 1), inset -1px 0px 0px rgba(255, 255, 255, 1), 0 4px 3px rgba(0, 0, 0, 0.7), inset 0 -1px 0px rgba(255, 255, 255, 1), inset 1px 0px 0px rgba(255, 255, 255, 1), inset -1px -1px 15px rgba(0, 0, 0, 0.5), -3px 4px 6px rgba(0, 0, 0, 0.5);
         display: block;
+        border-radius: 5px;
+
         height: 300px;
 
         &:active,

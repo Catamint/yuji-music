@@ -1,8 +1,8 @@
 <template>
+<div class="box">
     <!-- Drum -->
-    <section class="main-wrapper">
+    <section class="main-wrapper glass">
         <div class="drum-kit-wrapper">
-          
           <img class="crash-cymbal" id="crash-ride" :src='crashImg' alt="Crash cymbal">
           <img id="hihat-top" class="hihat-top-cymbal" :src="hihatTopImg" alt="Hi Hat cymbal">
           <div data-key="74" class="key snare">
@@ -50,56 +50,61 @@
     <audio data-key="82" :src="rideSound"></audio>
     <audio data-key="73" :src="hihatOpenSound"></audio>
     <audio data-key="75" :src="hihatCloseSound"></audio>
-    
 
     <!-- 功能区 -->
-    <button class="function-btn" @click="playMusic(Test)">播放测试文件</button>
-    <hr>
-
-    <div>
-        <button class="function-btn" @click="record">录制</button>
-        <button class="function-btn" @click="finishRecord">停止录制</button>
-        <button class="function-btn" @click="playRecord">播放录制</button>
-        <span id="recordStatus">未在录制</span>
+    <div class="glass" style="width:100%; margin-top:10px;" v-if="!props.asComponent">
+        <div class="message" style="width:100%">
+            <span style="margin-left:15px;" id="recordStatus">未在录制</span>
+        </div>
+        <div class="controls">
+            <n-space>
+                <n-button type="success" @click="record">录制</n-button>
+                <n-button type="error" @click="finishRecord">停止录制</n-button>
+                <n-button @click="playRecord">播放录制</n-button>
+                <n-button @click="downloadRecord">导出录制文件</n-button>
+            </n-space>
+            <div>
+                <n-button @click="uploadFile">{{ fileName }}</n-button>
+                <input type="file" style="display:none;" name="" id="uploadFileBtn" @change="handleUploadFile">
+                <n-button style="margin-left:10px;" @click="playMusic(recordFile)">播放上传的录制文件</n-button>
+            </div>
+            <div>
+                播放倍速：{{ times }}<input type="range" v-model="times" max="5" step="1" min="1">
+            </div>
+        </div>
     </div>
-    <hr>
-    <div>
-        <button class="function-btn" @click="downloadRecord">导出录制文件</button>
-        录制文件名字：<input type='text' v-model="downloadFile" style='height:25px'>
+    <div style="margin-left:25px;" v-if="!props.asComponent">
+        <!-- <n-button class="function-btn" @click="playMusic(Test)">播放测试文件</n-button> -->
     </div>
-    <hr>
-    <div>
-        <input type='file' @change="handleUploadFile">
-        <button class="function-btn" @click="playMusic(recordFile)">播放上传的录制文件</button>
-    </div>
-    <hr>
-    <div style="margin-top: 20px;">
-        播放倍速：{{ times }}<input type="range" v-model="times" max="5" step="1" min="1">
-    </div>
-    <!-- End 功能区 -->
-
-
-
+</div>
 </template>
     
     
 <script lang='ts' setup>
     
 import {onMounted,nextTick,ref} from 'vue';
-import crashImg from '@/static/images/drum/crash.png';
-import hihatTopImg from '@/static/images/drum/hihat-top.png';
-import drumKitImg from '@/static/images/drum/drum-kit.png';
+import crashImg from '@/music_create/static/images/drum/crash.png';
+import hihatTopImg from '@/music_create/static/images/drum/hihat-top.png';
+import drumKitImg from '@/music_create/static/images/drum/drum-kit.png';
 
-import snareSound from '@/static/sounds/drum/snare.wav';
-import kitSoundsKick from '@/static/sounds/drum/kit_sounds_kick.wav';
-import kitSoundsTomHigh from '@/static/sounds/drum/kit_sounds_tom-high.wav';
-import kitSoundsTomMid from '@/static/sounds/drum/kit_sounds_tom-mid.wav';
-import kitSoundsTomLow from '@/static/sounds/drum/kit_sounds_tom-low.wav';
-import crashSound from '@/static/sounds/drum/crash.wav';
-import rideSound from '@/static/sounds/drum/ride.wav';
-import hihatOpenSound from '@/static/sounds/drum/hihat-open.wav';
-import hihatCloseSound from '@/static/sounds/drum/hihat-close.wav';
+import snareSound from '@/music_create/static/sounds/drum/snare.wav';
+import kitSoundsKick from '@/music_create/static/sounds/drum/kit_sounds_kick.wav';
+import kitSoundsTomHigh from '@/music_create/static/sounds/drum/kit_sounds_tom-high.wav';
+import kitSoundsTomMid from '@/music_create/static/sounds/drum/kit_sounds_tom-mid.wav';
+import kitSoundsTomLow from '@/music_create/static/sounds/drum/kit_sounds_tom-low.wav';
+import crashSound from '@/music_create/static/sounds/drum/crash.wav';
+import rideSound from '@/music_create/static/sounds/drum/ride.wav';
+import hihatOpenSound from '@/music_create/static/sounds/drum/hihat-open.wav';
+import hihatCloseSound from '@/music_create/static/sounds/drum/hihat-close.wav';
+import { NButton, NInput, NSlider, NFloatButton, NIcon, NSpace } from 'naive-ui'
 
+
+const props = defineProps({
+    asComponent: {
+        type: Boolean,
+        default: false
+    }
+});
 
 let downloadFile = '我的演奏'
 
@@ -224,7 +229,7 @@ let times = ref(1)
 let recordFile
 let recordData = []
 
-import Test from '@/static/music/drum/测试.json';
+import Test from '@/music_create/static/music/drum/测试.json';
 
 async function playMusic(file){
     console.log('@@@',file[0]['keyCode'])
@@ -235,6 +240,7 @@ async function playMusic(file){
 
 }
 
+var fileName = ref("上传文件")
 function handleUploadFile(event){
     const target = event.target as HTMLInputElement;
       const file = target.files?.[0]; // 获取上传的文件
@@ -251,8 +257,13 @@ function handleUploadFile(event){
           console.error('Error parsing JSON file:', error);
         }
       };
+      fileName.value = file.name;
       reader.readAsText(file); // 以文本格式读取文件内容
     }
+
+function uploadFile(){
+    document.getElementById('uploadFileBtn').click()
+}
 
 document.addEventListener("keydown", (event) => {
     const key = event.key;
@@ -336,6 +347,43 @@ function downloadRecord(){
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Handlee|Pacifico);
 
+.box{
+    width:100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    display:flex; 
+    flex-direction: column;
+    justify-content: center;
+    /* align-items:center; */
+}
+
+.glass{
+    /* padding: 40px; */
+    /* padding-left: 80px; */
+    /* padding-right: 80px; */
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2); */
+}
+.message{
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    padding: 10px 0 0 0;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.controls{
+    box-sizing: border-box;
+    padding: 10px;
+    width:100%;
+    height: 50px;
+    display:flex; 
+    justify-content: space-between;
+    align-items:center;
+    border-radius: 0 0 15px 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 .function-btn{
     font-size:30px;
     background-color:skyblue
@@ -356,8 +404,9 @@ body {
 }
 
 .main-wrapper {
-    margin: 30px auto 0;
-    width: 1080px;
+    /* margin: 3% auto 0; */
+    /* width: 1080px; */
+    /* height: 80%; */
     text-align: center;
 }
 
@@ -365,7 +414,7 @@ body {
 .drum-kit-wrapper {
     position: relative;
     width: 600px;
-    margin: -100px auto 0;
+    margin: 0 auto 0;
 }
 
 .drum-kit {

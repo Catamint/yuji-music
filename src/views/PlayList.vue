@@ -14,7 +14,9 @@
       </n-empty>
     </div>
     <template v-else>
-      <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" :key="info.hash" />
+      <n-scrollbar>
+        <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" :key="info.hash" />
+      </n-scrollbar>
     </template>
 </template>
 
@@ -22,7 +24,7 @@
 import PlayListContent from "@/components/public/PlayListContent.vue";
 import { player } from "../stores/player";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";
-import { NButton, NEmpty, NIcon } from 'naive-ui';
+import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
 
 export default {
   name: 'PlayList',
@@ -31,7 +33,8 @@ export default {
     TextBulletListSquare24Filled,
     NEmpty,
     NIcon,
-    NButton
+    NButton,
+    NScrollbar
   },
   data() {
     return{

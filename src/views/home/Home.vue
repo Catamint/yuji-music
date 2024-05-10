@@ -1,12 +1,15 @@
 <template>
-  <CardContainer subcomponent="list" :music_info_list="top_10_list" />
-  <CardContainer head="精选" :music_info_list="top_10_list" />
-  <!-- <CardContainerCol subcomponent="halflist" :music_info_list="music_info_list" /> -->
-  <CardContainer head="精选" subcomponent="halflist" :music_info_list="top_10_list" />
+  <n-scrollbar>
+    <CardContainer subcomponent="list" :music_info_list="top_10_list" />
+    <CardContainer head="精选" :music_info_list="top_10_list" />
+    <!-- <CardContainerCol subcomponent="halflist" :music_info_list="music_info_list" /> -->
+    <CardContainer head="精选" subcomponent="halflist" :music_info_list="top_10_list" />
+  </n-scrollbar>
 </template>
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
+import { NScrollbar } from "naive-ui";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 
@@ -14,7 +17,8 @@ export default {
   name: 'Home',
   components: {
     // HotSongs,
-    CardContainer
+    CardContainer,
+    NScrollbar
   },
   data(){
     return {

@@ -5,16 +5,13 @@
       <div class="col-8">
         <div class="model">
           <div class="col">
-            <n-scrollbar>
               <!-- <keep-alive include="/"> -->
-              
               <router-view v-if="isRefreshFlag" v-slot="{ Component }">
                 <transition name="slide-up">
                 <component :is="Component" />
                 </transition>
               </router-view>
               <!-- </keep-alive> -->
-            </n-scrollbar>
           </div>
         </div>
       </div>
@@ -103,7 +100,7 @@ export default {
   width: 100%;
   top: 0;
   bottom: 0;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 @keyframes slideDown {

@@ -76,7 +76,7 @@ async function fun(){
 
 fun()
 
-let timer = setInterval(fun,1000)
+let timer = setInterval(fun,2000)
 
 onUnmounted(() =>{
     clearInterval(timer)

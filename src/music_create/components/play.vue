@@ -1,15 +1,18 @@
 <template>
-    <div id="teamMatesInfo">
-        <div v-for="p in teamMates">{{ p.username }} {{ instrumentMap[p.instrument] }}</div>
-    </div>
-    <div v-if="myChoice=='piano'">
-        <Piano></Piano>
-    </div>
-    <div v-if="myChoice=='guitar'">
-        <Guitar></Guitar>
-    </div>
-    <div v-if="myChoice=='drum'">
-        <Drum></Drum>
+    <div class="box">
+        <h3>音乐共创</h3>
+        <div v-if="myChoice=='piano'">
+            <Piano :asComponent="true"></Piano>
+        </div>
+        <div v-if="myChoice=='guitar'">
+            <Guitar :asComponent="true"></Guitar>
+        </div>
+        <div v-if="myChoice=='drum'">
+            <Drum :asComponent="true"></Drum>
+        </div>
+        <div id="teamMatesInfo">
+            <div v-for="p in teamMates">{{ p.username }} {{ instrumentMap[p.instrument] }}</div>
+        </div>
     </div>
 </template>
 
@@ -17,9 +20,9 @@
 import {ref,onUnmounted} from 'vue'
 import axios from 'axios';
 import {useRoute,useRouter} from 'vue-router';
-import Piano from '../components/Piano.vue';
-import Drum from '../components/Drum.vue';
-import Guitar from '../components/Guitar.vue';
+import Piano from './Piano.vue';
+import Drum from './Drum.vue';
+import Guitar from './Guitar.vue';
 
 
 let route = useRoute()
@@ -76,13 +79,15 @@ async function deleteMember(uid,tid) {
   console.log(res.data)
 }
 
+let timer = setInterval(fun,2000)
+
 onUnmounted(() =>{
     clearInterval(timer)
-    if(userid == creatorId){
+    if(userid == creatorId.value){
             DeleteTeam()
     }
     else{
-        deleteMember(userid,teamId)
+        deleteMember(userid,teamId.value)
         router.push('/together')
     }
 
@@ -92,4 +97,12 @@ onUnmounted(() =>{
 </script>
 
 <style scoped>
+.box{
+    display: flex;
+    flex-direction: column;
+    height:80vh;
+    width:100%;
+    /* align-items: betwee; */
+    justify-content: space-between;
+}
 </style>

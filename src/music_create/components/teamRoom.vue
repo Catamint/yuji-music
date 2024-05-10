@@ -1,79 +1,82 @@
 <template>
-    <h1>{{ teamName }} 团队ID:{{ teamId }}</h1>
-    <div class="menu" id="teamMates">
-        <h3>团队成员</h3>
-        <table>
-        <thead>
-                <th>头像</th>
-                <th>用户名</th>
-                <th>乐器类型</th>
-                <th>准备状态</th>
-                <th>操作</th>
-
-        </thead>
-        <tbody>
-            <tr v-for="p in teamMates">
-                <td>{{ p.idx }}</td>
-                <td>{{ p.username }}</td>
-                <td>
-                    <select @change="changeInstrument" name="country" v-if="p.uid == userid" v-model="myChoice">
-                        <option value="piano" >钢琴</option>
-                        <option value="guitar" >吉他</option>
-                        <option value="drum" >架子鼓</option>
-                        <option value="" disabled >敬请期待</option>
-                    </select>
-                    <span v-else>{{ instrumentMap[p.instrument] }}</span>
-                </td>
-                <td v-if="p.isReady && p.uid==userid"><button @click="changeReadyState">√</button></td>
-                <td v-else-if="!p.isReady && p.uid==userid"><button @click="changeReadyState">×</button></td>
-                <td v-else-if="p.isReady && p.uid != userid">√</td>
-                <td v-else>×</td>
-                <td v-if="p.type == 'cap' && p.uid == userid">
-                    <button @click="DeleteTeam">解散队伍</button>
-                </td>
-                <td v-if="userid == creatorId && p.uid != userid">
-                    <button @click="deleteMember(p.uid,teamId)">踢出团队</button>
-                    <button>查看详情</button>
-                </td>
-                <td v-if="p.uid == userid && userid != creatorId ">
-                    <button @click="leaveTeam(p.uid,teamId)">离开队伍</button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>等待加入</td>
-                <td></td>
-                <td></td>
-                <td>
-                    <button>邀请成员</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-
-    <div class="menu" id="joinInfo">
-        <h3>申请加入信息</h3>
-        <table>
+    <div class="box">
+        <div class="glass">
+        <h1>{{ teamName }} 团队ID:{{ teamId }}</h1>
+        <div class="menu" id="teamMates">
+            <h3>团队成员</h3>
+            <table>
             <thead>
-                <th>用户ID</th>
-                <th>用户名</th>
-                <th>操作</th>
+                    <th>头像</th>
+                    <th>用户名</th>
+                    <th>乐器类型</th>
+                    <th>准备状态</th>
+                    <th>操作</th>
+
             </thead>
             <tbody>
-                <tr v-for="p in joinInfo">
-                    <td>{{ p.uid }}</td>
+                <tr v-for="p in teamMates">
+                    <td>{{ p.idx }}</td>
                     <td>{{ p.username }}</td>
                     <td>
-                        <button @click="processJoin(teamId,p.uid,'accept')">同意</button>
-                        <button @click="processJoin(teamId,p.uid,'refuse')">拒绝</button>
+                        <select @change="changeInstrument" name="country" v-if="p.uid == userid" v-model="myChoice">
+                            <option value="piano" >钢琴</option>
+                            <option value="guitar" >吉他</option>
+                            <option value="drum" >架子鼓</option>
+                            <option value="" disabled >敬请期待</option>
+                        </select>
+                        <span v-else>{{ instrumentMap[p.instrument] }}</span>
+                    </td>
+                    <td v-if="p.isReady && p.uid==userid"><button @click="changeReadyState">√</button></td>
+                    <td v-else-if="!p.isReady && p.uid==userid"><button @click="changeReadyState">×</button></td>
+                    <td v-else-if="p.isReady && p.uid != userid">√</td>
+                    <td v-else>×</td>
+                    <td v-if="p.type == 'cap' && p.uid == userid">
+                        <button @click="DeleteTeam">解散队伍</button>
+                    </td>
+                    <td v-if="userid == creatorId && p.uid != userid">
+                        <button @click="deleteMember(p.uid,teamId)">踢出团队</button>
+                        <button>查看详情</button>
+                    </td>
+                    <td v-if="p.uid == userid && userid != creatorId ">
+                        <button @click="leaveTeam(p.uid,teamId)">离开队伍</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>等待加入</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button>邀请成员</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
+        </div>
 
-    <button @click="startPlay">开始演奏</button>
+        <div class="menu" id="joinInfo">
+            <h3>申请加入信息</h3>
+            <table>
+                <thead>
+                    <th>用户ID</th>
+                    <th>用户名</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                    <tr v-for="p in joinInfo">
+                        <td>{{ p.uid }}</td>
+                        <td>{{ p.username }}</td>
+                        <td>
+                            <button @click="processJoin(teamId,p.uid,'accept')">同意</button>
+                            <button @click="processJoin(teamId,p.uid,'refuse')">拒绝</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button @click="startPlay">开始演奏</button>
+    </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -140,14 +143,14 @@ const fun =async ()=>{
 
 fun()
 
-console.log
+
 let timer = setInterval(fun,2000)
 
 
 let deleteTeamFlag = ref(true)
 onUnmounted(() =>{
     clearInterval(timer)
-    if(userid == creatorId){
+    if(userid == creatorId.value){
         if(deleteTeamFlag.value){
             DeleteTeam()
         }
@@ -217,7 +220,24 @@ async function startPlay(){
 
 </script>
 
-<style>
+<style scoped>
+.box{
+    display: flex;
+    /* flex-direction: column; */
+    height:100%;
+    width:100%;
+    /* padding: 0 0 0 40px; */
+    align-items: center;
+    justify-content: center;
+}
+.glass{
+    padding: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+}
 table{
     text-align: center;
 }

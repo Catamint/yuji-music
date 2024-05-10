@@ -1,6 +1,7 @@
 <template>
 
 <!-- Guitar  -->
+<div class="box">
 <div id = "guitar">
  
   <div id="guitar-body">
@@ -79,19 +80,25 @@
     播放倍速：{{ times }}<input type="range" v-model="times" max="5" step="1" min="1">
 </div> -->
 <!-- End 功能区 -->
-
+</div>
 </template>
 
 
 
 <script lang="ts" setup>
-import firstNote from '@/static/sounds/guitar/egs-1.mp3';
-import secondNote from '@/static/sounds/guitar/egs-2.mp3';
-import thirdNote from '@/static/sounds/guitar/egs-3.mp3';
-import fourthNote from '@/static/sounds/guitar/egs-4.mp3';
-import fifthNote from '@/static/sounds/guitar/egs-5.mp3';
-import sixthNote from '@/static/sounds/guitar/egs-6.mp3';
+import firstNote from '@/music_create/static/sounds/guitar/egs-1.mp3';
+import secondNote from '@/music_create/static/sounds/guitar/egs-2.mp3';
+import thirdNote from '@/music_create/static/sounds/guitar/egs-3.mp3';
+import fourthNote from '@/music_create/static/sounds/guitar/egs-4.mp3';
+import fifthNote from '@/music_create/static/sounds/guitar/egs-5.mp3';
+import sixthNote from '@/music_create/static/sounds/guitar/egs-6.mp3';
 
+const props = defineProps({
+    asComponent: {
+        type: Boolean,
+        default: false
+    }
+});
 
 let keyNoteMap = {
     'S':'first',
@@ -151,6 +158,17 @@ document.addEventListener("keyup", (event) => {
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Alfa+Slab+One);
 @import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
+
+.box{
+    width:100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    display:flex; 
+    flex-direction: column;
+    justify-content: center;
+    /* align-items:center; */
+}
 
 .function-btn{
     font-size:30px;

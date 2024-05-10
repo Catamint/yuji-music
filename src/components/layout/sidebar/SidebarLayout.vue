@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <n-menu :options="menuOptions" @update:value="handleUpdateValue" />
+        <n-menu :options="menuOptions" @update:value="handleUpdateValue" :default-expanded-keys="defaultExpandedKeys" />
     </div>
 </template>
 
@@ -45,15 +45,65 @@ const menuOptions = [
         ),
         key: "playlist",
         icon: renderIcon(TextBulletListSquare24Filled)
-    },{
+    },
+    {
+        label: "音乐工坊",
+        key: "create",
+        icon: renderIcon(TextBulletListSquare24Filled),
+        children: [
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: "/piano"
+                    },
+                    { default: () => "钢琴" }
+                ),
+                key: "piano",
+                icon: renderIcon(TextBulletListSquare24Filled)
+            },{
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: "/drum"
+                    },
+                    { default: () => "鼓" }
+                ),
+                key: "drum",
+                icon: renderIcon(TextBulletListSquare24Filled)
+            },{
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: "/guitar"
+                    },
+                    { default: () => "吉他" }
+                ),
+                key: "guitar",
+                icon: renderIcon(TextBulletListSquare24Filled)
+            }
+        ]
+    },
+    {
         label: () => h(
             RouterLink,
             {
-                to: "/piano"
+                to: "/together"
             },
-            { default: () => "钢琴" }
+            { default: () => "音乐共创" }
         ),
-        key: "piano",
+        key: "ChooseTeam",
+        icon: renderIcon(TextBulletListSquare24Filled)
+    },
+    {
+        label: () => h(
+            RouterLink,
+            {
+                to: "/generate"
+            },
+            { default: () => "音乐生成" }
+        ),
+        key: "音乐生成",
         icon: renderIcon(TextBulletListSquare24Filled)
     }
 ];
@@ -75,7 +125,8 @@ export default {
   },
   setup(){
     return {
-        menuOptions
+        menuOptions,
+        defaultExpandedKeys: ["create"]
     }
   }
 }

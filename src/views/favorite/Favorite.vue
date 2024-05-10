@@ -14,7 +14,9 @@
     </n-empty>
   </div>
   <template v-else>
-    <List v-for="info in musicinfo_list" :music_info="info" :isFavorite="true"/>
+    <n-scrollbar>
+      <List v-for="info in musicinfo_list" :music_info="info" :isFavorite="true"/>
+    </n-scrollbar>
   </template>
 </template>
 
@@ -22,7 +24,7 @@
 import List from '@/components/public/List.vue';
 import { utils } from '@/stores/utils';
 import { Heart28Filled } from '@vicons/fluent';
-import { NButton, NEmpty, NIcon } from 'naive-ui';
+import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
 import querystring from 'querystring';
 
 const info = {
@@ -36,7 +38,8 @@ export default {
     NEmpty,
     NIcon,
     NButton,
-    Heart28Filled
+    Heart28Filled,
+    NScrollbar
   },
   data() {
     return {
