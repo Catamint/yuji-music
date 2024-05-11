@@ -66,8 +66,9 @@
 </template>
 
 <script>
-import { NButton, NCard, NFlex, NH6, NInput, NInputGroup, NInputGroupLabel, NInputNumber, NSlider, NSpace } from 'naive-ui';
+import { NButton, NCard, NEllipsis, NFlex, NH6, NIcon, NInput, NInputGroup, NInputGroupLabel, NInputNumber, NSlider, NSpace } from 'naive-ui';
 import audio from "@/views/generate/static/audio.wav"
+import { Play24Regular } from '@vicons/fluent';
 
 export default {
   name: 'Generate',
@@ -81,7 +82,10 @@ export default {
     NFlex,
     NInputNumber,
     NButton,
-    NH6
+    NH6,
+    NIcon,
+    Play24Regular,
+    NEllipsis
   },
   data(){
     return{
@@ -170,8 +174,5 @@ export default {
     font-size: medium;
     padding-left: 10px;
 }
-.play-button{
-    padding-left: 0px;
-    /* padding-right: 2px; */
-}
+
 </style>

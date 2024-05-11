@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <n-menu :options="menuOptions" @update:value="handleUpdateValue" :default-expanded-keys="defaultExpandedKeys" />
+        <n-menu :options="menuOptions" :default-expanded-keys="defaultExpandedKeys" />
     </div>
 </template>
 
