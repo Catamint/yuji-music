@@ -15,6 +15,13 @@
                 <n-icon><Heart28Regular /></n-icon>
             </template>
         </n-button>
+        <n-button round style=" margin-left: 5px;" 
+        @click="utils.play_component.showing ? utils.play_component.hide() : utils.play_component.show()">
+            <template #icon>
+                <n-icon><ChevronDoubleUp16Filled /></n-icon>
+            </template>
+            详情页
+        </n-button>
         <!-- <button @click="utils.play_component.show()">播放详情页</button> -->
     </div>
 </template>
@@ -22,7 +29,8 @@
 <script>
 import { utils } from '@/stores/utils';
 import { player } from "../../../stores/player";
-import { Heart28Regular } from '@vicons/fluent/lib';
+import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent/lib';
+import { NButton, NIcon } from 'naive-ui';
 
 export default {
     name: 'FooterLayout',
@@ -30,7 +38,10 @@ export default {
     msg: String
   },
     components:{
-        Heart28Regular
+        Heart28Regular,
+        NButton,
+        NIcon,
+        ChevronDoubleUp16Filled
     },
     data(){
         return {

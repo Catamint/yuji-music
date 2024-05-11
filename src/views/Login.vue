@@ -1,44 +1,15 @@
 <template>
     <div class="container">
-        <div v-show="current_login" id="content">
+        <div id="content">
             <span id="type-name">用户登录</span>
             <div><img class="round_icon" id="login_icon" src="../assets/image/user_default.png" alt=""></div>
             <form action="#" method="post" id="info">
                 <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="账号">
                 <input v-model="pwd" class="info-input" type="password" name="password" id="password" placeholder="密码">
-                <p v-show="onError" style="color: red;">账号或密码错误</p>
+                <!-- <p v-show="onError" style="color: red;">账号或密码错误</p> -->
             </form>
             <n-button @click="login" type="primary" style="width: 80%; height:45px; ">登录</n-button>
-            <p id="change-type">还没有账号?<a @click="current_login = false">点击注册</a></p>
-        </div>
-        <div v-show="!current_login">
-            <span style="margin-left: 50px" id="type-name">用户注册</span>
-            <form id="info" enctype="multipart/form-data">
-                <div>
-                    <div id="b1">
-                        <a onclick="" id="avator-upload">
-                            <input name="avator" id="avator" type="file" style="display: none">
-                            <img class="round_icon" id="signup_icon" src="../assets/image/user_default.png" alt="">
-                        </a>
-                        <div id="change-type-box">
-                            <span id="change-type">已经有账号?<a @click="current_login = true" >点击登录</a></span>
-                        </div>
-                    </div>
-                    <div id="b2">
-                        <div>
-                            <input class="info-input" type="text" name="uid" id="uid" placeholder="账号">
-                            <input class="info-input" type="username" name="username" id="username" placeholder="昵称">
-                        </div>
-                        <div>
-                            <input class="info-input" type="password" name="pw" id="pw" placeholder="密码">
-                            <input class="info-input" type="password" name="cpw" id="cpw" placeholder="确认密码">
-                        </div>
-                        <div>
-                            <button id="btn-sumit" disabled class="btn-signup">开始音乐之旅吧！</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <p id="change-type">还没有账号?<a @click="gotoSignUp">点击注册</a></p>
         </div>
     </div>
 </template>
@@ -55,8 +26,7 @@ export default {
             username : '',
             pwd : '',
             utils,
-            onError: false,
-            current_login: true
+            // onError: false,
             // user_default
         }
     }, 
@@ -68,6 +38,7 @@ export default {
     },
     methods:{
         login(){
+            // this.onError = false;
             var url = "/host/login";
             this.$axios.post(url, querystring.stringify({
                     uid: this.username,
@@ -75,17 +46,24 @@ export default {
             })).then(res => {
                 var data = res.data
                 if(data.status == 'true') {
-                    this.onError = false;
-                    this.utils.user_config.uid = data.uid;
+                    this.utils.user_config.login(data.uid, data.name);
+                    // this.utils.user_config.uid = data.uid;
                     this.$router.push({ path: '/'});
                 } else {
-                    this.onError = true;
+                    // this.onError = true;
+                    window.$message.warning(data.error);
                     console.log(data.error);
                 }
-                console.log(data);
+                // console.log(data);
             }).catch(function (error) {
+                window.$message.error(data.error);
                 console.log(error);
             })
+        },
+        gotoSignUp(){
+            this.$router.push({
+                path: 'signup'
+            });
         }
     }
 }

@@ -1,7 +1,14 @@
 <template>
-    <div></div>
+  <div></div>
 </template>
-<script setup>
-  import { useMessage } from 'naive-ui';
-  window.$message = useMessage();
+ 
+<script>
+import { defineComponent, getCurrentInstance } from "vue";
+import { useMessage } from "naive-ui";
+ 
+export default defineComponent({
+  setup() {
+    window.$message = useMessage();
+  },
+});
 </script>

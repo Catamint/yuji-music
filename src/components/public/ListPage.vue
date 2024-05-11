@@ -1,15 +1,17 @@
 <template>
-    <div style="display: flex; ">
-        <h2>{{ head }}</h2>
-        <template >
-        <n-icon> <ChevronRight16Filled /> </n-icon>
-        </template>
-    </div>
-    <List v-for="item in music_info_list" :music_info="item" />
+    <n-scrollbar>
+        <div style="display: flex; ">
+            <h2>{{ head }}</h2>
+            <template >
+            <n-icon> <ChevronRight16Filled /> </n-icon>
+            </template>
+        </div>
+        <List v-for="item in music_info_list" :music_info="item" />
+    </n-scrollbar>
 </template>
 
 <script>
-import { NCard, NEllipsis, NIcon } from 'naive-ui';
+import { NCard, NEllipsis, NIcon, NScrollbar } from 'naive-ui';
 import { ChevronRight16Filled, Heart28Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 import List from './List.vue';
 
@@ -17,7 +19,7 @@ export default {
     name: 'ListPage',
     methods: {
         search_music(page){
-            this.$axios.get(this.qurl, {
+            this.$axios.get(this.qurl, { 
                 params: {
                     kw: this.kw,
                     page: page
@@ -68,7 +70,8 @@ export default {
         NEllipsis,
         List,
         ChevronRight16Filled,
-        NIcon
+        NIcon,
+        NScrollbar
     }
   }
 

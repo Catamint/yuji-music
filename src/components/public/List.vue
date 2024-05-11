@@ -10,25 +10,31 @@
                 <span class="info">{{ music_detials.song_name }}</span>
             </div>
             <n-flex>
-                <n-button v-if="music_detials.url != ''" style="font-size: 18px" @click="player.play(music_detials)">
+                <n-button v-if="music_detials.url != ''" style="font-size: 15px" @click="player.play(music_detials)">
                     <template #icon>
                         <n-icon><Play24Regular/></n-icon>
                     </template>
                     播放
                 </n-button>
-                <n-button disabled v-else style="font-size: 18px" @click="player.play(music_detials)">
+                <n-button disabled v-else style="font-size: 15px" @click="player.play(music_detials)">
                     <template #icon>
                         <n-icon><Play24Regular/></n-icon>
                     </template>
                     播放
                 </n-button>
-                <n-button style="font-size: 18px">
+                <n-button v-if="!isFavorite" style="font-size: 15px" @click="put_in_favorites(music_detials)">
                     <template #icon>
                         <n-icon><Heart28Regular /></n-icon>
                     </template>
                     收藏
                 </n-button>
-                <n-button style="font-size: 18px" @click="player.put_in_playlist(music_detials)">
+                <n-button v-else style="font-size: 15px" @click="cancel_favorite(music_detials)">
+                    <template #icon>
+                        <n-icon><Heart28Regular /></n-icon>
+                    </template>
+                    取消收藏
+                </n-button>
+                <n-button style="font-size: 15px" @click="player.put_in_playlist(music_detials)">
                     <template #icon>
                         <n-icon><TextBulletListAdd24Filled /></n-icon>
                     </template>
@@ -40,16 +46,20 @@
 </template>
 
 <script>
-import { NCard, NEllipsis, NFlex } from 'naive-ui';
+import { NButton, NCard, NEllipsis, NFlex, NIcon } from 'naive-ui';
 import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
+import { utils } from '@/stores/utils';
+import querystring from 'querystring';
 
 export default {
     name: 'List',
     methods:{
         get_music_detials(hash){
-            const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
-            this.$axios.get(url + hash).then(res => {
+            const url = '/host/get_song_info';
+            this.$axios.get(url, {params:{
+                hash: hash
+            }}).then(res => {
                 // console.log(res.data);
                 this.music_detials.song_name = res.data.songName;
                 this.music_detials.author_name = res.data.author_name;
@@ -58,20 +68,73 @@ export default {
                 this.music_detials.hash = res.data.hash;
             })
         },
+        get_music_detials_props(){
+            // console.log(this.music_info)
+            this.music_detials.song_name = this.music_info.songname;
+            this.music_detials.author_name = this.music_info.author_name;
+            this.music_detials.url = this.music_info.url;
+            this.music_detials.album_img = this.music_info.album_img;
+            this.music_detials.hash = this.music_info.hash;
+        },
         put_in_playlist(detials){
             var message = this.player.put_in_playlist(detials);
             if(message != 0){
                 console.log("???")
+            }
+        },
+        put_in_favorites(detials){
+            if (this.utils.user_config.uid == "") {
+                window.$message.warning("未登录");
+                console.log("未登录")
+            } else {
+                var url = "/host/collect";
+                this.$axios.post(url, querystring.stringify({
+                    id: this.utils.user_config.uid,
+                    name: detials.song_name,
+                    singer: detials.author_name,
+                    hash: detials.hash,
+                    url: detials.url,
+                    album: detials.song_name
+                    // album_url: detials.song_name
+                })).then(res => {
+                var data = res.data;
+                }).catch(function (error) {
+                console.log(error);
+                })
+            }
+        },
+        cancel_favorite(detials){
+            if (this.utils.user_config.uid == "") {
+                window.$message.warning("未登录");
+                console.log("未登录")
+            } else {
+                var url = "/host/cancel_collet";
+                this.$axios.post(url, querystring.stringify({
+                    uid: this.utils.user_config.uid,
+                    hash: detials.hash,
+                })).then(res => {
+                var data = res.data;
+                if(data.status=="false"){
+                    console.log(data.error);
+                } else {
+                    this.reloadPage();
+                }
+                }).catch(function (error) {
+                console.log(error);
+                })
             }
         }
     },
     mounted() {
         // console.log(this.music_info)
         this.get_music_detials(this.music_info.hash);
+        // this.get_music_detials_props();
     },
+    inject: ["reloadPage"],
     data() {
         return{
             player,
+            utils,
             music_detials: {
                 album_img: "../../assets/image/default_covor.jpg",
                 song_name: " ",
@@ -88,10 +151,12 @@ export default {
         music_info:{
             type:Object,
             default: function(){
-                return {
-                    // hash: "71194BC4C1F44C344774719CED11839B"
-                }
+                return {}
             }
+        },
+        isFavorite: {
+            type:Boolean,
+            default: false
         }
     },
     components:{
@@ -101,7 +166,9 @@ export default {
         TextBulletListAdd24Filled,
         NEllipsis,
         NFlex,
-        Play24Regular
+        Play24Regular,
+        NIcon,
+        NButton
     }
   }
 

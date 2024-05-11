@@ -17,7 +17,7 @@
                     <n-icon><Play24Regular/></n-icon>
                 </template>
             </n-button>
-            <n-button circle style="font-size: 24px">
+            <n-button circle style="font-size: 24px" @click="put_in_favorites(music_detials)">
             <template #icon>
                 <n-icon><Heart28Regular /></n-icon>
             </template>
@@ -32,16 +32,20 @@
 </template>
 
 <script>
-import { NCard, NEllipsis, NSpace } from 'naive-ui';
-import { player } from '../../stores/player';
+import { NCard, NEllipsis, NSpace, NButton, NIcon } from 'naive-ui';
+import { player } from '@/stores/player';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
+import { utils } from '@/stores/utils';
+import querystring from 'querystring';
 
 export default {
-    name: 'SongCard',
+    name: 'Card',
     methods:{
         get_music_detials(hash){
-            const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
-            this.$axios.get(url + hash).then(res => {
+            const url = '/host/get_song_info';
+            this.$axios.get(url, {params:{
+                hash: hash
+            }}).then(res => {
                 // console.log(res.data);
                 this.music_detials.song_name = res.data.songName;
                 this.music_detials.author_name = res.data.author_name;
@@ -50,28 +54,61 @@ export default {
                 this.music_detials.hash = res.data.hash;
             })
         },
+        get_music_detials_props(){
+            // console.log(this.music_info)
+            this.music_detials.song_name = this.music_info.songname;
+            this.music_detials.author_name = this.music_info.author_name;
+            this.music_detials.url = this.music_info.url;
+            this.music_detials.album_img = this.music_info.album_img;
+            this.music_detials.hash = this.music_info.hash;
+        },
         put_in_playlist(detials){
             var message = this.player.put_in_playlist(detials);
             if(message != 0){
                 console.log("???")
             }
+        },
+        put_in_favorites(detials){
+            if (this.utils.user_config.uid == "") {
+                window.$message.warning("未登录");
+                console.log("未登录")
+            } else {
+                this.onError = false;
+                var url = "/host/collect";
+                this.$axios.post(url, querystring.stringify({
+                    id: this.utils.user_config.uid,
+                    name: detials.song_name,
+                    singer: detials.author_name,
+                    hash: detials.hash,
+                    url: detials.url,
+                    album: detials.song_name
+                    // album_url: detials.song_name
+                })).then(res => {
+                var data = res.data;
+                // console.log(data.status)
+                }).catch(function (error) {
+                console.log(error);
+                })
+            }
         }
     },
     mounted() {
         this.get_music_detials(this.music_info.hash);
+        // this.get_music_detials_props();
     },
     data() {
         return{
             player,
+            utils,
             music_detials: {
                 album_img: "../../assets/image/default_covor.jpg", //专辑背景
-                song_name: " ", //歌名
-                album_name: " ", //专辑名
-                album_hash: " ", //专辑hash
-                author_name: " ", //歌手名
-                author_hash: " ", //歌手hash
-                url: " ", //url
-                hash:" ", //歌曲hash
+                song_name: "", //歌名
+                album_name: "", //专辑名
+                album_hash: "", //专辑hash
+                author_name: "", //歌手名
+                author_hash: "", //歌手hash
+                url: "", //url
+                hash:"", //歌曲hash
                 playing: false //一律设为false (或"false")
             }
         }
@@ -91,7 +128,9 @@ export default {
         Play24Regular,
         TextBulletListAdd24Filled,
         NEllipsis,
-        NSpace
+        NSpace,
+        NButton,
+        NIcon
     }
   }
 
@@ -133,7 +172,7 @@ export default {
     opacity: 1;
 } */
 .cover-img:hover {
-    filter: brightness(50%);
+    filter: brightness(80%);
 }
 n-button{
     padding-right: 2px;

@@ -11,10 +11,10 @@
             </n-input-group>
             <router-link to="/settings"><n-button>设置</n-button></router-link>
             <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link>
-            <div v-else >
-                <n-dropdown n-button :options="options">
-                <n-button>{{ this.utils.user_config.uid }}</n-button>
-            </n-dropdown>
+            <div v-else>
+                <n-dropdown n-button :options="options" @select="handleSelect">
+                    <n-button>{{ this.utils.user_config.name }}</n-button>
+                </n-dropdown>
             </div>
         </n-space>
     </div>
@@ -49,23 +49,35 @@ export default {
     },
     methods: {
         search_music() {
-            this.$router.push({path: '/'})
+            // this.$router.push({path: '/'})
+            // this.reloadPage();
+            var kw = this.kw;
+            this.reloadPage();
             this.$router.push({
                 name: 'listpage', params: {
-                    kw: this.kw,
+                    kw: kw,
                     page: 1,
                     qurl: '/host/get_search_result'
                 }
             });
+            this.reloadPage();
+        },
+        handleSelect(key){
+            // console.log(key);
+            if(key == "logout"){
+                this.utils.user_config.logout();
+                location.reload();
+            }
         }
     },
+    inject: ["reloadPage"],
     setup() {
         return {
             options: [
-                {
-                    label: "编辑用户资料",
-                    key: "editProfile",
-                },
+                // {
+                //     label: "编辑用户资料",
+                //     key: "editProfile",
+                // },
                 {
                     label: "退出登录",
                     key: "logout",

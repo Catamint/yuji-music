@@ -18,13 +18,13 @@ export default {
     name: 'FavoriteListPage',
     methods: {
         search_music(){
-            console.log(this.qurl);
-            console.log(this.uid);
+            // console.log(this.qurl);
+            // console.log(this.uid);
             this.$axios.post(this.qurl, querystring.stringify(
                 this.uid
             )).then(res => {
                 var data =res.data
-                console.log(data);
+                // console.log(data);
                 this.music_info_list = data;
             }).catch(function (error) {
                 console.log(error);
