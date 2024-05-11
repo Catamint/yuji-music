@@ -66,6 +66,7 @@ export default {
             // console.log(key);
             if(key == "logout"){
                 this.utils.user_config.logout();
+                location.reload();
             }
         }
     },

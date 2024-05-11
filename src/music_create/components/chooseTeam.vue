@@ -1,12 +1,16 @@
 <template>
     <div class="box" >
         <div>
-            <n-button size="large" class="function-btn" @click="startCreateTeam">创建团队</n-button>
-            <n-button size="large" class="function-btn" @click="startJoinTeam">加入团队</n-button>
+            <n-button v-show="uid" size="large" class="function-btn" @click="startCreateTeam">创建团队</n-button>
+            <n-button v-show="uid" size="large" class="function-btn" @click="startJoinTeam">加入团队</n-button>
         </div>
         <div class="content">
-            <div class="glass" id="startup-menu" style="display: flex; justify-content: center; align-items: center; width:30%; height:40%">
+            <div v-if="uid" class="glass" id="startup-menu" style="display: flex; justify-content: center; align-items: center; width:30%; height:40%">
                 单击选项以创建或加入团队
+            </div>
+            <div v-else class="glass" id="startup-menu" style="display: flex; justify-content: center; align-items: center; width:30%; height:40%">
+                登录以创建或加入团队
+
             </div>
             <div class="menu glass" id="create-menu" style="display: none;">
                 <h3 class="margin-bottom">创建团队</h3>
@@ -68,6 +72,7 @@
 </template>
 
 <script lang="ts" setup>
+import { utils } from '@/stores/utils';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
@@ -109,6 +114,11 @@ const tryToCreate = async ()=>{
   }
 }
 
+function gotoLogin(){
+    this.$router.push({
+        path: 'login'
+      });
+}
 
 function startCreateTeam(){
     document.getElementById('create-menu').style.display = ''

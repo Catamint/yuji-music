@@ -66,7 +66,7 @@ export default {
             uid: this.utils.user_config.uid
         })).then(res => { 
             var data =res.data
-            console.log(data);
+            // console.log(data);
             this.musicinfo_list = data;
         }).catch(function (error) {
             console.log(error);

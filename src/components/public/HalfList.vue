@@ -64,6 +64,7 @@ export default {
         },
         put_in_favorites(detials){
             if (this.utils.user_config.uid == "") {
+                window.$message.warning("未登录");
                 console.log("未登录")
             } else {
                 this.onError = false;
@@ -78,7 +79,7 @@ export default {
                     // album_url: detials.song_name
                 })).then(res => {
                 var data = res.data;
-                console.log(data.status)
+                // console.log(data.status)
                 }).catch(function (error) {
                 console.log(error);
                 })

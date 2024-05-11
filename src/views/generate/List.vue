@@ -58,6 +58,7 @@ export default {
         },
         put_in_favorites(detials){
             if (this.utils.user_config.uid == "") {
+                window.$message.warning("未登录");
                 console.log("未登录")
             } else {
                 var url = "/host/collect";
@@ -78,6 +79,7 @@ export default {
         },
         cancel_favorite(detials){
             if (this.utils.user_config.uid == "") {
+                window.$message.warning("未登录");
                 console.log("未登录")
             } else {
                 var url = "/host/cancel_collet";

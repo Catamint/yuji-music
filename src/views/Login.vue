@@ -6,7 +6,7 @@
             <form action="#" method="post" id="info">
                 <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="账号">
                 <input v-model="pwd" class="info-input" type="password" name="password" id="password" placeholder="密码">
-                <p v-show="onError" style="color: red;">账号或密码错误</p>
+                <!-- <p v-show="onError" style="color: red;">账号或密码错误</p> -->
             </form>
             <n-button @click="login" type="primary" style="width: 80%; height:45px; ">登录</n-button>
             <p id="change-type">还没有账号?<a @click="gotoSignUp">点击注册</a></p>
@@ -26,7 +26,7 @@ export default {
             username : '',
             pwd : '',
             utils,
-            onError: false,
+            // onError: false,
             // user_default
         }
     }, 
@@ -38,7 +38,7 @@ export default {
     },
     methods:{
         login(){
-            this.onError = false;
+            // this.onError = false;
             var url = "/host/login";
             this.$axios.post(url, querystring.stringify({
                     uid: this.username,
@@ -50,11 +50,13 @@ export default {
                     // this.utils.user_config.uid = data.uid;
                     this.$router.push({ path: '/'});
                 } else {
-                    this.onError = true;
+                    // this.onError = true;
+                    window.$message.warning(data.error);
                     console.log(data.error);
                 }
-                console.log(data);
+                // console.log(data);
             }).catch(function (error) {
+                window.$message.error(data.error);
                 console.log(error);
             })
         },

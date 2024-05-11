@@ -1,11 +1,12 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
     <n-message-provider>
-      <div class="base-background-image"></div>
-      <div class="base-container">
-        <IndexView />
-      </div>
+    <MessageApi />
     </n-message-provider>
+    <div class="base-background-image"></div>
+    <div class="base-container">
+      <IndexView />
+    </div>
   </n-config-provider>
 </template>
 
@@ -14,6 +15,7 @@
 import IndexView from './components/IndexView.vue';
 import { NConfigProvider, NMessageProvider } from 'naive-ui';
 import { utils } from './stores/utils';
+import MessageApi from './stores/MessageApi.vue';
 // @type import('naive-ui').GlobalThemeOverrides
 
 export default {
@@ -21,7 +23,8 @@ export default {
   components: {
     IndexView,
     NMessageProvider,
-    NConfigProvider
+    NConfigProvider,
+    MessageApi
   },
   created(){
     this.utils.user_config.onFlush();

@@ -23,6 +23,7 @@
                             <input v-model="signup_form.pwd_again" class="info-input" type="password" name="cpw" id="cpw" placeholder="确认密码">
                         </div>
                         <div>
+                            <!-- <p v-show="onError" style="color: red;">{{ error }}</p> -->
                             <n-button @click="signup" type="primary" style="width: 100%; height:45px; margin-top:10px;" >开始音乐之旅吧！</n-button>
                             <!-- <button id="btn-sumit" class="btn-signup"></button> -->
                         </div>
@@ -43,7 +44,8 @@ export default {
     data(){
         return {
             utils,
-            onError: false,
+            // onError: false,
+            // error: "",
             // user_default
             signup_form: {
                 uid:"",
@@ -61,12 +63,12 @@ export default {
     },
     methods:{
         signup(){
-            this.onError = false;
+            // this.onError = false;
             var url = "/host/signup";
-            console.log(this.signup_form.uid)
-            console.log(this.signup_form.name)
-            console.log(this.signup_form.pwd)
-            console.log(this.signup_form.pwd_again)
+            // console.log(this.signup_form.uid)
+            // console.log(this.signup_form.name)
+            // console.log(this.signup_form.pwd)
+            // console.log(this.signup_form.pwd_again)
             this.$axios.post(url, querystring.stringify({
                     uid: this.signup_form.uid,
                     username: this.signup_form.name,
@@ -78,11 +80,14 @@ export default {
                     // this.utils.user_config.uid = data.uid;
                     this.$router.push({ path: '/login'});
                 } else {
-                    this.onError = true;
-                    console.log(data.error);
+                    // this.onError = true;
+                    // this.error = data.error;
+                    window.$message.error(data.error);
+                    // console.log();
                 }
-                console.log(data);
+                // console.log(data);
             }).catch(function (error) {
+                window.$message.warning(data.error);
                 console.log(error);
             })
         },
