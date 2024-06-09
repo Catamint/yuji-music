@@ -37,7 +37,6 @@
                                     <n-button type="success" @click="tryToJoin(row.tid,row.tname)">申请加入</n-button>
                                 </template>
                                 <n-thing :title="row.tname" 
-                                         :title-extra="row.needPassword ? '无需密码' : '需要密码' "
                                          :description="'创建人ID：' + row.creatorId">
                                     <!-- <th>团队ID</th> -->
                                 </n-thing>

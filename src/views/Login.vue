@@ -38,7 +38,6 @@ export default {
     },
     methods:{
         login(){
-            // this.onError = false;
             var url = "/host/login";
             this.$axios.post(url, querystring.stringify({
                     uid: this.username,
@@ -47,14 +46,11 @@ export default {
                 var data = res.data
                 if(data.status == 'true') {
                     this.utils.user_config.login(data.uid, data.name);
-                    // this.utils.user_config.uid = data.uid;
                     this.$router.push({ path: '/'});
                 } else {
-                    // this.onError = true;
                     window.$message.warning(data.error);
                     console.log(data.error);
                 }
-                // console.log(data);
             }).catch(function (error) {
                 window.$message.error(data.error);
                 console.log(error);

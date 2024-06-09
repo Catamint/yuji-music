@@ -1,9 +1,9 @@
 <template>
   <n-scrollbar>
-    <CardContainer subcomponent="list" :music_info_list="top_10_list" />
+    <CardContainer subcomponent="list" :music_info_list="hot_list" />
     <CardContainer head="精选" :music_info_list="top_10_list" />
     <!-- <CardContainerCol subcomponent="halflist" :music_info_list="music_info_list" /> -->
-    <CardContainer head="精选" subcomponent="halflist" :music_info_list="top_10_list" />
+    <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" />
   </n-scrollbar>
 </template>
 
@@ -24,6 +24,7 @@ export default {
     return {
         music_info_list: [],
         top_10_list: [],
+        hot_list: [],
     }
   },
   methods:{
@@ -40,11 +41,19 @@ export default {
         this.top_10_list = getted;
         // console.log(getted);
       })
+    },
+    getHotMusic(){
+      this.$axios.get("/host/get_home_info_2").then(res => {
+        var getted2 = res.data;
+        this.hot_list = getted2;
+        // console.log(getted);
+      })
     }
   },
   created() {
     // this.getTopMusic();
     this.getTop10Music();
+    this.getHotMusic();
   }
 }
 </script>

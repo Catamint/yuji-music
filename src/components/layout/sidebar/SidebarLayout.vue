@@ -8,7 +8,7 @@
 import { h } from "vue";
 import { NButton, NIcon, NMenu } from "naive-ui";
 import { RouterLink } from "vue-router";
-import { Heart28Filled, Home24Filled, MoviesAndTv24Filled, Star12Regular, TextBulletListSquare24Filled } from "@vicons/fluent";
+import { Guitar20Filled, Heart28Filled, Home24Filled, KeyboardLayoutOneHandedLeft24Filled, MathFormula24Filled, MoviesAndTv24Filled, MusicNote120Filled, PeopleCommunity24Filled, SportAmericanFootball24Filled, SportHockey24Filled, Star12Regular, TextBulletListSquare24Filled } from "@vicons/fluent";
 
 function renderIcon (icon) {
     return () => h(NIcon, null, {default: () => h(icon) });
@@ -49,7 +49,7 @@ const menuOptions = [
     {
         label: "音乐工坊",
         key: "create",
-        icon: renderIcon(TextBulletListSquare24Filled),
+        icon: renderIcon(MusicNote120Filled),
         children: [
             {
                 label: () => h(
@@ -60,7 +60,7 @@ const menuOptions = [
                     { default: () => "钢琴" }
                 ),
                 key: "piano",
-                icon: renderIcon(TextBulletListSquare24Filled)
+                icon: renderIcon(KeyboardLayoutOneHandedLeft24Filled)
             },{
                 label: () => h(
                     RouterLink,
@@ -70,7 +70,7 @@ const menuOptions = [
                     { default: () => "鼓" }
                 ),
                 key: "drum",
-                icon: renderIcon(TextBulletListSquare24Filled)
+                icon: renderIcon(SportHockey24Filled)
             },{
                 label: () => h(
                     RouterLink,
@@ -80,7 +80,7 @@ const menuOptions = [
                     { default: () => "吉他" }
                 ),
                 key: "guitar",
-                icon: renderIcon(TextBulletListSquare24Filled)
+                icon: renderIcon(Guitar20Filled)
             }
         ]
     },
@@ -93,7 +93,7 @@ const menuOptions = [
             { default: () => "音乐共创" }
         ),
         key: "ChooseTeam",
-        icon: renderIcon(TextBulletListSquare24Filled)
+        icon: renderIcon(PeopleCommunity24Filled)
     },
     {
         label: () => h(
@@ -104,7 +104,7 @@ const menuOptions = [
             { default: () => "音乐生成" }
         ),
         key: "音乐生成",
-        icon: renderIcon(TextBulletListSquare24Filled)
+        icon: renderIcon(MathFormula24Filled)
     }
 ];
 
@@ -121,7 +121,13 @@ export default {
     Star12Regular,
     MoviesAndTv24Filled,
     Heart28Filled,
-    TextBulletListSquare24Filled
+    TextBulletListSquare24Filled,
+    Guitar20Filled,
+    MusicNote120Filled,
+    PeopleCommunity24Filled,
+    SportHockey24Filled,
+    KeyboardLayoutOneHandedLeft24Filled,
+    MathFormula24Filled
   },
   setup(){
     return {

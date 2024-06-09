@@ -5,13 +5,11 @@
       <div class="col-8">
         <div class="model">
           <div class="col">
-              <!-- <keep-alive include="/"> -->
               <router-view v-if="isRefreshFlag" v-slot="{ Component }">
                 <transition name="slide-up">
                 <component :is="Component" />
                 </transition>
               </router-view>
-              <!-- </keep-alive> -->
           </div>
         </div>
       </div>

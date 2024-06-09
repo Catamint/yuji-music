@@ -36,18 +36,37 @@
                     <n-flex>
                         <n-button size="large" type="success" style="width: 100%" @click="generate()">生成</n-button>
                     </n-flex>
-                    <audio id="audio"  :src="audio"></audio>
+                    <audio id="audio1"  :src="audio1"></audio>
+                    <audio id="audio2"  :src="audio2"></audio>
                 </div>
             </div>
         </div>
         <div class="col-4">
             <n-card class="card" title="歌曲列表">
             </n-card>
-                <n-card v-if="generated" class="list" content-style="padding: 0; display: flex; align-items: center;">
+                <n-card v-if="generated > 0" class="list" content-style="padding: 0; display: flex; align-items: center;">
                     <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
                         <div class="text">
                             <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
-                                {{songName}}
+                                song
+                            </n-ellipsis>
+                            <!-- <span class="info" style="padding-left: 20px;">详细信息</span> -->
+                        </div>
+                        <n-flex>
+                            <n-button class="play-button" style="font-size: 15px" @click="play()">
+                                <template #icon>
+                                    <n-icon><Play24Regular/></n-icon>
+                                </template>
+                                播放
+                            </n-button>
+                        </n-flex>
+                    </n-flex>
+                </n-card>
+                <n-card v-if="generated > 1" class="list" content-style="padding: 0; display: flex; align-items: center;">
+                    <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
+                        <div class="text">
+                            <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
+                                happy
                             </n-ellipsis>
                             <!-- <span class="info" style="padding-left: 20px;">详细信息</span> -->
                         </div>
@@ -67,7 +86,8 @@
 
 <script>
 import { NButton, NCard, NEllipsis, NFlex, NH6, NIcon, NInput, NInputGroup, NInputGroupLabel, NInputNumber, NSlider, NSpace } from 'naive-ui';
-import audio from "@/views/generate/static/audio.wav"
+import audio1 from "@/views/generate/static/audio.wav"
+import audio2 from "@/views/generate/static/audio_0.wav"
 import { Play24Regular } from '@vicons/fluent';
 
 export default {
@@ -90,9 +110,10 @@ export default {
   data(){
     return{
         timeSecond : 10,
-        generated: false,
+        generated: 0,
         flag:null,
-        audio,
+        audio1,
+        audio2,
         songName: ""
     }
   },
@@ -100,11 +121,11 @@ export default {
     generate(){
         this.flag= window.setTimeout(()=>{
             // console.log("22222")
-            this.generated = true;
-        },1000)
+            this.generated ++;
+        },3000)
     },
     play(){
-        var a = document.getElementById('audio')
+        var a = document.getElementById('audio' + this.generated)
         // let a = document.createElement('audio')
         // a.src = audio.src
         a.play()
