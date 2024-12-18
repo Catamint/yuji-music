@@ -38,7 +38,7 @@ export default {
     },
     methods:{
         login(){
-            var url = "/host/login";
+            var url = "/host/auth/login";
             this.$axios.post(url, querystring.stringify({
                     uid: this.username,
                     pw: this.pwd

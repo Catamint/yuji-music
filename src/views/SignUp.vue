@@ -64,7 +64,7 @@ export default {
     methods:{
         signup(){
             // this.onError = false;
-            var url = "/host/signup";
+            var url = "/host/auth/signup";
             // console.log(this.signup_form.uid)
             // console.log(this.signup_form.name)
             // console.log(this.signup_form.pwd)

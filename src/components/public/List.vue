@@ -66,6 +66,7 @@ export default {
                 this.music_detials.url = res.data.url;
                 this.music_detials.album_img = res.data.album_img.replace("{size}","240");
                 this.music_detials.hash = res.data.hash;
+                // console.log(this.music_detials)
             })
         },
         get_music_detials_props(){
