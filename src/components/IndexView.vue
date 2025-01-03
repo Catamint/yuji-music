@@ -23,9 +23,9 @@
 
 <script>
 
-import FooterLayout from './layout/footer/FooterLayout.vue';
-import HeaderLayout from './layout/header/HeaderLayout.vue';
-import SidebarLayout from "./layout/sidebar/SidebarLayout.vue";
+import FooterLayout from './footer/FooterLayout.vue';
+import HeaderLayout from './header/HeaderLayout.vue';
+import SidebarLayout from "./sidebar/SidebarLayout.vue";
 import Home from '../views/home/Home.vue';
 import Play from '@/views/play/Play.vue';
 import { utils } from '@/stores/utils';

@@ -28,7 +28,7 @@
 
 <script>
 import { utils } from '@/stores/utils';
-import { player } from "../../../stores/player";
+import { player } from "@/stores/player";
 import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent/lib';
 import { NButton, NIcon } from 'naive-ui';
 

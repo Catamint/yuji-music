@@ -26,7 +26,7 @@
 
 import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled } from "@vicons/fluent";
 import { NIcon, NSlider } from "naive-ui";
-import { player } from "../../../stores/player";
+import { player } from "@/stores/player";
 
 export default {
     name: 'PlayerController',

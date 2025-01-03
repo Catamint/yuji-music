@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import PlayerController from '@/components/layout/footer/PlayerController.vue';
+import PlayerController from '@/components/footer/PlayerController.vue';
 import { utils } from '@/stores/utils';
 import MusicInfo from './MusicInfo.vue';
 import { NButton, NDivider, NIcon } from 'naive-ui';
