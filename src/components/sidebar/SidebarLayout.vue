@@ -1,156 +1,162 @@
 <template>
-    <div class="container">
-        <n-menu :options="menuOptions" :default-expanded-keys="defaultExpandedKeys" />
-    </div>
+  <div :class="['sidebar', { collapsed: isCollapsed }]">
+    <n-button class="toggle-button" @click="toggleSidebar" :class="{ collapsed: !isCollapsed }">
+      {{ isCollapsed ? '>' : '<' }}
+    </n-button>
+    <n-menu
+      :options="menuOptions"
+      :default-expanded-keys="defaultExpandedKeys"
+      :collapsed="isCollapsed"
+    />
+
+  </div>
 </template>
 
 <script>
-import { h } from "vue";
+import { h, ref } from "vue";
 import { NButton, NIcon, NMenu } from "naive-ui";
 import { RouterLink } from "vue-router";
-import { Guitar20Filled, Heart28Filled, Home24Filled, KeyboardLayoutOneHandedLeft24Filled, MathFormula24Filled, MoviesAndTv24Filled, MusicNote120Filled, PeopleCommunity24Filled, SportAmericanFootball24Filled, SportHockey24Filled, Star12Regular, TextBulletListSquare24Filled } from "@vicons/fluent";
+import { Guitar20Filled, Heart28Filled, Home24Filled, KeyboardLayoutOneHandedLeft24Filled, MathFormula24Filled, MoviesAndTv24Filled, MusicNote120Filled, PeopleCommunity24Filled, SportHockey24Filled, TextBulletListSquare24Filled } from "@vicons/fluent";
 
-function renderIcon (icon) {
-    return () => h(NIcon, null, {default: () => h(icon) });
+function renderIcon(icon) {
+  return () => h(NIcon, null, { default: () => h(icon) });
 }
 
 const menuOptions = [
-    {
+  {
+    label: () => h(
+      RouterLink,
+      { to: "/" },
+      { default: () => "首页" }
+    ),
+    key: "home",
+    icon: renderIcon(Home24Filled)
+  },
+  {
+    label: () => h(
+      RouterLink,
+      { to: "/favorite" },
+      { default: () => "收藏" }
+    ),
+    key: "favorite",
+    icon: renderIcon(Heart28Filled)
+  },
+  {
+    label: () => h(
+      RouterLink,
+      { to: "/playlist" },
+      { default: () => "播放列表" }
+    ),
+    key: "playlist",
+    icon: renderIcon(TextBulletListSquare24Filled)
+  },
+  {
+    label: "音乐工坊",
+    key: "create",
+    icon: renderIcon(MusicNote120Filled),
+    children: [
+      {
         label: () => h(
-            RouterLink,
-            {
-                to: "/"
-            },
-            { default: () => "首页" }
+          RouterLink,
+          { to: "/piano" },
+          { default: () => "钢琴" }
         ),
-        key: "home",
-        icon: renderIcon(Home24Filled)
-    },{
+        key: "piano",
+        icon: renderIcon(KeyboardLayoutOneHandedLeft24Filled)
+      },
+      {
         label: () => h(
-            RouterLink,
-            {
-                to: "/favorite"
-            },
-            { default: () => "收藏" }
+          RouterLink,
+          { to: "/drum" },
+          { default: () => "鼓" }
         ),
-        key: "favorite",
-        icon: renderIcon(Heart28Filled)
-    },{
+        key: "drum",
+        icon: renderIcon(SportHockey24Filled)
+      },
+      {
         label: () => h(
-            RouterLink,
-            {
-                to: "/playlist"
-            },
-            { default: () => "播放列表" }
+          RouterLink,
+          { to: "/guitar" },
+          { default: () => "吉他" }
         ),
-        key: "playlist",
-        icon: renderIcon(TextBulletListSquare24Filled)
-    },
-    {
-        label: "音乐工坊",
-        key: "create",
-        icon: renderIcon(MusicNote120Filled),
-        children: [
-            {
-                label: () => h(
-                    RouterLink,
-                    {
-                        to: "/piano"
-                    },
-                    { default: () => "钢琴" }
-                ),
-                key: "piano",
-                icon: renderIcon(KeyboardLayoutOneHandedLeft24Filled)
-            },{
-                label: () => h(
-                    RouterLink,
-                    {
-                        to: "/drum"
-                    },
-                    { default: () => "鼓" }
-                ),
-                key: "drum",
-                icon: renderIcon(SportHockey24Filled)
-            },{
-                label: () => h(
-                    RouterLink,
-                    {
-                        to: "/guitar"
-                    },
-                    { default: () => "吉他" }
-                ),
-                key: "guitar",
-                icon: renderIcon(Guitar20Filled)
-            }
-        ]
-    },
-    {
-        label: () => h(
-            RouterLink,
-            {
-                to: "/together"
-            },
-            { default: () => "音乐共创" }
-        ),
-        key: "ChooseTeam",
-        icon: renderIcon(PeopleCommunity24Filled)
-    },
-    {
-        label: () => h(
-            RouterLink,
-            {
-                to: "/generate"
-            },
-            { default: () => "音乐生成" }
-        ),
-        key: "音乐生成",
-        icon: renderIcon(MathFormula24Filled)
-    }
+        key: "guitar",
+        icon: renderIcon(Guitar20Filled)
+      }
+    ]
+  },
+  {
+    label: () => h(
+      RouterLink,
+      { to: "/together" },
+      { default: () => "音乐共创" }
+    ),
+    key: "ChooseTeam",
+    icon: renderIcon(PeopleCommunity24Filled)
+  },
+  {
+    label: () => h(
+      RouterLink,
+      { to: "/generate" },
+      { default: () => "音乐生成" }
+    ),
+    key: "音乐生成",
+    icon: renderIcon(MathFormula24Filled)
+  }
 ];
 
 export default {
-  name: 'SidebarLayout',
-  props: {
-    msg: String
-  },
-  components: {
-    NButton,
-    NMenu,
-    NIcon,
-    Home24Filled,
-    Star12Regular,
-    MoviesAndTv24Filled,
-    Heart28Filled,
-    TextBulletListSquare24Filled,
-    Guitar20Filled,
-    MusicNote120Filled,
-    PeopleCommunity24Filled,
-    SportHockey24Filled,
-    KeyboardLayoutOneHandedLeft24Filled,
-    MathFormula24Filled
-  },
-  setup(){
+  name: "SidebarLayout",
+  setup() {
+    const isCollapsed = ref(false);
+
+    const toggleSidebar = () => {
+      isCollapsed.value = !isCollapsed.value;
+    };
+
     return {
-        menuOptions,
-        defaultExpandedKeys: ["create"]
-    }
+      menuOptions,
+      defaultExpandedKeys: ["create"],
+      isCollapsed,
+      toggleSidebar
+    };
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* padding: 1%; */
-    width: 18%;
-    min-width: 160px;
-    max-width: 230px;
-    height: 100%;
-    /* border: 50px; */
-    border-radius: 10px;
-    /* background-color: rgba(0,0,0,0.5); */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
+
+.toggle-button {
+  align-self: flex-end;
+  margin-inline: 10px;
+  /* background-color: #007bff; */
+  /* color: white; */
+  /* border: none; */
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+.toggle-button.collapsed{
+    z-index: 10;
+    margin: 10px;
+    position: absolute;
+}
+
+.n-menu {
+  transition: all 0.3s ease;
+}
+
+.n-menu.collapsed .n-menu-item-content {
+  display: none;
 }
 </style>

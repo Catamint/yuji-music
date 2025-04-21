@@ -44,8 +44,7 @@ export default {
 <style scoped>
 .player{
     box-sizing: border-box;
-    /* padding-left: 20px; */
-    padding-right: 20px;
+    margin: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,9 +52,9 @@ export default {
     height: 80px;
     border: 2px;
     border-color: #ffffff29;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    width: 100%;
+    border-radius: 14px;
+    /* border-top-right-radius: 20px; */
+    /* width: 100%; */
     z-index: 10;
 }
 </style>

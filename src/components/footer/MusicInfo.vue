@@ -65,7 +65,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: rgba(255, 255, 255, 0.3); */
     height: 100%;
     border-radius: 20px;
     min-width: 100px;

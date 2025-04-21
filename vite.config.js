@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import Components from 'unplugin-vue-components/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import envCompatible from 'vite-plugin-env-compatible';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -31,6 +33,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    Components({
+      resolvers: [NaiveUiResolver()], // 自动导入 Naive UI 组件
+    }),
     vueJsx(),
     viteCommonjs(),
     envCompatible(),
