@@ -35,7 +35,7 @@ export default {
     },
     props:{
         music_info_list:{
-            type:Object,
+            type:Array,
             default: function(){
                 return []
             }
@@ -67,8 +67,13 @@ export default {
         }
     },
     mounted() {
-        // console.log(this.subcomponent);
-    }
+        console.log(this.subcomponent);
+        console.log(this.music_info_list);
+    },
+    updated() {
+        console.log(this.subcomponent);
+        console.log(this.music_info_list);
+    },
 }
 </script>
 

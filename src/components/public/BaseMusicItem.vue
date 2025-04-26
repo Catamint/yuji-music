@@ -52,6 +52,9 @@ export default {
       this.$emit('play', this.musicInfo);
     },
   },
+  mounted() {
+    console.log(this.musicInfo);
+  },
 };
 </script>
 

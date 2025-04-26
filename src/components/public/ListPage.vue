@@ -14,27 +14,24 @@
 import { NCard, NEllipsis, NIcon, NScrollbar } from 'naive-ui';
 import { ChevronRight16Filled, Heart28Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 import List from './List.vue';
+import api from '@/stores/api.js';
+import { formatSongList } from '@/services/songService.js';
 
 export default {
     name: 'ListPage',
     methods: {
-        search_music(page){
-            this.$axios.get(this.qurl, { 
-                params: {
-                    kw: this.kw,
-                    page: page
-                }
-            }).then(res => {
-                var data =res.data
-                // console.log(data);
-                this.music_info_list = this.music_info_list.concat(data);
-            }).catch(function (error) {
-                console.log(error);
-            })
+        async search_music(kw){
+            let res = await api.search(kw);
+            // console.log(res);
+            let songList = formatSongList(res.result);
+            console.log(songList);
+            this.music_info_list = songList;
         }
     },
     mounted() {
-        this.search_music(this.currentPage)
+        this.search_music(this.kw)
+        console.log(this.music_info_list)
+        // this.music_info_list = this.music_info_list.concat(api.search(this.kw));
     },
     // updated() {
     //     this.search_music(this.currentPage)
@@ -72,7 +69,7 @@ export default {
         ChevronRight16Filled,
         NIcon,
         NScrollbar
-    }
+    },
   }
 
 </script>

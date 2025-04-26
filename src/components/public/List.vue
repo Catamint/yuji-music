@@ -1,13 +1,13 @@
 <template>
     <n-card content-style="padding: 0; display: flex; align-items: center;">
-        <img class="cover-img" @click="player.play(music_detials);" :src="music_detials.album_img">
+        <img class="cover-img" @click="player.play(music_detials);" :src="music_info.album.img">
         <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
             <div class="text">
                 <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
-                    {{ music_detials.song_name }}
+                    {{ music_info.name }}
                 </n-ellipsis>
-                <span class="info" style="padding-left: 20px;">{{ music_detials.author_name }}</span>
-                <span class="info">{{ music_detials.song_name }}</span>
+                <span class="info" style="padding-left: 20px;">{{ music_info.artist.name }}</span>
+                <span class="info">{{ music_info.name }}</span>
             </div>
             <n-flex>
                 <n-button v-if="music_detials.url != ''" style="font-size: 15px" @click="player.play(music_detials)">
@@ -127,8 +127,8 @@ export default {
         }
     },
     mounted() {
-        // console.log(this.music_info)
-        this.get_music_detials(this.music_info.hash);
+        console.log(this.music_info)
+        // this.get_music_detials(this.music_info.hash);
         // this.get_music_detials_props();
     },
     inject: ["reloadPage"],
@@ -137,11 +137,6 @@ export default {
             player,
             utils,
             music_detials: {
-                album_img: "../../assets/image/default_covor.jpg",
-                song_name: " ",
-                album_name: " ",
-                album_id: " ",
-                author_name: " ",
                 url: " ",
                 hash:" ",
                 playing: false
@@ -161,15 +156,10 @@ export default {
         }
     },
     components:{
-        NCard,
         player,
         Heart28Regular,
         TextBulletListAdd24Filled,
-        NEllipsis,
-        NFlex,
         Play24Regular,
-        NIcon,
-        NButton
     }
   }
 

@@ -1,15 +1,16 @@
 <template>
   <n-scrollbar>
-    <CardContainer subcomponent="list" :music_info_list="hot_list" />
-    <CardContainer head="精选" :music_info_list="top_10_list" />
-    <!-- <CardContainerCol subcomponent="halflist" :music_info_list="music_info_list" /> -->
-    <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" />
+    <CardContainer subcomponent="list" :music_info_list="music_info_list" />
+    <!-- <CardContainer head="精选" :music_info_list="top_10_list" /> -->
+    <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
   </n-scrollbar>
 </template>
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
 import { NScrollbar } from "naive-ui";
+import api from "@/stores/api.js";
+import { formatSongList } from "@/services/songService.js"
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 
@@ -28,17 +29,22 @@ export default {
     }
   },
   methods:{
-    getTopMusic() {
-      this.$axios.get("/mobilecdngz-kugou/api/v3/rank/song?version=9068&ranktype=2&plat=0&pagesize=100&area_code=1&page=1&volid=34533&rankid=8888&with_res_tag=1").then(res => {
-          var getted = JSON.parse(res.data.replace("<!--KG_TAG_RES_START-->","").replace("<!--KG_TAG_RES_END-->","")).data.info.slice(82,92);
-          this.music_info_list = getted;
-          // console.log(getted);
-      })
+    async getTopMusic() {
+      try {
+        let res = await api.search("美好的非人类生活");
+        console.log(res);
+        let songList = formatSongList(res.result);
+        console.log(songList);
+        this.music_info_list = songList;
+      } catch (error) {
+        console.error("Error fetching top music:", error.message);
+      }
     },
     getTop10Music(){
       this.$axios.get("/host/get_home_info").then(res => {
-        var getted = res.data;
+        let getted = res.data;
         this.top_10_list = getted;
+        console.log(getted);
         // console.log(getted);
       })
     },
@@ -51,9 +57,9 @@ export default {
     }
   },
   created() {
-    // this.getTopMusic();
-    this.getTop10Music();
-    this.getHotMusic();
+    this.getTopMusic();
+    // this.getTop10Music();
+    // this.getHotMusic();
   }
 }
 </script>

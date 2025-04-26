@@ -37,7 +37,7 @@ export default {
   inject: ["currentTheme", "themes"], // 从父组件注入 currentTheme 和 themes
   setup() {
     // 从父组件注入 currentTheme 和 themes
-    const currentTheme = inject('currentTheme');
+    let currentTheme = inject('currentTheme');
     const themes = inject('themes');
 
     // 当前选中的主题
