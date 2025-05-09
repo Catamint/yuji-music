@@ -16,6 +16,22 @@
     <n-slider style="width: 30vw; margin-left: 10px;" v-model:value="player.currentTime" :step="1" :max="player.duration"
         :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
     <h4 style="margin-left: 10px;">{{ currentMinSec(player.duration) }}</h4>
+
+
+    <n-tooltip trigger="hover">
+        <template #trigger>
+            <n-button text style="font-size: 32px" @click="player.set_loop((player.playmode + 1) % 2)">
+                <n-icon v-if="player.playmode">
+                    <ArrowRotateCounterclockwise24Filled />
+                </n-icon>
+                <n-icon v-else>
+                    <ArrowSync24Filled />
+                </n-icon>
+                <!-- 列表循环 -->
+            </n-button>
+        </template>
+        {{ player.playmode ? "单曲循环" : "列表循环" }}
+    </n-tooltip>
     <!-- <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" /> -->
 
     <audio autoplay @play="starting" @pause="pausing" @ended="onEnded" @timeupdate="onCurrentTime"
@@ -24,8 +40,8 @@
 
 <script>
 
-import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled } from "@vicons/fluent";
-import { NIcon, NSlider } from "naive-ui";
+import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled, ArrowSync24Filled, ArrowRotateCounterclockwise24Filled } from "@vicons/fluent";
+import { NIcon, NSlider, NButton, NTooltip } from "naive-ui";
 import { player } from "@/stores/player";
 
 export default {
@@ -36,7 +52,8 @@ export default {
         Next32Filled,
         Pause48Filled,
         Play32Filled,
-        NSlider
+        ArrowSync24Filled,
+        ArrowRotateCounterclockwise24Filled,
     },
     data() {
         return {

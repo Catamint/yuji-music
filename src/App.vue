@@ -76,7 +76,7 @@ export default {
               color: 'rgba(170, 40, 40, 0.64)', // 图标颜色
             },
             Empty: {
-              textColor: '#999999', // 空状态文本颜色
+              textColor: '#333333', // 空状态文本颜色
             },
             Select: {
               peers: {
@@ -96,7 +96,9 @@ export default {
               primaryColor: 'rgba(225, 120, 120, 0.9)', // 主色
               primaryColorHover: 'rgba(225, 120, 120, 0.6)', // 主色悬停
               primaryColorPressed: 'rgba(225, 120, 120, 0.9)', // 主色按下
-              textColor: '#FFFFFF', // 文本颜色
+              textColorBase: '#CCCCCC', // 文本颜色
+              textColor1: '#CCCCCC', // 文本颜色
+              textColor2: '#CCCCCC', // 文本颜色
               textColorDisabled: '#666666', // 禁用文本颜色
               borderColor: 'rgba(225, 120, 120, 0.9)', // 边框颜色
               iconColor: 'rgba(225, 120, 120, 0.3)', // 图标颜色

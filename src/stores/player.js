@@ -69,6 +69,11 @@ export const player = reactive({
         this.duration = duration;
     },
 
+    // 设置循环播放
+    set_loop(mode) {
+        this.playmode = mode; // 列表循环
+    },
+
     // 检查歌曲是否在播放列表中
     is_in_list(id) {
         return this.playlist.some(item => item.id === id);
