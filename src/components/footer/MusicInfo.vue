@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <div style="height: 100%; padding: 10px">
-            <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album_img" alt="">
+            <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album.img" alt="">
         </div>
         <div>
-            <h3>{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h3>
+            <h3>{{ playlistNotNull ? songOnPlay.name : "正在播放" }}</h3>
         <p>
-            <span>{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
+            <span>{{ playlistNotNull ? songOnPlay.artist.name : "歌手" }}</span>
             <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
         </p>
         </div>

@@ -1,80 +1,188 @@
 <template>
-  <n-card :content-style="cardStyle">
-    <img
-      v-if="musicInfo.album_img"
-      class="cover-img"
-      :src="musicInfo.album_img"
-      @click="onPlay"
-    />
-    <n-flex style="width: 100%; justify-content: space-between; padding-right: 10px;">
-      <div class="text">
-        <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
-          {{ musicInfo.song_name }}
-        </n-ellipsis>
-        <span class="info" style="padding-left: 20px;">{{ musicInfo.author_name }}</span>
-      </div>
-      <n-flex>
-        <slot name="actions">
-          <n-button v-if="musicInfo.url" style="font-size: 15px" @click="onPlay">
-            <template #icon>
-              <n-icon><Play24Regular /></n-icon>
-            </template>
-            播放
-          </n-button>
-        </slot>
-      </n-flex>
-    </n-flex>
-  </n-card>
+    <div :class="['base-music-item', layoutClass]" @click="onClick">
+        <img class="cover-img" :src="musicInfo.album.img" alt="Album Cover" />
+        <div class="info">
+            <n-ellipsis class="title">{{ musicInfo.name }}</n-ellipsis>
+            <span class="artist">{{ musicInfo.artist.name }}</span>
+            <span class="artist">{{ musicInfo.album.name }}</span>
+        </div>
+        <div class="actions">
+            <n-button text @click.stop="playMusic">
+                <template #icon><n-icon><Play24Regular /></n-icon></template>
+                播放
+            </n-button>
+            <n-button text v-if="!isFavorite" @click.stop="addToFavorites">
+                <template #icon><n-icon><Heart28Regular /></n-icon></template>
+                收藏
+            </n-button>
+            <n-button text v-else @click.stop="removeFromFavorites">
+                <template #icon><n-icon><Heart28Regular /></n-icon></template>
+                取消收藏
+            </n-button>
+        </div>
+    </div>
 </template>
 
 <script>
-import { NCard, NFlex, NButton, NIcon, NEllipsis } from 'naive-ui';
-import { Play24Regular } from '@vicons/fluent';
+import { NButton, NEllipsis, NIcon } from 'naive-ui';
+import { Play24Regular, Heart28Regular } from '@vicons/fluent';
 
 export default {
-  name: 'BaseMusicItem',
-  props: {
-    musicInfo: {
-      type: Object,
-      required: true,
+    name: 'BaseMusicItem',
+    props: {
+        musicInfo: {
+            type: Object,
+            required: true,
+        },
+        isFavorite: {
+            type: Boolean,
+            default: false,
+        },
+        layout: {
+            type: String,
+            default: 'card', // 支持 'card', 'list', 'compact'
+        },
     },
-    cardStyle: {
-      type: Object,
-      default: () => ({
-        padding: '0',
-        display: 'flex',
-        alignItems: 'center',
-      }),
+    computed: {
+        layoutClass() {
+            return `layout-${this.layout}`;
+        },
     },
-  },
-  methods: {
-    onPlay() {
-      this.$emit('play', this.musicInfo);
+    methods: {
+        playMusic() {
+            this.$emit('play', this.musicInfo);
+        },
+        addToFavorites() {
+            this.$emit('add-to-favorites', this.musicInfo);
+        },
+        removeFromFavorites() {
+            this.$emit('remove-from-favorites', this.musicInfo);
+        },
+        onClick() {
+            this.$emit('click', this.musicInfo);
+        },
     },
-  },
-  mounted() {
-    console.log(this.musicInfo);
-  },
+    components: {
+        NButton,
+        NEllipsis,
+        NIcon,
+        Play24Regular,
+        Heart28Regular,
+    },
 };
 </script>
 
 <style scoped>
+/* 通用样式 */
+.base-music-item {
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.base-music-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 .cover-img {
-  height: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 12px;
-  position: relative;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.info {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.artist {
+    font-size: 0.9rem;
+}
+.actions {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
 }
 
-.text {
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
+/* 卡片布局 */
+.layout-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    height: 300px;
+}
+.layout-card .cover-img {
+    width: 100%;
+    height: 60%;
+}
+.layout-card .info {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    box-sizing: border-box;
+    align-items: start;
+    width: 100%;
+}
+.layout-card .actions {
+    justify-content: center;
 }
 
-.text .info {
-  font-size: medium;
-  padding-left: 10px;
+/* 列表布局 */
+.layout-list {
+    flex-direction: row;
+    width: 47%;
+    height: 80px;
+}
+.layout-list .cover-img {
+    width: 80px;
+    height: 100%;
+}
+.layout-list .info {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+}
+.layout-list .actions {
+    margin-right: 0;
+    align-items: center;
+    min-width: fit-content;
+    justify-content: flex-end;
+}
+
+/* 紧凑布局 */
+.layout-compact {
+    flex-direction: row;
+    width: 100%;
+    height: 40px;
+}
+.layout-compact .cover-img {
+    width: 40px;
+    height: 100%;
+}
+.layout-compact .info {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 12px;
+}
+.layout-compact .title {
+    font-size: 1rem;
+}
+.layout-compact .artist {
+    font-size: 0.8rem;
+}
+.layout-compact .actions {
+    margin-left: auto;
+    align-items: center;
 }
 </style>

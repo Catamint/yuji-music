@@ -31,14 +31,32 @@ export default {
   methods:{
     async getTopMusic() {
       try {
-        let res = await api.search("美好的非人类生活");
+        const res = await api.search("美好的非人类生活"); 
+        // let res = await api.gdstudioSearch('海阔天空');
+        // let res = await api.gdstudioGetSong('netease','347230');
         console.log(res);
-        let songList = formatSongList(res.result);
+        const songList = await formatSongList(res.result);
         console.log(songList);
         this.music_info_list = songList;
       } catch (error) {
         console.error("Error fetching top music:", error.message);
       }
+      // var axios = require('axios');
+
+      // var config = {
+      //   method: 'get',
+      //   url: 'https://music-api.gdstudio.xyz/api.php?types=search&source=netease&name=海阔天空&count=20&pages=1',
+      //   headers: { }
+      // };
+
+      // axios(config)
+      // .then(function (response) {
+      //   console.log(JSON.stringify(response.data));
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
+      
     },
     getTop10Music(){
       this.$axios.get("/host/get_home_info").then(res => {

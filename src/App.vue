@@ -119,7 +119,7 @@ export default {
               color: 'rgba(225, 120, 120, 0.9)', // 图标颜色
             },
             Empty: {
-              textColor: '#666666', // 空状态文本颜色
+              textColor: '#FFFFFF', // 空状态文本颜色
             },
             Select: {
               peers: {

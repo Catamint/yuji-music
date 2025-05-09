@@ -1,30 +1,58 @@
 // src/stores/request.js
 
-const baseUrl = '/api' // 比如 http://localhost:3000 ，目前留空表示同域
+import axios from 'axios';
 
-async function request(url, options = {}) {
+const baseUrls = {
+  default: '/api', // 默认接口
+  gdstudio: 'https://music-api.gdstudio.xyz/api.php', // 新增的 gdstudio 接口
+};
+
+const instance = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json, text/plain, */*',
+    // 如果需要 token，可以在这里添加 Authorization
+    // 'Authorization': `Bearer ${yourToken}`
+  },
+  timeout: 10000, // 设置超时时间为 10 秒
+});
+
+async function request(url, options = {}, apiType = 'default') {
   try {
-    const response = await fetch(baseUrl + url, {
+    const baseUrl = baseUrls[apiType] || baseUrls.default; // 根据 apiType 选择 baseUrl
+    const fullUrl = baseUrl + url;
+
+    console.log('Full Request URL:', fullUrl);
+    console.log('Request Options:', options);
+
+    const response = await instance({
+      url: fullUrl,
+      method: options.method || 'GET', // 默认使用 GET 方法
+      data: options.body || {}, // POST/PUT 请求的 body 数据
+      params: options.params || {}, // GET 请求的查询参数
       headers: {
-        'Content-Type': 'application/json',
-        // 如果需要 token，以后可以在这里加
-        // 'Authorization': `Bearer ${yourToken}`
+        ...options.headers, // 合并自定义请求头
       },
-      ...options
-    })
+    });
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.message || `请求错误: ${response.status}`)
-    }
-
-    const data = await response.json()
-    return data
+    console.log('Response Data:', response.data);
+    return response.data; // 返回响应数据
 
   } catch (error) {
-    console.error('Request Error:', error.message)
-    throw error  // 抛出去让调用的地方自己处理
+    if (error.response) {
+      // 服务器返回了错误响应
+      console.error('Request Error:', error.response.data);
+      throw new Error(error.response.data.message || `请求错误: ${error.response.status}`);
+    } else if (error.request) {
+      // 请求已发送但未收到响应
+      console.error('No Response Received:', error.request);
+      throw new Error('未收到服务器响应');
+    } else {
+      // 其他错误
+      console.error('Request Setup Error:', error.message);
+      throw new Error(error.message);
+    }
   }
 }
 
-export default request
+export default request;

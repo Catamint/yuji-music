@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import https from 'https';
 import Components from 'unplugin-vue-components/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import envCompatible from 'vite-plugin-env-compatible';
@@ -81,7 +82,26 @@ export default defineConfig({
         target: 'http://localhost:3000',
         secure: false,
         changOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            console.log('Proxying request to:', proxyReq.getHeader('host') + proxyReq.path);
+          });
+        }
+      },
+      '/gdstudio': {
+        target: 'https://music-api.gdstudio.xyz',
+        secure: false,
+        changOrigin: false,
+        rewrite: (path) => path.replace(/^\/gdstudio/, '/api.php'),
+        // agent: new https.Agent({
+        //   rejectUnauthorized: false, // 忽略自签名证 书验证
+        // }),  
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            console.log('Proxying request to:', proxyReq.getHeader('host') + proxyReq.path);
+          });
+        }
       }
     }
   },
