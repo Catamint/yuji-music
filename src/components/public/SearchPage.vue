@@ -2,8 +2,8 @@
     <n-scrollbar>
         <CardContainer
             :music_info_list="music_info_list"
-            :head="head"
-            layout="list"
+            :head="head + ' : ' + kw"
+            layout="compact"
         />
     </n-scrollbar>
 </template>
@@ -15,7 +15,7 @@ import api from '@/stores/api.js';
 import { formatSongList } from '@/services/songService.js';
 
 export default {
-    name: 'ListPage',
+    name: 'SearchPage',
     methods: {
         async search_music(kw) {
             try {

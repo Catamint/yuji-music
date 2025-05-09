@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import List from '@/components/public/List.vue';
 import { utils } from '@/stores/utils';
 import { Heart28Filled } from '@vicons/fluent';
 import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
@@ -34,7 +33,6 @@ const info = {
 export default {
   name: 'Favorite',
   components: {
-    List,
     NEmpty,
     NIcon,
     NButton,

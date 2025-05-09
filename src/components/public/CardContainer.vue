@@ -49,7 +49,7 @@ export default {
         async onPlay(details) {
             try {
                 await player.play(details);
-                console.log('Playing:', details);
+                // console.log('Playing:', details);
             } catch (error) {
                 console.error('Error playing song:', error.message);
             }

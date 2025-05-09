@@ -6,21 +6,16 @@
             <TextBulletListSquare24Filled />
           </n-icon>
         </template>
-        <!-- <template #extra>
-          <n-button @click="gotoLogin" size="small">
-            登录
-          </n-button>
-        </template> -->
       </n-empty>
-    </div>
+    </div> 
     <template v-else>
       <n-scrollbar>
-        <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" :key="info.hash" />
+        <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" :key="info.id" />
       </n-scrollbar>
     </template>
 </template>
 
-<script>
+<script> 
 import PlayListContent from "@/components/public/PlayListContent.vue";
 import { player } from "../stores/player";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";

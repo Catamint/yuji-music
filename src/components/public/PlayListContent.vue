@@ -1,16 +1,16 @@
 <template>
     <n-card content-style="padding: 0; display: flex; align-items: center;">
-        <img class="cover-img" @click="player.play_in_playlist(music_info.hash);" :src="music_info.album_img">
+        <img class="cover-img" @click="player.play_in_playlist(music_info.id);" :src="music_info.album.img">
         <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
             <div class="text">
                 <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
-                    {{ music_info.song_name }}
+                    {{ music_info.name }}
                 </n-ellipsis>
-                <span class="info" style="padding-left: 20px;">{{ music_info.author_name }}</span>
-                <span class="info">{{ music_info.song_name }}</span>
+                <span class="info" style="padding-left: 20px;">{{ music_info.artist.name }}</span>
+                <span class="info">{{ music_info.album.name }}</span>
             </div>
             <n-flex>
-                <n-button :disabled="music_info.playing" style="font-size: 18px" @click="player.play_in_playlist(music_info.hash)">
+                <n-button :disabled="music_info.playing" style="font-size: 18px" @click="player.play_in_playlist(music_info.id)">
                     <template #icon>
                         <n-icon><Play24Regular/></n-icon>
                     </template>
@@ -22,7 +22,7 @@
                     </template>
                     收藏
                 </n-button>
-                <n-button style="font-size: 18px" @click="player.del_from_list(music_info.hash)">
+                <n-button style="font-size: 18px" @click="player.del_from_list(music_info.id)">
                     <template #icon>
                         <n-icon><TextBulletListAdd24Filled /></n-icon>
                     </template>
@@ -41,15 +41,15 @@ import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicon
 export default {
     name: 'PlayListContent',
     methods:{
-        get_music_detials(hash){
-            const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&hash=';
-            this.$axios.get(url + hash).then(res => {
+        get_music_detials(id){
+            const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&id=';
+            this.$axios.get(url + id).then(res => {
                 // console.log(res.data);
                 this.music_detials.song_name = res.data.songName;
                 this.music_detials.author_name = res.data.author_name;
                 this.music_detials.url = res.data.url;
                 this.music_detials.album_img = res.data.album_img.replace("{size}","240");
-                this.music_detials.hash = res.data.hash;
+                this.music_detials.id = res.data.id;
             })
         },
         put_in_playlist(detials){
@@ -61,7 +61,7 @@ export default {
     },
     mounted() {
         // console.log(this.music_info)
-        this.get_music_detials(this.music_info.hash);
+        this.get_music_detials(this.music_info.id);
     },
     data() {
         return{
@@ -73,7 +73,7 @@ export default {
                 album_id: " ",
                 author_name: " ",
                 url: " ",
-                hash:" ",
+                id:" ",
                 playing: false
             }
         }
@@ -89,7 +89,7 @@ export default {
                     album_id: " ",
                     author_name: " ",
                     url: " ",
-                    hash:" ",
+                    id:" ",
                     playing: false
                 }
             }

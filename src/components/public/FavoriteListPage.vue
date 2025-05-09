@@ -5,13 +5,21 @@
         <n-icon> <ChevronRight16Filled /> </n-icon>
         </template>
     </div>
-    <List v-for="item in music_info_list" :music_info="item" />
+    <BaseMusicItem
+        v-for="item in music_info_list"
+        :key="item.id"
+        :musicInfo="item"
+        :isFavorite="true"
+        :layout="layout"
+        @play="playMusic(item)"
+        @add-to-favorites="addToFavorites(item)"
+        @remove-from-favorites="removeFromFavorites(item)" />
 </template>
 
 <script>
 import { NCard, NEllipsis, NIcon } from 'naive-ui';
 import { ChevronRight16Filled, Heart28Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
-import List from './List.vue';
+import BaseMusicItem from './BaseMusicItem.vue';
 import querystring from 'querystring';
 
 export default {
@@ -40,7 +48,8 @@ export default {
     data() {
         return{
             currentPage: 1,
-            music_info_list: []
+            music_info_list: [],
+            layout: "list",
         }
     },
     props:{
@@ -62,7 +71,6 @@ export default {
         Heart28Regular,
         TextBulletListAdd24Filled,
         NEllipsis,
-        List,
         ChevronRight16Filled,
         NIcon
     }

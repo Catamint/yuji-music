@@ -54,7 +54,7 @@ export default {
             var kw = this.kw;
             this.reloadPage();
             this.$router.push({
-                name: 'listpage', params: {
+                name: 'searchpage', params: {
                     kw: kw,
                     page: 1,
                     qurl: '/host/get_search_result'

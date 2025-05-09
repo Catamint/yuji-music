@@ -1,8 +1,8 @@
 <template>
     <div :class="['base-music-item', layoutClass]" @click="onClick">
-        <img class="cover-img" :src="musicInfo.album.img" alt="Album Cover" />
+        <img v-if="layout != 'compact'" class="cover-img" :src="musicInfo.album.img" alt="Album Cover" />
         <div class="info">
-            <n-ellipsis class="title">{{ musicInfo.name }}</n-ellipsis>
+            <span class="title">{{ musicInfo.name }}</span>
             <span class="artist">{{ musicInfo.artist.name }}</span>
             <span class="artist">{{ musicInfo.album.name }}</span>
         </div>
@@ -83,7 +83,7 @@ export default {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .base-music-item:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .cover-img {
@@ -159,11 +159,17 @@ export default {
 }
 
 /* 紧凑布局 */
-.layout-compact {
+.base-music-item .layout-compact {
     flex-direction: row;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     width: 100%;
     height: 40px;
 }
+.base-music-item .layout-compact:hover {
+    box-shadow: 0 1px 2px  rgba(0, 0, 0, 0.1);
+}
+
 .layout-compact .cover-img {
     width: 40px;
     height: 100%;
@@ -174,9 +180,12 @@ export default {
     flex-direction: row;
     justify-content: start;
     gap: 12px;
+    align-items: center;
 }
 .layout-compact .title {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0;
 }
 .layout-compact .artist {
     font-size: 0.8rem;

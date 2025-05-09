@@ -158,6 +158,9 @@ export default {
 </script>
 
 <style>
+
+@import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Medium.min.css');
+
 .base-container {
   top: 0;
   bottom: 0;
