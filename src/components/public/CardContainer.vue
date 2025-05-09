@@ -17,6 +17,7 @@
                 @play="onPlay"
                 @add-to-favorites="onAddToFavorites"
                 @remove-from-favorites="onRemoveFromFavorites"
+                @put-in-playlist="put_in_playlist"
             />
         </div>
     </div>
@@ -71,6 +72,15 @@ export default {
         onHeaderClick() {
             console.log('Header clicked:', this.head);
             // 可以在这里实现跳转或其他逻辑
+        },
+
+        async put_in_playlist(details) {
+            try {
+                await player.put_in_playlist(details);
+                // console.log('Playing:', details);
+            } catch (error) {
+                console.error('Error add song:', error.message);
+            }
         },
     },
     components: {

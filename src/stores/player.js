@@ -78,7 +78,13 @@ export const player = reactive({
     async put_in_playlist(music_details) {
         if (!music_details.album || !music_details.album.picId) {
             console.error('歌曲信息不完整');
+            console.log('歌曲信息:', music_details);
             return;
+        }
+
+        // 调用 getAlbumPicUrl 获取专辑图片
+        if (music_details.album.picId) {
+            music_details.album.img = await getAlbumPicUrl(music_details.album.picId);
         }
 
         try {
@@ -163,6 +169,14 @@ export const player = reactive({
     // 播放结束后自动播放下一首
     end_and_next() {
         this.playlist[this.current].playing = false;
+        if (this.playlist.length === 1) {
+            // 如果只有一首歌，重置播放时间并重新播放
+            this.set_pause();
+            this.currentTime = 0; // 重置播放时间
+            this.playlist[this.current].playing = true;
+            this.set_play();
+            return;
+        }
         if (this.playmode === 0) {
             this.play_next(); // 列表循环
         } else if (this.playmode === 1) {

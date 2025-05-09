@@ -19,6 +19,12 @@
                 <template #icon><n-icon><Heart28Regular /></n-icon></template>
                 取消收藏
             </n-button>
+            <n-button text @click.stop="put_in_playlist">
+                <template #icon>
+                    <n-icon><Play24Regular /></n-icon>
+                </template>
+                下一首播放
+            </n-button>
         </div>
     </div>
 </template>
@@ -60,6 +66,9 @@ export default {
         },
         onClick() {
             this.$emit('click', this.musicInfo);
+        },
+        put_in_playlist(musicInfo) {
+            this.$emit('put-in-playlist', this.musicInfo);
         },
     },
     components: {

@@ -61,7 +61,7 @@ export default {
     },
     mounted() {
         // console.log(this.music_info)
-        this.get_music_detials(this.music_info.id);
+        // this.get_music_detials(this.music_info.id);
     },
     data() {
         return{

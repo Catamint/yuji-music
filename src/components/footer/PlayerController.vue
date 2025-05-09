@@ -68,6 +68,7 @@ export default {
             this.player.set_pause();
         },
         onEnded() {
+            this.$refs.audio.load(); // 重新加载音频
             this.player.end_and_next();
         },
         onCurrentTime() {
