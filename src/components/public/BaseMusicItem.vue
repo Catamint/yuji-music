@@ -207,14 +207,14 @@ export default {
 }
 
 /* 紧凑布局 */
-.base-music-item .layout-compact {
+.layout-compact {
     flex-direction: row;
     border-radius: 6px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     width: 100%;
     height: 40px;
 }
-.base-music-item .layout-compact:hover {
+.layout-compact:hover {
     box-shadow: 0 1px 2px  rgba(0, 0, 0, 0.1);
 }
 
@@ -235,9 +235,7 @@ export default {
     font-weight: 600;
     margin-bottom: 0;
 }
-.layout-compact .artist {
-    font-size: 0.8rem;
-}
+
 .layout-compact .actions {
     margin-left: auto;
     align-items: center;

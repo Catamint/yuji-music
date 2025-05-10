@@ -2,14 +2,6 @@
     <div class="player">
         <music-info />
         <PlayerController />
-        <n-button text style="font-size: 32px;">
-            <n-icon><Heart28Regular /></n-icon>
-        </n-button>
-        <router-link class="playlist-link" to="/playlist">
-            <n-button text style="font-size: 32px">
-                    <n-icon><TextBulletListLtr24Filled /></n-icon>
-            </n-button>
-        </router-link>
         <!-- <button>播放列表</button> -->
     </div>
 </template>
@@ -58,9 +50,8 @@ export default {
     /* border-top-right-radius: 20px; */
     /* width: 100%; */
     z-index: 10;
+    position: relative;
+    /* bottom: 0; */
 }
-.playlist-link {
-    display: flex;
-    align-items: center;
-}
+
 </style>

@@ -1,46 +1,55 @@
 <template>
-    <div></div>
-    <n-icon size="32" @click="player.play_prev()">
-        <Previous32Filled />
-    </n-icon>
-    <n-icon v-if="player.is_playing" size="40" @click="playOrPause">
-        <Pause48Filled />
-    </n-icon>
-    <n-icon v-else size="40" @click="playOrPause">
-        <Play32Filled />
-    </n-icon>
-    <n-icon size="32" @click="player.play_next()">
-        <Next32Filled />
-    </n-icon>
-    <h4 style="margin-left: 10px;">{{ currentMinSec(player.currentTime) }}</h4>
-    <n-slider style="width: 30vw; margin-left: 10px;" v-model:value="player.currentTime" :step="1" :max="player.duration"
-        :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
-    <h4 style="margin-left: 10px;">{{ currentMinSec(player.duration) }}</h4>
+    <n-slider class="slider" v-model:value="player.currentTime" :step="1" :max="player.duration"
+    :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
 
+    <div class="container playbutton-container">
+        <n-icon class='playbutton' size="32" @click="player.play_prev()">
+            <Previous32Filled />
+        </n-icon>
+        <n-icon class='playbutton' v-if="player.is_playing" size="40" @click="playOrPause">
+            <Pause48Filled />
+        </n-icon>
+        <n-icon class='playbutton' v-else size="40" @click="playOrPause">
+            <Play32Filled />
+        </n-icon>
+        <n-icon class='playbutton' size="32" @click="player.play_next()">
+            <Next32Filled />
+        </n-icon>
+    </div>
 
-    <n-tooltip trigger="hover">
-        <template #trigger>
-            <n-button text style="font-size: 32px" @click="player.set_loop((player.playmode + 1) % 2)">
-                <n-icon v-if="player.playmode">
-                    <ArrowRotateCounterclockwise24Filled />
-                </n-icon>
-                <n-icon v-else>
-                    <ArrowSync24Filled />
-                </n-icon>
-                <!-- 列表循环 -->
+    <div class='container'>
+        <span class="time">{{ currentMinSec(player.currentTime) }} / {{ currentMinSec(player.duration) }}</span>
+        <n-tooltip trigger="hover">
+            <template #trigger>
+                <n-button class='playbutton' text style="font-size: 32px" @click="player.set_loop((player.playmode + 1) % 2)">
+                    <n-icon v-if="player.playmode">
+                        <ArrowRotateCounterclockwise24Filled />
+                    </n-icon>
+                    <n-icon v-else>
+                        <ArrowSync24Filled />
+                    </n-icon>
+                    <!-- 列表循环 -->
+                </n-button>
+            </template>
+            {{ player.playmode ? "单曲循环" : "列表循环" }}
+        </n-tooltip>
+        <!-- <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" /> -->
+        <n-button class='playbutton' text style="font-size: 32px;">
+            <n-icon><Heart28Regular /></n-icon>
+        </n-button>
+        <router-link class="playlist-link" to="/playlist">
+            <n-button class='playbutton' text style="font-size: 32px">
+                    <n-icon><TextBulletListLtr24Filled /></n-icon>
             </n-button>
-        </template>
-        {{ player.playmode ? "单曲循环" : "列表循环" }}
-    </n-tooltip>
-    <!-- <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" /> -->
-
+        </router-link>
+    </div>
     <audio autoplay @play="starting" @pause="pausing" @ended="onEnded" @timeupdate="onCurrentTime"
         @durationchange="onDuration" :src="get_current_url" ref="audio"></audio>
 </template>
 
 <script>
 
-import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled, ArrowSync24Filled, ArrowRotateCounterclockwise24Filled } from "@vicons/fluent";
+import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled, ArrowSync24Filled, ArrowRotateCounterclockwise24Filled,TextBulletListLtr24Filled,Heart28Regular } from "@vicons/fluent";
 import { NIcon, NSlider, NButton, NTooltip } from "naive-ui";
 import { player } from "@/stores/player";
 
@@ -54,6 +63,8 @@ export default {
         Play32Filled,
         ArrowSync24Filled,
         ArrowRotateCounterclockwise24Filled,
+        TextBulletListLtr24Filled,
+        Heart28Regular,
     },
     data() {
         return {
@@ -144,5 +155,41 @@ export default {
     /* background-color: rgba(255, 255, 255, 0.3); */
     justify-content: center;
     align-items: center;
+    gap: 10px;
+}
+.slider {
+    position: absolute;
+    top: calc(0% - 8px);
+    left: 0;
+    right: 0;
+    padding-inline: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    /* margin-left: 10px; */
+}
+.playlist-link {
+    display: flex;
+    align-items: center;
+}
+.time {
+    /* font-size: 20px; */
+    color: #afafaf;
+}
+.playbutton-container{
+    position: absolute;
+    z-index: -1;
+    /* padding-inline: 14px; */
+    width: 100%;
+    box-sizing: border-box;
+}
+.playbutton:hover {
+    background-color: #ffffff69;
+    cursor: pointer;
+    padding: 5px;
+}
+.playbutton {
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    padding: 2px;
 }
 </style>

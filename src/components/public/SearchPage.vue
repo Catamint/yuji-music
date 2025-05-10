@@ -56,8 +56,9 @@ export default {
 <style scoped>
 /* 如果需要额外的页面样式，可以在这里添加 */
 .detail {
-    padding: 20px;
+    /* padding: 20px; */
     background-color: #f0f0f060;
     border-radius: 10px;
+    box-sizing: border-box;
 }
 </style>
