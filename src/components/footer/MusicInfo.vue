@@ -1,28 +1,20 @@
 <template>
     <div class="container">
-        <div style="height: 100%; padding: 10px">
-            <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album.img" alt="">
+        <div class="album-container" v-if="playlistNotNull" @click="toggleDetails">
+            <img class="album-image" :src="songOnPlay.album.img" alt="">
+            <div class="hover-overlay">
+                <n-icon size="32">
+                    <ChevronDoubleUp16Filled />
+                </n-icon>
+            </div>
         </div>
         <div>
             <h3>{{ playlistNotNull ? songOnPlay.name : "正在播放" }}</h3>
-        <p>
-            <span>{{ playlistNotNull ? songOnPlay.artist.name : "歌手" }}</span>
-            <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
-        </p>
+            <p>
+                <span>{{ playlistNotNull ? songOnPlay.artist.name : "歌手" }}</span>
+            </p>
         </div>
-        <n-button round style="font-size: 18px; margin-left: 5px;">
-            <template #icon>
-                <n-icon><Heart28Regular /></n-icon>
-            </template>
-        </n-button>
-        <n-button round style=" margin-left: 5px;" 
-        @click="utils.play_component.showing ? utils.play_component.hide() : utils.play_component.show()">
-            <template #icon>
-                <n-icon><ChevronDoubleUp16Filled /></n-icon>
-            </template>
-            详情页
-        </n-button>
-        <!-- <button @click="utils.play_component.show()">播放详情页</button> -->
+
     </div>
 </template>
 
@@ -35,38 +27,81 @@ import { NButton, NIcon } from 'naive-ui';
 export default {
     name: 'FooterLayout',
     props: {
-    msg: String
-  },
-    components:{
+        msg: String
+    },
+    components: {
         Heart28Regular,
         NButton,
         NIcon,
         ChevronDoubleUp16Filled
     },
-    data(){
+    data() {
         return {
             utils,
             player
         }
     },
     computed: {
-        songOnPlay(){
+        songOnPlay() {
             return this.player.playlist.at(this.player.current);
         },
-        playlistNotNull(){
+        playlistNotNull() {
             return this.player.playlist.length != 0;
+        }
+    },
+    methods: {
+        toggleDetails() {
+            this.utils.play_component.showing ? this.utils.play_component.hide() : this.utils.play_component.show();
         }
     }
 }
 </script>
 
 <style scoped>
-.container{
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     border-radius: 20px;
     min-width: 100px;
+    gap: 10px;
+}
+
+.album-container {
+    position: relative;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.album-image {
+    height: 100%;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.album-container:hover .album-image {
+    filter: brightness(50%);
+}
+
+.album-container:hover .hover-overlay {
+    opacity: 1;
 }
 </style>

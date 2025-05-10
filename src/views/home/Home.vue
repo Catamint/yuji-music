@@ -1,6 +1,6 @@
 <template>
   <n-scrollbar>
-    <CardContainer subcomponent="list" :music_info_list="music_info_list" />
+    <CardContainer layout="card" :music_info_list="music_info_list" />
     <!-- <CardContainer head="精选" :music_info_list="top_10_list" /> -->
     <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
   </n-scrollbar>

@@ -4,24 +4,24 @@
         <div class="info">
             <span class="title">{{ musicInfo.name }}</span>
             <span class="artist">{{ musicInfo.artist.name }}</span>
-            <span class="artist">{{ musicInfo.album.name }}</span>
+            <span class="album">{{ musicInfo.album.name }}</span>
         </div>
         <div class="actions">
-            <n-button text @click.stop="playMusic">
-                <template #icon><n-icon><Play24Regular /></n-icon></template>
+            <n-button class="play" text @click.stop="playMusic">
+                <template #icon><n-icon size="24"><Play24Regular /></n-icon></template>
                 播放
             </n-button>
-            <n-button text v-if="!isFavorite" @click.stop="addToFavorites">
-                <template #icon><n-icon><Heart28Regular /></n-icon></template>
+            <n-button class="star" text v-if="!isFavorite" @click.stop="addToFavorites">
+                <template #icon><n-icon size="24"><Heart28Regular /></n-icon></template>
                 收藏
             </n-button>
-            <n-button text v-else @click.stop="removeFromFavorites">
-                <template #icon><n-icon><Heart28Regular /></n-icon></template>
+            <n-button class="star" text v-else @click.stop="removeFromFavorites">
+                <template #icon><n-icon size="24"><Heart28Regular /></n-icon></template>
                 取消收藏
             </n-button>
-            <n-button text @click.stop="put_in_playlist">
+            <n-button class="next" text @click.stop="put_in_playlist">
                 <template #icon>
-                    <n-icon><Play24Regular /></n-icon>
+                    <n-icon size="24"><ReceiptPlay24Regular /></n-icon>
                 </template>
                 下一首播放
             </n-button>
@@ -31,7 +31,7 @@
 
 <script>
 import { NButton, NEllipsis, NIcon } from 'naive-ui';
-import { Play24Regular, Heart28Regular } from '@vicons/fluent';
+import { Play24Regular, Heart28Regular, ReceiptPlay24Regular } from '@vicons/fluent';
 
 export default {
     name: 'BaseMusicItem',
@@ -77,6 +77,7 @@ export default {
         NIcon,
         Play24Regular,
         Heart28Regular,
+        ReceiptPlay24Regular
     },
 };
 </script>
@@ -88,11 +89,11 @@ export default {
     align-items: center;
     border-radius: 12px;
     transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
+    /* cursor: pointer; */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .base-music-item:hover {
-    transform: scale(1.01);
+    /* transform: scale(1.01); */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .cover-img {
@@ -121,26 +122,64 @@ export default {
 
 /* 卡片布局 */
 .layout-card {
-    flex-direction: column;
+    flex-direction: line;
     align-items: center;
     text-align: center;
-    width: 200px;
-    height: 300px;
+    /* width: 200px; */
+    height: 150px;
+    position: relative;
+    overflow: hidden;
 }
+
 .layout-card .cover-img {
-    width: 100%;
-    height: 60%;
+    width: auto;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    z-index: 1; /* 确保图片在按钮下方 */
 }
+
+.layout-card:hover .cover-img {
+    filter: brightness(150%);
+}
+
 .layout-card .info {
     display: flex;
     flex-direction: column;
     padding-left: 10px;
     box-sizing: border-box;
     align-items: start;
-    width: 100%;
-}
-.layout-card .actions {
     justify-content: center;
+    padding-right: 10px;
+    height: 100%;
+}
+
+.layout-card .actions {
+    position: absolute;
+    top: 85%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2; 
+    pointer-events: none; /* 默认不响应鼠标事件 */
+}
+
+.layout-card:hover .actions {
+    opacity: 1;
+    pointer-events: auto; /* 鼠标悬停时启用按钮的鼠标事件 */
+}
+
+.layout-card .actions .play,
+.layout-card .actions .next {
+    font-size: 0; /* 隐藏按钮文字 */
+}
+
+.layout-card .actions .star {
+    display: none;
 }
 
 /* 列表布局 */
