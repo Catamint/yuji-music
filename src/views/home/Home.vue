@@ -1,6 +1,10 @@
 <template>
   <n-scrollbar>
     <CardContainer layout="card" :music_info_list="music_info_list" />
+    <AlbumCard
+      :music_info_list="[album]"
+      layout="card"
+    />
     <!-- <CardContainer head="精选" :music_info_list="top_10_list" /> -->
     <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
   </n-scrollbar>
@@ -8,6 +12,7 @@
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
+import AlbumCard from "@/components/public/AlbumCard.vue";
 import { NScrollbar } from "naive-ui";
 import api from "@/stores/api.js";
 import { formatSongList } from "@/services/songService.js"
@@ -26,6 +31,7 @@ export default {
         music_info_list: [],
         top_10_list: [],
         hot_list: [],
+        album: [],
     }
   },
   methods:{
@@ -66,16 +72,14 @@ export default {
         // console.log(getted);
       })
     },
-    getHotMusic(){
-      this.$axios.get("/host/get_home_info_2").then(res => {
-        var getted2 = res.data;
-        this.hot_list = getted2;
-        // console.log(getted);
-      })
-    }
+    async getAlbum(){
+      this.album  = await api.getAlbum("245695664")
+      console.log(this.album );
+    },
   },
   created() {
     this.getTopMusic();
+    this.getAlbum();
     // this.getTop10Music();
     // this.getHotMusic();
   }

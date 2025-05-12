@@ -1,10 +1,10 @@
 <template>
     <div :class="['base-music-item', layoutClass]" @click="onClick">
-        <img v-if="layout != 'compact'" class="cover-img" :src="musicInfo.album.img" alt="Album Cover" />
+        <img v-if="layout != 'compact'" class="cover-img" :src="musicInfo?.album?.img || musicInfo?.album?.picUrl" alt="Album Cover" />
         <div class="info">
-            <span class="title">{{ musicInfo.name }}</span>
-            <span class="artist">{{ musicInfo.artist.name }}</span>
-            <span class="album">{{ musicInfo.album.name }}</span>
+            <span class="title">{{ musicInfo?.name || musicInfo?.album?.name }}</span>
+            <span class="artist">{{ musicInfo?.artist?.name || musicInfo?.album?.artist?.name }}</span>
+            <span class="album">{{ musicInfo?.album?.name }}</span>
         </div>
         <div class="actions">
             <n-button class="play" text @click.stop="playMusic">

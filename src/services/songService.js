@@ -24,7 +24,6 @@ return date.toISOString().split('T')[0];
 export async function formatSong(song) {
     const artist = song.artists?.[0] || {};
     const album = song.album || {};
-    let picUrl = null;
 
     return {
         id: song.id,
@@ -40,7 +39,7 @@ export async function formatSong(song) {
             id: album.id || null,
             name: album.name || '未知专辑',
             translatedName: album.transNames?.[0] || null,
-            img: picUrl || artist.img1v1Url || null, // 优先使用 picUrl
+            img: song.album.img || artist.img1v1Url || null, // 优先使用 picUrl
             picId: album.picId || null,
         },
     };
