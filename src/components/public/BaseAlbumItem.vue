@@ -1,22 +1,20 @@
 <template>
-    <div :class="['base-item', 'base-music-item', layoutClass]" @click="onClick">
-        <img v-if="layout != 'compact'" class="cover-img" :src="musicInfo?.album?.img" alt="Album Cover" />
-        <!-- 卡片布局的遮罩和文字悬浮层 -->
+    <div :class="['base-album-item', 'base-item', layoutClass]" @click="onClick">
+        <img v-if="layout !== 'compact'" class="cover-img" :src="albumInfo?.album?.img || albumInfo?.album?.picUrl" alt="Album Cover" />
         <div v-if="layout === 'card'" class="card-overlay">
             <div class="info">
-                <span class="title">{{ musicInfo?.name }}</span>
-                <span class="artist">{{ musicInfo?.artist?.name }}</span>
-                <span class="album">{{ musicInfo?.album?.name }}</span>
+                <span class="title">{{ albumInfo?.album?.name }}</span>
+                <span class="artist">{{ albumInfo?.album?.artist?.name }}</span>
+                <span class="album">{{ albumInfo?.album?.publishDate }}</span>
             </div>
         </div>
-        <!-- 非卡片布局的普通信息区域 -->
         <div v-else class="info">
-            <span class="title">{{ musicInfo?.name }}</span>
-            <span class="artist">{{ musicInfo?.artist?.name }}</span>
-            <span class="album">{{ musicInfo?.album?.name }}</span>
+            <n-ellipsis :tooltip="true" class="title">{{ albumInfo?.album?.name }}</n-ellipsis>
+            <n-ellipsis :tooltip="true" class="artist">{{ albumInfo?.album?.artist?.name }}</n-ellipsis>
+            <n-ellipsis :tooltip="true" class="publish-date" v-if="albumInfo?.album?.publishDate">{{ albumInfo?.album?.publishDate }}</n-ellipsis>
         </div>
         <div class="actions">
-            <n-button class="play" text @click.stop="playMusic">
+            <n-button class="play" text @click.stop="playAlbum">
                 <template #icon><n-icon size="24"><Play24Regular /></n-icon></template>
                 <span v-if="layout !== 'card'">播放</span>
             </n-button>
@@ -28,29 +26,23 @@
                 <template #icon><n-icon size="24"><Heart28Filled /></n-icon></template>
                 <span v-if="layout !== 'card'">取消收藏</span>
             </n-button>
-            <n-button class="next" text @click.stop="addToPlayNext">
-                <template #icon>
-                    <n-icon size="24"><ReceiptPlay24Regular /></n-icon>
-                </template>
-                <span v-if="layout !== 'card'">下一首播放</span>
-            </n-button>
         </div>
     </div>
 </template>
 
 <script>
 import { NButton, NEllipsis, NIcon } from 'naive-ui';
-import { Play24Regular, Heart28Regular, Heart28Filled, ReceiptPlay24Regular } from '@vicons/fluent';
+import { Play24Regular, Heart28Regular, Heart28Filled } from '@vicons/fluent';
 
 export default {
-    name: 'BaseMusicItem',
+    name: 'BaseAlbumItem',
     props: {
-        musicInfo: {
+        albumInfo: {
             type: Object,
             required: true,
             validator(value) {
-                // 验证必须包含音乐的基本信息
-                return value && value.id && value.name && value.artist;
+                // 验证必须包含专辑的基本信息
+                return value && value.id && value.name;
             }
         },
         isFavorite: {
@@ -71,20 +63,17 @@ export default {
         },
     },
     methods: {
-        playMusic() {
-            this.$emit('play', this.musicInfo);
+        playAlbum() {
+            this.$emit('play', this.albumInfo);
         },
         addToFavorites() {
-            this.$emit('add-to-favorites', this.musicInfo);
+            this.$emit('add-to-favorites', this.albumInfo);
         },
         removeFromFavorites() {
-            this.$emit('remove-from-favorites', this.musicInfo);
+            this.$emit('remove-from-favorites', this.albumInfo);
         },
         onClick() {
-            this.$emit('click', this.musicInfo);
-        },
-        addToPlayNext() {
-            this.$emit('add-to-play-next', this.musicInfo);
+            this.$emit('click', this.albumInfo);
         },
     },
     components: {
@@ -94,16 +83,15 @@ export default {
         Play24Regular,
         Heart28Regular,
         Heart28Filled,
-        ReceiptPlay24Regular
     },
 };
 </script>
 
 <style scoped>
 @import '@/styles/card-common.css';
+/* 通用样式 */
+.base-album-item {
 
-/* 音乐卡片特有样式 */
-.base-music-item {
-    /* 可以添加音乐卡片特有的样式 */
 }
+
 </style>

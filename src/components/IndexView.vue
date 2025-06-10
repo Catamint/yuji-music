@@ -2,7 +2,6 @@
   <HeaderLayout v-show="!utils.play_component.showing" />
   <div class="container" v-show="!utils.play_component.showing">
     <SidebarLayout />
-    <div class="col-8">
       <div class="model">
         <div class="col">
           <router-view v-if="isRefreshFlag" v-slot="{ Component }">
@@ -12,7 +11,6 @@
           </router-view>
         </div>
       </div>
-    </div>
   </div>
   <Transition name="slide">
     <Play v-show="utils.play_component.showing" />
@@ -26,7 +24,7 @@ import HeaderLayout from './header/HeaderLayout.vue';
 import SidebarLayout from './sidebar/SidebarLayout.vue';
 import Play from '@/views/play/Play.vue';
 import { utils } from '@/stores/utils';
-import { ref, nextTick, provide } from 'vue';
+import { nextTick } from 'vue';
 
 export default {
   name: 'IndexView',
@@ -63,10 +61,8 @@ export default {
   display: flex;
   justify-content: space-between;
   flex: 1 1 auto;
-}
-
-.col-8 {
-  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
   width: 100%;
 }
 

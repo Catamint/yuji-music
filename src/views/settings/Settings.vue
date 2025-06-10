@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="settings">
-    <button @click="themeStore.toggleTheme">切换主题</button>
-  </div> -->
   <n-card title="设置" size="large" bordered>
     <n-space vertical size="large">
       <!-- 背景开关 -->
@@ -14,10 +11,10 @@
       <n-space vertical>
         <span>主题</span>
         <n-select
-          :value="themeStore.currentTheme.key"
+          :value="currentThemeKey"
           :options="themeStore.getThemeList()"
           placeholder="选择主题"
-          @update:value="themeStore.setTheme"
+          @update:value="handleThemeChange"
         />
       </n-space>
 
@@ -25,22 +22,35 @@
       <n-space vertical>
         <span>背景模糊</span>
         <n-select
-          :value="themeStore.currentTheme.containerBlur"
-          :options="[{ label: '0px', value: '0px' }, { label: '10px', value: '10px' }, { label: '50px', value: '50px' }, { label: '100px', value: '100px' }]"
+          :value="currentContainerBlur"
+          :options="blurOptions"
           placeholder="模糊度"
-          @update:value="themeStore.setContainerBlur"
+          @update:value="handleBlurChange"
         />
+      </n-space>
+
+      <!-- 重置按钮 -->
+      <n-space>
+        <n-button @click="handleResetTheme" type="warning" secondary>
+          重置为默认主题
+        </n-button>
+        <n-button 
+          @click="handleDeleteCustomTheme" 
+          type="error" 
+          secondary
+          :disabled="!hasCustomTheme"
+        >
+          删除自定义主题
+        </n-button>
       </n-space>
     </n-space>
   </n-card>
 </template>
 
 <script>
-import { NCard, NSelect, NSwitch, NSpace } from 'naive-ui';
-import { ref, inject } from 'vue';
-import { utils } from '@/stores/utils';
+import { NCard, NSelect, NSwitch, NSpace, NButton } from 'naive-ui';
+import { computed, onMounted } from 'vue';
 import { useThemeStore } from '@/stores/themeStore';
-import { computed } from 'vue';
 
 export default {
   name: 'Settings',
@@ -49,43 +59,87 @@ export default {
     NSelect,
     NSwitch,
     NSpace,
+    NButton,
   },
-  inject: ["currentTheme", "themes"], // 从父组件注入 currentTheme 和 themes
   setup() {
-    // 从父组件注入 currentTheme 和 themes
-    let currentTheme = inject('currentTheme');
-    const themes = inject('themes');
-
-    // 当前选中的主题
-    const selectedTheme = ref('light');
-
-    // 主题选项
-    const themeOptions = [
-      { label: '浅色', value: 'light' },
-      { label: '深色', value: 'dark' },
-    ];
-
-    // 切换主题
-    const changeTheme = (value) => {
-      currentTheme = themes[value];
-    };
-
     const themeStore = useThemeStore();
 
+    // 初始化默认主题
+    onMounted(() => {
+      if (!themeStore.currentTheme.key) {
+        themeStore.setDefaultTheme();
+      }
+    });
+
+    // 背景开关的计算属性
     const backgroundActive = computed({
-      get: () => themeStore.currentTheme.backgroundActive,
+      get: () => themeStore.currentTheme.backgroundActive || false,
       set: (value) => {
-        themeStore.currentTheme.backgroundActive = value;
+        themeStore.setBackgroundActive(value);
       },
     });
 
+    // 当前主题 key 的计算属性
+    const currentThemeKey = computed({
+      get: () => themeStore.currentTheme.key || 'light',
+      set: (value) => {
+        themeStore.setTheme(value);
+      }
+    });
+
+    // 当前容器模糊度的计算属性
+    const currentContainerBlur = computed({
+      get: () => themeStore.currentTheme.containerBlur || '0px',
+      set: (value) => {
+        themeStore.setContainerBlur(value);
+      }
+    });
+
+    // 是否有自定义主题
+    const hasCustomTheme = computed(() => {
+      return themeStore.themes.custom !== undefined;
+    });
+
+    // 模糊度选项
+    const blurOptions = [
+      { label: '无模糊', value: '0px' },
+      { label: '10px', value: '10px' },
+      { label: '50px', value: '50px' },
+      { label: '80px', value: '80px' },
+      { label: '100px', value: '100px' }
+    ];
+
+    // 处理主题切换
+    const handleThemeChange = (themeKey) => {
+      themeStore.setTheme(themeKey);
+    };
+
+    // 处理模糊度切换
+    const handleBlurChange = (blurValue) => {
+      themeStore.setContainerBlur(blurValue);
+    };
+
+    // 处理重置主题
+    const handleResetTheme = () => {
+      themeStore.resetTheme();
+    };
+
+    // 处理删除自定义主题
+    const handleDeleteCustomTheme = () => {
+      themeStore.deleteCustomTheme();
+    };
+
     return {
-      utils,
-      selectedTheme,
-      themeOptions,
-      changeTheme,
       themeStore,
       backgroundActive,
+      currentThemeKey,
+      currentContainerBlur,
+      hasCustomTheme,
+      blurOptions,
+      handleThemeChange,
+      handleBlurChange,
+      handleResetTheme,
+      handleDeleteCustomTheme,
     };
   },
 };
@@ -94,7 +148,7 @@ export default {
 <style scoped>
 /* 样式优化 */
 .n-card {
-  max-width: 400px;
+  max-width: 500px;
   margin: 20px auto;
   padding: 20px;
 }
@@ -106,10 +160,8 @@ export default {
 .n-select {
   width: 100%;
 }
-</style>
 
-<style>
-.settings {
-  padding: 20px;
+.n-button {
+  flex: 1;
 }
 </style>

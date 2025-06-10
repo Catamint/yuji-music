@@ -1,6 +1,6 @@
 <template>
   <n-scrollbar>
-    <CardContainer layout="card" :music_info_list="music_info_list" />
+    <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" />
     <AlbumCard
       :music_info_list="[album]"
       layout="card"
@@ -15,7 +15,7 @@ import CardContainer from "@/components/public/CardContainer.vue";
 import AlbumCard from "@/components/public/AlbumCard.vue";
 import { NScrollbar } from "naive-ui";
 import api from "@/stores/api.js";
-import { formatSongList } from "@/services/songService.js"
+import songService from "@/services/songService.js";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 
@@ -37,32 +37,13 @@ export default {
   methods:{
     async getTopMusic() {
       try {
-        const res = await api.search("美好的非人类生活"); 
-        // let res = await api.gdstudioSearch('海阔天空');
-        // let res = await api.gdstudioGetSong('netease','347230');
-        console.log(res);
-        const songList = await formatSongList(res.result);
-        console.log(songList);
+        const songList = this.album.songs || []; 
+        console.log("获取到的album:", this.album);
+        console.log("获取到的歌曲信息:", songList);
         this.music_info_list = songList;
       } catch (error) {
         console.error("Error fetching top music:", error.message);
       }
-      // var axios = require('axios');
-
-      // var config = {
-      //   method: 'get',
-      //   url: 'https://music-api.gdstudio.xyz/api.php?types=search&source=netease&name=海阔天空&count=20&pages=1',
-      //   headers: { }
-      // };
-
-      // axios(config)
-      // .then(function (response) {
-      //   console.log(JSON.stringify(response.data));
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
-      
     },
     getTop10Music(){
       this.$axios.get("/host/get_home_info").then(res => {
@@ -73,16 +54,19 @@ export default {
       })
     },
     async getAlbum(){
-      this.album  = await api.getAlbum("245695664")
-      console.log(this.album );
+      this.album  = await songService.getAlbum("245695664")
     },
   },
-  created() {
+  async created() {
+    await this.getAlbum();
+    console.log("获取到的专辑信息:", this.album);
     this.getTopMusic();
-    this.getAlbum();
     // this.getTop10Music();
     // this.getHotMusic();
-  }
+  },
+  mounted() {
+    
+  },
 }
 </script>
 

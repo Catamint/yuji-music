@@ -1,8 +1,8 @@
 <template>
-    <BaseMusicItem
+    <BaseAlbumItem
         v-for="info in music_info_list"
         :key="info.id"
-        :musicInfo="info"
+        :albumInfo="info"
         :layout="layout"
         @play="onPlay"
         @click="onClick"
@@ -13,6 +13,7 @@
 import { NButton, NIcon } from 'naive-ui';
 import { Play24Regular } from '@vicons/fluent';
 // import { usePlayerStore } from '@/stores/playerStore.js';
+import BaseAlbumItem from './BaseAlbumItem.vue';
 
 export default {
     name: 'AlbumCard',

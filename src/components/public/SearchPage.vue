@@ -12,15 +12,14 @@
 import { NScrollbar } from 'naive-ui';
 import CardContainer from './CardContainer.vue';
 import api from '@/stores/api.js';
-import { formatSongList } from '@/services/songService.js';
+import songService from '@/services/songService.js';
 
 export default {
     name: 'SearchPage',
     methods: {
         async search_music(kw) {
             try {
-                let res = await api.search(kw);
-                let songList = await formatSongList(res.result);
+                let songList = await songService.searchNetease(kw);
                 console.log(songList);
                 this.music_info_list = songList;
             } catch (error) {

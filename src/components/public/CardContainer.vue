@@ -9,7 +9,7 @@
 
         <div class="cards-block">
             <!-- 使用基础组件直接渲染 -->
-            <BaseMusicItem
+            <BaseMusicItem class="card-item"
                 v-for="info in music_info_list"
                 :key="info.id"
                 :musicInfo="info"
@@ -38,7 +38,7 @@ export default {
         },
         head: {
             type: String,
-            default: 'Top 100',
+            default: '列表',
         },
         layout: {
             type: String,
@@ -101,12 +101,43 @@ export default {
 .cards-block {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 40px;
     border-radius: 10px;
     width: 100%;
     max-width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     overflow-x: auto;
+}
+
+.card-item {
+    flex: 1 1 calc(25% - 40px) !important; /* 默认每行4个 */
+    aspect-ratio: 1 / 1 !important; /* 保持正方形 */
+    max-height: auto !important;
+    height: auto !important;
+    max-width: calc(25% - 40px) !important;
+    box-sizing: border-box !important;
+}
+
+/* 响应式布局 */
+@media (max-width: 1000px) {
+    .card-item {
+        flex: 1 1 calc(33.333% - 40px) !important; /* 每行3个 */
+        max-width: calc(33.333% - 40px) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-item {
+        flex: 1 1 calc(50% - 40px) !important; /* 每行2个 */
+        max-width: calc(50% - 40px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-item {
+        flex: 1 1 100% !important; /* 每行1个 */
+        max-width: 100% !important;
+    }
 }
 
 h2 {

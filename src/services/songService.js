@@ -1,5 +1,6 @@
 // src/services/songService.js
 import api from '@/stores/api.js';
+
 /**
  * 将毫秒转换为 mm:ss 格式
  * @param {number} ms
@@ -9,7 +10,7 @@ function formatDuration(ms) {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  }
+}
 
 /**
  * 将时间戳转换为 yyyy-MM-dd 格式
@@ -17,11 +18,16 @@ function formatDuration(ms) {
  * @returns {string}
  */
 function formatDate(timestamp) {
-const date = new Date(timestamp);
-return date.toISOString().split('T')[0];
+    const date = new Date(timestamp);
+    return date.toISOString().split('T')[0];
 }
 
-export async function formatSong(song) {
+/**
+ * 格式化单个歌曲数据
+ * @param {Object} song - 原始歌曲数据
+ * @returns {Object} 格式化后的歌曲数据
+ */
+async function formatSong(song) {
     const artist = song.artists?.[0] || {};
     const album = song.album || {};
 
@@ -39,14 +45,20 @@ export async function formatSong(song) {
             id: album.id || null,
             name: album.name || '未知专辑',
             translatedName: album.transNames?.[0] || null,
-            img: song.album.img || artist.img1v1Url || null, // 优先使用 picUrl
+            img: song.album?.img || artist.img1v1Url || null,
             picId: album.picId || null,
         },
     };
 }
-  
-export async function formatSongList(rawSongs = { songs: [] }) {
+
+/**
+ * 格式化歌曲列表
+ * @param {Object} rawSongs - 原始歌曲列表数据
+ * @returns {Array} 格式化后的歌曲列表
+ */
+async function formatSongList(rawSongs = { songs: [] }) {
     if (!rawSongs.songs || !Array.isArray(rawSongs.songs)) {
+        console.warn('Invalid song list format:', rawSongs);
         return [];
     }
 
@@ -57,16 +69,309 @@ export async function formatSongList(rawSongs = { songs: [] }) {
     return Promise.all(songs.map(formatSong));
 }
 
-export async function getAlbumPicUrl(picId) {
+/**
+ * 格式化专辑信息
+ * @param {Object} albumData - 原始专辑数据
+ * @returns {Object} 格式化后的专辑数据
+ */
+async function formatAlbum(albumData) {
+    const artist = albumData.artist || albumData.artists?.[0] || {};
 
-    try {
-        const response = await api.gdstudioGetAlbumPic('netease', picId);
-        // console.log('Album Pic Response:', response);
-        return response?.url || null; // 确保 response 存在并获取 url
-    
-    } catch (error) {
-        console.error('Error fetching album pic:', error.message);
-        return null; // 返回 null 或者其他默认值
-    }
-
+    return {
+        id: albumData.id,
+        name: albumData.name,
+        translatedName: albumData.transNames?.[0] || null,
+        publishDate: formatDate(albumData.publishTime || Date.now()),
+        artist: {
+            id: artist.id || null,
+            name: artist.name || '未知艺人',
+            alias: artist.alias || [],
+            picUrl: artist.picUrl || artist.img1v1Url || null,
+        },
+        // 使用专辑的 picUrl 或构建 URL
+        picUrl: albumData.picUrl || albumData.img1v1Url || null,
+        picId: albumData.pic || albumData.picId || null,
+        picStr: albumData.picId_str || null,
+        blurPicUrl: albumData.blurPicUrl || null,
+        size: albumData.size || 0,           // 专辑歌曲数量
+        company: albumData.company || null,   // 发行公司
+        description: albumData.description || null, // 专辑描述
+        briefDesc: albumData.briefDesc || null, // 简要描述
+        type: albumData.type || '专辑',      // 专辑类型
+        subType: albumData.subType || null,   // 子类型
+        // 统计信息
+        info: {
+            commentCount: albumData.info?.commentThread?.commentCount || 0,
+            shareCount: albumData.info?.commentThread?.shareCount || 0,
+            hotCount: albumData.info?.commentThread?.hotCount || 0,
+            liked: albumData.info?.liked || false,
+        },
+        // 销售信息
+        paid: albumData.paid || false,
+        onSale: albumData.onSale || false,
+        status: albumData.status || 0,
+        mark: albumData.mark || 0,
+    };
 }
+
+/**
+ * 格式化专辑中的歌曲数据 (适配 ar/al 格式)
+ * @param {Object} song - 原始歌曲数据 (来自专辑接口)
+ * @returns {Object} 格式化后的歌曲数据
+ */
+async function formatAlbumSong(song, picurl='') {
+    // 处理艺术家信息 - 优先使用 ar 字段，然后是 artists
+    const artist = song.ar?.[0] || song.artists?.[0] || {};
+    // 处理专辑信息 - 优先使用 al 字段，然后是 album
+    const album = song.al || song.album || {};
+
+    return {
+        id: song.id,
+        name: song.name,
+        translatedName: song.tns?.[0] || song.transNames?.[0] || null,
+        publishDate: formatDate(album.publishTime || Date.now()),
+        duration: formatDuration(song.dt || song.duration || 0),
+        artist: {
+            id: artist.id || null,
+            name: artist.name || '未知艺人',
+            alias: artist.alia || artist.alias || [],
+        },
+        album: {
+            id: album.id || null,
+            name: album.name || '未知专辑',
+            translatedName: album.tns?.[0] || album.transNames?.[0] || null,
+            // 构建专辑封面 URL
+            img: picurl,
+            picId: album.pic || album.picId || null,
+            picStr: album.pic_str || null,
+        },
+        fee: song.fee || song.privilege?.fee || 0,    // 收费类型
+        mvId: song.mv || 0,              // MV ID
+        popularity: song.pop || 0,       // 流行度
+        no: song.no || 0,                // 专辑中的曲目号
+        cd: song.cd || '01',             // CD编号
+    };
+}
+
+/**
+ * 格式化专辑歌曲列表 (专门处理从专辑接口返回的数据)
+ * @param {Object} rawAlbumData - 原始专辑数据
+ * @returns {Object} 格式化后的专辑数据，包含歌曲列表
+ */
+async function formatAlbumWithSongs(rawAlbumData) {
+    try {
+        // 格式化专辑基本信息
+        const albumInfo = await formatAlbum(rawAlbumData.album || rawAlbumData);
+        const picurl = albumInfo.picUrl;
+        // 格式化歌曲列表
+        const songs = rawAlbumData.songs || [];
+        const formattedSongs = await Promise.all(
+            songs.map(song => formatAlbumSong({
+                ...song,
+                // 确保每首歌都有专辑信息，如果歌曲没有 al 字段，使用专辑数据
+                album: song.al || {
+                    id: rawAlbumData.id,
+                    name: rawAlbumData.name,
+                    tns: rawAlbumData.transNames,
+                    pic_str: rawAlbumData.picId_str,
+                    pic: rawAlbumData.pic
+                },
+                artists: rawAlbumData.artists || [],
+            }, picurl))
+        );
+
+        return {
+            album: albumInfo,
+            songs: formattedSongs,
+            total: songs.length
+        };
+    } catch (error) {
+        console.error('Error formatting album with songs:', error);
+        return {
+            album: null,
+            songs: [],
+            total: 0
+        };
+    }
+}
+
+// 统一导出所有API接口
+export default {
+    /**
+     * 格式化单个歌曲数据
+     * @param {Object} song - 原始歌曲数据
+     * @returns {Object} 格式化后的歌曲数据
+     */
+    formatSong,
+
+    /**
+     * 格式化歌曲列表
+     * @param {Object} rawSongs - 原始歌曲列表数据
+     * @returns {Array} 格式化后的歌曲列表
+     */
+    formatSongList,
+
+    /**
+     * 获取专辑封面图片 URL
+     * @param {string|number} picId - 图片 ID
+     * @param {string} source - 音乐源，默认为 'netease'
+     * @param {number} size - 图片尺寸，默认为 300
+     * @returns {string|null} 图片 URL 或 null
+     */
+    async getAlbumPicUrl(picId, source = 'netease', size = 300) {
+        try {
+            const response = await api.gdstudioGetAlbumPic(source, picId, size);
+            return response?.url || null;
+        } catch (error) {
+            console.error('Error fetching album pic:', error.message);
+            return null;
+        }
+    },
+
+    /**
+     * 搜索歌曲 (网易云接口)
+     * @param {string} keywords - 搜索关键词
+     * @param {number} limit - 返回数量，默认为 30
+     * @param {number} offset - 偏移量，默认为 0
+     * @param {number} type - 搜索类型，默认为 1
+     * @returns {Array} 格式化后的歌曲列表
+     */
+    async searchNetease(keywords, limit = 30, offset = 0, type = 1) {
+        try {
+            const response = await api.search(keywords, limit, offset, type);
+            return await formatSongList(response?.result || { songs: [] });
+        } catch (error) {
+            console.error('Error searching songs:', error.message);
+            return [];
+        }
+    },
+
+    /**
+     * 搜索歌曲 (gdstudio接口)
+     * @param {string} keywords - 搜索关键词
+     * @param {string} source - 音乐源，默认为 'netease'
+     * @param {number} count - 返回数量，默认为 20
+     * @param {number} pages - 页码，默认为 1
+     * @returns {Array} 格式化后的歌曲列表
+     */
+    async searchGdstudio(keywords, source = 'netease', count = 20, pages = 1) {
+        try {
+            const response = await api.gdstudioSearch(keywords, source, count, pages);
+            return await formatSongList(response);
+        } catch (error) {
+            console.error('Error searching songs:', error.message);
+            return [];
+        }
+    },
+
+    /**
+     * 获取歌曲详情
+     * @param {string|number|Array} ids - 歌曲 ID 或 ID 数组
+     * @returns {Array} 格式化后的歌曲列表
+     */
+    async getSongDetails(ids) {
+        try {
+            const response = await api.getSongDetail(ids);
+            return await formatSongList(response);
+        } catch (error) {
+            console.error('Error fetching song details:', error.message);
+            return [];
+        }
+    },
+
+    /**
+     * 获取播放列表详情
+     * @param {string|number} id - 播放列表 ID
+     * @param {number} s - 参数 s，默认为 8
+     * @returns {Object} 播放列表详情
+     */
+    async getPlaylistDetail(id, s = 8) {
+        try {
+            const response = await api.getPlaylistDetail(id, s);
+            if (response?.playlist) {
+                // 格式化播放列表中的歌曲
+                const formattedTracks = await formatSongList({ songs: response.playlist.tracks });
+                return {
+                    ...response,
+                    playlist: {
+                        ...response.playlist,
+                        tracks: formattedTracks
+                    }
+                };
+            }
+            return response;
+        } catch (error) {
+            console.error('Error fetching playlist detail:', error.message);
+            return null;
+        }
+    },
+
+    /**
+     * 获取播放列表所有歌曲
+     * @param {string|number} id - 播放列表 ID
+     * @param {number} limit - 限制数量，默认为 100
+     * @param {number} offset - 偏移量，默认为 0
+     * @returns {Array} 格式化后的歌曲列表
+     */
+    async getPlaylistAllTracks(id, limit = 100, offset = 0) {
+        try {
+            const response = await api.getPlaylistAllTracks(id, limit, offset);
+            return await formatSongList({ songs: response?.songs || [] });
+        } catch (error) {
+            console.error('Error fetching playlist tracks:', error.message);
+            return [];
+        }
+    },
+
+    /**
+     * 获取专辑信息 (更新版本)
+     * @param {string|number} id - 专辑 ID
+     * @returns {Object} 包含格式化歌曲列表的专辑信息
+     */
+    async getAlbum(id) {
+        try {
+            const response = await api.getAlbum(id);
+            return await formatAlbumWithSongs(response);
+        } catch (error) {
+            console.error('Error fetching album:', error.message);
+            return {
+                album: null,
+                songs: [],
+                total: 0
+            };
+        }
+    },
+
+    /**
+     * 获取歌曲播放 URL
+     * @param {string|number} id - 歌曲 ID
+     * @param {string} source - 音乐源，默认为 'netease'
+     * @param {number} br - 比特率，默认为 320
+     * @returns {string|null} 播放 URL 或 null
+     */
+    async getSongUrl(id, source = 'netease', br = 320) {
+        try {
+            const response = await api.gdstudioGetSong(source, id, br);
+            return response?.url || null;
+        } catch (error) {
+            console.error('Error fetching song URL:', error.message);
+            return null;
+        }
+    },
+
+    /**
+     * 获取歌词
+     * @param {string|number} id - 歌曲 ID
+     * @param {string} source - 音乐源，默认为 'netease'
+     * @returns {Object|null} 歌词数据或 null
+     */
+    async getSongLyric(id, source = 'netease') {
+        try {
+            const response = await api.gdstudioGetLyric(source, id);
+            return response;
+        } catch (error) {
+            console.error('Error fetching song lyric:', error.message);
+            return null;
+        }
+    }
+};

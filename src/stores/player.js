@@ -1,6 +1,6 @@
 import { reactive } from 'vue';
-import api from '@/stores/api.js';
-import { getAlbumPicUrl } from '@/services/songService.js';
+// import api from '@/stores/api.js';
+import songService from '@/services/songService.js';
 
 export const player = reactive({
     playlist: [], // 播放列表
@@ -20,13 +20,12 @@ export const player = reactive({
 
         // 调用 getAlbumPicUrl 获取专辑图片
         if (music_details.album.picId) {
-            music_details.album.img = await getAlbumPicUrl(music_details.album.picId);
+            music_details.album.img = await songService.getAlbumPicUrl(music_details.album.picId);
         }
 
         try {
             // 调用 API 获取歌曲链接
-            const response = await api.gdstudioGetSong('netease', music_details.id);
-            const songUrl = response?.url;
+            const songUrl = await songService.getSongUrl(music_details.id);
 
             if (songUrl) {
                 music_details.url = songUrl;
@@ -89,13 +88,13 @@ export const player = reactive({
 
         // 调用 getAlbumPicUrl 获取专辑图片
         if (music_details.album.picId) {
-            music_details.album.img = await getAlbumPicUrl(music_details.album.picId);
+            music_details.album.img = await songService.getAlbumPicUrl(music_details.album.picId);
         }
 
         try {
             // 如果歌曲链接不存在，则获取链接
             if (!music_details.url) {
-                const response = await api.gdstudioGetSong('netease', music_details.id);
+                const response = await songService.getSongUrl(music_details.id);
                 music_details.url = response?.url || '';
             }
 
