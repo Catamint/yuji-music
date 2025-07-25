@@ -78,7 +78,7 @@ export const player = reactive({
         return this.playlist.some(item => item.id === id);
     },
 
-    // 添加到播放列表（尾部）
+    // 添加到播放列表（下一首）
     async put_in_playlist(music_details) {
         if (!music_details.album || !music_details.album.picId) {
             console.error('歌曲信息不完整');
@@ -95,11 +95,13 @@ export const player = reactive({
             // 如果歌曲链接不存在，则获取链接
             if (!music_details.url) {
                 const response = await songService.getSongUrl(music_details.id);
-                music_details.url = response?.url || '';
+                music_details.url = response || '';
+                // console.log(response)
             }
 
             if (music_details.url && !this.is_in_list(music_details.id)) {
-                this.playlist.push(music_details);
+                this.playlist.splice(this.current + 1, 0, music_details);
+                // this.playlist.push(music_details);
             } else {
                 console.log('歌曲已存在或链接为空');
             }

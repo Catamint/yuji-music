@@ -8,6 +8,7 @@ import Play from "../views/play/Play.vue"
 import SearchPage from "@/components/public/SearchPage.vue"
 import Login from "../views/Login.vue"
 import SignUp from "../views/SignUp.vue"
+import Album from "@/views/Album.vue"
 
 import Piano from '@/music_create/components/Piano.vue';
 import Drum from '@/music_create/components/Drum.vue';
@@ -66,43 +67,48 @@ const routes = [
       component: Piano,
     },
     {
-        path: '/drum',
-        name: 'drum',
-        component: Drum,
-      },
-      {
-        path: '/guitar',
-        name: 'guitar',
-        component: Guitar,
-      },
-      {
-        path: '/generate',
-        name: 'generate',
-        component: Generate,
-      },
-      {
-        path:'/together',
-        name:'together',
-        redirect:'/together/ChooseTeam',
-        children:[
-          {
-            path:'chooseTeam',
-            name:'chooseteam',
-            component: ChooseTeam,
-          },
-          {
-            path:'teamRoom',
-            name:'teamRoom',
-            component:TeamRoom
-          },
-          {
-            path:'play',
-            name:'play',
-            component:play
-          }
-        ]
-      }
-    //   ,
+      path: '/drum',
+      name: 'drum',
+      component: Drum,
+    },
+    {
+      path: '/guitar',
+      name: 'guitar',
+      component: Guitar,
+    },
+    {
+      path: '/generate',
+      name: 'generate',
+      component: Generate,
+    },
+    {
+      path:'/together',
+      name:'together',
+      redirect:'/together/ChooseTeam',
+      children:[
+        {
+          path:'chooseTeam',
+          name:'chooseteam',
+          component: ChooseTeam,
+        },
+        {
+          path:'teamRoom',
+          name:'teamRoom',
+          component:TeamRoom
+        },
+        {
+          path:'play',
+          name:'play',
+          component:play
+        }
+      ]
+    },
+    {
+      path:'/album/:id',
+      name:'album',
+      component: Album,
+      props:true,
+    },
     //   {
     //     path:'/admin',
     //     name:'dbManagement',

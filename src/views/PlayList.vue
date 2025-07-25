@@ -37,7 +37,7 @@ export default {
     }
   },
   mounted(){
-    // console.log(this.player);
+    console.log(this.player);
   },
   methods:{
     // play()

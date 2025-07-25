@@ -5,43 +5,49 @@
         <div v-if="layout === 'card'" class="card-overlay">
             <div class="info">
                 <span class="title">{{ musicInfo?.name }}</span>
-                <span class="artist">{{ musicInfo?.artist?.name }}</span>
-                <span class="album">{{ musicInfo?.album?.name }}</span>
+                <span class="artist" @click="artistOnClick">{{ musicInfo?.artist?.name }}</span>
+                <span class="album" @click="albumOnClick">{{ musicInfo?.album?.name }}</span>
             </div>
         </div>
         <!-- 非卡片布局的普通信息区域 -->
         <div v-else class="info">
             <span class="title">{{ musicInfo?.name }}</span>
-            <span class="artist">{{ musicInfo?.artist?.name }}</span>
-            <span class="album">{{ musicInfo?.album?.name }}</span>
+            <span class="artist" @click="artistOnClick">{{ musicInfo?.artist?.name }}</span>
+            <span class="album" @click="albumOnClick">{{ musicInfo?.album?.name }}</span>
         </div>
         <div class="actions">
-            <n-button class="play" text @click.stop="playMusic">
-                <template #icon><n-icon size="24"><Play24Regular /></n-icon></template>
-                <span v-if="layout !== 'card'">播放</span>
-            </n-button>
-            <n-button class="star" text v-if="!isFavorite" @click.stop="addToFavorites">
-                <template #icon><n-icon size="24"><Heart28Regular /></n-icon></template>
-                <span v-if="layout !== 'card'">收藏</span>
-            </n-button>
-            <n-button class="star" text v-else @click.stop="removeFromFavorites">
-                <template #icon><n-icon size="24"><Heart28Filled /></n-icon></template>
-                <span v-if="layout !== 'card'">取消收藏</span>
-            </n-button>
-            <n-button class="next" text @click.stop="addToPlayNext">
-                <template #icon>
-                    <n-icon size="24"><ReceiptPlay24Regular /></n-icon>
-                </template>
-                <span v-if="layout !== 'card'">下一首播放</span>
-            </n-button>
+            <tooltip-button
+            icon="Play24Regular"
+            tooltip="播放"
+            class="play"
+            @click="playMusic"
+            />
+            <tooltip-button v-if="!isFavorite"
+            icon="Heart28Regular"
+            tooltip="收藏"
+            class="star"
+            @click.stop="addToFavorites"
+            />
+            <tooltip-button v-else
+            icon="Heart28Filled"
+            tooltip="取消收藏"
+            class="star"
+            @click.stop="removeFromFavorites"
+            />
+            <tooltip-button
+            icon="ReceiptPlay24Regular"
+            tooltip="下一首播放"
+            class="next"
+            @click="addToPlayNext"
+            />
+
         </div>
     </div>
 </template>
 
 <script>
-import { NButton, NEllipsis, NIcon } from 'naive-ui';
-import { Play24Regular, Heart28Regular, Heart28Filled, ReceiptPlay24Regular } from '@vicons/fluent';
-
+import { NButton, NEllipsis, NIcon, NTooltip } from 'naive-ui';
+import TooltipButton from './TooltipButton.vue'
 export default {
     name: 'BaseMusicItem',
     props: {
@@ -84,22 +90,30 @@ export default {
             this.$emit('click', this.musicInfo);
         },
         addToPlayNext() {
+            console.log('addToPlayNext')
             this.$emit('add-to-play-next', this.musicInfo);
         },
+        artistOnClick(){
+
+        },
+        albumOnClick(){
+            this.$router.push({
+                name:'album',
+                params:{
+                    id:this.musicInfo?.album?.id
+                }
+            })
+        }
     },
     components: {
         NButton,
         NEllipsis,
-        NIcon,
-        Play24Regular,
-        Heart28Regular,
-        Heart28Filled,
-        ReceiptPlay24Regular
+        NIcon
     },
 };
 </script>
 
-<style scoped>
+<style>
 @import '@/styles/card-common.css';
 
 /* 音乐卡片特有样式 */

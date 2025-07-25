@@ -1,7 +1,7 @@
 <template>
     <div class="card-container">
-        <n-button text style="display: flex;" @click="onHeaderClick">
-            <h2>{{ head }}</h2>
+        <n-button v-if=head text style="display: flex;" @click="onHeaderClick">
+            <h1>{{ head }}</h1>
             <template #icon>
                 <n-icon> <ChevronRight16Filled /> </n-icon>
             </template>
@@ -18,6 +18,7 @@
                 @add-to-favorites="onAddToFavorites"
                 @remove-from-favorites="onRemoveFromFavorites"
                 @put-in-playlist="put_in_playlist"
+                @add-to-play-next="put_in_playlist"
             />
         </div>
     </div>
@@ -38,7 +39,7 @@ export default {
         },
         head: {
             type: String,
-            default: '列表',
+            default: '',
         },
         layout: {
             type: String,
@@ -101,7 +102,7 @@ export default {
 .cards-block {
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
+    /* gap: 40px; */
     border-radius: 10px;
     width: 100%;
     max-width: 100%;
@@ -109,36 +110,14 @@ export default {
     overflow-x: auto;
 }
 
-.card-item {
-    flex: 1 1 calc(25% - 40px) !important; /* 默认每行4个 */
-    aspect-ratio: 1 / 1 !important; /* 保持正方形 */
+/* .card-item {
+    flex: 1 1 calc(25% - 40px) !important;
+    aspect-ratio: 1 / 1 !important;
     max-height: auto !important;
     height: auto !important;
     max-width: calc(25% - 40px) !important;
     box-sizing: border-box !important;
-}
-
-/* 响应式布局 */
-@media (max-width: 1000px) {
-    .card-item {
-        flex: 1 1 calc(33.333% - 40px) !important; /* 每行3个 */
-        max-width: calc(33.333% - 40px) !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .card-item {
-        flex: 1 1 calc(50% - 40px) !important; /* 每行2个 */
-        max-width: calc(50% - 40px) !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .card-item {
-        flex: 1 1 100% !important; /* 每行1个 */
-        max-width: 100% !important;
-    }
-}
+} */
 
 h2 {
     font-size: 1.5rem;
