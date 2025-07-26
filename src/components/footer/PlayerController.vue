@@ -1,6 +1,14 @@
 <template>
-    <n-slider class="slider" v-model:value="player2.state.currentTime" :step="1" :max="player2.state.duration"
-    :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
+    <n-slider
+        class="slider"
+        :value="dragging ? tempCurrentTime : player2.state.currentTime"
+        :step="1"
+        :max="player2.state.duration"
+        :tooltip="false"
+        @update:value="onSliderChange"
+        @dragstart="onDragstart"
+        @dragend="onDragend"
+    />
 
     <div class="container playbutton-container">
         <n-icon class='playbutton' size="32" @click="player2.prev()">
@@ -72,7 +80,9 @@ export default {
     data() {
         return {
             player2,
-            PlayMode
+            PlayMode,
+            dragging: false, // 用于标记是否正在拖动滑块
+            tempCurrentTime: 0 // 用于存储临时的当前时间
         }
     },
     mounted() {
@@ -85,19 +95,6 @@ export default {
             const idx = modes.indexOf(currentMode);
             return modes[(idx + 1) % modes.length];
         },
-        // onEnded() {
-        //     this.$refs.audio.load(); // 重新加载音频
-        //     this.player2.end_and_next();
-        // },
-        // onCurrentTime() {
-        //     // console.log(this.player2.dragging)
-        //     if (!this.player2.dragging) {
-        //         this.player2.set_current_time(this.$refs.audio.currentTime);
-        //     }
-        // },
-        // onDuration() {
-        //     this.player2.set_duration(this.$refs.audio.duration);
-        // },
         currentMinSec(SecTime) {
             let min = parseInt(SecTime / 60).toString();
             let sec = parseInt(SecTime % 60);
@@ -105,14 +102,22 @@ export default {
             return min + ":" + sec;
         },
         onDragstart() {
-            this.player2.state.dragging = true;
-            // this.player2.currentTime = this.$refs.slider.value;
-            // console.log('0')
+            this.dragging = true;
+            this.tempCurrentTime = player2.state.currentTime // 初始化拖动时的值
+            console.log('0')
         },
         onDragend() {
-            this.player2.state.dragging = false;
-            // this.$refs.audio.currentTime = this.player2.currentTime;
-            // console.log('1')
+            this.player2.set_current_time(this.tempCurrentTime);
+            this.dragging = false;
+            console.log('1')
+        },
+         onSliderChange(val) {
+            // 仅更新临时变量，不影响真正播放
+            // if (dragging.value) {
+                this.tempCurrentTime = val
+            // } else {
+                // player2.setCurrentTime(val) // 不是拖动情况下的正常点击
+            // }
         }
     },
     computed: {

@@ -207,6 +207,15 @@ function del_from_list(id) {
     }
 }
 
+function set_current_time(time) {
+    if (state.audio && !isNaN(time)) {
+        state.audio.currentTime = time;
+        // state.currentTime = time;
+    } else {
+        console.error('无效的时间设置');
+    }
+}
+
 export default {
     state,
     initAudio,
@@ -223,4 +232,5 @@ export default {
     put_in_playlist,
     insertNext,
     del_from_list,
+    set_current_time
 };

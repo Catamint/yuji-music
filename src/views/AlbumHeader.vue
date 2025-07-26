@@ -80,7 +80,7 @@ const props = defineProps({
 const playAll = async () => {
   console.log('播放全部操作')
   console.log('专辑歌曲列表:', props.album)
-  await player2.putMultiToPlaylist(props.album.songs || [])
+  await player2.playMulti(props.album.songs || [])
 }
 
 const toggleFavorite = () => {
