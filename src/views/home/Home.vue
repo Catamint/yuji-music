@@ -1,7 +1,7 @@
 <template>
   <n-scrollbar>
     <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" />
-    <AlbumCard
+    <AlbumCardContainer
       :music_info_list="[album]"
       layout="card"
     />
@@ -12,7 +12,7 @@
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
-import AlbumCard from "@/components/public/AlbumCard.vue";
+import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import { NScrollbar } from "naive-ui";
 import api from "@/stores/api.js";
 import songService from "@/services/songService.js";

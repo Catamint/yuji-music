@@ -47,6 +47,16 @@ const api = {
     return request(`/album/detail/dynamic?${params}`);
   },
 
+  getArtistAlbums(id, limit = 30, offset = 0) {
+    const params = new URLSearchParams({ id, limit, offset });
+    return request(`/artist/album?${params}`);
+  },
+
+  getArtistDetail(id) {
+      const params = new URLSearchParams({ id });
+      return api.request(`/artist/detail?${params}`);
+  },
+
   // 新增的 gdstudio 接口
   gdstudioSearch(name, source = 'netease', count = 20, pages = 1) {
     const params = new URLSearchParams({ types: 'search', source, name, count, pages });

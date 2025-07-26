@@ -1,12 +1,24 @@
 <template>
-    <BaseAlbumItem
-        v-for="info in music_info_list"
-        :key="info.id"
-        :albumInfo="info"
-        :layout="layout"
-        @play="onPlay"
-        @click="onClick"
-    />
+    <div class="card-container">
+        <n-button v-if="head" text style="display: flex;" @click="onHeaderClick">
+            <h1>{{ head }}</h1>
+            <template #icon>
+                <n-icon> <Play24Regular /> </n-icon>
+            </template>
+        </n-button>
+
+        <div class="cards-block">
+            <!-- 使用基础组件直接渲染 -->
+            <BaseAlbumItem class="card-item"
+                v-for="info in music_info_list"
+                :key="info.id"
+                :albumInfo="info"
+                :layout="layout"
+                @play="onPlay"
+                @click="onClick"
+            />
+        </div>
+    </div>
 </template>
 
 <script>
@@ -16,7 +28,7 @@ import { Play24Regular } from '@vicons/fluent';
 import BaseAlbumItem from './BaseAlbumItem.vue';
 
 export default {
-    name: 'AlbumCard',
+    name: 'AlbumCardContainer',
     props: {
         music_info_list: {
             type: Array,
@@ -24,7 +36,7 @@ export default {
         },
         head: {
             type: String,
-            default: 'Top 100',
+            default: '',
         },
         layout: {
             type: String,
@@ -62,3 +74,28 @@ export default {
 };
 </script>
 
+
+<style scoped>
+.card-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.cards-block {
+    display: flex;
+    flex-wrap: wrap;
+    /* gap: 40px; */
+    border-radius: 10px;
+    width: 100%;
+    max-width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+</style>

@@ -181,14 +181,13 @@ async function formatAlbumWithSongs(rawAlbumData) {
         );
 
         return {
-            album: albumInfo,
+            ...albumInfo,
             songs: formattedSongs,
             total: songs.length
         };
     } catch (error) {
         console.error('Error formatting album with songs:', error);
         return {
-            album: null,
             songs: [],
             total: 0
         };
@@ -371,6 +370,79 @@ export default {
             return response;
         } catch (error) {
             console.error('Error fetching song lyric:', error.message);
+            return null;
+        }
+    },
+
+    /**
+     * 获取艺术家专辑列表
+     * @param {string|number} id - 艺术家 ID
+     * @param {number} limit - 返回数量，默认为 30
+     * @param {number} offset - 偏移量，默认为 0
+     * @returns {Array} 格式化后的专辑列表
+     */
+    async getArtistAlbums(id, limit = 30, offset = 0) {
+        try {
+            const response = await api.getArtistAlbums(id, limit, offset);
+            if (response?.hotAlbums) {
+                // 格式化专辑列表中的歌曲
+                const formattedAlbums = await Promise.all(
+                    response.hotAlbums.map(formatAlbum)
+                );
+                return formattedAlbums;
+            }
+            return [];
+        } catch (error) {
+            console.error('Error fetching artist albums:', error.message);
+            return [];
+        }
+    },
+
+    /**
+     * 获取简要艺术家详情
+     * @param {string|number} id - 艺术家 ID
+     * @returns {Object|null} 艺术家简要信息或 null
+     */
+    async getArtistBrief(id) {
+        try {
+            const response = await api.getArtistAlbums(id, 1, 0);
+            if (response?.artist) {
+                const artist = response.artist;
+                return {
+                    ...artist,
+                    id: artist.id,
+                    name: artist.name,
+                    picUrl: artist.picUrl || artist.img1v1Url || null,
+                    alias: artist.alias || [],
+                };
+            }
+            return null;
+        } catch (error) {
+            console.error('Error fetching artist brief:', error.message);
+            return null;
+        }
+    },
+
+    /**
+     * 获取艺术家详情
+     * @param {string|number} id - 艺术家 ID
+     * @returns {Object|null} 艺术家详情或 null
+     */
+    async getArtistDetail(id) {
+        try {
+            const response = await api.getArtistDetail(id);
+            if (response?.artist) {
+                const artist = response.artist;
+                return {
+                    id: artist.id,
+                    name: artist.name,
+                    picUrl: artist.picUrl || artist.img1v1Url || null,
+                    alias: artist.alias || [],
+                }
+            }
+            return null;
+        } catch (error) {
+            console.error('Error fetching artist detail:', error.message);
             return null;
         }
     }

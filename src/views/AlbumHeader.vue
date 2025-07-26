@@ -3,45 +3,45 @@
     <!-- 专辑封面 -->
     <img
       class="album-cover"
-      :src="album?.album?.picUrl || null"
+      :src="album?.picUrl || null"
       alt="专辑封面"
     />
 
     <!-- 信息区域 -->
     <div class="album-info">
       <h1 class="album-name">
-        {{ album?.album?.name }}
-        <span v-if="album?.album?.translatedName" class="translated-name">（{{ album?.album.translatedName }}）</span>
+        {{ album?.name }}
+        <span v-if="album?.translatedName" class="translated-name">（{{ album.translatedName }}）</span>
       </h1>
 
       <div class="album-meta">
         <span>艺人：</span>
         <router-link
           class="artist-name"
-          :to="`/artist/${album?.album?.artist?.id}`"
+          :to="`/artist/${album?.artist?.id}`"
         >
-          {{ album?.album?.artist?.name }}
+          {{ album?.artist?.name }}
         </router-link>
       </div>
 
       <div class="album-meta">
         <!-- <span>发行时间：</span> -->
-        {{ album?.album?.publishDate }}
+        {{ album?.publishDate }}
       </div>
 
-      <!-- <div class="album-meta" v-if="album?.album?.company">
+      <!-- <div class="album-meta" v-if="album?.company">
         <span>发行公司：</span>
-        {{ album?.album?.company }}
+        {{ album?.company }}
       </div>
 
-      <div class="album-meta" v-if="album?.album?.type || album?.album?.subType">
+      <div class="album-meta" v-if="album?.type || album?.subType">
         <span>专辑类型：</span>
-        {{ album?.album?.type }}<span v-if="album?.album?.subType"> / {{ album?.album?.subType }}</span>
+        {{ album?.type }}<span v-if="album?.subType"> / {{ album?.subType }}</span>
       </div> -->
 
       <!-- 描述 -->
-      <!-- <div v-if="album?.album?.briefDesc || album?.album?.description" class="album-desc">
-        <p>{{ album?.album?.briefDesc || album?.album?.description }}</p>
+      <!-- <div v-if="album?.briefDesc || album?.description" class="album-desc">
+        <p>{{ album?.briefDesc || album?.description }}</p>
       </div> -->
 
       <!-- 操作统计 -->

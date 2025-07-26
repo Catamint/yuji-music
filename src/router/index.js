@@ -14,11 +14,8 @@ import Piano from '@/music_create/components/Piano.vue';
 import Drum from '@/music_create/components/Drum.vue';
 import Guitar from '@/music_create/components/Guitar.vue';
 
-// import MusicGenerate from '@/music_create/components/MusicGenerate.vue';
-// import Together from '@/music_create/components/Together.vue';
 import ChooseTeam from '@/music_create/components/chooseTeam.vue';
 import TeamRoom from '@/music_create/components/teamRoom.vue';
-// import Admin from '@/music_create/components/Admin.vue';
 import play from '@/music_create/components/play.vue';
 import Generate from "@/views/generate/Generate.vue";
 
@@ -109,6 +106,12 @@ const routes = [
       component: Album,
       props:true,
     },
+    {
+      path:'/artist/:id',
+      name:'artist',
+      component: () => import('@/views/Artist.vue'),
+      props:true,
+    }
     //   {
     //     path:'/admin',
     //     name:'dbManagement',

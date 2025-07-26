@@ -1,17 +1,17 @@
 <template>
     <div :class="['base-album-item', 'base-item', layoutClass]" @click="onClick">
-        <img v-if="layout !== 'compact'" class="cover-img" :src="albumInfo?.album?.img || albumInfo?.album?.picUrl" alt="Album Cover" />
+        <img v-if="layout !== 'compact'" class="cover-img" :src="albumInfo?.img || albumInfo?.picUrl" alt="Album Cover" />
         <div v-if="layout === 'card'" class="card-overlay">
             <div class="info">
-                <span class="title">{{ albumInfo?.album?.name }}</span>
-                <span class="artist">{{ albumInfo?.album?.artist?.name }}</span>
-                <span class="album">{{ albumInfo?.album?.publishDate }}</span>
+                <span class="title">{{ albumInfo?.name }}</span>
+                <span class="artist">{{ albumInfo?.artist?.name }}</span>
+                <span class="album">{{ albumInfo?.publishDate }}</span>
             </div>
         </div>
         <div v-else class="info">
-            <n-ellipsis :tooltip="true" class="title">{{ albumInfo?.album?.name }}</n-ellipsis>
-            <n-ellipsis :tooltip="true" class="artist">{{ albumInfo?.album?.artist?.name }}</n-ellipsis>
-            <n-ellipsis :tooltip="true" class="publish-date" v-if="albumInfo?.album?.publishDate">{{ albumInfo?.album?.publishDate }}</n-ellipsis>
+            <n-ellipsis :tooltip="true" class="title">{{ albumInfo?.name }}</n-ellipsis>
+            <n-ellipsis :tooltip="true" class="artist">{{ albumInfo?.artist?.name }}</n-ellipsis>
+            <n-ellipsis :tooltip="true" class="publish-date" v-if="albumInfo?.publishDate">{{ albumInfo?.publishDate }}</n-ellipsis>
         </div>
         <div class="actions">
             <n-button class="play" text @click.stop="playAlbum">
@@ -73,6 +73,7 @@ export default {
             this.$emit('remove-from-favorites', this.albumInfo);
         },
         onClick() {
+            this.$router.push({ path: `/album/${this.albumInfo.id}` });
             this.$emit('click', this.albumInfo);
         },
     },
@@ -89,9 +90,4 @@ export default {
 
 <style scoped>
 @import '@/styles/card-common.css';
-/* 通用样式 */
-.base-album-item {
-
-}
-
 </style>

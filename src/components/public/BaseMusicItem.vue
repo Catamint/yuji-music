@@ -94,7 +94,12 @@ export default {
             this.$emit('add-to-play-next', this.musicInfo);
         },
         artistOnClick(){
-
+            this.$router.push({
+                name:'artist',
+                params:{
+                    id:this.musicInfo?.artist?.id
+                }
+            })
         },
         albumOnClick(){
             this.$router.push({
