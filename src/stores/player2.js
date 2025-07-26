@@ -1,4 +1,6 @@
 // player.js
+import songService from "@/services/songService";
+import { reactive } from 'vue';
 
 export const PlayMode = {
     SEQUENTIAL: 'sequential', // 顺序播放
@@ -6,136 +8,219 @@ export const PlayMode = {
     REPEAT_ONE: 'repeat-one'  // 单曲循环
 };
 
-class Player {
-    constructor(audio, songService) {
-        this.audio = audio;
-        this.songService = songService;
-        this.playlist = [];
-        this.currentIndex = -1;
-        this.mode = PlayMode.SEQUENTIAL;
-        this.audio.addEventListener('ended', () => {
-            this.next();
-        });
-        this.is_playing = false; // 是否正在播放
-        this.dragging = false; // 是否正在拖动进度条
-        this.currentTime = 0; // 当前播放时间
-        this.duration = 0; // 当前歌曲总时长
-    }
+const state = reactive({
+  audio: new Audio(),         // 音频对象
+  playlist: [],               // 播放列表
+  currentIndex: -1,           // 当前播放的歌曲索引
+  isPlaying: false,           // 是否正在播放
+  mode: PlayMode.SEQUENTIAL, // 播放模式
+  volume: 1,                  // 音量
+  currentTime: 0,             // 当前播放时间
+  duration: 0,                // 歌曲总时长
+});
 
-    setPlaylist(playlist) {
-        this.playlist = playlist;
-        this.currentIndex = 0;
-    }
+function initAudio() {
+  if (!state.audio) {
+    state.audio = new Audio();
+  }
 
-    async play(index = this.currentIndex) {
-        if (!this.playlist.length) return;
-        this.currentIndex = index;
+  // 绑定音频事件监听
+  state.audio.addEventListener('ended', onEnded);
+  state.audio.addEventListener('play', onPlay);
+  state.audio.addEventListener('pause', onPause);
+  state.audio.addEventListener('timeupdate', onTimeUpdate);
+  state.audio.addEventListener('loadedmetadata', onLoadedMetadata);
+  state.audio.volume = state.volume; // 设置初始音量
+}
 
-        const track = this.playlist[this.currentIndex];
-        if (!track.url) {
-            // 懒加载 URL
-            track.url = await this.songService.getSongUrl(track.id);
-        }
-        if (!track.url) {
-            console.error('无法获取歌曲链接');
-            return;
-        }
-
-        this.audio.src = track.url;
-        this.audio.play();
-        this.audio.is_playing = true;
-        this.is_playing = true;
-    }
-
-    async playMulti(songlist) {
-        if (!Array.isArray(songlist) || songlist.length === 0) {
-            console.log(songlist);
-            console.error('歌曲列表不正确');
-            return;
-        }
-
-        this.playlist = await songlist.map(track => ({
-            ...track,
-            playing: false,
-            url: track.url || '' // 确保每首歌都有 url 属性
-        }));
-
-        this.currentIndex = 0;
-        this.play();
-    }
-
-    pause() {
-        this.audio.pause();
-        this.is_playing = false;
-    }
-
-    toggle() {
-        if (this.audio.paused) {
-            this.audio.play();
-        } else {
-            this.audio.pause();
-        }
-    }
-
-    async next() {
-        if (this.mode === PlayMode.REPEAT_ONE) {
-            return this.play(this.currentIndex);
-        }
-
-        if (this.mode === PlayMode.RANDOM) {
-            this.currentIndex = Math.floor(Math.random() * this.playlist.length);
-        } else {
-            this.currentIndex = (this.currentIndex + 1) % this.playlist.length;
-        }
-
-        await this.play();
-    }
-
-    async prev() {
-        if (this.mode === PlayMode.RANDOM) {
-            this.currentIndex = Math.floor(Math.random() * this.playlist.length);
-        } else {
-            this.currentIndex = (this.currentIndex - 1 + this.playlist.length) % this.playlist.length;
-        }
-
-        await this.play();
-    }
-
-    setMode(mode) {
-        if (Object.values(PlayMode).includes(mode)) {
-            this.mode = mode;
-        }
-    }
-
-    addNextSong(song) {
-        this.playlist.splice(this.currentIndex + 1, 0, song);
-    }
-
-    insertNext(track) {
-        this.playlist.splice(this.currentIndex + 1, 0, track);
-    }
-
-    del_from_list(id) {
-        const songIndex = this.playlist.findIndex(item => item.id === id);
-        if (songIndex !== -1) {
-            this.playlist.splice(songIndex, 1);
-            if (this.playlist.length === 0) {
-                this.currentIndex = -1; // 重置当前索引
-                this.is_playing = false; // 停止播放
-                this.audio.pause();
-                this.audio.src = ''; // 清空音频源
-            }
-            else if (this.currentIndex >= this.playlist.length) {
-                this.currentIndex = 0; // 如果删除的是当前播放的歌曲，自动播放最后一首
-            } else {
-                console.error('歌曲不在播放列表中');
-            }
-        }
-    }
-
-    on(event, handler) {
-        document.addEventListener(`player:${event}`, e => handler(e.detail));
+function onEnded() {
+  if (state.mode === PlayMode.REPEAT_ONE) {
+    state.audio.currentTime = 0; // 重置到开头
+    state.audio.play();
+  } else {
+    next();
     }
 }
 
-export default Player;
+// 播放事件
+function onPlay() {
+  state.isPlaying = true;
+}
+
+// 暂停事件
+function onPause() {
+  state.isPlaying = false;
+}
+
+// 时间更新事件
+function onTimeUpdate() {
+  state.currentTime = state.audio.currentTime;
+}
+
+// 歌曲加载元数据（获取歌曲时长）
+function onLoadedMetadata() {
+  state.duration = state.audio.duration;
+}
+
+
+function setPlaylist(playlist) {
+    state.playlist = playlist;
+    state.currentIndex = 0;
+}
+
+function setSrc(url) {
+    state.audio.src = url;
+    state.audio.load();
+}
+
+async function playIndex(index = state.currentIndex) {
+    if (!state.playlist.length) return;
+    state.currentIndex = index;
+
+    const track = state.playlist[state.currentIndex];
+    if (!track.url) {
+        // 懒加载 URL
+        track.url = await songService.getSongUrl(track.id);
+    }
+    if (!track.url) {
+        console.error('无法获取歌曲链接');
+        return;
+    }
+
+    setSrc(track.url);
+    state.audio.play();
+    state.is_playing = true;
+}
+
+async function play(music_details) {
+    if (!music_details.album || !music_details.album.picId) {
+        console.error('歌曲信息不完整');
+        return;
+    }
+
+    // // 调用 getAlbumPicUrl 获取专辑图片
+    // if (music_details.album.picId) {
+    //     music_details.album.img = await songService.getAlbumPicUrl(music_details.album.picId);
+    // }
+
+    try {
+        // 调用 API 获取歌曲链接
+        const songUrl = await songService.getSongUrl(music_details.id);
+
+        if (songUrl) {
+            music_details.url = songUrl;
+            music_details.playing = true;
+            state.playlist = [music_details]; // 设置为当前播放列表
+            playIndex(0); // 设置为播放状态
+        } else {
+            console.error('无法获取歌曲链接');
+        }
+        
+    } catch (error) {
+        console.error('Error fetching song URL:', error.message);
+    }
+}
+
+async function playMulti(songlist) {
+    if (!Array.isArray(songlist) || songlist.length === 0) {
+        console.log(songlist);
+        console.error('歌曲列表不正确');
+        return;
+    }
+
+    state.playlist = await songlist.map(track => ({
+        ...track,
+        playing: false,
+        url: track.url || '' // 确保每首歌都有 url 属性
+    }));
+
+    state.currentIndex = 0;
+    playIndex();
+}
+
+function pause() {
+    state.audio.pause();
+    state.is_playing = false;
+}
+
+function toggle() {
+    if (state.audio.paused) {
+        state.audio.play();
+    } else {
+        state.audio.pause();
+    }
+}
+
+async function next() {
+    if (state.mode === PlayMode.REPEAT_ONE) {
+        return playIndex(state.currentIndex);
+    }
+
+    if (state.mode === PlayMode.RANDOM) {
+        state.currentIndex = Math.floor(Math.random() * state.playlist.length);
+    } else {
+        state.currentIndex = (state.currentIndex + 1) % state.playlist.length;
+    }
+
+    await playIndex();
+}
+
+async function prev() {
+    if (state.mode === PlayMode.RANDOM) {
+        state.currentIndex = Math.floor(Math.random() * state.playlist.length);
+    } else {
+        state.currentIndex = (state.currentIndex - 1 + state.playlist.length) % state.playlist.length;
+    }
+
+    await playIndex();
+}
+
+function setMode(mode) {
+    if (Object.values(PlayMode).includes(mode)) {
+        state.mode = mode;
+    }
+}
+
+function put_in_playlist(song) {
+    state.playlist.splice(state.currentIndex + 1, 0, song);
+}
+
+function insertNext(track) {
+    state.playlist.splice(state.currentIndex + 1, 0, track);
+}
+
+function del_from_list(id) {
+    const songIndex = state.playlist.findIndex(item => item.id === id);
+    if (songIndex !== -1) {
+        state.playlist.splice(songIndex, 1);
+        if (state.playlist.length === 0) {
+            state.currentIndex = -1; // 重置当前索引
+            state.is_playing = false; // 停止播放
+            state.audio.pause();
+            state.audio.src = ''; // 清空音频源
+        }
+        else if (state.currentIndex >= state.playlist.length) {
+            state.currentIndex = 0; // 如果删除的是当前播放的歌曲，自动播放最后一首
+        } else {
+            console.error('歌曲不在播放列表中');
+        }
+    }
+}
+
+export default {
+    state,
+    initAudio,
+    setPlaylist,
+    setSrc,
+    playIndex,
+    play,
+    playMulti,
+    pause,
+    toggle,
+    next,
+    prev,
+    setMode,
+    put_in_playlist,
+    insertNext,
+    del_from_list,
+};

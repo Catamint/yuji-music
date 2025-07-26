@@ -1,37 +1,42 @@
 <template>
-    <n-slider class="slider" v-model:value="player.currentTime" :step="1" :max="player.duration"
+    <n-slider class="slider" v-model:value="player2.state.currentTime" :step="1" :max="player2.state.duration"
     :on-dragstart="onDragstart" :on-dragend="onDragend" :tooltip="false" />
 
     <div class="container playbutton-container">
-        <n-icon class='playbutton' size="32" @click="player.play_prev()">
+        <n-icon class='playbutton' size="32" @click="player2.prev()">
             <Previous32Filled />
         </n-icon>
-        <n-icon class='playbutton' v-if="player.is_playing" size="40" @click="playOrPause">
-            <Pause48Filled />
+        <n-icon class='playbutton' size="40" @click="player2.toggle()">
+            <Pause48Filled v-if="player2.state.isPlaying" />
+            <Play32Filled v-else />
         </n-icon>
-        <n-icon class='playbutton' v-else size="40" @click="playOrPause">
-            <Play32Filled />
-        </n-icon>
-        <n-icon class='playbutton' size="32" @click="player.play_next()">
+        <n-icon class='playbutton' size="32" @click="player2.next()">
             <Next32Filled />
         </n-icon>
     </div>
 
     <div class='container'>
-        <span class="time">{{ currentMinSec(player.currentTime) }} / {{ currentMinSec(player.duration) }}</span>
+        <span class="time">{{ currentMinSec(player2.state.currentTime) }} / {{ currentMinSec(player2.state.duration) }}</span>
         <n-tooltip trigger="hover">
             <template #trigger>
-                <n-button class='playbutton' text style="font-size: 32px" @click="player.set_loop((player.playmode + 1) % 2)">
-                    <n-icon v-if="player.playmode">
+                <n-button class='playbutton' text style="font-size: 32px" @click="player2.setMode(getNextMode(player2.state.mode))">
+                    <n-icon v-if="player2.state.mode === PlayMode.SEQUENTIAL">
+                        <ArrowSync24Filled />
+                    </n-icon>
+                    <n-icon v-else-if="player2.state.mode === PlayMode.RANDOM">
                         <ArrowRotateCounterclockwise24Filled />
                     </n-icon>
                     <n-icon v-else>
-                        <ArrowSync24Filled />
+                        <Pause48Filled />
                     </n-icon>
-                    <!-- 列表循环 -->
+                    <!-- 顺序/随机/单曲循环 -->
                 </n-button>
             </template>
-            {{ player.playmode ? "单曲循环" : "列表循环" }}
+            {{
+                player2.state.mode === PlayMode.SEQUENTIAL ? "列表循环"
+                : player2.state.mode === PlayMode.RANDOM ? "随机播放"
+                : "单曲循环"
+            }}
         </n-tooltip>
         <!-- <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" /> -->
         <n-button class='playbutton' text style="font-size: 32px;">
@@ -43,18 +48,16 @@
             </n-button>
         </router-link>
     </div>
-    <audio autoplay @play="starting" @pause="pausing" @ended="onEnded" @timeupdate="onCurrentTime"
-        @durationchange="onDuration" :src="get_current_url" ref="audio"></audio>
 </template>
 
 <script>
 
 import { Previous32Filled, Next32Filled, Play32Filled, Pause48Filled, ArrowSync24Filled, ArrowRotateCounterclockwise24Filled,TextBulletListLtr24Filled,Heart28Regular } from "@vicons/fluent";
 import { NIcon, NSlider, NButton, NTooltip } from "naive-ui";
-import { player } from "@/stores/player";
+import player2, {PlayMode} from "@/stores/player2";
 
 export default {
-    name: 'PlayerController',
+    name: 'player2Controller',
     components: {
         NIcon,
         Previous32Filled,
@@ -68,46 +71,33 @@ export default {
     },
     data() {
         return {
-            player
+            player2,
+            PlayMode
         }
     },
     mounted() {
-
+        player2.initAudio();
     },
     methods: {
-        // 用player控制dom播放/暂停
-        playOrPause() {
-            if (this.player.is_playing) {
-                // console.log(this.$refs.audio.value)
-                this.$refs.audio.pause();
-                // this.player.set_pause(); //弃用，已改为绑定dom事件实现
-            } else {
-                if (this.player.playlist.length != 0) {
-                    this.$refs.audio.play(); //如果播放列表中有歌曲
-                }
-                // this.player.set_play();
-            }
+        // 获取下一个播放模式
+        getNextMode(currentMode) {
+            const modes = [PlayMode.SEQUENTIAL, PlayMode.RANDOM, PlayMode.REPEAT_ONE];
+            const idx = modes.indexOf(currentMode);
+            return modes[(idx + 1) % modes.length];
         },
-        // 当dom的状态改变，让player的状态跟着改变
-        starting() {
-            this.player.set_play();
-        },
-        pausing() {
-            this.player.set_pause();
-        },
-        onEnded() {
-            this.$refs.audio.load(); // 重新加载音频
-            this.player.end_and_next();
-        },
-        onCurrentTime() {
-            // console.log(this.player.dragging)
-            if (!this.player.dragging) {
-                this.player.set_current_time(this.$refs.audio.currentTime);
-            }
-        },
-        onDuration() {
-            this.player.set_duration(this.$refs.audio.duration);
-        },
+        // onEnded() {
+        //     this.$refs.audio.load(); // 重新加载音频
+        //     this.player2.end_and_next();
+        // },
+        // onCurrentTime() {
+        //     // console.log(this.player2.dragging)
+        //     if (!this.player2.dragging) {
+        //         this.player2.set_current_time(this.$refs.audio.currentTime);
+        //     }
+        // },
+        // onDuration() {
+        //     this.player2.set_duration(this.$refs.audio.duration);
+        // },
         currentMinSec(SecTime) {
             let min = parseInt(SecTime / 60).toString();
             let sec = parseInt(SecTime % 60);
@@ -115,29 +105,29 @@ export default {
             return min + ":" + sec;
         },
         onDragstart() {
-            this.player.dragging = true;
-            // this.player.currentTime = this.$refs.slider.value;
+            this.player2.state.dragging = true;
+            // this.player2.currentTime = this.$refs.slider.value;
             // console.log('0')
         },
         onDragend() {
-            this.player.dragging = false;
-            this.$refs.audio.currentTime = this.player.currentTime;
+            this.player2.state.dragging = false;
+            // this.$refs.audio.currentTime = this.player2.currentTime;
             // console.log('1')
         }
     },
     computed: {
         get_current_url() {
-            if (this.player.playlist.length != 0) {
-                return this.player.playlist.at(this.player.currentIndex).url; //播放列表非空
+            if (this.player2.state.playlist.length != 0) {
+                return this.player2.state.playlist.at(this.player2.state.current).url; //播放列表非空
             } else {
                 return "";
             }
         },
         setCurrentTime() {
-            if (!this.player.dragging) {
-                return this.player.currentTime;
+            if (!this.player2.state.dragging) {
+                return this.player2.state.currentTime;
             } else {
-                this.player.currentTime = this.$refs.slider.value;
+                this.player2.state.currentTime = this.$refs.slider.value;
             }
         }
     }

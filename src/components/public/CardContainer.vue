@@ -28,7 +28,7 @@
 import { ChevronRight16Filled } from '@vicons/fluent/lib';
 import { NButton, NIcon } from 'naive-ui';
 import BaseMusicItem from './BaseMusicItem.vue';
-import {player} from '@/stores/player.js';
+import player2 from '@/stores/player2.js';
 
 export default {
     name: 'CardContainer',
@@ -50,7 +50,7 @@ export default {
         // 播放歌曲
         async onPlay(details) {
             try {
-                await player.play(details);
+                await player2.play(details);
                 // console.log('Playing:', details);
             } catch (error) {
                 console.error('Error playing song:', error.message);
@@ -77,7 +77,7 @@ export default {
 
         async put_in_playlist(details) {
             try {
-                await player.put_in_playlist(details);
+                await player2.put_in_playlist(details);
                 // console.log('Playing:', details);
             } catch (error) {
                 console.error('Error add song:', error.message);

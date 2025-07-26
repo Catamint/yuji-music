@@ -1,5 +1,5 @@
 <template>
-    <div class="no-login-box" v-if="player.playlist.length == 0">
+    <div class="no-login-box" v-if="player.state.playlist.length == 0">
       <n-empty size="large" description="空空如也">
         <template #icon>
           <n-icon>
@@ -10,14 +10,14 @@
     </div> 
     <template v-else>
       <n-scrollbar>
-        <PlayListContent class="item" v-for="info in player.playlist" :music_info="info" :key="info.id" />
+        <PlayListContent class="item" v-for="info in player.state.playlist" :music_info="info" :key="info.id" />
       </n-scrollbar>
     </template>
 </template>
 
 <script> 
 import PlayListContent from "@/components/public/PlayListContent.vue";
-import { player } from "../stores/player";
+import player2 from "../stores/player2";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";
 import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
 
@@ -33,11 +33,11 @@ export default {
   },
   data() {
     return{
-        player
+        player:player2,
     }
   },
   mounted(){
-    console.log(this.player);
+    console.log(this.player.state);
   },
   methods:{
     // play()

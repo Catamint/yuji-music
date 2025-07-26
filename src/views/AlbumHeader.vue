@@ -68,7 +68,7 @@
 <script setup>
 import TooltipButton from '@/components/public/TooltipButton.vue' // 根据你的路径调整
 import { useRouter } from 'vue-router'
-import { player } from '@/stores/player.js'
+import player2 from '@/stores/player2.js'
 
 const props = defineProps({
   album: {
@@ -80,7 +80,7 @@ const props = defineProps({
 const playAll = async () => {
   console.log('播放全部操作')
   console.log('专辑歌曲列表:', props.album)
-  await player.putMultiToPlaylist(props.album.songs || [])
+  await player2.putMultiToPlaylist(props.album.songs || [])
 }
 
 const toggleFavorite = () => {

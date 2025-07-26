@@ -20,7 +20,7 @@
 
 <script>
 import { utils } from '@/stores/utils';
-import { player } from "@/stores/player";
+import player2 from "@/stores/player2";
 import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent/lib';
 import { NButton, NIcon } from 'naive-ui';
 
@@ -38,7 +38,7 @@ export default {
     data() {
         return {
             utils,
-            player
+            player: player2.state
         }
     },
     computed: {

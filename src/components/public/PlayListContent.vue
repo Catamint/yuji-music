@@ -35,7 +35,7 @@
 
 <script>
 import { NButton, NCard, NEllipsis, NFlex, NIcon } from 'naive-ui';
-import { player } from '@/stores/player';
+import  player2  from '@/stores/player2';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
 
 export default {
@@ -65,7 +65,7 @@ export default {
     },
     data() {
         return{
-            player,
+            player: player2,
             music_detials: {
                 album_img: "../../assets/image/default_covor.jpg",
                 song_name: " ",
@@ -97,7 +97,6 @@ export default {
     },
     components:{
         NCard,
-        player,
         Heart28Regular,
         TextBulletListAdd24Filled,
         NEllipsis,
