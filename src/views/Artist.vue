@@ -63,8 +63,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
 .album-header {
   display: flex;
   gap: 20px;

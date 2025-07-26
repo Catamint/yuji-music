@@ -18,7 +18,9 @@ function formatDuration(ms) {
  * @returns {string}
  */
 function formatDate(timestamp) {
+    if (!timestamp || isNaN(timestamp)) return '';
     const date = new Date(timestamp);
+    if (isNaN(date.getTime())) return '';
     return date.toISOString().split('T')[0];
 }
 
@@ -443,6 +445,63 @@ export default {
             return null;
         } catch (error) {
             console.error('Error fetching artist detail:', error.message);
+            return null;
+        }
+    },
+    /**
+     * 获取用户歌单
+     * @param {string|number} uid - 用户 ID
+     * @param {number} limit - 返回数量，默认为 30
+     * @param {number} offset - 偏移量，默认为 0
+     * @returns {Array} 用户歌单列表
+     */
+    async getUserSonglist(uid, limit = 30, offset = 0) {
+        try {
+            const response = await api.getUserPlaylist(uid, limit, offset);
+            if (response?.playlist) {
+                // 格式化歌单
+                const formattedTracks = await formatSongList({ songs: response.playlist.tracks });
+                return {
+                    ...response,
+                    playlist: {
+                        ...response.playlist,
+                        tracks: formattedTracks
+                    }
+                };
+            }
+            return [];
+        } catch (error) {
+            console.error('Error fetching user playlist:', error.message);
+            return [];
+        }
+    },
+    /**
+     * 获取歌单所有歌曲
+     * @param {string|number} id - 播放列表 ID
+     * @returns {Object|null} 歌单所有歌曲或 null
+     */
+    async getSonglistContent(id) {
+        try {
+            const response = await api.getPlaylistAllTracks(id);
+            if (response?.songs) {
+                const songs = response.songs || [];
+                const formattedSongs = await Promise.all(
+                    songs.map(song => formatAlbumSong({
+                        ...song,
+                        album: song.al || [],
+                        artists: song.ar || [],
+                    }))
+                );
+                // const formattedSongs = await formatSongList({ songs: response.songs });
+                return {
+                    ...response,
+                    songs: formattedSongs,
+                    total: formattedSongs.length
+                };
+            }
+            return null;
+        } catch (error) {
+            console.error('Error fetching playlist all songs:', error.message);
             return null;
         }
     }

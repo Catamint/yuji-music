@@ -111,6 +111,12 @@ const routes = [
       name:'artist',
       component: () => import('@/views/Artist.vue'),
       props:true,
+    },
+    {
+      path:'/songlist/:id',
+      name:'songlist',
+      component: () => import('@/views/SongList.vue'),
+      props:true,
     }
     //   {
     //     path:'/admin',

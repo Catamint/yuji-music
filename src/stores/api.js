@@ -56,8 +56,18 @@ const api = {
       const params = new URLSearchParams({ id });
       return api.request(`/artist/detail?${params}`);
   },
+  // 获取用户歌单
+  getUserPlaylist(uid, limit = 30, offset = 0) {
+    const params = new URLSearchParams({ uid, limit, offset });
+    return request(`/user/playlist?${params}`);
+  },
+  // 获取歌单所有歌曲
+  getPlaylistAllTracks(id, limit = 1000, offset = 0) {
+    const params = new URLSearchParams({ id, limit, offset });
+    return request(`/playlist/track/all?${params}`);
+  },
 
-  // 新增的 gdstudio 接口
+  // 以下是新增的 gdstudio 接口
   gdstudioSearch(name, source = 'netease', count = 20, pages = 1) {
     const params = new URLSearchParams({ types: 'search', source, name, count, pages });
     return request(`?${params}`, {}, 'gdstudio');
