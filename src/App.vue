@@ -21,7 +21,6 @@
 import IndexView from './components/IndexView.vue';
 import { useThemeStore } from './stores/themeStore';
 import { NConfigProvider, NMessageProvider, NGlobalStyle } from 'naive-ui';
-import { utils } from './stores/utils';
 import MessageApi from './stores/MessageApi.vue';
 
 export default {

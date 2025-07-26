@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { utils } from '@/stores/utils';
 import PlayerController from './PlayerController.vue';
 import MusicInfo from './MusicInfo.vue';
 import { TextBulletListLtr24Filled, Heart28Regular } from '@vicons/fluent/lib';
@@ -26,11 +25,6 @@ export default {
         NIcon,
         Heart28Regular
     },
-    data(){
-        return {
-            utils
-        }
-    }
 }
 </script>
 
