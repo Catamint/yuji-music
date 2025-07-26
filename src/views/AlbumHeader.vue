@@ -3,45 +3,45 @@
     <!-- 专辑封面 -->
     <img
       class="album-cover"
-      :src="album?.picUrl || null"
+      :src="album?.album?.picUrl || null"
       alt="专辑封面"
     />
 
     <!-- 信息区域 -->
     <div class="album-info">
       <h1 class="album-name">
-        {{ album?.name }}
-        <span v-if="album?.translatedName" class="translated-name">（{{ album.translatedName }}）</span>
+        {{ album?.album?.name }}
+        <span v-if="album?.album?.translatedName" class="translated-name">（{{ album?.album.translatedName }}）</span>
       </h1>
 
       <div class="album-meta">
         <span>艺人：</span>
         <router-link
           class="artist-name"
-          :to="`/artist/${album?.artist?.id}`"
+          :to="`/artist/${album?.album?.artist?.id}`"
         >
-          {{ album?.artist?.name }}
+          {{ album?.album?.artist?.name }}
         </router-link>
       </div>
 
       <div class="album-meta">
         <!-- <span>发行时间：</span> -->
-        {{ album?.publishDate }}
+        {{ album?.album?.publishDate }}
       </div>
 
-      <!-- <div class="album-meta" v-if="album?.company">
+      <!-- <div class="album-meta" v-if="album?.album?.company">
         <span>发行公司：</span>
-        {{ album?.company }}
+        {{ album?.album?.company }}
       </div>
 
-      <div class="album-meta" v-if="album?.type || album?.subType">
+      <div class="album-meta" v-if="album?.album?.type || album?.album?.subType">
         <span>专辑类型：</span>
-        {{ album?.type }}<span v-if="album?.subType"> / {{ album?.subType }}</span>
+        {{ album?.album?.type }}<span v-if="album?.album?.subType"> / {{ album?.album?.subType }}</span>
       </div> -->
 
       <!-- 描述 -->
-      <!-- <div v-if="album?.briefDesc || album?.description" class="album-desc">
-        <p>{{ album?.briefDesc || album?.description }}</p>
+      <!-- <div v-if="album?.album?.briefDesc || album?.album?.description" class="album-desc">
+        <p>{{ album?.album?.briefDesc || album?.album?.description }}</p>
       </div> -->
 
       <!-- 操作统计 -->
@@ -49,6 +49,7 @@
         <TooltipButton
           icon="Play20Regular"
           tooltip="播放全部"
+          @click="playAll"
         />
         <TooltipButton
           icon="Heart20Regular"
@@ -67,13 +68,20 @@
 <script setup>
 import TooltipButton from '@/components/public/TooltipButton.vue' // 根据你的路径调整
 import { useRouter } from 'vue-router'
+import { player } from '@/stores/player.js'
 
-defineProps({
+const props = defineProps({
   album: {
     type: Object,
     required: true,
   }
 })
+
+const playAll = async () => {
+  console.log('播放全部操作')
+  console.log('专辑歌曲列表:', props.album)
+  await player.putMultiToPlaylist(props.album.songs || [])
+}
 
 const toggleFavorite = () => {
   // TODO: 收藏/取消收藏逻辑

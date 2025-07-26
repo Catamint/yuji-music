@@ -4,7 +4,7 @@ import songService from '@/services/songService.js';
 
 export const player = reactive({
     playlist: [], // 播放列表
-    current: 0, // 当前播放的索引
+    currentIndex: 0, // 当前播放的索引
     is_playing: false, // 是否正在播放
     dragging: false, // 是否正在拖动进度条
     currentTime: 0, // 当前播放时间
@@ -31,7 +31,7 @@ export const player = reactive({
                 music_details.url = songUrl;
                 music_details.playing = true;
                 this.playlist = [music_details]; // 设置为当前播放列表
-                this.current = 0;
+                this.currentIndex = 0;
                 this.set_play(); // 设置为播放状态
             } else {
                 console.error('无法获取歌曲链接');
@@ -40,7 +40,35 @@ export const player = reactive({
         } catch (error) {
             console.error('Error fetching song URL:', error.message);
         }
+    },
+    async putMultiToPlaylist(songlist){
+        if (!Array.isArray(songlist) || songlist.length === 0) {
+            console.log(songlist);
+            console.error('歌曲列表不正确');
+            return;
+        }
 
+        this.playlist = await songlist.map(track => ({
+            ...track,
+            playing: false,
+            url: track.url || songService.getSongUrl(track.id) || '' // 确保每首歌都有 url 属性
+        }));
+
+        this.currentIndex = 0;
+        this.playlist[this.currentIndex].playing = true;
+        this.set_play();
+    },
+    playAlbum(id) {
+        // 获取专辑详情
+        songService.getAlbum(id).then(album => {
+            putMultiToPlaylist(album.songs).then(() => {
+                console.log('专辑播放列表已设置');
+            }).catch(error => {
+                console.error('Error setting album playlist:', error.message);
+            });
+        }).catch(error => {
+            console.error('Error fetching album details:', error.message);
+        });
     },
 
     // 设置播放状态
@@ -100,7 +128,7 @@ export const player = reactive({
             }
 
             if (music_details.url && !this.is_in_list(music_details.id)) {
-                this.playlist.splice(this.current + 1, 0, music_details);
+                this.playlist.splice(this.currentIndex + 1, 0, music_details);
                 // this.playlist.push(music_details);
             } else {
                 console.log('歌曲已存在或链接为空');
@@ -114,9 +142,9 @@ export const player = reactive({
     play_in_playlist(id) {
         const songIndex = this.playlist.findIndex(item => item.id === id);
         if (songIndex !== -1) {
-            this.playlist[this.current].playing = false;
-            this.current = songIndex;
-            this.playlist[this.current].playing = true;
+            this.playlist[this.currentIndex].playing = false;
+            this.currentIndex = songIndex;
+            this.playlist[this.currentIndex].playing = true;
             this.set_play();
         } else {
             console.error('歌曲不在播放列表中');
@@ -127,20 +155,18 @@ export const player = reactive({
     del_from_list(id) {
         const songIndex = this.playlist.findIndex(item => item.id === id);
         if (songIndex !== -1) {
-            const isCurrent = this.current === songIndex;
             this.playlist.splice(songIndex, 1);
-
-            if (isCurrent) {
-                if (this.playlist.length > 0) {
-                    this.current = 0;
-                    this.playlist[this.current].playing = true;
-                } else {
-                    this.current = 0;
-                    this.is_playing = false;
-                }
+            if (this.playlist.length === 0) {
+                this.currentIndex = -1; // 重置当前索引
+                this.is_playing = false; // 停止播放
+                this.audio.pause();
+                this.audio.src = ''; // 清空音频源
             }
-        } else {
-            console.error('歌曲不在播放列表中');
+            else if (this.currentIndex >= this.playlist.length) {
+                this.currentIndex = 0; // 如果删除的是当前播放的歌曲，自动播放最后一首
+            } else {
+                console.error('歌曲不在播放列表中');
+            }
         }
     },
 
@@ -148,46 +174,47 @@ export const player = reactive({
     play_next() {
         if (this.playlist.length === 0) return;
 
-        this.playlist[this.current].playing = false;
-        if (this.current === this.playlist.length - 1) {
-            this.current = 0; // 列表循环
+        this.playlist[this.currentIndex].playing = false;
+        if (this.currentIndex === this.playlist.length - 1) {
+            this.currentIndex = 0; // 列表循环
         } else {
-            this.current += 1;
+            this.currentIndex += 1;
         }
-        this.playlist[this.current].playing = true;
+        this.playlist[this.currentIndex].playing = true;
         this.set_play();
     },
 
     // 播放上一首
     play_prev() {
+        console.log('play_prev', this.playlist.length, this.currentIndex);
         if (this.playlist.length === 0) return;
 
-        this.playlist[this.current].playing = false;
-        if (this.current === 0) {
-            this.current = this.playlist.length - 1; // 列表循环
+        this.playlist[this.currentIndex].playing = false;
+        if (this.currentIndex === 0) {
+            this.currentIndex = this.playlist.length - 1; // 列表循环
         } else {
-            this.current -= 1;
+            this.currentIndex -= 1;
         }
-        this.playlist[this.current].playing = true;
+        this.playlist[this.currentIndex].playing = true;
         this.set_play();
     },
 
     // 播放结束后自动播放下一首
     end_and_next() {
-        this.playlist[this.current].playing = false;
+        this.playlist[this.currentIndex].playing = false;
         if (this.playlist.length === 1) {
             // 如果只有一首歌，重置播放时间并重新播放
             this.set_pause();
             this.currentTime = 0; // 重置播放时间
-            this.playlist[this.current].playing = true;
+            this.playlist[this.currentIndex].playing = true;
             this.set_play();
             return;
         }
         if (this.playmode === 0) {
             this.play_next(); // 列表循环
         } else if (this.playmode === 1) {
-            this.playlist[this.current].playing = true; // 单曲循环
+            this.playlist[this.currentIndex].playing = true; // 单曲循环
             this.set_play();
         }
-    },
+    }
 });

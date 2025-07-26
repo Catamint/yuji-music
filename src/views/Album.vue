@@ -1,6 +1,6 @@
 <template>
   <n-scrollbar>
-    <AlbumHeader :album="album.album" />
+    <AlbumHeader :album="album" />
     <CardContainer layout="compact" :music_info_list="music_info_list" />
   </n-scrollbar>
 </template>

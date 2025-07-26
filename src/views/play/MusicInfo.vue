@@ -57,7 +57,7 @@ export default {
     },
     computed: {
         songOnPlay(){
-            return this.player.playlist.at(this.player.current);
+            return this.player.playlist.at(this.player.currentIndex);
         },
         playlistNotNull(){
             return this.player.playlist.length != 0;

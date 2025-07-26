@@ -128,7 +128,7 @@ export default {
     computed: {
         get_current_url() {
             if (this.player.playlist.length != 0) {
-                return this.player.playlist.at(this.player.current).url; //播放列表非空
+                return this.player.playlist.at(this.player.currentIndex).url; //播放列表非空
             } else {
                 return "";
             }
