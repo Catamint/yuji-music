@@ -32,7 +32,6 @@ function formatDate(timestamp) {
 async function formatSong(song) {
     const artist = song.artists?.[0] || {};
     const album = song.album || {};
-
     return {
         id: song.id,
         name: song.name,
@@ -47,8 +46,9 @@ async function formatSong(song) {
             id: album.id || null,
             name: album.name || '未知专辑',
             translatedName: album.transNames?.[0] || null,
-            img: song.album?.img || artist.img1v1Url || null,
-            picId: album.picId || null,
+            img: song.album?.img || null,
+            picId: album?.picId || null,
+            picStr: album?.picStr || null,
         },
     };
 }
@@ -143,7 +143,7 @@ async function formatAlbumSong(song, picurl='') {
             name: album.name || '未知专辑',
             translatedName: album.tns?.[0] || album.transNames?.[0] || null,
             // 构建专辑封面 URL
-            img: picurl,
+            img: picurl || song.album?.picUrl || artist.img1v1Url || null,
             picId: album.pic || album.picId || null,
             picStr: album.pic_str || null,
         },
@@ -219,13 +219,47 @@ export default {
      * @param {number} size - 图片尺寸，默认为 300
      * @returns {string|null} 图片 URL 或 null
      */
-    async getAlbumPicUrl(picId, source = 'netease', size = 300) {
+    async getAlbumPicUrl(albumId, source = 'netease') {
         try {
-            const response = await api.gdstudioGetAlbumPic(source, picId, size);
-            return response?.url || null;
+            const response = await this.getAlbum(albumId);
+            if (!response) {
+                console.error('获取专辑信息失败:', response);
+                return null;
+            }
+            // 使用专辑的 picUrl 或构建 URL
+            const picUrl = response.picUrl || null;
+            if (!picUrl) {
+                console.warn('专辑没有封面图片:', response.album);
+                return null;
+            }
+            console.log(`获取专辑图片 URL: ${picUrl}`);
+            return picUrl;
         } catch (error) {
             console.error('Error fetching album pic:', error.message);
             return null;
+        }
+    },
+
+    /**
+     * 显示指定大小的图片
+     * @param {string|number} picUrl - 图片 url
+     * @param {number} size - 图片尺寸，默认为 300
+     * @returns {string} 格式化后的图片 URL
+     */
+    async getPicUrl(musicInfo, size = 300) {
+        if (!musicInfo || !musicInfo.album || !musicInfo.album.id) {
+            console.warn('音乐信息或专辑图片 URL 不正确:', musicInfo);
+            return '';
+        } else if (musicInfo.album.img || musicInfo.album.picUrl) {
+            return `${musicInfo.album.img || musicInfo.album.picUrl}?param=${size}y${size}`;
+        } else {
+            const url = await this.getAlbumPicUrl(musicInfo.album.id);
+            console.log(`获取专辑图片 URL: ${url}`);
+            if (!url) {
+                console.warn('无法获取专辑图片 URL:', musicInfo.album.id);
+                return '';
+            }
+            return `${url}?param=${size}y${size}`;
         }
     },
 
@@ -281,16 +315,16 @@ export default {
     },
 
     /**
-     * 获取播放列表详情
-     * @param {string|number} id - 播放列表 ID
+     * 获取歌单详情
+     * @param {string|number} id - 歌单 ID
      * @param {number} s - 参数 s，默认为 8
-     * @returns {Object} 播放列表详情
+     * @returns {Object} 歌单详情
      */
     async getPlaylistDetail(id, s = 8) {
         try {
             const response = await api.getPlaylistDetail(id, s);
             if (response?.playlist) {
-                // 格式化播放列表中的歌曲
+                // 格式化歌单中的歌曲
                 const formattedTracks = await formatSongList({ songs: response.playlist.tracks });
                 return {
                     ...response,
@@ -308,7 +342,7 @@ export default {
     },
 
     /**
-     * 获取播放列表所有歌曲
+     * 获取歌单所有歌曲
      * @param {string|number} id - 播放列表 ID
      * @param {number} limit - 限制数量，默认为 100
      * @param {number} offset - 偏移量，默认为 0
@@ -504,5 +538,5 @@ export default {
             console.error('Error fetching playlist all songs:', error.message);
             return null;
         }
-    }
+    },
 };

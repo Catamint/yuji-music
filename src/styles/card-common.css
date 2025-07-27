@@ -85,12 +85,12 @@
     }
 }
 
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
     .layout-card {
-        flex: 1 1 100% !important; /* 每行1个 */
+        flex: 1 1 100% !important;
         max-width: 100% !important;
     }
-}
+} */
 
 .layout-card .cover-img {
     width: 100%;

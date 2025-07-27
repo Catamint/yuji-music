@@ -93,14 +93,10 @@ async function playIndex(index = state.currentIndex) {
 }
 
 async function play(music_details) {
-    if (!music_details.album || !music_details.album.picId) {
-        console.error('歌曲信息不完整');
-        return;
-    }
-
-    // // 调用 getAlbumPicUrl 获取专辑图片
-    // if (music_details.album.picId) {
-    //     music_details.album.img = await songService.getAlbumPicUrl(music_details.album.picId);
+    // 调用 getAlbumPicUrl 获取专辑图片
+    // if (!music_details.album.img && music_details.album.picStr) {
+    //     console.log('获取专辑图片');
+    //     music_details.album.img = await songService.getAlbumPicUrl(music_details.album.picStr);
     // }
 
     try {

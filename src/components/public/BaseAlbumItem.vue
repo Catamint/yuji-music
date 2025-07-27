@@ -1,6 +1,6 @@
 <template>
     <div :class="['base-album-item', 'base-item', layoutClass]" @click="onClick">
-        <img v-if="layout !== 'compact'" class="cover-img" :src="albumInfo?.img || albumInfo?.picUrl" alt="Album Cover" />
+        <img v-if="layout !== 'compact'" class="cover-img" :src="albumInfo?.img || albumInfo?.picUrl + '?param=300y300'" alt="Album Cover" />
         <div v-if="layout === 'card'" class="card-overlay">
             <div class="info">
                 <span class="title">{{ albumInfo?.name }}</span>
@@ -33,6 +33,7 @@
 <script>
 import { NButton, NEllipsis, NIcon } from 'naive-ui';
 import { Play24Regular, Heart28Regular, Heart28Filled } from '@vicons/fluent';
+import songService from '@/services/songService.js';
 
 export default {
     name: 'BaseAlbumItem',
@@ -63,6 +64,9 @@ export default {
         },
     },
     methods: {
+        getPicUrl(musicInfo) {
+            return songService.getPicUrl(musicInfo);
+        },
         playAlbum() {
             this.$emit('play', this.albumInfo);
         },

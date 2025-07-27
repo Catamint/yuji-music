@@ -1,6 +1,6 @@
 <template>
     <div :class="['base-item', 'base-music-item', layoutClass]" @click="onClick">
-        <img v-if="layout != 'compact'" class="cover-img" :src="musicInfo?.album?.img" alt="Album Cover" />
+        <img v-if="layout != 'compact'" class="cover-img" :src="picurl" alt="Album Cover" />
         <!-- 卡片布局的遮罩和文字悬浮层 -->
         <div v-if="layout === 'card'" class="card-overlay">
             <div class="info">
@@ -48,6 +48,7 @@
 <script>
 import { NButton, NEllipsis, NIcon, NTooltip } from 'naive-ui';
 import TooltipButton from './TooltipButton.vue'
+import songService from '@/services/songService'; // Make sure this path is correct and songService exports getPicUrl
 export default {
     name: 'BaseMusicItem',
     props: {
@@ -76,7 +77,18 @@ export default {
             return `layout-${this.layout}`;
         },
     },
+    data() {
+        return {
+            picurl: '',
+        }
+    },
+    async created() {
+        await this.getPicUrl(this.musicInfo);
+    },
     methods: {
+        async getPicUrl(musicInfo) {
+            this.picurl =  await songService.getPicUrl(musicInfo);
+        },
         playMusic() {
             this.$emit('play', this.musicInfo);
         },

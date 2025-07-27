@@ -10,7 +10,7 @@
 
 <script>
 import { NScrollbar } from 'naive-ui';
-import CardContainer from './CardContainer.vue';
+import CardContainer from '@/components/public/CardContainer.vue';
 import api from '@/stores/api.js';
 import songService from '@/services/songService.js';
 
@@ -28,7 +28,14 @@ export default {
         },
     },
     mounted() {
-        this.search_music(this.kw);
+        // this.search_music(this.kw);
+        // this.reloadPage();
+    },
+    async created() {
+        // 如果有kw参数，则进行搜索
+        if (this.kw) {
+            await this.search_music(this.kw);
+        }
     },
     data() {
         return {

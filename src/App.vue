@@ -22,6 +22,7 @@ import IndexView from './components/IndexView.vue';
 import { useThemeStore } from './stores/themeStore';
 import { NConfigProvider, NMessageProvider, NGlobalStyle } from 'naive-ui';
 import MessageApi from './stores/MessageApi.vue';
+import player2 from './stores/player2';
 
 export default {
   name: 'App',
@@ -34,6 +35,7 @@ export default {
   setup() {
     const themeStore = useThemeStore();
     themeStore.setDefaultTheme(); // 设置默认主题
+    player2.initAudio();
     return { themeStore };
   },
 };

@@ -86,7 +86,7 @@ export default {
         }
     },
     mounted() {
-        player2.initAudio();
+
     },
     methods: {
         // 获取下一个播放模式
@@ -172,10 +172,11 @@ export default {
 }
 .playbutton-container{
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     /* padding-inline: 14px; */
     width: 100%;
     box-sizing: border-box;
+    pointer-events: none; /* 禁止鼠标事件 */
 }
 .playbutton:hover {
     background-color: #ffffff69;
@@ -186,5 +187,7 @@ export default {
     transition: all 0.3s ease;
     border-radius: 50%;
     padding: 2px;
+    z-index: 2;
+    pointer-events: auto; /* 恢复鼠标事件 */
 }
 </style>
