@@ -4,11 +4,11 @@
             style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
             雨霁音乐</h1>
         <n-space>
-            <n-input-group style="display: inline-flex; justify-content: end;">
-                <n-input style="background-color: rgba(255, 255, 255, 0); width:200px ;" v-model:value="kw" type="text"
-                    placeholder="搜索" />
-                <n-button ghost @click="search_music"> GO </n-button>
-            </n-input-group>
+            <search>
+                v-model="kw"
+                @search="search_music"
+                style="width: 300px;"
+            </search>
             <router-link to="/settings"><n-button>设置</n-button></router-link>
             <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link>
             <div v-else>
@@ -24,6 +24,7 @@
 import { utils } from '@/stores/utils';
 import { NButton, NInput, NSpace, NInputGroup, NDropdown } from 'naive-ui';
 import { RouterLink } from 'vue-router';
+import Search from '@/components/public/Search.vue';
 
 export default {
     name: 'HeaderLayout',
@@ -36,7 +37,8 @@ export default {
         NButton,
         RouterLink,
         NSpace,
-        NDropdown
+        NDropdown,
+        Search
     },
     mounted() {
 

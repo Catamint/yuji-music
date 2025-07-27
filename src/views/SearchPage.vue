@@ -56,6 +56,14 @@ export default {
         NScrollbar,
         CardContainer,
     },
+    watch: {
+        kw: {
+        immediate: true, // 初始时也触发一次
+        handler(newKw) {
+            this.search_music(newKw)
+        }
+        }
+    },
 };
 </script>
 

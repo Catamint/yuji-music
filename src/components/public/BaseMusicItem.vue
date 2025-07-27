@@ -87,7 +87,8 @@ export default {
     },
     methods: {
         async getPicUrl(musicInfo) {
-            this.picurl =  await songService.getPicUrl(musicInfo);
+            if (this.layout == 'card')
+                this.picurl =  await songService.getPicUrl(musicInfo);
         },
         playMusic() {
             this.$emit('play', this.musicInfo);
