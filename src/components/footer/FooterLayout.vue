@@ -36,7 +36,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(140px);
     height: 80px;
     border: 2px;
     border-color: #ffffff29;

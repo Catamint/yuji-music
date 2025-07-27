@@ -77,7 +77,7 @@ export default {
             this.$emit('remove-from-favorites', this.albumInfo);
         },
         onClick() {
-            this.$router.push({ path: `/album/${this.albumInfo.id}` });
+            console.log('Clicked:', this.albumInfo);
             this.$emit('click', this.albumInfo);
         },
     },

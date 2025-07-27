@@ -29,7 +29,7 @@ import { Play24Regular } from '@vicons/fluent';
 import BaseAlbumItem from './BaseAlbumItem.vue';
 
 export default {
-    name: 'AlbumCardContainer',
+    name: 'SonglistCardContainer',
     props: {
         music_info_list: {
             type: Array,
@@ -65,7 +65,7 @@ export default {
         // 点击事件
         onClick(albumInfo) {
             if (albumInfo && albumInfo.id) {
-            this.$router.push({ path: `/album/${albumInfo.id}` });
+            this.$router.push({ path: `/songlist/${albumInfo.id}` });
             console.log('Clicked:', albumInfo);
             } else {
             console.warn('albumInfo or albumInfo.id is undefined:', albumInfo);

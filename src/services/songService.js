@@ -196,6 +196,21 @@ async function formatAlbumWithSongs(rawAlbumData) {
     }
 }
 
+async function formatPlayListInfo(rawPlaylist) {
+    if (!rawPlaylist) {
+        console.warn('Invalid playlist format:', rawPlaylist);
+        return null;
+    }
+    const formattedPlaylist = {
+        ...rawPlaylist,
+        id: rawPlaylist.id,
+        name: rawPlaylist.name,
+        description: rawPlaylist.description || '',
+        img: rawPlaylist.coverImgUrl || '',
+    }
+    return formattedPlaylist;
+}
+
 // 统一导出所有API接口
 export default {
     /**
@@ -274,7 +289,41 @@ export default {
     async searchNetease(keywords, limit = 30, offset = 0, type = 1) {
         try {
             const response = await api.search(keywords, limit, offset, type);
-            return await formatSongList(response?.result || { songs: [] });
+            switch (type) {
+                case 1: // 歌曲
+                    return await formatSongList(response?.result || { songs: [] });
+                case 10: // 专辑
+                    return await Promise.all(
+                        response?.result?.map(formatAlbum) || []
+                    );
+                case 100: // 歌手
+                    return response?.result?.artists || [];
+                case 1000: // 歌单
+                    return response?.result?.playlists || [];
+                case 1018: // 综合
+                    const songs = response?.result?.song.songs || [];
+                    const albums = response?.result?.album.albums || [];
+                    const artists = response?.result?.artist || [];
+                    const playLists = response?.result?.playList?.playLists || [];
+                    return {
+                        ...response,
+                        song: {
+                            ...response.result?.song,
+                            songs: await formatSongList({ songs }),
+                        },
+                        album: {
+                            ...response.result?.album,
+                            albums: await Promise.all(albums.map(formatAlbum)),
+                        },
+                        playList: {
+                            ...response.result?.playList,
+                            playLists: await Promise.all(playLists.map(formatPlayListInfo)),
+                        },
+                    };
+                default:
+                    console.warn('未知搜索类型:', type);
+                    return [];
+            }
         } catch (error) {
             console.error('Error searching songs:', error.message);
             return [];
@@ -327,34 +376,14 @@ export default {
                 // 格式化歌单中的歌曲
                 const formattedTracks = await formatSongList({ songs: response.playlist.tracks });
                 return {
-                    ...response,
-                    playlist: {
-                        ...response.playlist,
-                        tracks: formattedTracks
-                    }
+                    ...response.playlist,
+                    tracks: formattedTracks
                 };
             }
-            return response;
+            return null;
         } catch (error) {
             console.error('Error fetching playlist detail:', error.message);
             return null;
-        }
-    },
-
-    /**
-     * 获取歌单所有歌曲
-     * @param {string|number} id - 播放列表 ID
-     * @param {number} limit - 限制数量，默认为 100
-     * @param {number} offset - 偏移量，默认为 0
-     * @returns {Array} 格式化后的歌曲列表
-     */
-    async getPlaylistAllTracks(id, limit = 100, offset = 0) {
-        try {
-            const response = await api.getPlaylistAllTracks(id, limit, offset);
-            return await formatSongList({ songs: response?.songs || [] });
-        } catch (error) {
-            console.error('Error fetching playlist tracks:', error.message);
-            return [];
         }
     },
 

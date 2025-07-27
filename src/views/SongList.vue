@@ -4,12 +4,12 @@
       <!-- <h1>专辑详情</h1> -->
         <img
         class="album-cover"
-        :src="songList?.coverImgUrl || null"
+        :src="details?.coverImgUrl + '?param=300y300' || null"
         alt="艺术家封面"
         />
         <div class="album-info">
             <h1 class="album-name">
-                {{ songList?.name }}
+                {{ details?.name }}
             </h1>
             <div class="album-meta">
                 {{ songList?.total }}<span> 首音乐</span>
@@ -39,6 +39,7 @@ export default {
   },
   data(){
     return {
+        details: {},
         songList: {},
     }
   },
@@ -49,6 +50,8 @@ export default {
     }
   },
   async created() {
+    this.details = await songService.getPlaylistDetail(this.id);
+    console.log("获取到的歌单详情:", this.details);
     this.songList = await songService.getSonglistContent(this.id);
     console.log("获取到的歌单信息:", this.songList);
   }

@@ -1,7 +1,7 @@
 <template>
     <div class="card-container">
         <n-button v-if=head text style="display: flex;" @click="onHeaderClick">
-            <h1>{{ head }}</h1>
+            <h1 @click="onHeaderClick" >{{ head }}</h1>
             <template #icon>
                 <n-icon> <ChevronRight16Filled /> </n-icon>
             </template>
@@ -71,6 +71,7 @@ export default {
 
         // 点击标题的回调
         onHeaderClick() {
+            this.$emit('header-click');
             console.log('Header clicked:', this.head);
             // 可以在这里实现跳转或其他逻辑
         },
