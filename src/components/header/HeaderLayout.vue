@@ -4,14 +4,14 @@
             style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
             雨霁音乐</h1>
         <n-space>
-            <search>
+            <!-- <search>
                 v-model="kw"
                 @search="search_music"
                 style="width: 300px;"
-            </search>
-            <router-link to="/settings"><n-button>设置</n-button></router-link>
-            <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link>
-            <div v-else>
+            </search> -->
+            <!-- <router-link to="/settings"><n-button>设置</n-button></router-link> -->
+            <!-- <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link> -->
+            <div v-if="utils.user_config.uid != ''">
                 <n-dropdown n-button :options="options" @select="handleSelect">
                     <n-button>{{ this.utils.user_config.name }}</n-button>
                 </n-dropdown>

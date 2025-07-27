@@ -2,15 +2,15 @@
   <HeaderLayout v-show="!utils.play_component.showing" />
   <div class="container" v-show="!utils.play_component.showing">
     <SidebarLayout />
-      <div class="model">
-        <div class="col">
-          <router-view v-if="isRefreshFlag" v-slot="{ Component }">
-            <transition name="slide-up">
-              <component :is="Component" />
-            </transition>
-          </router-view>
-        </div>
+    <div class="model">
+      <div class="col">
+        <router-view v-if="isRefreshFlag" v-slot="{ Component }">
+          <transition name="slide-up">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </div>
+    </div>
   </div>
   <Transition name="slide">
     <Play v-show="utils.play_component.showing" />
@@ -65,6 +65,13 @@ export default {
   margin: 0 auto;
   width: 100%;
 }
+
+/* @media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+} */
 
 .model {
   position: relative;

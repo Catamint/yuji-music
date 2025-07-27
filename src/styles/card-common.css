@@ -59,7 +59,7 @@
     aspect-ratio: 1 / 1 !important; /* 保持正方形 */
     max-height: auto !important;
     height: auto !important;
-    max-width: calc(25% - 40px) !important;
+    max-width: calc(20% - 40px) !important;
     box-sizing: border-box !important;
 }
 

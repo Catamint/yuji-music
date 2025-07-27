@@ -23,6 +23,8 @@ import { useThemeStore } from './stores/themeStore';
 import { NConfigProvider, NMessageProvider, NGlobalStyle } from 'naive-ui';
 import MessageApi from './stores/MessageApi.vue';
 import player2 from './stores/player2';
+import { utils } from '@/stores/utils';
+// import StorageManager from './stores/StorageManager';
 
 export default {
   name: 'App',
@@ -34,7 +36,9 @@ export default {
   },
   setup() {
     const themeStore = useThemeStore();
-    themeStore.setDefaultTheme(); // 设置默认主题
+    // const storageManager = new StorageManager();
+    utils.initUtils(); // 初始化工具
+    themeStore.initDefaultTheme(); // 设置默认主题
     player2.initAudio();
     return { themeStore };
   },

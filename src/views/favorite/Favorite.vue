@@ -14,7 +14,7 @@
     </n-empty>
   </div>
   <template v-else>
-    <!-- <n-scrollbar> -->
+    <n-scrollbar>
       <songlist-card-container
         v-if="musicinfo_list.length > 0"
         :music_info_list="musicinfo_list"
@@ -28,14 +28,14 @@
           </n-icon>
         </template>
       </n-empty>
-    <!-- </n-scrollbar> -->
+    </n-scrollbar>
   </template>
 </template>
 
 <script>
 import { utils } from '@/stores/utils';
 import { Heart28Filled } from '@vicons/fluent';
-import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
+import { NButton, NEmpty, NIcon } from 'naive-ui';
 import songlistCardContainer from '@/components/public/SonglistCardContainer.vue';
 import songService from '@/services/songService.js';
 
@@ -46,7 +46,6 @@ export default {
     NIcon,
     NButton,
     Heart28Filled,
-    NScrollbar
   },
   data() {
     return {

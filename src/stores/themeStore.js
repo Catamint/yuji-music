@@ -112,15 +112,27 @@ export const useThemeStore = defineStore('theme', {
     },
     
     actions: {
+        // 保存当前主题到本地存储
+        saveCurrentTheme() {
+            localStorage.setItem('currentTheme', JSON.stringify(this.currentTheme));
+        },
+
         // 初始化默认主题
-        setDefaultTheme() {
-            this.currentTheme = { ...this.themes.light };
+        initDefaultTheme() {
+            if (localStorage.getItem('currentTheme')) {
+                this.currentTheme = JSON.parse(localStorage.getItem('currentTheme'));
+            } else {
+                this.currentTheme = { ...this.themes.light };
+                this.saveCurrentTheme();
+            }
         },
         
         // 设置主题
         setTheme(themeKey) {
             if (this.themes[themeKey]) {
                 this.currentTheme = { ...this.themes[themeKey] };
+                this.currentTheme.key = themeKey; // 确保 key 正确
+                this.saveCurrentTheme();
             } else {
                 console.error(`主题 ${themeKey} 不存在`);
             }
@@ -141,6 +153,7 @@ export const useThemeStore = defineStore('theme', {
                 this.createCustomTheme();
             }
             this.currentTheme.backgroundActive = active;
+            this.saveCurrentTheme();
         },
         
         // 设置背景图片
@@ -149,6 +162,7 @@ export const useThemeStore = defineStore('theme', {
                 this.createCustomTheme();
             }
             this.currentTheme.backgroundImage = image;
+            this.saveCurrentTheme();
         },
         
         // 设置背景饱和度
@@ -157,6 +171,7 @@ export const useThemeStore = defineStore('theme', {
                 this.createCustomTheme();
             }
             this.currentTheme.backgroundSaturation = saturation;
+            this.saveCurrentTheme();
         },
         // 设置容器背景颜色
         setContainerBackgroundColor(color) {
@@ -164,6 +179,7 @@ export const useThemeStore = defineStore('theme', {
                 this.createCustomTheme();
             }
             this.currentTheme.containerBackgroundColor = color;
+            this.saveCurrentTheme();
         },
         
         // 设置容器模糊度
@@ -172,6 +188,7 @@ export const useThemeStore = defineStore('theme', {
                 this.createCustomTheme();
             }
             this.currentTheme.containerBlur = blur;
+            this.saveCurrentTheme();
         },
         
         // 创建自定义主题的辅助方法
@@ -183,6 +200,7 @@ export const useThemeStore = defineStore('theme', {
             };
             this.addTheme(customTheme, 'custom');
             this.currentTheme = customTheme;
+            this.saveCurrentTheme();
         },
         
         // 重置为默认主题
@@ -198,6 +216,7 @@ export const useThemeStore = defineStore('theme', {
                     this.setDefaultTheme();
                 }
             }
+            this.saveCurrentTheme();
         }
     },
 });

@@ -2,11 +2,9 @@
     <div class="container">
         <div id="content">
             <span id="type-name">绑定网易云</span>
-            <div style="margin-top: 20px;">
-                <form style="display: flex; justify-content: center; align-items:center; " action="#" method="post" id="info">
-                    <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="uid">
-                    <n-button class="btn-signup" @click="login" type="primary">OK</n-button>
-                </form>
+            <div style="margin-top: 20px; display: flex; justify-content: center; align-items:center; ">
+                <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="uid">
+                <n-button class="btn-signup" @click="login" type="primary">OK</n-button>
             </div>
         </div>
     </div>
