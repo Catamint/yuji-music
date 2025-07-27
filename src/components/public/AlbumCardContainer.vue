@@ -27,6 +27,8 @@ import { NButton, NIcon } from 'naive-ui';
 import { Play24Regular } from '@vicons/fluent';
 // import { usePlayerStore } from '@/stores/playerStore.js';
 import BaseAlbumItem from './BaseAlbumItem.vue';
+import songService from '@/services/songService.js';
+import player2 from '@/stores/player2.js';
 
 export default {
     name: 'AlbumCardContainer',
@@ -44,6 +46,11 @@ export default {
             default: 'card', // 支持 'card', 'list', 'compact'
         },
     },
+    data() {
+        return {
+            player: player2,
+        };
+    },
     components: {
         NButton,
         NIcon,
@@ -56,6 +63,7 @@ export default {
                 // const playerStore = usePlayerStore();
                 // await playerStore.playSong(details);
                 console.log('Playing song:', details);
+                this.player.playMulti(details.songs);
                 // 这里可以调用播放函数
             } catch (error) {
                 console.error('Error playing song:', error.message);

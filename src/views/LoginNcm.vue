@@ -1,14 +1,13 @@
 <template>
     <div class="container">
         <div id="content">
-            <span id="type-name">用户登录</span>
-            <div><img class="round_icon" id="login_icon" src="../assets/image/user_default.png" alt=""></div>
-            <form action="#" method="post" id="info">
-                <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="账号">
-                <input v-model="pwd" class="info-input" type="password" name="password" id="password" placeholder="密码">
-                <!-- <p v-show="onError" style="color: red;">账号或密码错误</p> -->
-            </form>
-            <n-button @click="login" type="primary" style="width: 80%; height:45px; ">登录</n-button>
+            <span id="type-name">绑定网易云</span>
+            <div style="margin-top: 20px;">
+                <form style="display: flex; justify-content: center; align-items:center; " action="#" method="post" id="info">
+                    <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="uid">
+                    <n-button class="btn-signup" @click="login" type="primary">OK</n-button>
+                </form>
+            </div>
         </div>
     </div>
 </template>
@@ -19,7 +18,7 @@ import { NButton } from 'naive-ui';
 import querystring from 'querystring';
 
 export default {
-    name: 'Login',
+    name: 'LoginNcm',
     data(){
         return {
             username : '',
@@ -37,23 +36,8 @@ export default {
     },
     methods:{
         login(){
-            var url = "/host/auth/login";
-            this.$axios.post(url, querystring.stringify({
-                    uid: this.username,
-                    pw: this.pwd
-            })).then(res => {
-                var data = res.data
-                if(data.status == 'true') {
-                    this.utils.user_config.login(data.uid, data.name);
-                    this.$router.push({ path: '/'});
-                } else {
-                    window.$message.warning(data.error);
-                    console.log(data.error);
-                }
-            }).catch(function (error) {
-                window.$message.error(data.error);
-                console.log(error);
-            })
+            this.utils.user_config.login(this.username, "netease");
+            this.$router.push({ path: '/favorite'});
         },
     }
 }
@@ -83,7 +67,7 @@ form a{
 }
 
 #type-name{
-    color: aliceblue;
+    /* color: aliceblue; */
     font-size: 30px;
 }
 
@@ -100,25 +84,6 @@ form a{
     
 }
 
-#login_icon{
-    width: 150px;
-    height: 150px;
-}
-
-#signup_icon{
-    width: 150px;
-    height: 150px;
-}
-
-.round_icon{
-    /* display: flex; */
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 5px solid white;
-  }
-
 #content{
     display: block;
     position: absolute;
@@ -127,26 +92,20 @@ form a{
     text-align: center;
     padding: 20px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    /* box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3); */
 }
 
 input{
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
     border: none;
-    height: 30px;
     width: 200px;
-    margin: 20px;
-    margin-bottom: 5px;
-    /* border: 1px solid black; */
+    /* margin-bottom: 5px; */
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
     padding: 10px;
-    /* margin-bottom: 10px; */
+    height: 40px;
     font-weight: bold;
-}
-
-.info-input{
-    margin: 10px 3px 3px 3px; /* top-buttom left-right */
 }
 
 input:focus{
@@ -155,15 +114,15 @@ input:focus{
 }
 
 .btn-signup{
-    margin-top: 10px;
-    width: 100%;
-    height: 45px;
-    border-radius: 5px;
+    /* margin-top: 10px; */
+    /* width: 100%; */
+    height: 40px;
+    border-radius: 0 5px 5px 0;
     border: none;
-    box-shadow: 0px 0px 5px 0px black;
-    color: #D9D9D9;
-    background-color: #7F7F7F;
-    font-size: 24px;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+    /* color: #D9D9D9; */
+    /* background-color: #7F7F7F; */
+    /* font-size: 24px; */
 }
 
 
@@ -233,7 +192,7 @@ input:focus{
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
+    /* background-color: rgba(0, 0, 0, 0.8); */
     color: white;
     border-radius: 10px;
     opacity: 1;

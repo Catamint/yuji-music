@@ -76,10 +76,6 @@ export default {
     setup() {
         return {
             options: [
-                // {
-                //     label: "编辑用户资料",
-                //     key: "editProfile",
-                // },
                 {
                     label: "退出登录",
                     key: "logout",

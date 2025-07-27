@@ -1,6 +1,10 @@
 <template>
   <n-scrollbar>
-    <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" />
+    <!-- <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" /> -->
+    <div class="search-container">
+      <h2>搜索音乐</h2>
+      <search class="search-box" />
+    </div>    
     <AlbumCardContainer
       :music_info_list="[album]"
       layout="card"
@@ -16,6 +20,7 @@ import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import { NScrollbar } from "naive-ui";
 import api from "@/stores/api.js";
 import songService from "@/services/songService.js";
+import Search from "@/components/public/Search.vue";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 
@@ -72,5 +77,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.search-container {
+  margin: 20px;
+  padding: 10px;
+  max-width: 400px;
+  background-color: #ffffff23;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+}
 </style>

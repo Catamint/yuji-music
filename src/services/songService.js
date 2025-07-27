@@ -523,14 +523,10 @@ export default {
             const response = await api.getUserPlaylist(uid, limit, offset);
             if (response?.playlist) {
                 // 格式化歌单
-                const formattedTracks = await formatSongList({ songs: response.playlist.tracks });
-                return {
-                    ...response,
-                    playlist: {
-                        ...response.playlist,
-                        tracks: formattedTracks
-                    }
-                };
+                // const formattedTracks = await formatSongList({ songs: response.playlist });
+                return await Promise.all(
+                    response.playlist.map(formatPlayListInfo)
+                );
             }
             return [];
         } catch (error) {

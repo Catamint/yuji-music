@@ -1,5 +1,5 @@
 <template>
-  <n-tooltip trigger="hover">
+  <n-tooltip trigger="hover" :keep-alive-on-hover="false" :show-arrow="false">
     <template #trigger>
       <n-button class="n-button" :class="class" text @click.stop="$emit('click')">
         <template #icon>

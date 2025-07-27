@@ -8,6 +8,7 @@ import Play from "../views/play/Play.vue"
 import SearchPage from "../views/SearchPage.vue"
 import Login from "../views/Login.vue"
 import SignUp from "../views/SignUp.vue"
+import LoginNcm from "@/views/LoginNcm.vue"
 import Album from "@/views/Album.vue"
 
 import Piano from '@/music_create/components/Piano.vue';
@@ -53,6 +54,11 @@ const routes = [
     {
         path:"/login",
         component: Login
+    },
+    {
+        path:"/login_netease",
+        component: LoginNcm,
+        name: 'login_netease'
     },
     {
         path:"/signup",
@@ -116,6 +122,12 @@ const routes = [
       path:'/songlist/:id',
       name:'songlist',
       component: () => import('@/views/SongList.vue'),
+      props:true,
+    },
+    {
+      path:'/songlist/user/:id',
+      name:'usersonglist',
+      component: () => import('@/views/UserSonglist.vue'),
       props:true,
     }
     //   {

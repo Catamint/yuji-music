@@ -1,6 +1,6 @@
 <template>
     <div :class="['base-album-item', 'base-item', layoutClass]" @click="onClick">
-        <img v-if="layout !== 'compact'" class="cover-img" :src="albumInfo?.img || albumInfo?.picUrl + '?param=300y300'" alt="Album Cover" />
+        <img v-if="layout !== 'compact'" class="cover-img" :src="(albumInfo?.img || albumInfo?.picUrl) + '?param=300y300'" alt="Album Cover" />
         <div v-if="layout === 'card'" class="card-overlay">
             <div class="info">
                 <span class="title">{{ albumInfo?.name }}</span>

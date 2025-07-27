@@ -90,6 +90,7 @@ async function playIndex(index = state.currentIndex) {
     setSrc(track.url);
     state.audio.play();
     state.is_playing = true;
+    track.playing = true;
 }
 
 async function play(music_details) {
@@ -132,6 +133,18 @@ async function playMulti(songlist) {
 
     state.currentIndex = 0;
     playIndex();
+}
+
+// 从播放列表中播放指定歌曲
+function play_in_playlist(id) {
+    const songIndex = state.playlist.findIndex(item => item.id === id);
+    if (songIndex !== -1) {
+        state.playlist[state.currentIndex].playing = false;
+        state.currentIndex = songIndex;
+        playIndex();
+    } else {
+        console.error('歌曲不在播放列表中');
+    }
 }
 
 function pause() {
@@ -228,5 +241,6 @@ export default {
     put_in_playlist,
     insertNext,
     del_from_list,
-    set_current_time
+    set_current_time,
+    play_in_playlist,
 };

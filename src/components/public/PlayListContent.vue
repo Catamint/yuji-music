@@ -41,17 +41,6 @@ import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicon
 export default {
     name: 'PlayListContent',
     methods:{
-        get_music_detials(id){
-            const url = '/kugou/app/i/getSongInfo.php?cmd=playInfo&id=';
-            this.$axios.get(url + id).then(res => {
-                // console.log(res.data);
-                this.music_detials.song_name = res.data.songName;
-                this.music_detials.author_name = res.data.author_name;
-                this.music_detials.url = res.data.url;
-                this.music_detials.album_img = res.data.album_img.replace("{size}","240");
-                this.music_detials.id = res.data.id;
-            })
-        },
         put_in_playlist(detials){
             var message = this.player.put_in_playlist(detials);
             if(message != 0){
