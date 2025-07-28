@@ -29,6 +29,18 @@
         />
       </n-space>
 
+      <!-- 上传背景图片 -->
+      <n-space vertical>
+        <span>背景图片</span>
+        <n-button 
+          @click="setBackgroundImage" 
+          type="primary" 
+          secondary
+        >
+          上传背景图片
+        </n-button>
+      </n-space>
+
       <!-- 重置按钮 -->
       <n-space>
         <n-button @click="handleResetTheme" type="warning" secondary>
@@ -128,7 +140,24 @@ export default {
     const handleDeleteCustomTheme = () => {
       themeStore.deleteCustomTheme();
     };
-
+    
+    // 设置背景图片
+    const setBackgroundImage = () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            themeStore.setBackgroundImage(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
+    };
     return {
       themeStore,
       backgroundActive,
@@ -140,6 +169,7 @@ export default {
       handleBlurChange,
       handleResetTheme,
       handleDeleteCustomTheme,
+      setBackgroundImage,
     };
   },
 };

@@ -1,39 +1,35 @@
 <template>
-    <div :class="['base-album-item', 'base-item', layoutClass]" @click="onClick">
-        <img v-if="layout !== 'compact'" class="cover-img" :src="(albumInfo?.img || albumInfo?.picUrl) + '?param=300y300'" alt="Album Cover" />
-        <div v-if="layout === 'card'" class="card-overlay">
-            <div class="info">
-                <span class="title">{{ albumInfo?.name }}</span>
-                <span class="artist">{{ albumInfo?.artist?.name }}</span>
-                <span class="album">{{ albumInfo?.publishDate }}</span>
-            </div>
-        </div>
-        <div v-else class="info">
-            <n-ellipsis :tooltip="true" class="title">{{ albumInfo?.name }}</n-ellipsis>
-            <n-ellipsis :tooltip="true" class="artist">{{ albumInfo?.artist?.name }}</n-ellipsis>
-            <n-ellipsis :tooltip="true" class="publish-date" v-if="albumInfo?.publishDate">{{ albumInfo?.publishDate }}</n-ellipsis>
-        </div>
-        <div class="actions">
-            <n-button class="play" text @click.stop="playAlbum">
-                <template #icon><n-icon size="24"><Play24Regular /></n-icon></template>
+    <base-card
+        :image="(albumInfo?.img || albumInfo?.picUrl) + '?param=300y300'"
+        :title="albumInfo?.name"
+        :subtitle="albumInfo?.artist?.name"
+        :description="albumInfo?.publishDate"
+        :layout="layout"
+        @click="onClick"
+        @subtitle-click="onArtistClick"
+    >
+        <template #actions>
+            <n-button text @click.stop="playAlbum">
+                <n-icon size="24"><Play24Regular /></n-icon>
                 <span v-if="layout !== 'card'">播放</span>
             </n-button>
-            <n-button class="star" text v-if="!isFavorite" @click.stop="addToFavorites">
-                <template #icon><n-icon size="24"><Heart28Regular /></n-icon></template>
+            <n-button text v-if="!isFavorite" @click.stop="addToFavorites">
+                <n-icon size="24"><Heart28Regular /></n-icon>
                 <span v-if="layout !== 'card'">收藏</span>
             </n-button>
-            <n-button class="star" text v-else @click.stop="removeFromFavorites">
-                <template #icon><n-icon size="24"><Heart28Filled /></n-icon></template>
+            <n-button text v-else @click.stop="removeFromFavorites">
+                <n-icon size="24"><Heart28Filled /></n-icon>
                 <span v-if="layout !== 'card'">取消收藏</span>
             </n-button>
-        </div>
-    </div>
+        </template>
+    </base-card>
 </template>
 
 <script>
 import { NButton, NEllipsis, NIcon } from 'naive-ui';
 import { Play24Regular, Heart28Regular, Heart28Filled } from '@vicons/fluent';
 import songService from '@/services/songService.js';
+import BaseCard from './BaseCardLayout.vue';
 
 export default {
     name: 'BaseAlbumItem',
@@ -80,6 +76,11 @@ export default {
             console.log('Clicked:', this.albumInfo);
             this.$emit('click', this.albumInfo);
         },
+        onArtistClick() {
+            console.log('Artist clicked:', this.albumInfo.artist);
+            this.$emit('artist-click', this.albumInfo.artist);
+            this.$router.push({ name:'artist', params: { id: this.albumInfo.artist.id } });
+        },
     },
     components: {
         NButton,
@@ -88,10 +89,11 @@ export default {
         Play24Regular,
         Heart28Regular,
         Heart28Filled,
+        BaseCard
     },
 };
 </script>
 
 <style scoped>
-@import '@/styles/card-common.css';
+
 </style>

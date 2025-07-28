@@ -11,14 +11,14 @@
     />
 
     <div class="container playbutton-container">
-        <n-icon class='playbutton' size="32" @click="player2.prev()">
+        <n-icon class='playbutton' size="28" @click="player2.prev()">
             <Previous32Filled />
         </n-icon>
-        <n-icon class='playbutton' size="40" @click="player2.toggle()">
+        <n-icon class='playbutton' size="36" @click="player2.toggle()">
             <Pause48Filled v-if="player2.state.isPlaying" />
             <Play32Filled v-else />
         </n-icon>
-        <n-icon class='playbutton' size="32" @click="player2.next()">
+        <n-icon class='playbutton' size="28" @click="player2.next()">
             <Next32Filled />
         </n-icon>
     </div>
@@ -27,7 +27,7 @@
         <span class="time">{{ currentMinSec(player2.state.currentTime) }} / {{ currentMinSec(player2.state.duration) }}</span>
         <n-tooltip trigger="hover">
             <template #trigger>
-                <n-button class='playbutton' text style="font-size: 32px" @click="player2.setMode(getNextMode(player2.state.mode))">
+                <n-button class='playbutton' text style="font-size: 24px" @click="player2.setMode(getNextMode(player2.state.mode))">
                     <n-icon v-if="player2.state.mode === PlayMode.SEQUENTIAL">
                         <ArrowSync24Filled />
                     </n-icon>
@@ -47,11 +47,11 @@
             }}
         </n-tooltip>
         <!-- <n-slider style="width: 100px; margin-left: 10px;" :tooltip="false" /> -->
-        <n-button class='playbutton' text style="font-size: 32px;">
+        <n-button class='playbutton' text style="font-size: 24px;">
             <n-icon><Heart28Regular /></n-icon>
         </n-button>
         <router-link class="playlist-link" to="/playlist">
-            <n-button class='playbutton' text style="font-size: 32px">
+            <n-button class='playbutton' text style="font-size: 24px">
                     <n-icon><TextBulletListLtr24Filled /></n-icon>
             </n-button>
         </router-link>

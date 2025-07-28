@@ -1,0 +1,324 @@
+<template>
+  <div :class="['base-item', layoutClass]" @click="onClick">
+    <img v-if="layout !== 'compact'" :src="image" class="cover-img" />
+    <div v-if="layout === 'card'" class="card-overlay">
+        <div class="info">
+            <span class="title" @click="onTitleClick">{{ title }}</span>
+            <span class="subtitle" @click="onSubtitleClick">{{ subtitle }}</span>
+            <span class="description" @click="onDescriptionClick">{{ description }}</span>
+        </div>
+    </div>
+    <div v-else class="info">
+      <n-ellipsis :tooltip="true" @click="onTitleClick" class="title">{{ title }}</n-ellipsis>
+      <n-ellipsis :tooltip="true" @click="onSubtitleClick" class="subtitle">{{ subtitle }}</n-ellipsis>
+      <n-ellipsis :tooltip="true" @click="onDescriptionClick" class="description">{{ description }}</n-ellipsis>
+    </div>
+    <div class="actions">
+      <slot name="actions"></slot>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+    name: 'BaseCard',
+    props: {
+        image: String,
+        title: String,
+        subtitle: String,
+        description: String,
+        layout: {
+            type: String,
+            default: 'default' // or 'compact' | 'card'
+        },
+        actions: Array, // 自定义按钮数组，包含图标、文字、事件
+        classMap: {
+            type: Object,
+            default: () => ({})
+        }
+    },
+    computed: {
+        layoutClass() {
+            return `layout-${this.layout}`;
+        },
+        showImage() {
+            return this.layout !== 'compact';
+        }
+    },
+    methods: {
+        onClick() {
+            this.$emit('click');
+        },
+        onTitleClick() {
+            this.$emit('title-click');
+        },
+        onSubtitleClick() {
+            this.$emit('subtitle-click');
+        },
+        onDescriptionClick() {
+            this.$emit('description-click');
+        },
+    }
+}
+</script>
+
+<style scoped>
+/* 通用卡片样式 */
+.base-item {
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.base-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cover-img {
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.info {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.subtitle, .description {
+    font-size: 0.9rem;
+    /* color: #666; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* 卡片布局 */
+.layout-card {
+    flex-direction: column;
+    /* width: 200px;
+    height: 200px; */
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    flex: 1 1 calc(20% - 40px) !important; /* 默认每行5个 */
+    aspect-ratio: 1 / 1 !important; /* 保持正方形 */
+    max-height: auto !important;
+    height: auto !important;
+    max-width: calc(20% - 40px) !important;
+    box-sizing: border-box !important;
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+    .layout-card {
+        flex: 1 1 calc(25% - 30px) !important; /* 每行4个 */
+        max-width: calc(25% - 30px) !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    .layout-card {
+        flex: 1 1 calc(33.333% - 20px) !important; /* 每行3个 */
+        max-width: calc(33.333% - 20px) !important;
+    }
+}
+
+@media (max-width: 720px) {
+    .layout-card {
+        flex: 1 1 calc(50% - 20px) !important; /* 每行2个 */
+        max-width: calc(50% - 20px) !important;
+    }
+}
+
+/* @media (max-width: 480px) {
+    .layout-card {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+    }
+} */
+
+.layout-card .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.layout-card:hover .cover-img {
+    transform: scale(1.05);
+    filter: brightness(110%);
+}
+
+/* 卡片遮罩层 */
+.card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 15px;
+    z-index: 2;
+}
+
+.layout-card .card-overlay .info {
+    flex: 1;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.layout-card .card-overlay .title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.layout-card .card-overlay .subtitle {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2px;
+}
+
+.layout-card .card-overlay .description {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0;
+}
+
+.layout-card .actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.layout-card:hover .actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.layout-card .actions .n-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    color: #333;
+    transition: all 0.2s ease;
+    min-width: unset;
+    padding: 0;
+}
+.layout-card .actions .n-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+.layout-card .actions .star {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4757;
+}
+.layout-card .actions .star:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+/* 列表布局 */
+.layout-list {
+    flex-direction: row;
+    width: 100%;
+    height: 80px;
+}
+
+.layout-list .cover-img {
+    width: 80px;
+    height: 100%;
+}
+
+.layout-list .info {
+    margin-left: 15px;
+    justify-content: center;
+}
+
+.layout-list .actions {
+    margin-right: 0;
+    align-items: center;
+    min-width: fit-content;
+    justify-content: flex-end;
+}
+
+/* 紧凑布局 */
+.layout-compact {
+    flex-direction: row;
+    border-radius: 6px;
+    padding: 0 10px 0 10px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    min-height: 45px;
+}
+
+.layout-compact:hover {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.layout-compact .cover-img {
+    width: 40px;
+    height: 100%;
+}
+
+.layout-compact .info {
+    margin-left: 10px;
+    flex-direction: row;
+    justify-content: start;
+    gap: 12px;
+    align-items: center;
+}
+
+.layout-compact .info span {
+    width: 25%;
+}
+
+.layout-compact .info .title {
+    width: 50%;
+}
+
+.layout-compact .title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.layout-compact .actions {
+    margin-left: auto;
+    align-items: center;
+}
+</style>

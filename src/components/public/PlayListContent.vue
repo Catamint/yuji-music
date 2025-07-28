@@ -1,43 +1,42 @@
 <template>
-    <n-card content-style="padding: 0; display: flex; align-items: center;">
-        <img class="cover-img" @click="player.play_in_playlist(music_info.id);" :src="music_info.album.img">
-        <n-flex style="width:100%; justify-content: space-between; padding-right: 10px;">
-            <div class="text">
-                <n-ellipsis style="font-size: 1.5rem; font-weight: bold;">
-                    {{ music_info.name }}
-                </n-ellipsis>
-                <span class="info" style="padding-left: 20px;">{{ music_info.artist.name }}</span>
-                <span class="info">{{ music_info.album.name }}</span>
-            </div>
-            <n-flex>
-                <n-button :disabled="music_info.playing" style="font-size: 18px" @click="player.play_in_playlist(music_info.id)">
-                    <template #icon>
-                        <n-icon><Play24Regular/></n-icon>
-                    </template>
-                    播放
-                </n-button>
-                <n-button style="font-size: 18px">
-                    <template #icon>
-                        <n-icon><Heart28Regular /></n-icon>
-                    </template>
-                    收藏
-                </n-button>
-                <n-button style="font-size: 18px" @click="player.del_from_list(music_info.id)">
-                    <template #icon>
-                        <n-icon><TextBulletListAdd24Filled /></n-icon>
-                    </template>
-                    从播放列表移除
-                </n-button>
-            </n-flex>
-        </n-flex>
-    </n-card>
+    <base-card
+        :title="music_info.name"
+        :subtitle="music_info.artist.name"
+        :description="music_info.album.name"
+        :image="music_info.album.img"
+        layout="compact"
+        @title-click="player.play_in_playlist(music_info.id)"
+        @subtitle-click="goToArtist"
+        @description-click="goToAlbum"
+    >
+        <template #actions>
+            <n-button :disabled="music_info.playing" style="font-size: 18px" @click="player.play_in_playlist(music_info.id)">
+                <template #icon>
+                    <n-icon><Play24Regular/></n-icon>
+                </template>
+                播放
+            </n-button>
+            <n-button style="font-size: 18px">
+                <template #icon>
+                    <n-icon><Heart28Regular /></n-icon>
+                </template>
+                收藏
+            </n-button>
+            <n-button style="font-size: 18px" @click="player.del_from_list(music_info.id)">
+                <template #icon>
+                    <n-icon><TextBulletListAdd24Filled /></n-icon>
+                </template>
+                从播放列表移除
+            </n-button>
+        </template>
+    </base-card>
 </template>
 
 <script>
 import { NButton, NCard, NEllipsis, NFlex, NIcon } from 'naive-ui';
 import  player2  from '@/stores/player2';
 import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from '@vicons/fluent/lib';
-
+import BaseCard from './BaseCardLayout.vue';
 export default {
     name: 'PlayListContent',
     methods:{
@@ -46,6 +45,12 @@ export default {
             if(message != 0){
                 console.log("???")
             }
+        },
+        goToArtist() {
+            this.$router.push({ name: 'artist', params: { id: this.music_info.artist.id } });
+        },
+        goToAlbum() {
+            this.$router.push({ name: 'album', params: { id: this.music_info.album.id } });
         }
     },
     mounted() {
@@ -92,7 +97,8 @@ export default {
         NFlex,
         Play24Regular,
         NIcon,
-        NButton
+        NButton,
+        BaseCard
     }
   }
 

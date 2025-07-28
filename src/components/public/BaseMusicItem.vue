@@ -1,21 +1,15 @@
 <template>
-    <div :class="['base-item', 'base-music-item', layoutClass]" @click="onClick">
-        <img v-if="layout != 'compact'" class="cover-img" :src="picurl" alt="Album Cover" />
-        <!-- 卡片布局的遮罩和文字悬浮层 -->
-        <div v-if="layout === 'card'" class="card-overlay">
-            <div class="info">
-                <span class="title">{{ musicInfo?.name }}</span>
-                <span class="artist" @click="artistOnClick">{{ musicInfo?.artist?.name }}</span>
-                <span class="album" @click="albumOnClick">{{ musicInfo?.album?.name }}</span>
-            </div>
-        </div>
-        <!-- 非卡片布局的普通信息区域 -->
-        <div v-else class="info">
-            <span class="title">{{ musicInfo?.name }}</span>
-            <span class="artist" @click="artistOnClick">{{ musicInfo?.artist?.name }}</span>
-            <span class="album" @click="albumOnClick">{{ musicInfo?.album?.name }}</span>
-        </div>
-        <div class="actions">
+    <base-card
+        :image="musicInfo?.album?.picUrl"
+        :title="musicInfo?.name"
+        :subtitle="musicInfo?.artist?.name"
+        :description="musicInfo?.album?.name"
+        :layout="layout"
+        @click="onClick"
+        @subtitle-click="artistOnClick"
+        @description-click="albumOnClick"
+    >
+        <template #actions>
             <tooltip-button
             icon="Play24Regular"
             tooltip="播放"
@@ -40,15 +34,15 @@
             class="next"
             @click="addToPlayNext"
             />
-
-        </div>
-    </div>
+        </template>
+    </base-card>
 </template>
 
 <script>
 import { NButton, NEllipsis, NIcon, NTooltip } from 'naive-ui';
 import TooltipButton from './TooltipButton.vue'
 import songService from '@/services/songService'; // Make sure this path is correct and songService exports getPicUrl
+import BaseCard from './BaseCardLayout.vue';
 export default {
     name: 'BaseMusicItem',
     props: {
@@ -126,16 +120,11 @@ export default {
     components: {
         NButton,
         NEllipsis,
-        NIcon
+        NIcon,
+        BaseCard,
     },
 };
 </script>
 
 <style>
-@import '@/styles/card-common.css';
-
-/* 音乐卡片特有样式 */
-.base-music-item {
-    /* 可以添加音乐卡片特有的样式 */
-}
 </style>
