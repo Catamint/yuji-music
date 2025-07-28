@@ -1,10 +1,25 @@
 <template>
-    <div class="container">
-        <div id="content">
-            <span id="type-name">绑定网易云</span>
-            <div class="input-model">
-                <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="uid">
-                <n-button class="btn-signup" @click="login" type="primary">OK</n-button>
+    <div class="absolute flex h-full w-full items-center justify-center rounded-lg">
+        <div class="absolute block rounded-lg p-5 text-center">
+            <h1 class="text-3xl">绑定网易云</h1>
+            <div class="mt-5 flex items-center justify-center">
+                <input 
+                    v-model="username" 
+                    type="text" 
+                    name="uid" 
+                    id="uid" 
+                    placeholder="uid"
+                    class="h-10 w-[200px] rounded-l-lg border-none px-3 font-bold shadow-md 
+                           focus:outline-none focus:shadow-[0_0_10px_0_#616edb]"
+                >
+                <button 
+                    class="h-10 w-15 rounded-r-lg border-none shadow-md bg-gradient-to-r from-[#03a9f4] to-[#03a9f4] 
+                               bg-[length:400%_100%] text-white text-xl uppercase hover:before:animate-sun focus:shadow-[0_0_10px_0_#616edb]" 
+                    @click="login" 
+                    type="primary"
+                >
+                    OK
+                </button>
             </div>
         </div>
     </div>
@@ -139,6 +154,7 @@ input:focus{
 }
 /* 设置发光 */
 .btn-signup-light::before{
+    content: "";
     background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb3b,#03a9f4);
     background-size: 400%;
     border-radius: 50px;

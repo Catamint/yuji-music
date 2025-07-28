@@ -94,12 +94,6 @@ async function playIndex(index = state.currentIndex) {
 }
 
 async function play(music_details) {
-    // 调用 getAlbumPicUrl 获取专辑图片
-    // if (!music_details.album.img && music_details.album.picStr) {
-    //     console.log('获取专辑图片');
-    //     music_details.album.img = await songService.getAlbumPicUrl(music_details.album.picStr);
-    // }
-
     try {
         // 调用 API 获取歌曲链接
         const songUrl = await songService.getSongUrl(music_details.id);

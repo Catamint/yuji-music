@@ -18,7 +18,6 @@
 import CardContainer from "@/components/public/CardContainer.vue";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import { NScrollbar } from "naive-ui";
-import api from "@/stores/api.js";
 import songService from "@/services/songService.js";
 import Search from "@/components/public/Search.vue";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";

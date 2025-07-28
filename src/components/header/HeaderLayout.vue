@@ -1,6 +1,6 @@
 <template>
     <div class="player">
-        <h1
+        <h1 class="text-3xl"
             style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
             雨霁音乐</h1>
         <n-space>
@@ -13,7 +13,7 @@
             <!-- <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link> -->
             <div v-if="utils.user_config.uid != ''">
                 <n-dropdown n-button :options="options" @select="handleSelect">
-                    <n-button>{{ this.utils.user_config.name }}</n-button>
+                    <Button>{{ this.utils.user_config.name }}</Button>
                 </n-dropdown>
             </div>
         </n-space>
@@ -23,6 +23,7 @@
 <script>
 import { utils } from '@/stores/utils';
 import { NButton, NInput, NSpace, NInputGroup, NDropdown } from 'naive-ui';
+import { Button } from "@/components/ui/button"
 import { RouterLink } from 'vue-router';
 import Search from '@/components/public/Search.vue';
 
@@ -38,7 +39,8 @@ export default {
         RouterLink,
         NSpace,
         NDropdown,
-        Search
+        Search,
+        Button
     },
     mounted() {
 

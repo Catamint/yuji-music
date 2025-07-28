@@ -31,7 +31,7 @@
 
 <script>
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
-import DetailLayout from "@/components/page/DetailLayout.vue";
+import DetailLayout from "@/components/layout/DetailLayout.vue";
 import songService from "@/services/songService.js";
 
 export default {

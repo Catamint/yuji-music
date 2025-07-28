@@ -1,5 +1,5 @@
 // src/services/songService.js
-import api from '@/stores/api.js';
+import api from '@/services/api.js';
 
 /**
  * 将毫秒转换为 mm:ss 格式

@@ -59,15 +59,9 @@ export default {
     methods: {
         // 播放歌曲
         async onPlay(details) {
-            try {
-                // const playerStore = usePlayerStore();
-                // await playerStore.playSong(details);
-                console.log('Playing song:', details);
-                this.player.playMulti(details.songs);
-                // 这里可以调用播放函数
-            } catch (error) {
-                console.error('Error playing song:', error.message);
-            }
+            console.log('Playing song:', details);
+            this.player.playMulti(details.songs);
+            // 这里可以调用播放函数
         },
 
         // 点击事件

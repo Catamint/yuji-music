@@ -29,7 +29,7 @@
 import { NButton, NEllipsis, NIcon } from 'naive-ui';
 import { Play24Regular, Heart28Regular, Heart28Filled } from '@vicons/fluent';
 import songService from '@/services/songService.js';
-import BaseCard from './BaseCardLayout.vue';
+import BaseCard from '@/components/layout/BaseCardLayout.vue';
 
 export default {
     name: 'BaseAlbumItem',

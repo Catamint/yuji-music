@@ -10,13 +10,13 @@
     </div> 
     <template v-else>
       <n-scrollbar>
-        <PlayListContent class="item" v-for="info in player.state.playlist" :music_info="info" :key="info.id" />
+        <PlayListItem class="item" v-for="info in player.state.playlist" :music_info="info" :key="info.id" />
       </n-scrollbar>
     </template>
 </template>
 
 <script> 
-import PlayListContent from "@/components/public/PlayListContent.vue";
+import PlayListItem from "@/components/public/PlayListItem.vue";
 import player2 from "../stores/player2";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";
 import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
@@ -24,7 +24,7 @@ import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
 export default {
   name: 'PlayList',
   components: {
-    PlayListContent,
+    PlayListItem,
     TextBulletListSquare24Filled,
     NEmpty,
     NIcon,

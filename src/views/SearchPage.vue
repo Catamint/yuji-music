@@ -25,7 +25,6 @@ import { NScrollbar } from 'naive-ui';
 import CardContainer from '@/components/public/CardContainer.vue';
 import AlbumCardContainer from '@/components/public/AlbumCardContainer.vue';
 import SonglistCardContainer from '@/components/public/SonglistCardContainer.vue';
-import api from '@/stores/api.js';
 import songService from '@/services/songService.js';
 
 export default {

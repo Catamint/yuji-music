@@ -42,7 +42,7 @@
 import { NButton, NEllipsis, NIcon, NTooltip } from 'naive-ui';
 import TooltipButton from './TooltipButton.vue'
 import songService from '@/services/songService'; // Make sure this path is correct and songService exports getPicUrl
-import BaseCard from './BaseCardLayout.vue';
+import BaseCard from '@/components/layout/BaseCardLayout.vue';
 export default {
     name: 'BaseMusicItem',
     props: {

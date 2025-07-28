@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import IndexView from './components/IndexView.vue';
+import IndexView from '@/layout/IndexView.vue';
 import { useThemeStore } from './stores/themeStore';
 import { NConfigProvider, NMessageProvider, NGlobalStyle } from 'naive-ui';
 import MessageApi from './stores/MessageApi.vue';
@@ -48,7 +48,7 @@ export default {
 <style>
 
 @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Medium.min.css');
-
+@import "@/index.css";
 .base-container {
   top: 0;
   bottom: 0;
