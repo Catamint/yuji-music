@@ -6,8 +6,8 @@ import Settings from "../views/settings/Settings.vue"
 import PlayList from "../views/PlayList.vue"
 import Play from "../views/play/Play.vue"
 import SearchPage from "../views/SearchPage.vue"
-import Login from "../views/Login.vue"
-import SignUp from "../views/SignUp.vue"
+// import Login from "../views/Login.vue"
+// import SignUp from "../views/SignUp.vue"
 import LoginNcm from "@/views/LoginNcm.vue"
 import Album from "@/views/Album.vue"
 
@@ -18,7 +18,7 @@ import Guitar from '@/music_create/components/Guitar.vue';
 import ChooseTeam from '@/music_create/components/chooseTeam.vue';
 import TeamRoom from '@/music_create/components/teamRoom.vue';
 import play from '@/music_create/components/play.vue';
-import Generate from "@/views/generate/Generate.vue";
+// import Generate from "@/views/generate/Generate.vue";
 
 const routes = [
     {
@@ -51,19 +51,19 @@ const routes = [
         component: SearchPage,
         props: true
     },
-    {
-        path:"/login",
-        component: Login
-    },
+    // {
+    //     path:"/login",
+    //     component: Login
+    // },
     {
         path:"/login_netease",
         component: LoginNcm,
         name: 'login_netease'
     },
-    {
-        path:"/signup",
-        component: SignUp
-    },
+    // {
+    //     path:"/signup",
+    //     component: SignUp
+    // },
     {
       path: '/piano',
       name: 'piano',
@@ -79,11 +79,11 @@ const routes = [
       name: 'guitar',
       component: Guitar,
     },
-    {
-      path: '/generate',
-      name: 'generate',
-      component: Generate,
-    },
+    // {
+    //   path: '/generate',
+    //   name: 'generate',
+    //   component: Generate,
+    // },
     {
       path:'/together',
       name:'together',

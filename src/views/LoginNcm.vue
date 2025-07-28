@@ -2,7 +2,7 @@
     <div class="container">
         <div id="content">
             <span id="type-name">绑定网易云</span>
-            <div style="margin-top: 20px; display: flex; justify-content: center; align-items:center; ">
+            <div class="input-model">
                 <input v-model="username" class="info-input" type="text" name="uid" id="uid" placeholder="uid">
                 <n-button class="btn-signup" @click="login" type="primary">OK</n-button>
             </div>
@@ -48,12 +48,9 @@ export default {
     position: absolute;
     height: 100%;
     width: 100%;
-    /* border: 50px; */
     border-radius: 10px;
-    /* background-color: rgba(255, 255, 255, 0.5); */
     justify-content: center;
     align-items: center;
-    /* z-index: 9; */
 }
 form{
     margin-bottom: 20px;
@@ -65,7 +62,6 @@ form a{
 }
 
 #type-name{
-    /* color: aliceblue; */
     font-size: 30px;
 }
 
@@ -90,15 +86,19 @@ form a{
     text-align: center;
     padding: 20px;
     border-radius: 10px;
-    /* background-color: rgba(255, 255, 255, 0.5); */
-    /* box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3); */
+}
+
+.input-model{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
 
 input{
     border-radius: 5px 0 0 5px;
     border: none;
     width: 200px;
-    /* margin-bottom: 5px; */
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
     padding: 10px;
@@ -112,34 +112,23 @@ input:focus{
 }
 
 .btn-signup{
-    /* margin-top: 10px; */
-    /* width: 100%; */
     height: 40px;
     border-radius: 0 5px 5px 0;
     border: none;
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
-    /* color: #D9D9D9; */
-    /* background-color: #7F7F7F; */
-    /* font-size: 24px; */
 }
 
 
-.btn-signup-light{  /*去掉下划线*/
+.btn-signup-light{
     margin-top: 10px;
-    text-decoration: none;  
-    /* position: absolute; */
-    /* left: 50%;
-    top: 50%; */
-    /* transform: translate(-50%,-50%); */
-    /* 设置字体大小 */
+    text-decoration: none;
     border: none;
     font-size: 24px;
-    box-shadow: 0px 0px 10px 0px black;;
+    box-shadow: 0px 0px 10px 0px black;
     background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb3b,#03a9f4);
     background-size: 400%;
     width: 100%;
     height: 45px;
-    /* line-height: 100px; */
     text-align: center;
     color: #fff;
     /* 字母变大写 */
@@ -150,12 +139,6 @@ input:focus{
 }
 /* 设置发光 */
 .btn-signup-light::before{
-    content: "";
-    /* position: absolute; */
-    /* left: -5px;
-    right: -5px;
-    top: -5px;
-    bottom: -5px; */
     background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb3b,#03a9f4);
     background-size: 400%;
     border-radius: 50px;
@@ -190,7 +173,6 @@ input:focus{
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    /* background-color: rgba(0, 0, 0, 0.8); */
     color: white;
     border-radius: 10px;
     opacity: 1;
@@ -199,9 +181,9 @@ input:focus{
     z-index: 10;
   }
 
-  /* 当透明度为0时隐藏提示框 */
-  .message-box.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
+/* 当透明度为0时隐藏提示框 */
+.message-box.hidden {
+opacity: 0;
+pointer-events: none;
+}
 </style>

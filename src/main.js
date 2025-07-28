@@ -7,6 +7,7 @@ import axios from 'axios'
 import 'vfonts/Lato.css'
 import 'vfonts/FiraCode.css'
 import { createPinia } from 'pinia'
+import './style.css'
 
 const app = createApp(App)
 const pinia = createPinia() // Create an instance of Pinia
