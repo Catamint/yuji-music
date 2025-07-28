@@ -1,9 +1,13 @@
 <template>
-  <HeaderLayout v-show="!utils.play_component.showing" />
-  <div class="container" v-show="!utils.play_component.showing">
+  <div class="inline-flex items-center justify-between w-full h-16 bg-white shadow-md px-4" >
+    <HeaderLayout v-show="!utils.play_component.showing" />
+  </div>
+  <!-- <SidebarProvider> -->
+  <div class="h-full w-full flex" v-show="!utils.play_component.showing">
+    <!-- <SidebarTrigger /> -->
     <SidebarLayout />
-    <div class="model">
-      <div class="col">
+    <div class="w-full relative">
+      <div class="w-full h-full absolute">
         <router-view v-if="isRefreshFlag" v-slot="{ Component }">
           <transition name="slide-up">
             <component :is="Component" />
@@ -12,10 +16,13 @@
       </div>
     </div>
   </div>
+  <!-- </SidebarProvider> -->
   <Transition name="slide">
     <Play v-show="utils.play_component.showing" />
   </Transition>
-  <FooterLayout />
+    <FooterLayout />
+  <!-- </div> -->
+
 </template>
 
 <script>
@@ -25,6 +32,7 @@ import SidebarLayout from '@/components/sidebar/SidebarLayout.vue';
 import Play from '@/views/play/Play.vue';
 import { utils } from '@/stores/utils';
 import { nextTick } from 'vue';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
 export default {
   name: 'IndexView',
@@ -33,6 +41,8 @@ export default {
     FooterLayout,
     SidebarLayout,
     Play,
+    SidebarProvider, 
+    SidebarTrigger
   },
   data() {
     return {
@@ -78,8 +88,7 @@ export default {
   padding: 0 20px;
   border-top-left-radius: 20px;
   width: 100%;
-  top: 0;
-  bottom: 0;
+  height:100%;
 }
 
 @keyframes slideDown {

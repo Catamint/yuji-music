@@ -1,5 +1,5 @@
 <template>
-  <div :class="['sidebar', { collapsed: isCollapsed }]">
+  <!-- <div :class="['sidebar', { collapsed: isCollapsed }]"> -->
     <n-button class="toggle-button" @click="toggleSidebar" :class="{ collapsed: !isCollapsed }">
       {{ isCollapsed ? '>' : '<' }}
     </n-button>
@@ -8,9 +8,16 @@
       :options="menuOptions"
       :default-expanded-keys="defaultExpandedKeys"
       :collapsed="isCollapsed"
-    />
-
-  </div>
+    /> 
+      <!-- <Sidebar>
+    <SidebarHeader />
+    <SidebarContent>
+      <SidebarGroup />
+      <SidebarGroup />
+    </SidebarContent>
+    <SidebarFooter />
+  </Sidebar> -->
+  <!-- </div> -->
 </template>
 
 <script>
@@ -18,6 +25,14 @@ import { h, ref, onMounted, onBeforeUnmount } from "vue";
 import { NButton, NIcon, NMenu } from "naive-ui";
 import { RouterLink } from "vue-router";
 import { Guitar20Filled, Heart28Filled, Home24Filled, KeyboardLayoutOneHandedLeft24Filled, MathFormula24Filled, MoviesAndTv24Filled, MusicNote120Filled, PeopleCommunity24Filled, SportHockey24Filled, TextBulletListSquare24Filled } from "@vicons/fluent";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from '@/components/ui/sidebar'
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -141,7 +156,12 @@ export default {
       menuOptions,
       defaultExpandedKeys: ["create"],
       isCollapsed,
-      toggleSidebar
+      toggleSidebar,
+        Sidebar,
+      SidebarContent,
+      SidebarFooter,
+      SidebarGroup,
+      SidebarHeader,
     };
   }
 };

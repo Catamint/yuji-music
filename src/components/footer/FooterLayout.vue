@@ -1,6 +1,9 @@
 <template>
-    <div class="player">
-        <music-info />
+    <div class="
+        bg-white/15 backdrop-blur-3xl border-[#ffffff29]
+        flex justify-between items-center m-2.5 p-2.5 h-20 box-border
+        rounded-xl relative z-10 border">
+        <MusicInfo />
         <PlayerController />
         <!-- <button>播放列表</button> -->
     </div>
@@ -42,8 +45,6 @@ export default {
     border: 2px;
     border-color: #ffffff29;
     border-radius: 14px;
-    /* border-top-right-radius: 20px; */
-    /* width: 100%; */
     z-index: 10;
     position: relative;
     /* bottom: 0; */

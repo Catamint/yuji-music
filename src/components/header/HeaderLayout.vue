@@ -1,23 +1,21 @@
 <template>
-    <div class="player">
-        <h1 class="text-3xl"
-            style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-            雨霁音乐</h1>
-        <n-space>
-            <!-- <search>
-                v-model="kw"
-                @search="search_music"
-                style="width: 300px;"
-            </search> -->
-            <!-- <router-link to="/settings"><n-button>设置</n-button></router-link> -->
-            <!-- <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link> -->
-            <div v-if="utils.user_config.uid != ''">
-                <n-dropdown n-button :options="options" @select="handleSelect">
-                    <Button>{{ this.utils.user_config.name }}</Button>
-                </n-dropdown>
-            </div>
-        </n-space>
-    </div>
+    <h1 class="text-3xl"
+        style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+        雨霁音乐</h1>
+    <n-space>
+        <!-- <search>
+            v-model="kw"
+            @search="search_music"
+            style="width: 300px;"
+        </search> -->
+        <!-- <router-link to="/settings"><n-button>设置</n-button></router-link> -->
+        <!-- <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link> -->
+        <div v-if="utils.user_config.uid != ''">
+            <n-dropdown n-button :options="options" @select="handleSelect">
+                <Button>{{ this.utils.user_config.name }}</Button>
+            </n-dropdown>
+        </div>
+    </n-space>
 </template>
 
 <script>
@@ -96,7 +94,7 @@ export default {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
-    height: 10%;
+    /* height: 10%; */
     border-radius: 20px;
     width: 100%;
 }
