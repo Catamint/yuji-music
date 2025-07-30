@@ -1,48 +1,59 @@
 <template>
-  <div class="inline-flex items-center justify-between w-full h-16 bg-white shadow-md px-4" >
-    <HeaderLayout v-show="!utils.play_component.showing" />
-  </div>
-  <!-- <SidebarProvider> -->
-  <div class="h-full w-full flex" v-show="!utils.play_component.showing">
-    <!-- <SidebarTrigger /> -->
-    <SidebarLayout />
-    <div class="w-full relative">
-      <div class="w-full h-full absolute">
-        <router-view v-if="isRefreshFlag" v-slot="{ Component }">
+  <SidebarProvider class="flex h-screen">
+    <AppSidebar/>
+    <div class="flex flex-1 flex-col overflow-auto min-h-full">
+      <div class="h-16 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" >
+        <SidebarTrigger />
+        <HeaderLayout class="w-full" />
+      </div>      
+
+      <div class="h-full m-4 py-6 lg:py-8 mb-26">
+        <router-view v-if="isRefreshFlag" v-slot="{ Component }">          
           <transition name="slide-up">
             <component :is="Component" />
           </transition>
         </router-view>
       </div>
-    </div>
-  </div>
-  <!-- </SidebarProvider> -->
-  <Transition name="slide">
-    <Play v-show="utils.play_component.showing" />
-  </Transition>
-    <FooterLayout />
-  <!-- </div> -->
 
+      <div class="h-26 sticky bottom-0 z-[999] w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <FooterLayout />
+      </div>   
+    </div>
+  </SidebarProvider>
+
+  <!-- Play 浮层 -->
+  <transition name="slide">
+    <div
+      v-show="utils.play_component.showing"
+      class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
+      style="background: transparent;"
+    >
+      <div class="pointer-events-auto">
+        <Play />
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
 import FooterLayout from '@/components/footer/FooterLayout.vue';
-import HeaderLayout from '@/components/header/HeaderLayout.vue';
-import SidebarLayout from '@/components/sidebar/SidebarLayout.vue';
+import HeaderLayout from '@/layout/HeaderLayout.vue';
+import AppSidebar from '@/layout/AppSidebar.vue';
 import Play from '@/views/play/Play.vue';
 import { utils } from '@/stores/utils';
 import { nextTick } from 'vue';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-
+import { NScrollbar } from 'naive-ui';
 export default {
   name: 'IndexView',
   components: {
     HeaderLayout,
     FooterLayout,
-    SidebarLayout,
+    AppSidebar,
     Play,
     SidebarProvider, 
-    SidebarTrigger
+    SidebarTrigger,
+    NScrollbar,
   },
   data() {
     return {
@@ -67,29 +78,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  justify-content: space-between;
-  flex: 1 1 auto;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.model {
-  position: relative;
-  width: 100%;
-}
-
-.col {
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  padding: 0 20px;
-  border-top-left-radius: 20px;
-  width: 100%;
-  height:100%;
-}
 
 @keyframes slideDown {
   0% {

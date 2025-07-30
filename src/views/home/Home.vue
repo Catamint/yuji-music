@@ -1,5 +1,4 @@
 <template>
-  <n-scrollbar>
     <!-- <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" /> -->
     <div class="search-container">
       <h2>搜索音乐</h2>
@@ -11,7 +10,6 @@
     />
     <!-- <CardContainer head="精选" :music_info_list="top_10_list" /> -->
     <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
-  </n-scrollbar>
 </template>
 
 <script>

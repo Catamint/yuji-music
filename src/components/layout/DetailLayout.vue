@@ -1,6 +1,6 @@
 <!-- components/DetailLayout.vue -->
 <template>
-  <n-scrollbar>
+
     <div class="detail-layout">
         <!-- 顶部信息 -->
         <div class="header">
@@ -17,7 +17,7 @@
         <slot name="content" />
         </div>
     </div>
-  </n-scrollbar>
+  
 </template>
 
 <style scoped>

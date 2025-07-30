@@ -22,11 +22,12 @@
     "pinia": "^3.0.3",
     "querystring": "^0.2.1",
     "register-service-worker": "^1.7.2",
-    "reka-ui": "^2.4.0",
+    "reka-ui": "^2.4.1",
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0",
     "vue": "^3.5.18",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "vue-sonner": "^2.0.2"
   },
   "devDependencies": {
     "@nondanee/unblockneteasemusic": "^0.25.3",

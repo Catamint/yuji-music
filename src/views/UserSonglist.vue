@@ -1,11 +1,11 @@
 <template>
-    <n-scrollbar>
-        <songlist-card-container class='card-container'
-            :music_info_list="music_info_list"
-            :head="head + ' : ' + id"
-            layout="card"
-        />
-    </n-scrollbar>
+
+    <songlist-card-container class='card-container'
+        :music_info_list="music_info_list"
+        :head="head + ' : ' + id"
+        layout="card"
+    />
+
 </template>
 
 <script>

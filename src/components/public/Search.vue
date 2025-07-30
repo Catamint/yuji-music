@@ -1,22 +1,48 @@
 <template>
-    <n-scrollbar>
-        <n-input-group>
-            <n-input v-model:value="kw" placeholder="搜索音乐、歌手、专辑" @keyup.enter="search_music" />
-            <n-button @click="search_music">搜索</n-button>
-        </n-input-group>
-        <!-- <CardContainer class='auto-guess'
-            :music_info_list="music_info_list"
-            :head="head + ' : ' + kw"
-            layout="compact"
-        /> -->
-    </n-scrollbar>
+    <n-input-group>
+        <n-input v-model:value="kw" placeholder="搜索音乐、歌手、专辑" @keyup.enter="search_music" />
+        <n-button @click="search_music">搜索</n-button>
+    </n-input-group>
+<!--     
+    <Combobox by="label">
+        <ComboboxAnchor>
+            <div class="relative w-full max-w-sm items-center">
+                <ComboboxInput class="pl-9" 
+                    placeholder="搜索音乐、歌手、专辑" />
+                <span class="absolute start-0 inset-y-0 flex items-center justify-center px-3">
+                    <Search class="size-4 text-muted-foreground" />
+                </span>
+            </div>
+        </ComboboxAnchor>
+
+        <ComboboxList>
+            <ComboboxEmpty>
+                No framework found.
+            </ComboboxEmpty>
+
+            <ComboboxGroup>
+                <ComboboxItem
+                v-for="framework in frameworks"
+                :key="framework.value"
+                :value="framework"
+                >
+                {{ framework.label }}
+
+                <ComboboxItemIndicator>
+                    <Check :class="cn('ml-auto h-4 w-4')" />
+                </ComboboxItemIndicator>
+                </ComboboxItem>
+            </ComboboxGroup>
+        </ComboboxList>
+    </Combobox> -->
+
 </template>
 
 <script>
 import { NScrollbar, NInput, NButton, NInputGroup } from 'naive-ui';
 import CardContainer from '@/components/public/CardContainer.vue';
 import songService from '@/services/songService.js';
-import SearchPage from '@/views/SearchPage.vue';
+import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxItemIndicator, ComboboxList } from '@/components/ui/combobox';
 
 export default {
     name: 'Search',
@@ -25,7 +51,8 @@ export default {
         NInput,
         NButton,
         NInputGroup,
-        CardContainer,
+        CardContainer, Combobox, ComboboxAnchor, ComboboxInput, ComboboxList, ComboboxItem,
+        ComboboxItemIndicator, ComboboxEmpty, ComboboxGroup
     },
     data() {
         return {

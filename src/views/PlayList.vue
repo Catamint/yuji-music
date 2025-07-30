@@ -9,9 +9,9 @@
       </n-empty>
     </div> 
     <template v-else>
-      <n-scrollbar>
+
         <PlayListItem class="item" v-for="info in player.state.playlist" :music_info="info" :key="info.id" />
-      </n-scrollbar>
+
     </template>
 </template>
 

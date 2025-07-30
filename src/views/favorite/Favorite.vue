@@ -14,7 +14,6 @@
     </n-empty>
   </div>
   <template v-else>
-    <n-scrollbar>
       <songlist-card-container
         v-if="musicinfo_list.length > 0"
         :music_info_list="musicinfo_list"
@@ -28,7 +27,6 @@
           </n-icon>
         </template>
       </n-empty>
-    </n-scrollbar>
   </template>
 </template>
 
