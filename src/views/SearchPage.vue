@@ -1,95 +1,82 @@
 <template>
-<h1>{{head + ' : ' + kw}}</h1>
-    <CardContainer v-if="all_info?.song?.songs || music_info_list" class='detail'
-        :music_info_list="all_info?.song?.songs || music_info_list"
+    <h1>{{ head + ' : ' + route.query.kw }}</h1>
+    <CardContainer 
+        v-if="all_info.song?.songs || music_info_list.length" 
+        class="detail"
+        :music_info_list="all_info.song?.songs || music_info_list"
         head="歌曲"
         layout="compact"
-        @header-click="search_music(kw)"
+        @header-click="search_music(route.query.kw)"
     />
-    <AlbumCardContainer v-if="all_info?.album?.albums" class='detail'
-        :music_info_list="all_info?.album?.albums"
+    <AlbumCardContainer 
+        v-if="all_info.album?.albums" 
+        class="detail"
+        :music_info_list="all_info.album.albums"
         head="专辑"
         layout="card"
     />
-    <SonglistCardContainer class='detail'
-        :music_info_list="all_info?.playList?.playLists"
+    <SonglistCardContainer 
+        v-if="all_info.playList?.playLists"
+        class="detail"
+        :music_info_list="all_info.playList.playLists"
         head="歌单"
         layout="card"
     />
 </template>
 
-<script>
-import { NScrollbar } from 'naive-ui';
+<script setup>
 import CardContainer from '@/components/public/CardContainer.vue';
 import AlbumCardContainer from '@/components/public/AlbumCardContainer.vue';
 import SonglistCardContainer from '@/components/public/SonglistCardContainer.vue';
 import songService from '@/services/songService.js';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-export default {
-    name: 'SearchPage',
-    methods: {
-        async search_music(kw) {
-            try {
-                let songList = await songService.searchNetease(kw);
-                console.log(songList);
-                this.music_info_list = songList;
-            } catch (error) {
-                console.error('搜索失败:', error);
-            }
-        },
-        async search_all(kw) {
-            console.log("搜索关键词:", kw);
-            this.all_info = await songService.searchNetease(kw, 30, 0, 1018);
-            console.log("搜索结果:", this.all_info);
-        }
-    },
-    mounted() {
-        // this.search_music(this.kw);
-        // this.reloadPage();
-    },
-    async created() {
-        // 如果有kw参数，则进行搜索
-        if (this.kw) {
-            await this.search_all(this.kw);
-        }
-    },
-    data() {
-        return {
-            music_info_list: [],
-            all_info: {},
-        };
-    },
-    props: {
-        kw: {
-            type: String,
-            default: '',
-        },
-        head: {
-            type: String,
-            default: '搜索结果',
-        },
-    },
-    components: {
-        NScrollbar,
-        CardContainer,
-    },
-    watch: {
-        kw: {
-            immediate: true, // 初始时也触发一次
-            handler(newKw) {
-                this.search_all(newKw)
-            }
-        }
-    },
-};
-</script>
+const music_info_list = ref([]);
+const all_info = ref({});
+const route = useRoute();
 
-<style scoped>
-/* 如果需要额外的页面样式，可以在这里添加 */
-.detail {
-    /* padding: 20px; */
-    /* background-color: #f0f0f060; */
-    border-radius: 10px;
-    box-sizing: border-box;
+async function search_music(kw) {
+    try {
+        const songList = await songService.searchNetease(kw);
+        music_info_list.value = songList;
+    } catch (error) {
+        console.error('搜索失败:', error);
+    }
 }
-</style>
+
+async function search_all(kw) {
+    if (!kw) return;
+    
+    console.log("搜索关键词:", kw);
+    try {
+        all_info.value = await songService.searchNetease(kw, 30, 0, 1018);
+        console.log("搜索结果:", all_info.value);
+    } catch (error) {
+        console.error('搜索失败:', error);
+        all_info.value = {};
+    }
+}
+
+const props = defineProps({
+    head: {
+        type: String,
+        default: '搜索结果',
+    }
+});
+
+onMounted(() => {
+    if (route.query.kw) {
+        search_all(route.query.kw);
+    }
+});
+
+watch(
+  () => route.query,
+  (newQuery, oldQuery) => {
+    // 查询参数变化时，重新执行搜索逻辑
+    search_all(route.query.kw);
+  },
+  { immediate: true }
+)
+</script>

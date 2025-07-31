@@ -10,7 +10,7 @@
         @dragend="onDragend"
     />
 
-    <div class="container playbutton-container">
+    <div class="container w-full playbutton-container">
         <n-icon class='playbutton' size="28" @click="player2.prev()">
             <Previous32Filled />
         </n-icon>
@@ -23,7 +23,7 @@
         </n-icon>
     </div>
 
-    <div class='container'>
+    <div class='flex justify-center content-center space-x-4'>
         <span class="time">{{ currentMinSec(player2.state.currentTime) }} / {{ currentMinSec(player2.state.duration) }}</span>
         <n-tooltip trigger="hover">
             <template #trigger>

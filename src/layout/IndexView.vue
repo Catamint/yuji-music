@@ -1,18 +1,18 @@
 <template>
   <SidebarProvider class="flex h-screen">
     <AppSidebar/>
-    <div class="flex flex-1 flex-col overflow-auto min-h-full">
-      <div class="h-16 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" >
-        <SidebarTrigger />
+    <div class="flex flex-1 flex-col min-h-full">
+      <div class="h-18 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" >
+
         <HeaderLayout class="w-full" />
       </div>      
 
-      <div class="h-full m-4 py-6 lg:py-8 mb-26">
-        <router-view v-if="isRefreshFlag" v-slot="{ Component }">          
-          <transition name="slide-up">
-            <component :is="Component" />
-          </transition>
-        </router-view>
+      <div class="h-full w-full py-6 lg:py-8 overflow-y-auto">
+          <router-view v-if="isRefreshFlag" v-slot="{ Component }">          
+            <transition name="slide-up">
+              <component :is="Component" />
+            </transition>
+          </router-view>
       </div>
 
       <div class="h-26 sticky bottom-0 z-[999] w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

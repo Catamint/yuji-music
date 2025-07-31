@@ -2,13 +2,6 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next"
 import {
   Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
 import { useColorMode } from '@vueuse/core'
@@ -55,30 +48,35 @@ const options = [
 ];
 
 function handleSelect(key) {
-  if (key === "logout") {
     utils.user_config.logout();
     location.reload();
-  } else if (key === "settings") {
-    // Handle settings action if needed
-  }
 }
 </script>
 
 <template>
   <Sidebar>
+    <SidebarHeader>
+      <div class="flex m-2 items-center space-x-2">
+        <!-- <img src="@/assets/logo.png" alt="Logo" class="h-8 w-8" /> -->
+        <div class="flex items-end space-x-2">
+          <span class="text-2xl font-semibold">Music!</span>
+          <span class="text">Beta</span>
+        </div>
+      </div>
+    </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel>Application</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-              <SidebarMenuItem v-for="item in items" :key="item.title">
-                <SidebarMenuButton asChild>
-                    <a :href="item.url">
-                      <component :is="item.icon" />
-                      <span>{{item.title}}</span>
-                    </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+            <SidebarMenuItem v-for="item in items" :key="item.title">
+              <SidebarMenuButton asChild>
+                <a :href="item.url">
+                  <component :is="item.icon" />
+                  <span>{{ item.title }}</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroupContent>
         <!-- <SidebarGroupLabel>Application</SidebarGroupLabel> -->
@@ -104,9 +102,18 @@ function handleSelect(key) {
         </SidebarMenuItem>
       </SidebarMenu>
       <div v-if="utils.user_config.uid != ''">
-            <n-dropdown n-button :options="options" @select="handleSelect">
-                <Button>{{ utils.user_config.name }}</Button>
-            </n-dropdown>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button>
+              {{ utils.user_config.name }}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuContent>
+              <DropdownMenuItem @click="handleSelect">退出</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </SidebarFooter>
   </Sidebar>

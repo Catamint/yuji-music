@@ -37,10 +37,10 @@ const routes = [
         component: Play
     },
     {
-        path:"/searchpage/:kw:page:qurl",
-        name: 'searchpage',
+        path:"/search",
+        name: 'search',
         component: SearchPage,
-        props: true
+        props: route => ({ kw: route.query.kw, type: route.query.type, page: route.query.page || '1', qurl: route.query.qurl || '0' })
     },
     // {
     //     path:"/login",

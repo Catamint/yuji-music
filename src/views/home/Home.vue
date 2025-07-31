@@ -2,7 +2,7 @@
     <!-- <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" /> -->
     <div class="search-container">
       <h2>搜索音乐</h2>
-      <search class="search-box" />
+      <SearchBox class="max-w-[300px]"></SearchBox>
     </div>    
     <AlbumCardContainer
       :music_info_list="[album]"
@@ -17,7 +17,7 @@ import CardContainer from "@/components/public/CardContainer.vue";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import { NScrollbar } from "naive-ui";
 import songService from "@/services/songService.js";
-import Search from "@/components/public/Search.vue";
+import SearchBox from "@/components/public/SearchBox.vue";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 

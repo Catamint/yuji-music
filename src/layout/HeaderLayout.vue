@@ -2,19 +2,15 @@
     <!-- <h1 class="text-3xl"
         style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
         雨霁音乐</h1> -->
-    <div class="flex flex-inline gap-1 justify-end items-center">
-        <search class="max-w-[300px]">
-            v-model="kw"
+    <div class="flex flex-inline ml-2 justify-between items-center">
+        <SidebarTrigger />
+        <SearchBox class="max-w-[300px] p-1">
+            <!-- v-model="kw"
             @search="search_music"
-            style="width: 300px;"
-        </search>
+            style="width: 300px;" -->
+        </SearchBox>
         <!-- <router-link to="/settings"><n-button>设置</n-button></router-link> -->
         <!-- <router-link v-if="utils.user_config.uid == ''" to="/login"><n-button>登录</n-button></router-link> -->
-        <div v-if="utils.user_config.uid != ''">
-            <n-dropdown n-button :options="options" @select="handleSelect">
-                <Button>{{ this.utils.user_config.name }}</Button>
-            </n-dropdown>
-        </div>
     </div>
 </template>
 
@@ -23,7 +19,7 @@ import { utils } from '@/stores/utils';
 import { NButton, NInput, NSpace, NInputGroup, NDropdown } from 'naive-ui';
 import { Button } from "@/components/ui/button"
 import { RouterLink } from 'vue-router';
-import Search from '@/components/public/Search.vue';
+import SearchBox from '@/components/public/SearchBox.vue';
 
 export default {
     name: 'HeaderLayout',
@@ -37,8 +33,8 @@ export default {
         RouterLink,
         NSpace,
         NDropdown,
-        Search,
-        Button
+        Button,
+        SearchBox,
     },
     mounted() {
 
@@ -73,16 +69,6 @@ export default {
         }
     },
     inject: ["reloadPage"],
-    setup() {
-        return {
-            options: [
-                {
-                    label: "退出登录",
-                    key: "logout",
-                }
-            ]
-        };
-    }
 }
 </script>
 
