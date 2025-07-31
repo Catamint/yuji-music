@@ -1,12 +1,15 @@
 <template>
     <div class="card-container">
-        <n-button v-if=head text style="display: flex;" @click="onHeaderClick">
-            <h1 @click="onHeaderClick" >{{ head }}</h1>
-            <template #icon>
-                <n-icon> <ChevronRight16Filled /> </n-icon>
-            </template>
-        </n-button>
-
+        <div class="flex flex-col gap-4">
+            <button v-if="head" 
+                    class="flex items-center text-left hover:text-gray-600 transition-colors" 
+                    @click="onHeaderClick">
+                <h1 class="text-2xl font-bold">{{ head }}</h1>
+                <svg class="w-4 h-4 ml-2" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M6.23 3.232l4.537 4.252a.75.75 0 010 1.032L6.23 12.768a.75.75 0 01-1.06-1.06L8.989 8 5.17 4.292a.75.75 0 011.06-1.06z"/>
+                </svg>
+            </button>
+        </div>
         <div class="cards-block">
             <!-- 使用基础组件直接渲染 -->
             <BaseMusicItem class="card-item"

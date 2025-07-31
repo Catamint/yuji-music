@@ -82,38 +82,42 @@ function handleSelect(key) {
         <!-- <SidebarGroupLabel>Application</SidebarGroupLabel> -->
       </SidebarGroup>
     </SidebarContent>
-    <SidebarFooter>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <a href="#" @click.prevent="toggleColorMode">
-              <span>切换主题</span>
-            </a>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <a href="#/settings">
-              <Settings />
-              <span>设置</span>
-            </a>
-          </SidebarMenuButton>
-
-        </SidebarMenuItem>
+    <SidebarFooter class="p-4 border-t">
+      <SidebarMenu class="space-y-2">
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild>
+        <a href="#" @click.prevent="toggleColorMode" class="flex items-center space-x-2 text-sm hover:bg-secondary/80 rounded-md p-2 transition-colors">
+          <Sun v-if="mode.value === 'dark'" class="h-4 w-4" />
+          <Moon v-else class="h-4 w-4" />
+          <span>切换主题</span>
+        </a>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild>
+        <a href="#/settings" class="flex items-center space-x-2 text-sm hover:bg-secondary/80 rounded-md p-2 transition-colors">
+          <Settings class="h-4 w-4" />
+          <span>设置</span>
+        </a>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
       </SidebarMenu>
-      <div v-if="utils.user_config.uid != ''">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button>
-              {{ utils.user_config.name }}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuContent>
-              <DropdownMenuItem @click="handleSelect">退出</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      
+      <div v-if="utils.user_config.uid != ''" class="mt-4">
+      <DropdownMenu>
+        <DropdownMenuTrigger class="w-full">
+        <Button variant="outline" class="w-full justify-start gap-2 cursor-pointer">
+          <UserCircle class="h-4 w-4" />
+          {{ utils.user_config.name }}
+        </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+        <DropdownMenuItem @click="handleSelect" class="cursor-pointer">
+          <LogOut class="h-4 w-4 mr-2" />
+          退出
+        </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
       </div>
     </SidebarFooter>
   </Sidebar>

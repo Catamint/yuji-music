@@ -1,11 +1,13 @@
 <template>
     <!-- <div v-if="themeStore.currentTheme.backgroundActive" class="base-background-image" :style="{
-      backgroundImage: `url(${themeStore.currentTheme.backgroundImage})`,
+
       filter: `saturate(${themeStore.currentTheme.backgroundSaturation})`,
     }"></div> -->
-    <div class="bg-background font-misans relative flex min-h-svh flex-col overflow-hidden" :style="{
-      backdropFilter: `blur(${themeStore.currentTheme.containerBlur})`,
-    }">
+    <div class="base-background-image bg-background font-misans relative flex min-h-svh flex-col overflow-hidden" 
+    :style="
+      themeStore.currentTheme.backgroundActive ? { backgroundImage: `url(${themeStore.currentTheme.backgroundImage})` } : {},
+      {backdropFilter: `blur(${themeStore.currentTheme.containerBlur})`}
+    ">
       <IndexView />
     </div>
 </template>

@@ -10,24 +10,28 @@
         @description-click="goToAlbum"
     >
         <template #actions>
-            <n-button :disabled="music_info.playing" style="font-size: 18px" @click="player.play_in_playlist(music_info.id)">
-                <template #icon>
-                    <n-icon><Play24Regular/></n-icon>
-                </template>
-                播放
-            </n-button>
-            <n-button style="font-size: 18px">
-                <template #icon>
-                    <n-icon><Heart28Regular /></n-icon>
-                </template>
-                收藏
-            </n-button>
-            <n-button style="font-size: 18px" @click="player.del_from_list(music_info.id)">
-                <template #icon>
-                    <n-icon><TextBulletListAdd24Filled /></n-icon>
-                </template>
-                从播放列表移除
-            </n-button>
+        <div class="flex gap-2">
+            <button 
+                :disabled="music_info.playing"
+                @click="player.play_in_playlist(music_info.id)"
+                class="p-2 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-50"
+            >
+                <Play24Regular class="w-5 h-5"/>
+            </button>
+
+            <button 
+                class="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+                <Heart28Regular class="w-5 h-5"/>
+            </button>
+
+            <button 
+                @click="player.del_from_list(music_info.id)"
+                class="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+                <TextBulletListAdd24Filled class="w-5 h-5"/>
+            </button>
+        </div>
         </template>
     </base-card>
 </template>

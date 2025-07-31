@@ -7,11 +7,11 @@
         <HeaderLayout class="w-full" />
       </div>      
 
-      <div class="h-full w-full py-6 lg:py-8 overflow-y-auto">
+      <div class="h-full w-full py-6 lg:py-8 overflow-y-auto custom-scrollbar">
           <router-view v-if="isRefreshFlag" v-slot="{ Component }">          
-            <transition name="slide-up">
-              <component :is="Component" />
-            </transition>
+        <transition name="slide-up">
+          <component :is="Component" />
+        </transition>
           </router-view>
       </div>
 
@@ -77,7 +77,32 @@ export default {
 };
 </script>
 
+
 <style scoped>
+.custom-scrollbar {
+  scrollbar-width: thin;  /* Firefox */
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;  /* Firefox */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;  /* Chrome, Edge, Safari */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
 
 @keyframes slideDown {
   0% {
