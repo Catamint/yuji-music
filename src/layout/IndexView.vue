@@ -1,38 +1,29 @@
 <template>
-  <SidebarProvider class="flex h-screen">
-    <AppSidebar/>
-    <div class="flex flex-1 flex-col min-h-full">
-      <div class="h-18 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" >
-
+  <SidebarProvider class="grid h-screen w-full grid-cols-[auto_1fr]">
+    <AppSidebar />
+    <div class="flex flex-1 flex-col min-w-0 overflow-auto">
+      <div
+        class="h-12 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <HeaderLayout class="w-full" />
-      </div>      
-
-      <div class="h-full w-full py-6 lg:py-8 overflow-y-auto custom-scrollbar">
-          <router-view v-if="isRefreshFlag" v-slot="{ Component }">          
-        <transition name="slide-up">
-          <component :is="Component" />
-        </transition>
-          </router-view>
       </div>
 
-      <div class="h-26 sticky bottom-0 z-[999] w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div class="h-full w-full flex flex-1 justify-center py-6 lg:py-8 overflow-y-auto custom-scrollbar">
+        <div class="h-full w-full max-w-7xl box-border px-8">
+          <router-view class="" v-if="isRefreshFlag" v-slot="{ Component }">
+            <transition name="slide-up">
+              <component :is="Component" />
+            </transition>
+          </router-view>
+        </div>
+      </div>
+
+      <div
+        class="h-24 sticky bottom-0 z-50 w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <FooterLayout />
-      </div>   
+      </div>
     </div>
   </SidebarProvider>
 
-  <!-- Play 浮层 -->
-  <transition name="slide">
-    <div
-      v-show="utils.play_component.showing"
-      class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
-      style="background: transparent;"
-    >
-      <div class="pointer-events-auto">
-        <Play />
-      </div>
-    </div>
-  </transition>
 </template>
 
 <script>
@@ -51,7 +42,7 @@ export default {
     FooterLayout,
     AppSidebar,
     Play,
-    SidebarProvider, 
+    SidebarProvider,
     SidebarTrigger,
     NScrollbar,
   },
@@ -61,31 +52,34 @@ export default {
       isRefreshFlag: true,
     };
   },
-  methods: {
-    reloadPage() {
-      this.isRefreshFlag = false;
-      nextTick(() => {
-        this.isRefreshFlag = true;
-      });
-    },
-  },
-  provide() {
-    return {
-      reloadPage: this.reloadPage,
-    };
-  },
+  //   methods: {
+  //     reloadPage() {
+  //       this.isRefreshFlag = false;
+  //       nextTick(() => {
+  //         this.isRefreshFlag = true;
+  //       });
+  //     },
+  //   },
+  //   provide() {
+  //     return {
+  //       reloadPage: this.reloadPage,
+  //     };
+  //   },
 };
 </script>
 
 
 <style scoped>
 .custom-scrollbar {
-  scrollbar-width: thin;  /* Firefox */
-  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;  /* Firefox */
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+  /* Firefox */
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;  /* Chrome, Edge, Safari */
+  width: 6px;
+  /* Chrome, Edge, Safari */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {

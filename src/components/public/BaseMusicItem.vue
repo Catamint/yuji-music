@@ -5,17 +5,18 @@
         :subtitle="musicInfo?.artist?.name"
         :description="musicInfo?.album?.name"
         :layout="layout"
-        @click="onClick"
+        @click="playMusic"
+        @title-click="playMusic"
         @subtitle-click="artistOnClick"
         @description-click="albumOnClick"
     >
         <template #actions>
-            <tooltip-button
+            <!-- <tooltip-button
             icon="Play24Regular"
             tooltip="播放"
             class="play"
             @click="playMusic"
-            />
+            /> -->
             <tooltip-button v-if="!isFavorite"
             icon="Heart28Regular"
             tooltip="收藏"

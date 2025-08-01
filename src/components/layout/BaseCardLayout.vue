@@ -1,28 +1,82 @@
 <template>
-  <div :class="['base-item', layoutClass]" @click="onClick">
-    <img v-if="layout !== 'compact'" :src="image" class="cover-img" />
-    <div v-if="layout === 'card'" class="card-overlay">
-        <div class="info">
-            <span class="title" @click="onTitleClick">{{ title }}</span>
-            <span class="subtitle" @click="onSubtitleClick">{{ subtitle }}</span>
-            <span class="description" @click="onDescriptionClick">{{ description }}</span>
+    <div v-if="layout === 'card'" :class="['base-item', layoutClass]" @click="onClick">
+        <div>
+            <img :src="image" class="cover-img" />
+            <div class="card-overlay">
+                <div class="info">
+                    <span class="title" @click="onTitleClick">{{ title }}</span>
+                    <span class="subtitle" @click="onSubtitleClick">{{ subtitle }}</span>
+                    <span class="description" @click="onDescriptionClick">{{ description }}</span>
+                </div>
+            </div>
+            <div class="actions">
+                <slot name="actions"></slot>
+            </div>
         </div>
     </div>
-    <div v-else class="info">
-      <n-ellipsis :tooltip="true" @click="onTitleClick" class="title">{{ title }}</n-ellipsis>
-      <n-ellipsis :tooltip="true" @click="onSubtitleClick" class="subtitle">{{ subtitle }}</n-ellipsis>
-      <n-ellipsis :tooltip="true" @click="onDescriptionClick" class="description">{{ description }}</n-ellipsis>
+    <div v-if="layout === 'list'"
+        class="flex w-full h-20 items-center gap-4 p-2 rounded-lg hover:bg-gray-100 transition">
+        <img :src="image" alt="cover" class="w-20 h-20 object-cover rounded-md shrink-0" />
+        <div class="flex-1 min-w-0 overflow-hidden">
+            <div class="text-base font-medium truncate cursor-pointer hover:underline" @click.stop="onTitleClick">
+                {{ title }}
+            </div>
+            <div class="text-sm text-gray-500 truncate cursor-pointer hover:underline" @click.stop="onSubtitleClick">
+                {{ subtitle }}
+            </div>
+            <div class="text-xs text-gray-400 truncate cursor-pointer" @click.stop="onDescriptionClick">
+                {{ description }}
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <slot name="actions"></slot>
+        </div>
     </div>
-    <div class="actions">
-      <slot name="actions"></slot>
+
+  <div v-if="layout === 'compact'"
+    class="flex w-full items-center px-3 py-2 hover:bg-neutral-800 transition rounded-lg text-sm"
+  >
+    <!-- 内容主体 -->
+    <div class="flex flex-col flex-1 md:flex-row md:items-center gap-1 md:gap-4 min-w-0">
+      <!-- 标题 -->
+      <div
+        class="font-semibold flex-1 truncate md:text-lg md:w-2/5 md:flex-1 cursor-pointer hover:underline"
+        @click.stop="onTitleClick"
+      >
+        {{ title }}
+      </div>
+
+      <!-- 歌手 + 描述 -->
+      <div class="flex flex-inline max-w-3xs md:max-w-xl md:flex-col gap-2 md:gap-0 md:flex-1 truncate text-xs md:text-sm min-w-0">
+        <div
+          class="truncate text-neutral-400 cursor-pointer hover:underline"
+          @click.stop="onSubtitleClick"
+        >
+          {{ subtitle }}
+        </div>
+        <div
+          class="truncate max-w-32 md:max-w-xl text-neutral-500 cursor-pointer hover:underline"
+          @click.stop="onDescriptionClick"
+        >
+          {{ description }}
+        </div>
+      </div>
+    </div>
+
+    <!-- 操作区 -->
+    <div class="flex-shrink-0 flex items-center gap-2 ml-2">
+      <slot name="actions" />
     </div>
   </div>
+
+
 </template>
 
 <script>
 
 export default {
     name: 'BaseCard',
+    inheritAttrs: false,
     props: {
         image: String,
         title: String,
@@ -98,7 +152,8 @@ export default {
     white-space: nowrap;
 }
 
-.subtitle, .description {
+.subtitle,
+.description {
     font-size: 0.9rem;
     /* color: #666; */
     overflow: hidden;
@@ -121,8 +176,10 @@ export default {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    flex: 1 1 calc(20% - 40px) !important; /* 默认每行5个 */
-    aspect-ratio: 1 / 1 !important; /* 保持正方形 */
+    flex: 1 1 calc(20% - 40px) !important;
+    /* 默认每行5个 */
+    aspect-ratio: 1 / 1 !important;
+    /* 保持正方形 */
     max-height: auto !important;
     height: auto !important;
     max-width: calc(20% - 40px) !important;
@@ -132,21 +189,24 @@ export default {
 /* 响应式布局 */
 @media (max-width: 1200px) {
     .layout-card {
-        flex: 1 1 calc(25% - 30px) !important; /* 每行4个 */
+        flex: 1 1 calc(25% - 30px) !important;
+        /* 每行4个 */
         max-width: calc(25% - 30px) !important;
     }
 }
 
 @media (max-width: 1000px) {
     .layout-card {
-        flex: 1 1 calc(33.333% - 20px) !important; /* 每行3个 */
+        flex: 1 1 calc(33.333% - 20px) !important;
+        /* 每行3个 */
         max-width: calc(33.333% - 20px) !important;
     }
 }
 
 @media (max-width: 720px) {
     .layout-card {
-        flex: 1 1 calc(50% - 20px) !important; /* 每行2个 */
+        flex: 1 1 calc(50% - 20px) !important;
+        /* 每行2个 */
         max-width: calc(50% - 20px) !important;
     }
 }
@@ -239,86 +299,18 @@ export default {
     min-width: unset;
     padding: 0;
 }
+
 .layout-card .actions .n-button:hover {
     background: rgba(255, 255, 255, 1);
     transform: scale(1.1);
 }
+
 .layout-card .actions .star {
     background: rgba(255, 0, 0, 0.1);
     color: #ff4757;
 }
+
 .layout-card .actions .star:hover {
     background: rgba(255, 0, 0, 0.2);
-}
-
-/* 列表布局 */
-.layout-list {
-    flex-direction: row;
-    width: 100%;
-    height: 80px;
-}
-
-.layout-list .cover-img {
-    width: 80px;
-    height: 100%;
-}
-
-.layout-list .info {
-    margin-left: 15px;
-    justify-content: center;
-}
-
-.layout-list .actions {
-    margin-right: 0;
-    align-items: center;
-    min-width: fit-content;
-    justify-content: flex-end;
-}
-
-/* 紧凑布局 */
-.layout-compact {
-    flex-direction: row;
-    border-radius: 6px;
-    padding: 0 10px 0 10px;
-    box-sizing: border-box;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    width: 100%;
-    min-height: 45px;
-}
-
-.layout-compact:hover {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.layout-compact .cover-img {
-    width: 40px;
-    height: 100%;
-}
-
-.layout-compact .info {
-    margin-left: 10px;
-    flex-direction: row;
-    justify-content: start;
-    gap: 12px;
-    align-items: center;
-}
-
-.layout-compact .info span {
-    width: 25%;
-}
-
-.layout-compact .info .title {
-    width: 50%;
-}
-
-.layout-compact .title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0;
-}
-
-.layout-compact .actions {
-    margin-left: auto;
-    align-items: center;
 }
 </style>

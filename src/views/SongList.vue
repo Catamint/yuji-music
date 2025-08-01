@@ -3,12 +3,12 @@
     <template #header>
       <!-- <h1>专辑详情</h1> -->
         <img
-        class="album-cover"
+        class="ratio-1-1 ml-2 mr-4 h-40 rounded-xl"
         :src="details?.coverImgUrl + '?param=300y300' || null"
         alt="艺术家封面"
         />
-        <div class="album-info">
-            <h1 class="album-name">
+        <div class="h-full flex flex-col gap-4">
+            <h1 class="text-4xl font-bold">
                 {{ details?.name }}
             </h1>
             <div class="album-meta">
@@ -57,8 +57,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

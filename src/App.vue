@@ -9,10 +9,22 @@
       {backdropFilter: `blur(${themeStore.currentTheme.containerBlur})`}
     ">
       <IndexView />
+      <!-- Play 浮层 -->
+      <transition name="slide">
+        <div
+          v-show="utils.play_component.showing"
+          class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
+          style="background: transparent;"
+        >
+          <div class="pointer-events-auto">
+            <Play />
+          </div>
+        </div>
+      </transition>
     </div>
 </template>
 
-<script>
+<script setup>
 import IndexView from '@/layout/IndexView.vue';
 import { useThemeStore } from './stores/themeStore';
 import MessageApi from './stores/MessageApi.vue';
@@ -20,21 +32,12 @@ import player2 from './stores/player2';
 import { utils } from '@/stores/utils';
 // import StorageManager from './stores/StorageManager';
 
-export default {
-  name: 'App',
-  components: {
-    IndexView,
-    MessageApi,
-  },
-  setup() {
-    const themeStore = useThemeStore();
-    // const storageManager = new StorageManager();
-    utils.initUtils(); // 初始化工具
-    themeStore.initDefaultTheme(); // 设置默认主题
-    player2.initAudio();
-    return { themeStore };
-  },
-};
+const themeStore = useThemeStore();
+// const storageManager = new StorageManager();
+utils.initUtils(); // 初始化工具
+themeStore.initDefaultTheme(); // 设置默认主题
+player2.initAudio();
+
 </script>
 
 <style>

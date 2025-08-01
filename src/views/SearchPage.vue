@@ -1,5 +1,5 @@
 <template>
-    <h1>{{ head + ' : ' + route.query.kw }}</h1>
+    <h1 class="text-3xl font-bold mb-6">{{ head + ' : ' + route.query.kw }}</h1>
     <CardContainer 
         v-if="all_info.song?.songs || music_info_list.length" 
         class="detail"

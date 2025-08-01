@@ -2,7 +2,7 @@
     <div class="card-container">
         <div class="flex flex-col gap-4">
             <button v-if="head" 
-                    class="flex items-center text-left hover:text-gray-600 transition-colors" 
+                    class="flex items-center text-left hover:text-primary cursor-pointer transition-colors" 
                     @click="onHeaderClick">
                 <h1 class="text-2xl font-bold">{{ head }}</h1>
                 <svg class="w-4 h-4 ml-2" viewBox="0 0 16 16" fill="currentColor">
@@ -10,7 +10,7 @@
                 </svg>
             </button>
         </div>
-        <div class="cards-block">
+        <div class="cards-block justify-start">
             <!-- 使用基础组件直接渲染 -->
             <BaseAlbumItem class="card-item"
                 v-for="info in music_info_list"
@@ -101,9 +101,8 @@ export default {
     flex-wrap: wrap;
     /* gap: 40px; */
     border-radius: 10px;
-    width: 100%;
+    /* width: 400px; */
     max-width: 100%;
-    justify-content: flex-start;
     overflow-x: auto;
 }
 

@@ -1,9 +1,9 @@
 <!-- components/DetailLayout.vue -->
 <template>
 
-    <div class="detail-layout">
+    <div class="flex flex-col">
         <!-- 顶部信息 -->
-        <div class="header">
+        <div class="flex my-8">
         <slot name="header" />
         </div>
 
@@ -19,19 +19,3 @@
     </div>
   
 </template>
-
-<style scoped>
-.detail-layout {
-  display: flex;
-  flex-direction: column;
-}
-.header {
-  display: flex;
-  gap: 20px;
-  padding: 24px;
-  border-radius: 12px;
-}
-.content {
-  padding: 16px;
-}
-</style>

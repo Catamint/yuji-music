@@ -1,90 +1,73 @@
 <template>
-    <div class="container">
-        <div class="line">
-            <div style="height: 100%; padding: 10px">
-                <img v-if="playlistNotNull" style="height: 100%; border-radius: 10px; " :src="songOnPlay.album_img" alt="">
-            </div>
-            <div>
-                <h1 style="white-space: nowrap;">{{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}</h1>
-                <p>
-                    <span  style="white-space: nowrap;">{{ playlistNotNull ? songOnPlay.author_name : "歌手" }}</span>
-                    <!-- <span>{{ playlistNotNull ? songOnPlay.album_name : "专辑" }}</span> -->
-                </p>
-            </div>
-        </div>
-        <div>
-            <n-button round style="font-size: 18px; margin-left: 5px;">
-                <template #icon>
-                    <n-icon><Heart28Regular /></n-icon>
-                </template>
-            </n-button>
-            <n-button round style="font-size: 18px; margin-left: 5px;">
-                <template #icon>
-                    <n-icon><Heart28Regular /></n-icon>
-                </template>
-            </n-button>
-            <n-button round style="font-size: 18px; margin-left: 5px;">
-                <template #icon>
-                    <n-icon><Heart28Regular /></n-icon>
-                </template>
-            </n-button>
-        </div>
+  <div class="flex flex-col sm:flex-row items-center sm:justify-between p-4 gap-4 rounded-2xl bg-white/70 dark:bg-neutral-800 shadow-md w-full">
+    <!-- 左侧歌曲信息 -->
+    <div class="flex items-center gap-4 w-full sm:w-auto">
+      <!-- 专辑图 -->
+      <img
+        v-if="playlistNotNull"
+        :src="songOnPlay.album_img"
+        alt="Album"
+        class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover"
+      />
+      <!-- 歌曲标题与歌手 -->
+      <div class="flex flex-col truncate">
+        <h1 class="text-lg font-semibold truncate text-gray-800 dark:text-gray-100">
+          {{ playlistNotNull ? songOnPlay.song_name : "正在播放" }}
+        </h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
+          {{ playlistNotNull ? songOnPlay.author_name : "歌手" }}
+        </p>
+      </div>
     </div>
+
+    <!-- 右侧操作按钮 -->
+    <div class="flex gap-3">
+      <n-button quaternary circle size="large">
+        <template #icon>
+          <n-icon><Heart28Regular /></n-icon>
+        </template>
+      </n-button>
+      <n-button quaternary circle size="large">
+        <template #icon>
+          <n-icon><ChevronDoubleUp16Filled /></n-icon>
+        </template>
+      </n-button>
+      <n-button quaternary circle size="large">
+        <template #icon>
+          <n-icon><Heart28Regular /></n-icon>
+        </template>
+      </n-button>
+    </div>
+  </div>
 </template>
 
 <script>
-import player2 from '@/stores/player2';
-import { utils } from '@/stores/utils';
-import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent/lib';
-import { NButton, NIcon } from 'naive-ui';
+import player2 from '@/stores/player2'
+import { utils } from '@/stores/utils'
+import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent'
+import { NButton, NIcon } from 'naive-ui'
 
 export default {
-    name: 'FooterLayout',
-    props: {
-    msg: String
+  name: 'FooterLayout',
+  components: {
+    Heart28Regular,
+    ChevronDoubleUp16Filled,
+    NButton,
+    NIcon
   },
-    components:{
-        Heart28Regular,
-        NButton,
-        NIcon,
-        ChevronDoubleUp16Filled
-    },
-    data(){
-        return {
-            utils,
-            player: player2.state
-        }
-    },
-    computed: {
-        songOnPlay(){
-            return this.player.playlist.at(this.player.currentIndex);
-        },
-        playlistNotNull(){
-            return this.player.playlist.length != 0;
-        }
+  data() {
+    return {
+      utils,
+      player: player2.state
     }
+  },
+  computed: {
+    songOnPlay() {
+      return this.player.playlist.at(this.player.currentIndex)
+    },
+    playlistNotNull() {
+      return this.player.playlist.length !== 0
+    }
+  }
 }
 </script>
-
-<style scoped>
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* background-color: rgba(255, 255, 255, 0.3); */
-    height: 100%;
-    border-radius: 20px;
-    margin: 20px;
-    /* width: 100%; */
-}
-.line{
-  /* min-height: 30%; */
-  min-width: fit-content ;
-  display: flex;
-  margin-bottom: 40px;
-  /* flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: center; */
-}
-</style>

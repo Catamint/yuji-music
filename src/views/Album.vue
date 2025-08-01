@@ -42,10 +42,7 @@ export default {
   methods:{
     async getMusic() {
       try {
-        const songList = this.album.songs || []; 
-        console.log("获取到的album:", this.album);
-        console.log("获取到的歌曲信息:", songList);
-        this.music_info_list = songList;
+        this.music_info_list =  this?.album?.songs || [];
       } catch (error) {
         console.error("Error fetching music:", error.message);
       }
@@ -56,7 +53,6 @@ export default {
   },
   async created() {
     await this.getAlbum();
-    console.log("获取到的专辑信息:", this.album);
     this.getMusic();
   }
 }

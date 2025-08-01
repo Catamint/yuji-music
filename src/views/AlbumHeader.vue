@@ -93,14 +93,16 @@ const toggleFavorite = () => {
 .album-header {
   display: flex;
   gap: 20px;
-  padding: 24px;
+  padding: 9px;
   /* background: linear-gradient(to right, #f9f9f9, #ffffff); */
   border-radius: 12px;
 }
 
 .album-cover {
-  width: 180px;
-  height: 180px;
+  height: 8rem;
+  max-height: 180px;
+  max-width: 180px;
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   object-fit: cover;
 }
