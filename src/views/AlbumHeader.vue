@@ -1,25 +1,22 @@
 <template>
-  <div class="album-header">
+  <div class="album-header flex flex-col md:flex-row">
     <!-- 专辑封面 -->
     <img
-      class="album-cover"
+      class="aspect-square mx-2 w-40 h-40 rounded-xl"
       :src="album?.picUrl || null"
       alt="专辑封面"
     />
 
     <!-- 信息区域 -->
-    <div class="album-info">
-      <h1 class="album-name">
+    <div class="h-full flex flex-col gap-2 ml-2">
+      <h1 class="text-4xl font-bold mb-2">
         {{ album?.name }}
-        <span v-if="album?.translatedName" class="translated-name">（{{ album.translatedName }}）</span>
+        <span v-if="album?.translatedName" class="translated-name"></span>
       </h1>
 
       <div class="album-meta">
-        <span>艺人：</span>
-        <router-link
-          class="artist-name"
-          :to="`/artist/${album?.artist?.id}`"
-        >
+        <!-- <span>艺人：</span> -->
+        <router-link class="artist-name" :to="`/artist/${album?.artist?.id}`">
           {{ album?.artist?.name }}
         </router-link>
       </div>
@@ -46,47 +43,37 @@
 
       <!-- 操作统计 -->
       <div class="album-stats">
-        <TooltipButton
-          icon="Play20Regular"
-          tooltip="播放全部"
-          @click="playAll"
-        />
-        <TooltipButton
-          icon="Heart20Regular"
-          tooltip="收藏"
-        />
+        <TooltipButton icon="Play20Regular" tooltip="播放全部" @click="playAll" />
+        <TooltipButton icon="Heart20Regular" tooltip="收藏" />
 
-        <TooltipButton
-          icon="Share20Regular"
-          tooltip="分享"
-        />
+        <TooltipButton icon="Share20Regular" tooltip="分享" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import TooltipButton from '@/components/public/TooltipButton.vue' // 根据你的路径调整
-import { useRouter } from 'vue-router'
-import player2 from '@/stores/player2.js'
+import TooltipButton from "@/components/public/TooltipButton.vue"; // 根据你的路径调整
+import { useRouter } from "vue-router";
+import player2 from "@/stores/player2.js";
 
 const props = defineProps({
   album: {
     type: Object,
     required: true,
-  }
-})
+  },
+});
 
 const playAll = async () => {
-  console.log('播放全部操作')
-  console.log('专辑歌曲列表:', props.album)
-  await player2.playMulti(props.album.songs || [])
-}
+  console.log("播放全部操作");
+  console.log("专辑歌曲列表:", props.album);
+  await player2.playMulti(props.album.songs || []);
+};
 
 const toggleFavorite = () => {
   // TODO: 收藏/取消收藏逻辑
-  console.log('收藏操作')
-}
+  console.log("收藏操作");
+};
 </script>
 
 <style scoped>
@@ -96,27 +83,6 @@ const toggleFavorite = () => {
   padding: 9px;
   /* background: linear-gradient(to right, #f9f9f9, #ffffff); */
   border-radius: 12px;
-}
-
-.album-cover {
-  height: 8rem;
-  max-height: 180px;
-  max-width: 180px;
-  aspect-ratio: 1 / 1;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.album-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.album-name {
-  font-size: 24px;
-  font-weight: bold;
 }
 
 .translated-name {

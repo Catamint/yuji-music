@@ -26,7 +26,7 @@ const items = [
   },
   {
     title: "搜索",
-    url: "#/search",
+    url: "#",
     icon: Search,
   },
 ];

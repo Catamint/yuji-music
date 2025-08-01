@@ -54,6 +54,10 @@ export default defineConfig({
     strictPort: false,
     port: 8090,
     host: '0.0.0.0',
+    allowedHosts: [
+      'xmiaoing.iask.in'
+      // 如果你还需要允许其他主机，可以在这里继续添加
+    ],
     open: true,
     proxy: {
       '/kugou': {

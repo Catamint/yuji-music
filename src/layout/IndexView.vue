@@ -1,14 +1,17 @@
 <template>
-  <SidebarProvider class="grid h-screen w-full grid-cols-[auto_1fr]">
+  <SidebarProvider class="md:grid md:grid-cols-[auto_1fr] h-screen w-full">
     <AppSidebar />
     <div class="flex flex-1 flex-col min-w-0 overflow-auto">
       <div
-        class="h-12 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        class="h-12 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      >
         <HeaderLayout class="w-full" />
       </div>
 
-      <div class="h-full w-full flex flex-1 justify-center py-6 lg:py-8 overflow-y-auto custom-scrollbar">
-        <div class="h-full w-full max-w-7xl box-border px-8">
+      <div
+        class="h-full w-full flex flex-1 justify-center py-4 md:py-6 lg:py-8 overflow-y-auto custom-scrollbar"
+      >
+        <div class="h-full w-full max-w-7xl box-border px-2 md:px-8">
           <router-view class="" v-if="isRefreshFlag" v-slot="{ Component }">
             <transition name="slide-up">
               <component :is="Component" />
@@ -18,25 +21,25 @@
       </div>
 
       <div
-        class="h-24 sticky bottom-0 z-50 w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        class="h-24 sticky bottom-0 z-50 w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      >
         <FooterLayout />
       </div>
     </div>
   </SidebarProvider>
-
 </template>
 
 <script>
-import FooterLayout from '@/components/footer/FooterLayout.vue';
-import HeaderLayout from '@/layout/HeaderLayout.vue';
-import AppSidebar from '@/layout/AppSidebar.vue';
-import Play from '@/views/play/Play.vue';
-import { utils } from '@/stores/utils';
-import { nextTick } from 'vue';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { NScrollbar } from 'naive-ui';
+import FooterLayout from "@/components/footer/FooterLayout.vue";
+import HeaderLayout from "@/layout/HeaderLayout.vue";
+import AppSidebar from "@/layout/AppSidebar.vue";
+import Play from "@/views/play/Play.vue";
+import { utils } from "@/stores/utils";
+import { nextTick } from "vue";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { NScrollbar } from "naive-ui";
 export default {
-  name: 'IndexView',
+  name: "IndexView",
   components: {
     HeaderLayout,
     FooterLayout,
@@ -68,7 +71,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .custom-scrollbar {
   scrollbar-width: thin;
@@ -96,7 +98,6 @@ export default {
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
   opacity: 1;
 }
-
 
 @keyframes slideDown {
   0% {

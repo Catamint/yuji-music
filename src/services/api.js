@@ -1,4 +1,4 @@
-import request from '@/stores/request.js';
+import request from '@/services/request.js';
 
 const api = {
   // 搜索接口

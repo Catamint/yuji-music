@@ -279,46 +279,90 @@ export default {
     },
 
     /**
-     * 搜索歌曲 (网易云接口)
+     * 综合搜索 (网易云接口)
      * @param {string} keywords - 搜索关键词
      * @param {number} limit - 返回数量，默认为 30
      * @param {number} offset - 偏移量，默认为 0
-     * @param {number} type - 搜索类型，默认为 1
+     * @param {string} type - 搜索类型, 默认为 'all', 可选 'music', 'album', 'artist', 'songlist'
      * @returns {Array} 格式化后的歌曲列表
      */
-    async searchNetease(keywords, limit = 30, offset = 0, type = 1) {
+    async searchNetease(keywords, limit = 30, offset = 0, type = 'all') {
         try {
-            const response = await api.search(keywords, limit, offset, type);
+            let response = {
+            };
+            const result = {
+                song: null,
+                album: null,
+                artist: null,
+                playlist: null,
+                type: type
+            }
             switch (type) {
-                case 1: // 歌曲
-                    return await formatSongList(response?.result || { songs: [] });
-                case 10: // 专辑
-                    return await Promise.all(
-                        response?.result?.map(formatAlbum) || []
-                    );
-                case 100: // 歌手
-                    return response?.result?.artists || [];
-                case 1000: // 歌单
-                    return response?.result?.playlists || [];
-                case 1018: // 综合
-                    const songs = response?.result?.song.songs || [];
-                    const albums = response?.result?.album.albums || [];
-                    const artists = response?.result?.artist || [];
-                    const playLists = response?.result?.playList?.playLists || [];
+                case "music": // 歌曲
+                    response = await api.search(keywords, limit, offset, 1);
+                    result.song = {
+                        ...response?.result?.songs,
+                        songs: await Promise.all(
+                            response?.result?.songs?.map(formatSong) || []
+                        )
+                    }
+                    // console.log('歌曲搜索结果:', response)
+                    return await result;
+                case "album": // 专辑
+                    response = await api.search(keywords, limit, offset, 10)
+                    result.album = {
+                        ...response?.result?.albums,
+                        albums: await Promise.all(
+                            response?.result?.albums?.map(formatAlbum) || []
+                        )
+                    };
+                    // console.log('专辑搜索结果:', response)
+                    return await result;
+                case "artist": // 歌手
+                    response.artist = await api.search(keywords, limit, offset, 100)
+                    result.artist = {
+                        ...response?.result?.artists,
+                        artists: await Promise.all(
+                            response?.result?.artists?.map(formatArtist) || []
+                        )
+                    }
+                    // console.log('歌手搜索结果:', response)
+                    return await result;
+                case "songlist": // 歌单
+                    response.playList = await api.search(keywords, limit, offset, 1000)
+                    result.playList = {
+                        ...response?.result?.playLists,
+                        playLists: await Promise.all(
+                            response?.result?.playLists?.map(formatPlayListInfo) || []
+                        )
+                    }
+                    // console.log('歌单搜索结果:', response)
+                    return await result;
+                case "all": // 综合
+                    const temp = await api.search(keywords, limit, offset, 1018)
+                    const songs = temp?.result?.song.songs || [];
+                    const albums = temp?.result?.album.albums || [];
+                    const artists = temp?.result?.artist || [];
+                    const playLists = temp?.result?.playList?.playLists || [];
                     return {
-                        ...response,
+                        ...temp,
                         song: {
-                            ...response.result?.song,
+                            ...temp.result?.song,
                             songs: await formatSongList({ songs }),
                         },
                         album: {
-                            ...response.result?.album,
+                            ...temp.result?.album,
                             albums: await Promise.all(albums.map(formatAlbum)),
                         },
                         playList: {
-                            ...response.result?.playList,
+                            ...temp.result?.playList,
                             playLists: await Promise.all(playLists.map(formatPlayListInfo)),
                         },
+                        artist: {
+                            ...temp.result?.artist,
+                            artists,
+                        },
+                        type: 'all',
                     };
                 default:
                     console.warn('未知搜索类型:', type);

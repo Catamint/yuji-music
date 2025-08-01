@@ -1,5 +1,7 @@
 <template>
-  <div class="flex flex-col sm:flex-row items-center sm:justify-between p-4 gap-4 rounded-2xl bg-white/70 dark:bg-neutral-800 shadow-md w-full">
+  <div
+    class="flex flex-col sm:flex-row items-center sm:justify-between p-4 gap-4 rounded-2xl bg-white/70 dark:bg-neutral-800 shadow-md w-full"
+  >
     <!-- 左侧歌曲信息 -->
     <div class="flex items-center gap-4 w-full sm:w-auto">
       <!-- 专辑图 -->
@@ -7,7 +9,7 @@
         v-if="playlistNotNull"
         :src="songOnPlay.album_img"
         alt="Album"
-        class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover"
+        class="w-16 h-16 shrink-0 sm:w-20 sm:h-20 rounded-xl object-cover"
       />
       <!-- 歌曲标题与歌手 -->
       <div class="flex flex-col truncate">
@@ -42,32 +44,32 @@
 </template>
 
 <script>
-import player2 from '@/stores/player2'
-import { utils } from '@/stores/utils'
-import { Heart28Regular, ChevronDoubleUp16Filled } from '@vicons/fluent'
-import { NButton, NIcon } from 'naive-ui'
+import player2 from "@/stores/player2";
+import { utils } from "@/stores/utils";
+import { Heart28Regular, ChevronDoubleUp16Filled } from "@vicons/fluent";
+import { NButton, NIcon } from "naive-ui";
 
 export default {
-  name: 'FooterLayout',
+  name: "FooterLayout",
   components: {
     Heart28Regular,
     ChevronDoubleUp16Filled,
     NButton,
-    NIcon
+    NIcon,
   },
   data() {
     return {
       utils,
-      player: player2.state
-    }
+      player: player2.state,
+    };
   },
   computed: {
     songOnPlay() {
-      return this.player.playlist.at(this.player.currentIndex)
+      return this.player.playlist.at(this.player.currentIndex);
     },
     playlistNotNull() {
-      return this.player.playlist.length !== 0
-    }
-  }
-}
+      return this.player.playlist.length !== 0;
+    },
+  },
+};
 </script>
