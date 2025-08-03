@@ -16,9 +16,9 @@
     <!-- Play 浮层 -->
     <transition name="slide">
       <div
-        v-show="utils.play_component.showing"
+        v-if="uiStore.isPlayerPageVisible"
         class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
-        style="background: transparent"
+        style=""
       >
         <div class="pointer-events-auto">
           <Play />
@@ -30,11 +30,14 @@
 
 <script setup>
 import IndexView from "@/layout/IndexView.vue";
-import { useThemeStore } from "./stores/themeStore";
 import player2 from "./stores/player2";
 import { utils } from "@/stores/utils";
+import { useThemeStore } from "./stores/themeStore";
+import { useUiStore } from "./stores/uiStore";
+import Play from "./views/play/Play.vue";
 // import StorageManager from './stores/StorageManager';
 
+const uiStore = useUiStore();
 const themeStore = useThemeStore();
 // const storageManager = new StorageManager();
 

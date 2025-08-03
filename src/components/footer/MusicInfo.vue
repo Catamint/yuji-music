@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div class="album-container min-w-16" v-if="playlistNotNull" @click="toggleDetails">
+    <div
+      class="album-container min-w-16"
+      v-if="playlistNotNull"
+      @click="uiStore.togglePlayerPage"
+    >
       <img class="album-image aspect-square shrink-0" :src="picurl" alt="" />
       <div class="hover-overlay">
         <n-icon size="32">
@@ -22,17 +26,17 @@
 <script>
 import { utils } from "@/stores/utils";
 import player2 from "@/stores/player2";
-import { Heart28Regular, ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
-import { NButton, NIcon } from "naive-ui";
+import { ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
+import { NIcon } from "naive-ui";
 import songService from "@/services/songService.js";
+import { useUiStore } from "@/stores/uiStore";
+
 export default {
   name: "FooterLayout",
   props: {
     msg: String,
   },
   components: {
-    Heart28Regular,
-    NButton,
     NIcon,
     ChevronDoubleUp16Filled,
   },
@@ -42,6 +46,7 @@ export default {
       player: player2.state,
       songName: this.playlistNotNull ? this.songOnPlay.name : "正在播放",
       picurl: "",
+      uiStore: useUiStore(),
     };
   },
   computed: {
@@ -55,11 +60,6 @@ export default {
   methods: {
     async getPicUrl(musicInfo) {
       this.picurl = await songService.getPicUrl(musicInfo);
-    },
-    toggleDetails() {
-      this.utils.play_component.showing
-        ? this.utils.play_component.hide()
-        : this.utils.play_component.show();
     },
     onArtistClick() {
       if (this.songOnPlay.artist.id) {
