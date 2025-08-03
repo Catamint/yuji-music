@@ -1,14 +1,5 @@
 <template>
-  <n-slider
-    class="slider"
-    :value="dragging ? tempCurrentTime : player2.state.currentTime"
-    :step="1"
-    :max="player2.state.duration"
-    :tooltip="false"
-    @update:value="onSliderChange"
-    @dragstart="onDragstart"
-    @dragend="onDragend"
-  />
+  <PlaySlider class="slider" />
 
   <div class="container w-full playbutton-container">
     <n-icon class="playbutton" size="28" @click="player2.prev()">
@@ -28,6 +19,7 @@
       >{{ currentMinSec(player2.state.currentTime) }} /
       {{ currentMinSec(player2.state.duration) }}</span
     >
+    <PlayModeButton />
     <n-tooltip trigger="hover">
       <template #trigger>
         <n-button
@@ -81,7 +73,8 @@ import {
 } from "@vicons/fluent";
 import { NIcon, NSlider, NButton, NTooltip } from "naive-ui";
 import player2, { PlayMode } from "@/stores/player2";
-import Slider from "../playercontroller/Slider.vue";
+import PlaySlider from "../playercontroller/PlaySlider.vue";
+import PlayModeButton from "../playercontroller/buttons/PlayMode.vue";
 export default {
   name: "player2Controller",
   components: {
@@ -94,14 +87,13 @@ export default {
     ArrowRotateCounterclockwise24Filled,
     TextBulletListLtr24Filled,
     Heart28Regular,
-    Slider,
+    PlaySlider,
+    PlayModeButton,
   },
   data() {
     return {
       player2,
       PlayMode,
-      dragging: false, // 用于标记是否正在拖动滑块
-      tempCurrentTime: 0, // 用于存储临时的当前时间
     };
   },
   mounted() {},
@@ -117,40 +109,6 @@ export default {
       let sec = parseInt(SecTime % 60);
       if (sec < 10) sec = "0" + sec;
       return min + ":" + sec;
-    },
-    onDragstart() {
-      this.dragging = true;
-      this.tempCurrentTime = player2.state.currentTime; // 初始化拖动时的值
-      console.log("0");
-    },
-    onDragend() {
-      this.player2.set_current_time(this.tempCurrentTime);
-      this.dragging = false;
-      console.log("1");
-    },
-    onSliderChange(val) {
-      // 仅更新临时变量，不影响真正播放
-      // if (dragging.value) {
-      this.tempCurrentTime = val;
-      // } else {
-      // player2.setCurrentTime(val) // 不是拖动情况下的正常点击
-      // }
-    },
-  },
-  computed: {
-    get_current_url() {
-      if (this.player2.state.playlist.length != 0) {
-        return this.player2.state.playlist.at(this.player2.state.current).url; //播放列表非空
-      } else {
-        return "";
-      }
-    },
-    setCurrentTime() {
-      if (!this.player2.state.dragging) {
-        return this.player2.state.currentTime;
-      } else {
-        this.player2.state.currentTime = this.$refs.slider.value;
-      }
     },
   },
 };

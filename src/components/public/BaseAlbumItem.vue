@@ -55,8 +55,8 @@ export default {
       },
     },
     index: {
-      type: Number,
-      default: 0,
+      type: String || Number,
+      default: "",
     },
   },
   computed: {

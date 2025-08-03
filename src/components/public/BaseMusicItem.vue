@@ -70,7 +70,7 @@ export default {
       },
     },
     index: {
-      type: String,
+      type: String || Number,
       default: "",
     },
   },
@@ -129,6 +129,8 @@ export default {
     NEllipsis,
     NIcon,
     BaseCard,
+    TooltipButton,
+    NTooltip,
   },
 };
 </script>

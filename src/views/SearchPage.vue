@@ -7,7 +7,7 @@
       :music_info_list="all_info.song?.songs || music_info_list"
       head="歌曲"
       layout="compact"
-      @header-click="search(route.query.kw, 'music')"
+      @header-click="reSearch('music')"
     />
     <AlbumCardContainer
       v-if="all_info.album?.albums"
@@ -15,6 +15,7 @@
       :music_info_list="all_info.album.albums"
       head="专辑"
       layout="card"
+      @header-click="reSearch('album')"
     />
     <SonglistCardContainer
       v-if="all_info.playList?.playLists"
@@ -22,6 +23,7 @@
       :music_info_list="all_info.playList.playLists"
       head="歌单"
       layout="card"
+      @header-click="reSearch('songlist')"
     />
   </div>
 </template>
@@ -33,6 +35,7 @@ import SonglistCardContainer from "@/components/public/SonglistCardContainer.vue
 import songService from "@/services/songService.js";
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
+import router from "@/router";
 
 const music_info_list = ref([]);
 const all_info = ref({});
@@ -49,6 +52,16 @@ async function search(kw, type) {
     console.error("搜索失败:", error);
     all_info.value = {};
   }
+}
+
+function reSearch(type) {
+  router.push({
+    path: "/search",
+    query: {
+      kw: router.currentRoute.value.query.kw,
+      type: type,
+    },
+  });
 }
 
 const props = defineProps({

@@ -11,6 +11,7 @@ const options = [
   { label: "音乐", type: "music" },
   { label: "专辑", type: "album" },
   { label: "艺术家", type: "artist" },
+  { label: "歌单", type: "songlist" },
 ];
 
 const showOptions = computed(() => query.value.trim() !== "");
@@ -21,18 +22,6 @@ function onSelect(option) {
     query: {
       kw: query.value,
       type: option.type,
-    },
-  });
-}
-
-function onEnter() {
-  if (!query.value.trim()) return;
-  // 默认搜索全部
-  router.push({
-    path: "/search",
-    query: {
-      kw: query.value,
-      type: "all",
     },
   });
 }
@@ -47,24 +36,23 @@ function onEnter() {
         <ComboboxInput
           class="w-full"
           v-model="query"
-          @keydown.enter.prevent="onEnter"
           placeholder="搜索音乐 / 专辑 / 创作者 / 歌单"
         />
       </div>
     </ComboboxAnchor>
-    <ComboboxList v-show="showOptions">
+    <ComboboxList>
       <!-- <ComboboxEmpty>
                 No framework found.
             </ComboboxEmpty> -->
 
-      <ComboboxGroup>
+      <ComboboxGroup v-show="showOptions">
         <ComboboxItem
           v-for="option in options"
           :key="option.type"
           :value="option.label"
           @click="onSelect(option)"
         >
-          {{ option.label }}：“{{ query }}”
+          query{{ option.label }}：“{{ query }}”
         </ComboboxItem>
       </ComboboxGroup>
     </ComboboxList>

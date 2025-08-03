@@ -6,12 +6,7 @@ const dragging = ref(false);
 const tempCurrentTime = ref(player2.state.currentTime);
 
 function onSliderChange(val) {
-  // 仅更新临时变量，不影响真正播放
-  // if (dragging.value) {
   tempCurrentTime.value = val;
-  // } else {
-  // player2.setCurrentTime(val) // 不是拖动情况下的正常点击
-  // }
 }
 
 function onDragstart() {

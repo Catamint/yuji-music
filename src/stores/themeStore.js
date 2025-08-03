@@ -53,7 +53,7 @@ export const useThemeStore = defineStore('theme', {
                 key: 'dark', // 添加 key 属性
                 name: '深色',
                 backgroundActive: true,
-                backgroundImage: './src/assets/image/background.jpg',
+                backgroundImage: '',
                 backgroundSaturation: 2,
                 containerBackgroundColor: 'rgba(15, 15, 15, 0.6)',
                 containerBlur: '100px',
@@ -157,7 +157,7 @@ export const useThemeStore = defineStore('theme', {
         },
         
         // 设置背景图片
-        setBackgroundImage(image = './src/assets/image/background.jpg') {
+        setBackgroundImage(image = '') {
             if (this.currentTheme.key !== 'custom') {
                 this.createCustomTheme();
             }
