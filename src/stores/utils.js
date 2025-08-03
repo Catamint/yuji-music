@@ -3,6 +3,7 @@ export const utils = reactive({
     play_component:{
         showing: false,
         show(){
+            console.log("显示播放组件");
             this.showing = true;
         },
         hide(){

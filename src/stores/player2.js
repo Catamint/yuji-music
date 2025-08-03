@@ -1,5 +1,6 @@
 // player.js
 import songService from "@/services/songService";
+import { computed } from "vue";
 import { reactive } from 'vue';
 
 export const PlayMode = {
@@ -12,7 +13,7 @@ const state = reactive({
   audio: new Audio(),         // 音频对象
   playlist: [],               // 播放列表
   currentIndex: -1,           // 当前播放的歌曲索引
-  isPlaying: false,           // 是否正在播放
+  isPlaying: computed(() => state.audio && state.currentTime >= 0 && state.audio.paused === false),           // 是否正在播放
   mode: PlayMode.SEQUENTIAL, // 播放模式
   volume: 1,                  // 音量
   currentTime: 0,             // 当前播放时间
@@ -44,12 +45,12 @@ function onEnded() {
 
 // 播放事件
 function onPlay() {
-  state.isPlaying = true;
+
 }
 
 // 暂停事件
 function onPause() {
-  state.isPlaying = false;
+
 }
 
 // 时间更新事件
@@ -62,6 +63,21 @@ function onLoadedMetadata() {
   state.duration = state.audio.duration;
 }
 
+function setCurrentTime(time) {
+    if (state.currentIndex === -1) return;
+
+    if (isNaN(time)) {
+        console.error('无效的时间设置');
+        return;
+    } else if (time < 0) {
+        console.warn('时间不能小于 0');
+        time = 0;
+    } else if (time > state.duration) {
+        console.warn('时间不能大于歌曲时长');
+        time = state.duration;
+    }
+    state.audio.currentTime = time;
+}
 
 function setPlaylist(playlist) {
     state.playlist = playlist;
@@ -89,7 +105,6 @@ async function playIndex(index = state.currentIndex) {
 
     setSrc(track.url);
     state.audio.play();
-    state.is_playing = true;
     track.playing = true;
 }
 
@@ -143,7 +158,6 @@ function play_in_playlist(id) {
 
 function pause() {
     state.audio.pause();
-    state.is_playing = false;
 }
 
 function toggle() {
@@ -198,26 +212,19 @@ function del_from_list(id) {
         state.playlist.splice(songIndex, 1);
         if (state.playlist.length === 0) {
             state.currentIndex = -1; // 重置当前索引
-            state.is_playing = false; // 停止播放
             state.audio.pause();
             state.audio.src = ''; // 清空音频源
         }
         else if (state.currentIndex >= state.playlist.length) {
             state.currentIndex = 0; // 如果删除的是当前播放的歌曲，自动播放最后一首
+        } else if (state.currentIndex > songIndex) {
+            state.currentIndex--;
         } else {
             console.error('歌曲不在播放列表中');
         }
     }
 }
 
-function set_current_time(time) {
-    if (state.audio && !isNaN(time)) {
-        state.audio.currentTime = time;
-        // state.currentTime = time;
-    } else {
-        console.error('无效的时间设置');
-    }
-}
 
 export default {
     state,
@@ -235,6 +242,6 @@ export default {
     put_in_playlist,
     insertNext,
     del_from_list,
-    set_current_time,
+    setCurrentTime,
     play_in_playlist,
 };

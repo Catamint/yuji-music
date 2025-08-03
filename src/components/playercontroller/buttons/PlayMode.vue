@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import player2, { PlayMode } from "@/stores/player2";
 import TooltipButton from "@/components/public/TooltipButton.vue";
 import {
@@ -7,8 +6,6 @@ import {
   ArrowSync24Filled,
   ArrowRotateCounterclockwise24Filled,
 } from "@vicons/fluent";
-import { NIcon } from "naive-ui";
-import { icons } from "lucide-vue-next";
 
 function getNextMode(currentMode) {
   const modes = [PlayMode.SEQUENTIAL, PlayMode.RANDOM, PlayMode.REPEAT_ONE];
@@ -27,18 +24,14 @@ const myicons = {
     class="playbutton"
     style="font-size: 24px"
     @click="player2.setMode(getNextMode(player2.state.mode))"
-    tooltip="顺序/随机/单曲循环"
+    tooltipText="顺序/随机/单曲循环"
   >
     <template #icon>
-      <n-icon v-if="player2.state.mode === PlayMode.SEQUENTIAL">
-        <ArrowSync24Filled />
-      </n-icon>
-      <n-icon v-else-if="player2.state.mode === PlayMode.RANDOM">
-        <ArrowRotateCounterclockwise24Filled />
-      </n-icon>
-      <n-icon v-else>
-        <Pause48Filled />
-      </n-icon>
+      <ArrowSync24Filled v-show="player2.state.mode === PlayMode.SEQUENTIAL" />
+      <ArrowRotateCounterclockwise24Filled
+        v-show="player2.state.mode === PlayMode.RANDOM"
+      />
+      <Pause48Filled v-show="player2.state.mode === PlayMode.REPEAT_ONE" />
     </template>
   </TooltipButton>
 </template>

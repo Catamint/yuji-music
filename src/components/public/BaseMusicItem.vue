@@ -21,20 +21,20 @@
       <tooltip-button
         v-if="!isFavorite"
         icon="Heart28Regular"
-        tooltip="收藏"
+        tooltipText="收藏"
         class="star"
         @click.stop="addToFavorites"
       />
       <tooltip-button
         v-else
         icon="Heart28Filled"
-        tooltip="取消收藏"
+        tooltipText="取消收藏"
         class="star"
         @click.stop="removeFromFavorites"
       />
       <tooltip-button
         icon="ReceiptPlay24Regular"
-        tooltip="下一首播放"
+        tooltipText="下一首播放"
         class="next"
         @click="addToPlayNext"
       />

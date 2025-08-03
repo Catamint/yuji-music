@@ -43,10 +43,10 @@
 
       <!-- 操作统计 -->
       <div class="album-stats">
-        <TooltipButton icon="Play20Regular" tooltip="播放全部" @click="playAll" />
-        <TooltipButton icon="Heart20Regular" tooltip="收藏" />
+        <TooltipButton icon="Play20Regular" tooltipText="播放全部" @click="playAll" />
+        <TooltipButton icon="Heart20Regular" tooltipText="收藏" />
 
-        <TooltipButton icon="Share20Regular" tooltip="分享" />
+        <TooltipButton icon="Share20Regular" tooltipText="分享" />
       </div>
     </div>
   </div>

@@ -1,47 +1,49 @@
 <template>
-    <!-- <div v-if="themeStore.currentTheme.backgroundActive" class="base-background-image" :style="{
+  <!-- <div v-if="themeStore.currentTheme.backgroundActive" class="base-background-image" :style="{
 
       filter: `saturate(${themeStore.currentTheme.backgroundSaturation})`,
     }"></div> -->
-    <div class="base-background-image bg-background font-misans relative flex min-h-svh flex-col overflow-hidden" 
+  <div
+    class="base-background-image bg-background font-misans relative flex min-h-svh flex-col overflow-hidden"
     :style="
-      themeStore.currentTheme.backgroundActive ? { backgroundImage: `url(${themeStore.currentTheme.backgroundImage})` } : {},
-      {backdropFilter: `blur(${themeStore.currentTheme.containerBlur})`}
-    ">
-      <IndexView />
-      <!-- Play 浮层 -->
-      <transition name="slide">
-        <div
-          v-show="utils.play_component.showing"
-          class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
-          style="background: transparent;"
-        >
-          <div class="pointer-events-auto">
-            <Play />
-          </div>
+      (themeStore.currentTheme.backgroundActive
+        ? { backgroundImage: `url(${themeStore.currentTheme.backgroundImage})` }
+        : {},
+      { backdropFilter: `blur(${themeStore.currentTheme.containerBlur})` })
+    "
+  >
+    <IndexView />
+    <!-- Play 浮层 -->
+    <transition name="slide">
+      <div
+        v-show="utils.play_component.showing"
+        class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
+        style="background: transparent"
+      >
+        <div class="pointer-events-auto">
+          <Play />
         </div>
-      </transition>
-    </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script setup>
-import IndexView from '@/layout/IndexView.vue';
-import { useThemeStore } from './stores/themeStore';
-import MessageApi from './stores/MessageApi.vue';
-import player2 from './stores/player2';
-import { utils } from '@/stores/utils';
+import IndexView from "@/layout/IndexView.vue";
+import { useThemeStore } from "./stores/themeStore";
+import player2 from "./stores/player2";
+import { utils } from "@/stores/utils";
 // import StorageManager from './stores/StorageManager';
 
 const themeStore = useThemeStore();
 // const storageManager = new StorageManager();
-utils.initUtils(); // 初始化工具
+
 themeStore.initDefaultTheme(); // 设置默认主题
 player2.initAudio();
-
+utils.initUtils();
 </script>
 
 <style>
-
 /* @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Medium.min.css'); */
 @import "@/index.css";
 
@@ -58,7 +60,6 @@ player2.initAudio();
 }
 
 .n-icon {
-  color: v-bind('themeStore.currentTheme.iconColor');
+  color: v-bind("themeStore.currentTheme.iconColor");
 }
-
 </style>

@@ -7,7 +7,7 @@ import TooltipButton from "@/components/public/TooltipButton.vue";
 <template>
   <TooltipButton
     icon="Play24Regular"
-    tooltip="播放"
+    tooltipText="播放"
     class="play"
     @click="player2.toggle()"
   />
