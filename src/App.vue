@@ -1,122 +1,99 @@
 <template>
-  <n-config-provider :theme-overrides="themeOverrides">
-    <n-message-provider>
-    <MessageApi />
-    </n-message-provider>
-    <div class="base-background-image"></div>
-    <div class="base-container">
-      <IndexView />
+  <!-- 背景图片 -->
+  <div
+    v-if="themeStore.currentTheme.backgroundActive"
+    class="fixed inset-0 h-screen -z-10 base-background-image background-filter"
+    :style="{
+      backgroundImage: `url(${themeStore.currentTheme.backgroundImage})`,
+    }"
+  >
+    <div
+      class="bg-background inset-0 h-screen background-filter"
+      :style="{ backdropFilter: `blur(${themeStore.currentTheme.containerBlur})` }"
+    ></div>
+  </div>
+
+  <!-- 主体 -->
+  <IndexView class="font-misans" />
+
+  <!-- Play 浮层 -->
+  <transition name="slide">
+    <div
+      v-if="uiStore.isPlayerPageVisible"
+      class="fixed inset-0 h-dvh w-screen z-[1000] flex items-center justify-center pointer-events-none"
+      style=""
+    >
+      <div class="box backdrop-blur-3xl glass-filter pointer-events-auto h-dvh w-screen">
+        <Play />
+      </div>
     </div>
-  </n-config-provider>
+  </transition>
 </template>
 
-<script>
+<script setup>
+import IndexView from "@/layout/IndexView.vue";
+import player2 from "./stores/player2";
+import { utils } from "@/stores/utils";
+import { useThemeStore } from "./stores/themeStore";
+import { useUiStore } from "./stores/uiStore";
+import Play from "./layout/Play.vue";
+// import StorageManager from './stores/StorageManager';
 
-import IndexView from './components/IndexView.vue';
-import { NConfigProvider, NMessageProvider } from 'naive-ui';
-import { utils } from './stores/utils';
-import MessageApi from './stores/MessageApi.vue';
-// @type import('naive-ui').GlobalThemeOverrides
+const uiStore = useUiStore();
+const themeStore = useThemeStore();
+// const storageManager = new StorageManager();
 
-export default {
-  name: 'App',
-  components: {
-    IndexView,
-    NMessageProvider,
-    NConfigProvider,
-    MessageApi
-  },
-  created(){
-    this.utils.user_config.onFlush();
-  },
-  data() {
-    return {
-      utils,
-      themeOverrides: {
-        common: {
-          // primaryColor: '#FF0000'
-          primaryColorHover: '#A43117',
-          borderColor:'#a65157'
-        },
-        Button: {
-          // textColor: '#FF0000'
-          textColorHover: '#A43117',
-          colorHoverPrimary: '#0c7a43'
-        },
-        Menu: {
-          itemColorActive:"rgba(24, 160, 88, 0.1)",
-          textColor:"#000000",
-          textColorActive:"#000000",
-          itemTextColorActive: "#A03818FF",
-          itemTextColorChildActive: "#A03818FF",
-          itemTextColorActiveHover:"#A03818FF",
-          itemTextColorChildActiveHover:"#A03818FF"
-        },
-        Empty: {
-          textColor:"#000000"
-        },
-        Select: {
-          peers: {
-            InternalSelection: {
-              // textColor: '#FF0000'
-            }
-          }
-        }
-      }
-    }
-  }
-}
+themeStore.initDefaultTheme(); // 设置默认主题
+player2.initAudio();
+utils.initUtils();
 </script>
 
 <style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
-.base-container {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  /* width: 100vw; */
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
-}
+/* @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Medium.min.css'); */
+@import "@/index.css";
 
 .base-background-image {
-  background-image: url(./assets/image/background.jpg);
-  filter: saturate(1.5);
-  /* 饱和度，与遮罩透明度搭配使用，避免遮罩后背景变灰 */
-  background-size: cover;
-  top: 0;
+  /* top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  position: absolute;
-  z-index: -1;
-  /* overflow: hidden; */
+  position: fixed;
+  z-index: -1; */
+  background-size: cover; /* 背景图片覆盖容器 */
+  background-repeat: no-repeat; /* 防止背景重复 */
+  background-position: center; /* 背景居中显示 */
 }
 
 .n-icon {
-  color: rgba(170, 40, 40, 0.64);
+  color: v-bind("themeStore.currentTheme.iconColor");
 }
 
-#app {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  /* color: white; */
+.box {
+  /* backdrop-filter: blur(20px); */
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 9;
 }
 
-.n-card {
-  background-color: rgba(255, 255, 255, 0.247);
-  border: none ! important;
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* 进入时的起始状态和离开时的结束状态 */
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateY(100%);
+}
+
+/* 进入时的结束状态和离开时的起始状态 */
+.slide-enter-to,
+.slide-leave-from {
+  transform: translateY(0);
 }
 </style>

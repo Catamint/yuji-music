@@ -14,32 +14,36 @@
     </n-empty>
   </div>
   <template v-else>
-    <n-scrollbar>
-      <List v-for="info in musicinfo_list" :music_info="info" :isFavorite="true"/>
-    </n-scrollbar>
+      <songlist-card-container
+        v-if="musicinfo_list.length > 0"
+        :music_info_list="musicinfo_list"
+        head="我的收藏"
+        layout="card"
+      />
+      <n-empty v-else size="large" description="暂无收藏">
+        <template #icon>
+          <n-icon>
+            <Heart28Filled />
+          </n-icon>
+        </template>
+      </n-empty>
   </template>
 </template>
 
 <script>
-import List from '@/components/public/List.vue';
 import { utils } from '@/stores/utils';
 import { Heart28Filled } from '@vicons/fluent';
-import { NButton, NEmpty, NIcon, NScrollbar } from 'naive-ui';
-import querystring from 'querystring';
-
-const info = {
-  hash: "71194BC4C1F44C344774719CED11839B"
-}
+import { NButton, NEmpty, NIcon } from 'naive-ui';
+import songlistCardContainer from '@/components/public/SonglistCardContainer.vue';
+import songService from '@/services/songService.js';
 
 export default {
   name: 'Favorite',
   components: {
-    List,
     NEmpty,
     NIcon,
     NButton,
     Heart28Filled,
-    NScrollbar
   },
   data() {
     return {
@@ -56,33 +60,21 @@ export default {
 
   },
   methods: {
-    getFavorites() {
-      if (this.utils.user_config.uid == "") {
-        // logined = false;
-        // console.log("未登录")
-      } else {
-        var url = "/host/get_collections";
-        this.$axios.post(url, querystring.stringify({ 
-            uid: this.utils.user_config.uid
-        })).then(res => { 
-            var data =res.data
-            // console.log(data);
-            this.musicinfo_list = data;
-        }).catch(function (error) {
-            console.log(error);
-        })
+    async getFavorites() {
+      const uid = this?.utils?.user_config?.uid;
+      if (uid) {
+        console.log("获取收藏列表" + uid);
+        this.musicinfo_list = await songService.getUserSonglist(uid);
       }
-    },
-    search_music(page){
-
     },
     gotoLogin() {
       this.$router.push({
-        path: 'login'
+        path: 'login_netease',
       });
     }
-  }
-}
+  },
+};
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
