@@ -7,8 +7,8 @@
     >
       <img class="w-full h-full rounded-md" :src="picurl" alt="" />
     </div>
-    <div class="info-container ml-3">
-      <p class="text-[16px] font-bold" :class="{ 'animate-marquee': animation }">
+    <div class="info-container ml-3 flex flex-1">
+      <p class="text-[16px] font-bold truncate" :class="{ 'animate-marquee': animation }">
         {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
       </p>
       <p class="hidden md:block hover:underline info">

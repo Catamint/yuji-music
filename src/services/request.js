@@ -3,7 +3,8 @@
 import axios from 'axios';
 
 const baseUrls = {
-  default: 'https://netease-cloud-music-api-backup-ashy.vercel.app', // 默认接口
+  default: '/api', // 默认接口
+  // default: 'https://netease-cloud-music-api-backup-ashy.vercel.app', // 默认接口
   gdstudio: 'https://music-api.gdstudio.xyz/api.php', // 新增的 gdstudio 接口
 };
 
