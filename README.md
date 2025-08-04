@@ -1,6 +1,64 @@
 # music-2
 
-vue + NaiveUI 音乐APP前端
+vite + vue3 音乐APP
+
+## 项目介绍
+
+本项目是一个使用 vite + vue3 + pinia + axios 等技术栈实现的音乐APP。
+
+
+# 项目名称
+
+音乐APP
+
+## 项目介绍
+
+本项目是一个使用 Vue3 + Naive UI + Axios 等技术栈实现的音乐APP，提供歌曲播放、搜索、收藏、播放列表管理、用户登录和主题切换等功能。
+
+## 项目功能
+
+*   歌曲播放
+*   歌曲搜索
+*   歌曲收藏
+*   播放列表管理
+*   用户登录
+*   主题切换
+
+## 项目结构
+
+*   `src` 目录：项目源代码
+*   `components` 目录：组件
+*   `views` 目录：页面
+*   `stores` 目录：状态管理
+*   `services` 目录：服务
+*   `utils` 目录：工具函数
+
+## 项目依赖
+
+*   Vue3
+*   Naive UI
+*   Axios
+
+## 项目启动
+
+1.  安装依赖：`npm install`
+2.  启动开发服务器：`npm run dev`
+3.  构建生产环境：`npm run build`
+
+## 项目部署
+
+1.  部署到生产环境
+
+## 项目贡献
+
+1.  Fork 本项目
+2.  创建新分支
+3.  提交代码
+4.  发起 Pull Request
+
+## 项目协议
+
+MIT 协议
 
 ## TODO:
 
