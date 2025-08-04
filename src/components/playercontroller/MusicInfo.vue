@@ -1,21 +1,18 @@
 <template>
-  <div class="container">
+  <div>
     <div
-      class="album-container min-w-16"
+      class="aspect-square relative overflow-hidden"
+      :class="{ 'w-12': imgSize == 12, 'w-14': imgSize == 14, 'w-16': imgSize == 16 }"
       v-if="playlistNotNull"
-      @click="uiStore.togglePlayerPage"
     >
-      <img class="album-image aspect-square shrink-0" :src="picurl" alt="" />
-      <div class="hover-overlay">
-        <n-icon size="32">
-          <ChevronDoubleUp16Filled />
-        </n-icon>
-      </div>
+      <img class="w-full h-full rounded-md" :src="picurl" alt="" />
     </div>
-    <div class="info-container">
-      <p class="music-name">{{ playlistNotNull ? songOnPlay.name : "正在播放" }}</p>
-      <p class="info">
-        <span @click="onArtistClick">{{
+    <div class="info-container ml-3">
+      <p class="text-[16px] font-bold" :class="{ 'animate-marquee': animation }">
+        {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
+      </p>
+      <p class="hidden md:block hover:underline info">
+        <span @click.stop="onArtistClick">{{
           playlistNotNull ? songOnPlay.artist.name : "歌手"
         }}</span>
       </p>
@@ -29,12 +26,19 @@ import player2 from "@/stores/player2";
 import { ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
 import { NIcon } from "naive-ui";
 import songService from "@/services/songService.js";
-import { useUiStore } from "@/stores/uiStore";
 
 export default {
   name: "FooterLayout",
   props: {
     msg: String,
+    imgSize: {
+      type: Number,
+      default: 12,
+    },
+    animation: {
+      type: Boolean,
+      default: true,
+    },
   },
   components: {
     NIcon,
@@ -44,9 +48,7 @@ export default {
     return {
       utils,
       player: player2.state,
-      songName: this.playlistNotNull ? this.songOnPlay.name : "正在播放",
       picurl: "",
-      uiStore: useUiStore(),
     };
   },
   computed: {
@@ -81,53 +83,12 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  border-radius: 20px;
-  min-width: 100px;
-  width: 35%;
-  gap: 10px;
-}
-
-.album-container {
-  position: relative;
-  height: 100%;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
 .album-image {
-  height: 100%;
-  aspect-ratio: 1;
+  /* height: 100%; */
+  /* aspect-ratio: 1; */
   /* width: 48px; */
   border-radius: 10px;
   transition: all 0.3s ease;
-}
-
-.hover-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: all 0.3s ease;
-  border-radius: 10px;
-}
-
-.album-container:hover .album-image {
-  filter: brightness(50%);
-}
-
-.album-container:hover .hover-overlay {
-  opacity: 1;
 }
 
 .info-container {
@@ -137,11 +98,7 @@ export default {
   /* padding: 5px; */
 }
 
-.music-name {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0;
-  display: inline-block;
+.animate-marquee {
   animation: marquee 10s linear infinite;
 }
 
@@ -160,11 +117,7 @@ export default {
   margin: 0;
 }
 .info span {
-  /* color: #42b983; */
   text-decoration: none;
   cursor: pointer;
-}
-.info span:hover {
-  /* text-decoration: underline; */
 }
 </style>

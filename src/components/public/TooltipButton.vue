@@ -3,11 +3,11 @@
     <tooltip>
       <tooltip-trigger>
         <Button
-          class="max-w-[28px]"
+          class="max-w-[28px] press-active"
           variant="ghost"
           :class="class"
           text
-          @click.stop="$emit('click')"
+          @click="$emit('click')"
         >
           <n-icon v-if="icon" :size="iconSize">
             <component :is="iconComponent" />

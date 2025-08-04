@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import bg from '@/assets/image/background.png'
 
 export const useThemeStore = defineStore('theme', {
     state: () => ({
@@ -7,37 +8,37 @@ export const useThemeStore = defineStore('theme', {
                 key: 'light', // 添加 key 属性
                 name: '浅色',
                 backgroundActive: true,
-                backgroundImage: './src/assets/image/background.jpg',
+                backgroundImage: bg,
                 backgroundSaturation: 1.6,
                 containerBackgroundColor: 'rgba(255, 255, 255, 0.6)',
-                containerBlur: '80px',
-                iconColor: 'rgba(170, 40, 40, 0.64)',
+                containerBlur: '10px',
+                iconColor: 'rgba(225, 120, 120, 0.9)',
                 overrides: {
                     common: {
-                        primaryColor: 'rgba(170, 40, 40, 0.64)',
+                        primaryColor: 'rgba(225, 120, 120, 0.9)',
                         primaryColorHover: 'rgba(220, 70, 70, 0.64)',
-                        primaryColorPressed: 'rgba(170, 40, 40, 0.64)',
+                        primaryColorPressed: 'rgba(225, 120, 120, 0.9)',
                         textColor: '#333333',
                         textColorDisabled: '#BFBFBF',
-                        borderColor: 'rgba(170, 40, 40, 0.64)',
-                        iconColor: 'rgba(170, 40, 40, 0.64)',
-                        iconColorHover: 'rgba(170, 40, 40, 0.64)',
+                        borderColor: 'rgba(225, 120, 120, 0.9)',
+                        iconColor: 'rgba(225, 120, 120, 0.9)',
+                        iconColorHover: 'rgba(225, 120, 120, 0.9)',
                     },
                     Button: {
                         textColor: '#FFFFFF',
                         color: 'rgba(170, 40, 40, 0.44)',
-                        colorHover: 'rgba(170, 40, 40, 0.64)',
-                        colorPressed: 'rgba(170, 40, 40, 0.64)',
+                        colorHover: 'rgba(225, 120, 120, 0.9)',
+                        colorPressed: 'rgba(225, 120, 120, 0.9)',
                     },
                     Menu: {
                         itemColorActive: 'rgba(255, 77, 79, 0.1)',
                         textColor: '#333333',
-                        textColorActive: 'rgba(170, 40, 40, 0.64)',
-                        itemTextColorActive: '#rgba(170, 40, 40, 0.64)',
-                        itemTextColorChildActive: 'rgba(170, 40, 40, 0.64)',
+                        textColorActive: 'rgba(225, 120, 120, 0.9)',
+                        itemTextColorActive: '#rgba(225, 120, 120, 0.9)',
+                        itemTextColorChildActive: 'rgba(225, 120, 120, 0.9)',
                     },
                     Icon: {
-                        color: 'rgba(170, 40, 40, 0.64)',
+                        color: 'rgba(225, 120, 120, 0.9)',
                     },
                     Empty: {
                         textColor: '#333333',
@@ -53,10 +54,10 @@ export const useThemeStore = defineStore('theme', {
                 key: 'dark', // 添加 key 属性
                 name: '深色',
                 backgroundActive: true,
-                backgroundImage: '',
+                backgroundImage: bg,
                 backgroundSaturation: 2,
                 containerBackgroundColor: 'rgba(15, 15, 15, 0.6)',
-                containerBlur: '100px',
+                containerBlur: '80px',
                 iconColor: 'rgba(225, 120, 120, 0.9)',
                 overrides: {
                     common: {

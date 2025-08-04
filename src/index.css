@@ -44,7 +44,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(100% 0.00011 271.152 / 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -69,7 +69,7 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
-  --sidebar: oklch(98.511% 0.00011 271.152 / 0.8);
+  --sidebar: oklch(98.511% 0.00011 271.152 / 0.4);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(72.438% 0.15524 10.28);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -80,7 +80,7 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(14.479% 0.00002 271.152 / 0.3);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -104,7 +104,7 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(20.463% 0.00002 271.152 / 0.8);
+  --sidebar: oklch(20.463% 0.00002 271.152 / 0.2);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(72.438% 0.15524 10.28);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -126,4 +126,35 @@
 @theme {
   --font-display: "Oswald", "sans-serif";
   --font-misans: "MiSans", MiSans-Medium;
+}
+
+.glass-filter {
+  @apply backdrop-saturate-150 backdrop-brightness-125 backdrop-contrast-90 bg-white/60 
+         dark:backdrop-saturate-130 dark:backdrop-brightness-90 dark:backdrop-contrast-130 dark:bg-neutral-900/70;
+}
+
+.background-filter {
+  @apply backdrop-blur-lg;
+}
+
+.background-filter::before {
+  content: "";
+  @apply absolute inset-0;
+  @apply bg-white/30 backdrop-brightness-125 backdrop-saturate-150 backdrop-contrast-90;
+}
+
+.dark .background-filter::before {
+  @apply bg-black/20 backdrop-brightness-120 backdrop-saturate-100 backdrop-contrast-120;
+}
+
+.back-hover {
+  @apply hover:bg-neutral-200
+}
+
+.dark .back-hover {
+  @apply hover:bg-neutral-800
+}
+
+.press-active {
+  @apply duration-150 ease-in-out transform active:scale-95;
 }

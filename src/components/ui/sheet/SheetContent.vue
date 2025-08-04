@@ -1,12 +1,7 @@
 <script setup>
 import { reactiveOmit } from "@vueuse/core";
 import { X } from "lucide-vue-next";
-import {
-  DialogClose,
-  DialogContent,
-  DialogPortal,
-  useForwardPropsEmits,
-} from "reka-ui";
+import { DialogClose, DialogContent, DialogPortal, useForwardPropsEmits } from "reka-ui";
 import { cn } from "@/lib/utils";
 import SheetOverlay from "./SheetOverlay.vue";
 
@@ -41,6 +36,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
     <SheetOverlay />
     <DialogContent
       data-slot="sheet-content"
+      class="glass-filter backdrop-blur-3xl"
       :class="
         cn(
           'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
@@ -52,7 +48,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
             'data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b',
           side === 'bottom' &&
             'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
-          props.class,
+          props.class
         )
       "
       v-bind="{ ...forwarded, ...$attrs }"

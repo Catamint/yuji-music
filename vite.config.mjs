@@ -85,7 +85,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/host/, '')
       },
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://netease-cloud-music-api-backup-ashy.vercel.app',
         secure: false,
         changOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
@@ -93,7 +93,10 @@ export default defineConfig({
           proxy.on('proxyReq', (proxyReq, req, res) => {
             console.log('Proxying request to:', proxyReq.getHeader('host') + proxyReq.path);
           });
-        }
+        },
+        agent: new https.Agent({
+          rejectUnauthorized: false, // 忽略自签名证 书验证
+        }),
       },
       '/gdstudio': {
         target: 'https://music-api.gdstudio.xyz',

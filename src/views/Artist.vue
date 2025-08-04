@@ -1,28 +1,20 @@
 <template>
   <detail-layout>
     <template #header>
-        <img
-        class="album-cover"
-        :src="artistBrief?.picUrl || null"
-        alt="艺术家封面"
-        />
-        <div class="album-info">
-            <h1 class="album-name">
-                {{ artistBrief?.name }}
-            </h1>
-            <div class="album-meta">
-                {{ artistBrief?.musicSize }}<span> 首音乐</span>
-            </div>
-            <div class="album-meta">
-                {{ artistBrief?.albumSize }}<span> 张专辑 </span>
-            </div>
-        </div>
+      <img class="album-cover" :src="artistBrief?.picUrl || null" alt="艺术家封面" />
+      <div class="album-info">
+        <h1 class="album-name">
+          {{ artistBrief?.name }}
+        </h1>
+        <div class="album-meta">{{ artistBrief?.musicSize }}<span> 首音乐</span></div>
+        <div class="album-meta">{{ artistBrief?.albumSize }}<span> 张专辑 </span></div>
+      </div>
     </template>
 
     <template #tabs>
       <!-- 可以添加标签页内容 -->
     </template>
-    
+
     <template #content>
       <album-card-container head="专辑" layout="card" :music_info_list="album" />
     </template>
@@ -35,30 +27,30 @@ import DetailLayout from "@/components/layout/DetailLayout.vue";
 import songService from "@/services/songService.js";
 
 export default {
-  name: 'artist',
+  name: "artist",
   components: {
     AlbumCardContainer,
   },
-  data(){
+  data() {
     return {
-        artistBrief:[],
-        album: [],
-    }
+      artistBrief: [],
+      album: [],
+    };
   },
-  props:{
+  props: {
     id: {
-        type: String,
-        default: '',
-    }
+      type: String,
+      default: "",
+    },
   },
   async created() {
     this.artistBrief = await songService.getArtistBrief(this.id);
-    this.album  = await songService.getArtistAlbums(this.id)
+    this.album = await songService.getArtistAlbums(this.id);
     console.log("获取到的艺术家信息:", this.artistDetail);
     console.log("获取到的艺术家专辑信息:", this.album);
     this.getMusic();
-  }
-}
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -1,22 +1,5 @@
 import {reactive} from 'vue'
 export const utils = reactive({
-    play_component:{
-        showing: false,
-        show(){
-            console.log("显示播放组件");
-            this.showing = true;
-        },
-        hide(){
-            this.showing = false;
-        }
-    },
-    playList_component:{
-        show: false
-    },
-    n_tooltip:{
-        show: false,
-        text: ""
-    },
     user_config:{
         session:"",
         uid: "",

@@ -1,18 +1,16 @@
 <template>
-  <SidebarProvider class="md:grid md:grid-cols-[auto_1fr] h-screen w-full">
+  <SidebarProvider class="md:grid md:grid-cols-[auto_1fr] min-h-dvh w-full">
     <AppSidebar />
-    <div class="flex flex-1 flex-col min-w-0 overflow-auto">
+    <div class="flex flex-1 flex-col min-w-0">
       <div
-        class="h-12 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        class="h-12 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b backdrop-blur-lg glass-filter"
       >
         <HeaderLayout class="w-full" />
       </div>
 
-      <div
-        class="h-full w-full flex flex-1 justify-center py-4 md:py-6 lg:py-8 overflow-y-auto custom-scrollbar"
-      >
+      <div class="h-full w-full flex flex-1 justify-center py-4 md:py-6 lg:py-8">
         <div class="h-full w-full max-w-7xl box-border px-2 md:px-8">
-          <router-view class="" v-if="isRefreshFlag" v-slot="{ Component }">
+          <router-view v-if="isRefreshFlag" v-slot="{ Component }">
             <transition name="slide-up">
               <component :is="Component" />
             </transition>
@@ -21,19 +19,21 @@
       </div>
 
       <div
-        class="h-24 sticky bottom-0 z-50 w-full border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        class="sticky bottom-0 z-50 w-full border-t pb-[env(safe-area-inset-bottom)] backdrop-blur-lg glass-filter"
       >
-        <FooterLayout />
+        <FooterDesektop class="hidden h-18 md:block" />
+        <FooterMobile class="md:hidden h-16" />
       </div>
     </div>
   </SidebarProvider>
 </template>
 
 <script>
-import FooterLayout from "@/components/footer/FooterLayout.vue";
+import FooterDesektop from "@/layout/footerbar/FooterbarDesktop.vue";
+import FooterMobile from "@/layout/footerbar/FooterbarMobile.vue";
 import HeaderLayout from "@/layout/HeaderLayout.vue";
 import AppSidebar from "@/layout/AppSidebar.vue";
-import Play from "@/views/play/Play.vue";
+import Play from "@/layout/Play.vue";
 import { utils } from "@/stores/utils";
 import { nextTick } from "vue";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -42,7 +42,8 @@ export default {
   name: "IndexView",
   components: {
     HeaderLayout,
-    FooterLayout,
+    FooterDesektop,
+    FooterMobile,
     AppSidebar,
     Play,
     SidebarProvider,
@@ -55,19 +56,6 @@ export default {
       isRefreshFlag: true,
     };
   },
-  //   methods: {
-  //     reloadPage() {
-  //       this.isRefreshFlag = false;
-  //       nextTick(() => {
-  //         this.isRefreshFlag = true;
-  //       });
-  //     },
-  //   },
-  //   provide() {
-  //     return {
-  //       reloadPage: this.reloadPage,
-  //     };
-  //   },
 };
 </script>
 

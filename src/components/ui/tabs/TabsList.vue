@@ -1,10 +1,10 @@
 <script setup>
 import { reactiveOmit } from "@vueuse/core";
-import { DialogOverlay } from "reka-ui";
+import { TabsList } from "reka-ui";
 import { cn } from "@/lib/utils";
 
 const props = defineProps({
-  forceMount: { type: Boolean, required: false },
+  loop: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },
@@ -14,16 +14,16 @@ const delegatedProps = reactiveOmit(props, "class");
 </script>
 
 <template>
-  <DialogOverlay
-    data-slot="sheet-overlay"
+  <TabsList
+    data-slot="tabs-list"
+    v-bind="delegatedProps"
     :class="
       cn(
-        'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 transition-opacity',
-        props.class
+        'bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]',
+        props.class,
       )
     "
-    v-bind="delegatedProps"
   >
     <slot />
-  </DialogOverlay>
+  </TabsList>
 </template>

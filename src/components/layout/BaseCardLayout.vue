@@ -1,5 +1,10 @@
 <template>
-  <div v-if="layout === 'card'" :class="['base-item', layoutClass]" @click="onClick">
+  <div
+    v-if="layout === 'card'"
+    :class="['base-item', layoutClass]"
+    class="press-active"
+    @click="onClick"
+  >
     <div>
       <img :src="image" class="cover-img" />
       <div class="card-overlay">
@@ -16,7 +21,7 @@
   </div>
   <div
     v-if="layout === 'list'"
-    class="flex w-full h-20 items-center gap-4 p-2 rounded-lg hover:bg-gray-100 transition"
+    class="flex w-full h-20 items-center gap-4 p-2 rounded-lg back-hover transition"
   >
     <img :src="image" alt="cover" class="w-20 h-20 object-cover rounded-md shrink-0" />
     <div class="flex-1 min-w-0 overflow-hidden">
@@ -46,7 +51,7 @@
 
   <div
     v-if="layout === 'compact'"
-    class="flex w-full items-center px-3 py-2 hover:bg-neutral-800 transition rounded-lg text-sm"
+    class="flex w-full items-center px-3 py-2 transition rounded-lg text-sm back-hover press-active"
   >
     <!-- 序号 -->
     <div v-if="index" class="flex-shrink-0 flex items-center min-w-8 gap-2">
@@ -64,7 +69,7 @@
 
       <!-- 歌手 + 描述 -->
       <div
-        class="flex flex-inline max-w-3xs md:max-w-xl md:flex-col gap-2 md:gap-0 md:flex-1 truncate text-xs md:text-sm min-w-0"
+        class="flex flex-inline max-w-3xs md:max-w-xl md:flex-col gap-2 md:gap-0 md:flex-1 truncate text-xs md:text-sm min-w-0 pointer-events-none md:pointer-events-auto"
       >
         <div
           class="truncate text-neutral-400 cursor-pointer hover:underline"
@@ -107,7 +112,7 @@ export default {
       default: () => ({}),
     },
     index: {
-      type: String || Number,
+      // type: String || Number,
       default: "",
     },
   },

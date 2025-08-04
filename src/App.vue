@@ -1,31 +1,33 @@
 <template>
-  <!-- <div v-if="themeStore.currentTheme.backgroundActive" class="base-background-image" :style="{
-
-      filter: `saturate(${themeStore.currentTheme.backgroundSaturation})`,
-    }"></div> -->
+  <!-- 背景图片 -->
   <div
-    class="base-background-image bg-background font-misans relative flex min-h-svh flex-col overflow-hidden"
-    :style="
-      (themeStore.currentTheme.backgroundActive
-        ? { backgroundImage: `url(${themeStore.currentTheme.backgroundImage})` }
-        : {},
-      { backdropFilter: `blur(${themeStore.currentTheme.containerBlur})` })
-    "
+    v-if="themeStore.currentTheme.backgroundActive"
+    class="fixed inset-0 h-screen -z-10 base-background-image background-filter"
+    :style="{
+      backgroundImage: `url(${themeStore.currentTheme.backgroundImage})`,
+    }"
   >
-    <IndexView />
-    <!-- Play 浮层 -->
-    <transition name="slide">
-      <div
-        v-if="uiStore.isPlayerPageVisible"
-        class="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none"
-        style=""
-      >
-        <div class="pointer-events-auto">
-          <Play />
-        </div>
-      </div>
-    </transition>
+    <div
+      class="bg-background inset-0 h-screen background-filter"
+      :style="{ backdropFilter: `blur(${themeStore.currentTheme.containerBlur})` }"
+    ></div>
   </div>
+
+  <!-- 主体 -->
+  <IndexView class="font-misans" />
+
+  <!-- Play 浮层 -->
+  <transition name="slide">
+    <div
+      v-if="uiStore.isPlayerPageVisible"
+      class="fixed inset-0 h-dvh w-screen z-[1000] flex items-center justify-center pointer-events-none"
+      style=""
+    >
+      <div class="box backdrop-blur-3xl glass-filter pointer-events-auto h-dvh w-screen">
+        <Play />
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script setup>
@@ -34,7 +36,7 @@ import player2 from "./stores/player2";
 import { utils } from "@/stores/utils";
 import { useThemeStore } from "./stores/themeStore";
 import { useUiStore } from "./stores/uiStore";
-import Play from "./views/play/Play.vue";
+import Play from "./layout/Play.vue";
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
@@ -51,12 +53,12 @@ utils.initUtils();
 @import "@/index.css";
 
 .base-background-image {
-  top: 0;
+  /* top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  position: absolute;
-  z-index: -1;
+  position: fixed;
+  z-index: -1; */
   background-size: cover; /* 背景图片覆盖容器 */
   background-repeat: no-repeat; /* 防止背景重复 */
   background-position: center; /* 背景居中显示 */
@@ -64,5 +66,34 @@ utils.initUtils();
 
 .n-icon {
   color: v-bind("themeStore.currentTheme.iconColor");
+}
+
+.box {
+  /* backdrop-filter: blur(20px); */
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 9;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* 进入时的起始状态和离开时的结束状态 */
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateY(100%);
+}
+
+/* 进入时的结束状态和离开时的起始状态 */
+.slide-enter-to,
+.slide-leave-from {
+  transform: translateY(0);
 }
 </style>

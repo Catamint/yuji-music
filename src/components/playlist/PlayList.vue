@@ -1,26 +1,28 @@
 <template>
-  <div class="no-login-box" v-if="player.state.playlist.length == 0">
-    <n-empty size="large" description="空空如也">
-      <template #icon>
-        <n-icon>
-          <TextBulletListSquare24Filled />
-        </n-icon>
-      </template>
-    </n-empty>
+  <div>
+    <div class="no-login-box" v-if="player.state.playlist.length == 0">
+      <n-empty size="large" description="空空如也">
+        <template #icon>
+          <n-icon>
+            <TextBulletListSquare24Filled />
+          </n-icon>
+        </template>
+      </n-empty>
+    </div>
+    <template v-else>
+      <PlayListItem
+        class="item"
+        v-for="info in player.state.playlist"
+        :music_info="info"
+        :key="info.id"
+      />
+    </template>
   </div>
-  <template v-else>
-    <PlayListItem
-      class="item"
-      v-for="info in player.state.playlist"
-      :music_info="info"
-      :key="info.id"
-    />
-  </template>
 </template>
 
 <script>
-import PlayListItem from "@/components/public/PlayListItem.vue";
-import player2 from "../stores/player2";
+import PlayListItem from "@/components/playlist/PlayListItem.vue";
+import player2 from "../../stores/player2";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";
 import { NButton, NEmpty, NIcon, NScrollbar } from "naive-ui";
 

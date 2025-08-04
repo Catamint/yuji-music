@@ -14,18 +14,18 @@
         <button
           :disabled="music_info.playing"
           @click="player2.play_in_playlist(music_info.id)"
-          class="p-2 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-50"
+          class="p-2 rounded-full back-hover press-active transition-colors disabled:opacity-50"
         >
           <Play24Regular class="w-5 h-5" />
         </button>
 
-        <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+        <button class="p-2 rounded-full back-hover press-active-100 transition-colors">
           <Heart28Regular class="w-5 h-5" />
         </button>
 
         <button
           @click="player2.del_from_list(music_info.id)"
-          class="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          class="p-2 rounded-full back-hover press-active transition-colors"
         >
           <TextBulletListAdd24Filled class="w-5 h-5" />
         </button>
