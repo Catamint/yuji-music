@@ -36,11 +36,7 @@
 
 <script>
 import player2 from "@/stores/player2";
-import {
-  Heart28Regular,
-  Play24Regular,
-  TextBulletListAdd24Filled,
-} from "@vicons/fluent/lib";
+import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from "@vicons/fluent";
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 export default {
   name: "PlayListItem",

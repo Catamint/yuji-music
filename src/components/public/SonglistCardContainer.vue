@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { ChevronRight16Filled } from "@vicons/fluent/lib";
+import { ChevronRight16Filled } from "@vicons/fluent";
 // import { usePlayerStore } from '@/stores/playerStore.js';
 import BaseAlbumItem from "./BaseAlbumItem.vue";
 import songService from "@/services/songService.js";

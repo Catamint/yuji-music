@@ -7,7 +7,7 @@
     >
       <img class="w-full h-full rounded-md" :src="picurl" alt="" />
     </div>
-    <div class="info-container ml-3 flex flex-1">
+    <div class="info-container ml-3 flex flex-1 items-center gap-2">
       <p class="text-[16px] font-bold truncate" :class="{ 'animate-marquee': animation }">
         {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
       </p>
@@ -22,7 +22,7 @@
 
 <script>
 import player2 from "@/stores/player2";
-import { ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
+import { ChevronDoubleUp16Filled } from "@vicons/fluent";
 import songService from "@/services/songService.js";
 
 export default {

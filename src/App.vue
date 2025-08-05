@@ -1,5 +1,5 @@
 <template>
-  <Toaster />
+  <Toaster class="font-misans" />
   <!-- 背景图片 -->
   <div
     v-if="themeStore.currentTheme.backgroundActive"
@@ -18,7 +18,7 @@
   <IndexView class="font-misans" />
 
   <!-- Play 浮层 -->
-  <transition name="slide">
+  <transition name="slide" class="font-misans">
     <div
       v-if="uiStore.isPlayerPageVisible"
       class="fixed inset-0 h-dvh w-screen z-[1000] flex items-center justify-center pointer-events-none"

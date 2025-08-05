@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { ChevronRight16Filled } from "@vicons/fluent/lib";
+import { ChevronRight16Filled } from "@vicons/fluent";
 import BaseAlbumItem from "./BaseAlbumItem.vue";
 import player2 from "@/stores/player2.js";
 

@@ -1,177 +1,167 @@
 <template>
-  <n-card title="设置" size="large" bordered>
-    <n-space vertical size="large">
+  <div class="flex flex-col h-full gap-6 px-4 py-6 text-lg items-center">
+    <div class="grid grid-cols-1 gap-4 w-full max-w-md">
       <!-- 背景开关 -->
-      <n-space align="center">
+      <div class="flex items-center justify-between w-full gap-2">
         <span>背景</span>
-        <n-switch v-model:value="backgroundActive" />
-      </n-space>
+        <Switch v-model="backgroundActive" />
+      </div>
 
       <!-- 主题选择 -->
-      <n-space vertical>
+      <div class="flex items-center justify-between w-full gap-2">
         <span>主题</span>
-        <n-select
-          :value="currentThemeKey"
-          :options="themeStore.getThemeList()"
-          placeholder="选择主题"
-          @update:value="handleThemeChange"
-        />
-      </n-space>
+        <Select @update:modelValue="setColorMode" class="w-full">
+          <SelectTrigger>
+            <SelectValue :placeholder="mode" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="auto"> 跟随系统 </SelectItem>
+              <SelectItem value="light"> 浅色 </SelectItem>
+              <SelectItem value="dark"> 深色 </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
 
       <!-- 背景模糊度设置 -->
-      <n-space vertical>
+      <div class="flex items-center justify-between w-full gap-2">
         <span>背景模糊</span>
-        <n-select
-          :value="currentContainerBlur"
-          :options="blurOptions"
-          placeholder="模糊度"
-          @update:value="handleBlurChange"
-        />
-      </n-space>
+        <Select class="w-full" @update:modelValue="handleBlurChange">
+          <SelectTrigger>
+            <SelectValue :placeholder="currentContainerBlur" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>模糊度 (px)</SelectLabel>
+              <SelectItem value="0px"> 0px </SelectItem>
+              <SelectItem value="10px"> 10px </SelectItem>
+              <SelectItem value="50px"> 50px </SelectItem>
+              <SelectItem value="80px"> 80px </SelectItem>
+              <SelectItem value="100px"> 100px </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
 
       <!-- 上传背景图片 -->
-      <n-space vertical>
-        <span>背景图片</span>
-        <n-button 
-          @click="setBackgroundImage" 
-          type="primary" 
-          secondary
-        >
-          上传背景图片
-        </n-button>
-      </n-space>
+      <div class="grid grid-cols-1 gap-2">
+        <Label for="picture">背景图片</Label>
+        <Button @click="setBackgroundImage" id="picture" type="file"> 上传图片 </Button>
+      </div>
 
       <!-- 重置按钮 -->
-      <n-space>
-        <n-button @click="handleResetTheme" type="warning" secondary>
+      <div class="grid grid-cols-1 gap-2">
+        <Button @click="handleResetTheme" type="warning" secondary>
           重置为默认主题
-        </n-button>
-        <n-button 
-          @click="handleDeleteCustomTheme" 
-          type="error" 
+        </Button>
+        <Button
+          @click="handleDeleteCustomTheme"
+          type="error"
           secondary
           :disabled="!hasCustomTheme"
         >
           删除自定义主题
-        </n-button>
-      </n-space>
-    </n-space>
-  </n-card>
+        </Button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
-import { NCard, NSelect, NSwitch, NSpace, NButton } from 'naive-ui';
-import { computed, onMounted } from 'vue';
-import { useThemeStore } from '@/stores/themeStore';
+<script setup>
+import { computed, onMounted } from "vue";
+import { useThemeStore } from "@/stores/themeStore";
+// import Switch from "@/components/ui/switch/Switch.vue";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { useColorMode } from "@vueuse/core";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export default {
-  name: 'Settings',
-  components: {
-    NCard,
-    NSelect,
-    NSwitch,
-    NSpace,
-    NButton,
+const themeStore = useThemeStore();
+
+// 初始化默认主题
+onMounted(() => {
+  if (!themeStore.currentTheme.key) {
+    themeStore.setDefaultTheme();
+  }
+});
+
+// 背景开关的计算属性
+const backgroundActive = computed({
+  get: () => themeStore.currentTheme.backgroundActive || false,
+  set: (value) => {
+    themeStore.setBackgroundActive(value);
   },
-  setup() {
-    const themeStore = useThemeStore();
+});
 
-    // 初始化默认主题
-    onMounted(() => {
-      if (!themeStore.currentTheme.key) {
-        themeStore.setDefaultTheme();
-      }
-    });
+// 当前容器模糊度的计算属性
+const currentContainerBlur = computed({
+  get: () => themeStore.currentTheme.containerBlur || "0px",
+  set: (value) => {
+    themeStore.setContainerBlur(value);
+  },
+});
 
-    // 背景开关的计算属性
-    const backgroundActive = computed({
-      get: () => themeStore.currentTheme.backgroundActive || false,
-      set: (value) => {
-        themeStore.setBackgroundActive(value);
-      },
-    });
+// 是否有自定义主题
+const hasCustomTheme = computed(() => {
+  return themeStore.themes.custom !== undefined;
+});
 
-    // 当前主题 key 的计算属性
-    const currentThemeKey = computed({
-      get: () => themeStore.currentTheme.key || 'light',
-      set: (value) => {
-        themeStore.setTheme(value);
-      }
-    });
+// 模糊度选项
+const blurOptions = [
+  { label: "无模糊", value: "0px" },
+  { label: "10px", value: "10px" },
+  { label: "50px", value: "50px" },
+  { label: "80px", value: "80px" },
+  { label: "100px", value: "100px" },
+];
 
-    // 当前容器模糊度的计算属性
-    const currentContainerBlur = computed({
-      get: () => themeStore.currentTheme.containerBlur || '0px',
-      set: (value) => {
-        themeStore.setContainerBlur(value);
-      }
-    });
+// 设置颜色模式
+const mode = useColorMode();
+function setColorMode(modeToSet) {
+  mode.value = modeToSet;
+}
 
-    // 是否有自定义主题
-    const hasCustomTheme = computed(() => {
-      return themeStore.themes.custom !== undefined;
-    });
+// 处理模糊度切换
+const handleBlurChange = (blurValue) => {
+  themeStore.setContainerBlur(blurValue);
+};
 
-    // 模糊度选项
-    const blurOptions = [
-      { label: '无模糊', value: '0px' },
-      { label: '10px', value: '10px' },
-      { label: '50px', value: '50px' },
-      { label: '80px', value: '80px' },
-      { label: '100px', value: '100px' }
-    ];
+// 处理重置主题
+const handleResetTheme = () => {
+  themeStore.resetTheme();
+};
 
-    // 处理主题切换
-    const handleThemeChange = (themeKey) => {
-      themeStore.setTheme(themeKey);
-    };
+// 处理删除自定义主题
+const handleDeleteCustomTheme = () => {
+  themeStore.deleteCustomTheme();
+};
 
-    // 处理模糊度切换
-    const handleBlurChange = (blurValue) => {
-      themeStore.setContainerBlur(blurValue);
-    };
-
-    // 处理重置主题
-    const handleResetTheme = () => {
-      themeStore.resetTheme();
-    };
-
-    // 处理删除自定义主题
-    const handleDeleteCustomTheme = () => {
-      themeStore.deleteCustomTheme();
-    };
-    
-    // 设置背景图片
-    const setBackgroundImage = () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            themeStore.setBackgroundImage(e.target.result);
-          };
-          reader.readAsDataURL(file);
-        }
+// 设置背景图片
+const setBackgroundImage = () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        themeStore.setBackgroundImage(e.target.result);
       };
-      input.click();
-    };
-    return {
-      themeStore,
-      backgroundActive,
-      currentThemeKey,
-      currentContainerBlur,
-      hasCustomTheme,
-      blurOptions,
-      handleThemeChange,
-      handleBlurChange,
-      handleResetTheme,
-      handleDeleteCustomTheme,
-      setBackgroundImage,
-    };
-  },
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
 };
 </script>
 

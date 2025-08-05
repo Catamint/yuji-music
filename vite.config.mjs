@@ -7,8 +7,9 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import envCompatible from 'vite-plugin-env-compatible';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+// import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import tailwindcss from '@tailwindcss/vite'
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,8 +37,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    // visualizer({ open: true, brotliSize: true, filename: "report.html" }),
     Components({
-      resolvers: [NaiveUiResolver()], // 自动导入 Naive UI 组件
+      // resolvers: [NaiveUiResolver()], // 自动导入 Naive UI 组件
     }),
     vueJsx(),
     tailwindcss(),

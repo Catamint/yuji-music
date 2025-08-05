@@ -16,7 +16,7 @@
 
 <script>
 import player2 from "@/stores/player2";
-import { ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
+import { ChevronDoubleUp16Filled } from "@vicons/fluent";
 import songService from "@/services/songService.js";
 import { useUiStore } from "@/stores/uiStore";
 
