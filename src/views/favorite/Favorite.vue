@@ -1,23 +1,10 @@
 <template>
-  <div class="no-login-box" v-if="utils.user_config.uid == ''">
-    <n-empty size="large" description="登录后查看你的收藏">
-      <template #icon>
-        <n-icon>
-          <Heart28Filled />
-        </n-icon>
-      </template>
-      <template #extra>
-        <n-button @click="gotoLogin" size="small">
-          登录
-        </n-button>
-      </template>
-    </n-empty>
-  </div>
-  <template v-else>
+  <no-login-box>
+    <template #content>
       <songlist-card-container
         v-if="musicinfo_list.length > 0"
         :music_info_list="musicinfo_list"
-        head="我的收藏"
+        :head="userStore?.user?.nickname + '的收藏'"
         layout="card"
       />
       <n-empty v-else size="large" description="暂无收藏">
@@ -27,54 +14,55 @@
           </n-icon>
         </template>
       </n-empty>
-  </template>
+    </template>
+  </no-login-box>
 </template>
 
 <script>
-import { utils } from '@/stores/utils';
-import { Heart28Filled } from '@vicons/fluent';
-import { NButton, NEmpty, NIcon } from 'naive-ui';
-import songlistCardContainer from '@/components/public/SonglistCardContainer.vue';
-import songService from '@/services/songService.js';
+import { Heart28Filled } from "@vicons/fluent";
+import { NButton, NEmpty, NIcon } from "naive-ui";
+import songlistCardContainer from "@/components/public/SonglistCardContainer.vue";
+import songService from "@/services/songService.js";
+import { useUserStore } from "@/stores/userStore";
+import NoLoginBox from "@/components/public/NoLoginBox.vue";
 
 export default {
-  name: 'Favorite',
+  name: "Favorite",
   components: {
     NEmpty,
     NIcon,
     NButton,
     Heart28Filled,
+    NoLoginBox,
   },
   data() {
     return {
       musicinfo_list: [],
       logined: false,
-      utils
-    }
+      user: {},
+      userStore: useUserStore(),
+    };
   },
   created() {
     this.getFavorites();
     console.log(this.musicinfo_list);
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     async getFavorites() {
-      const uid = this?.utils?.user_config?.uid;
-      if (uid) {
-        console.log("获取收藏列表" + uid);
-        this.musicinfo_list = await songService.getUserSonglist(uid);
+      if (this.userStore.loggedIn()) {
+        this.musicinfo_list = await songService.getUserSonglist(
+          this.userStore.user.userId
+        );
       }
     },
     gotoLogin() {
       this.$router.push({
-        path: 'login_netease',
+        path: "login_netease",
       });
-    }
+    },
   },
 };
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

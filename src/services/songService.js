@@ -1,5 +1,6 @@
 // src/services/songService.js
 import api from '@/services/api.js';
+import { useUserStore } from '@/stores/userStore';
 
 /**
  * 将毫秒转换为 mm:ss 格式
@@ -605,6 +606,60 @@ export default {
             return null;
         } catch (error) {
             console.error('Error fetching playlist all songs:', error.message);
+            return null;
+        }
+    },
+    /**
+     * 喜欢歌曲
+     * @param {string|number} id - 歌曲 ID
+     * @param {boolean} like - 是否喜欢
+     * @returns {int} 正常为0
+     */
+    likeSong(id, like = true) {
+        try {
+            const userStore = useUserStore();
+            const response = api.likeSong(id, userStore.cookies, like);
+            if (response.code === 200) {
+                return 0;
+            } else {
+                console.error('Error liking song:', response.message);
+                return -1;
+            }
+        } catch (error) {
+            console.error('Error liking song:', error.message);
+            return -1;
+        }
+    },
+
+    /**
+     * 获取每日推荐歌单
+     * @returns {Object} 接口响应数据
+     */
+    getDailyRecommendedPlaylists() {
+        try{
+            const userStore = useUserStore();
+            const response = api.getDailyRecommendedPlaylists(userStore.cookies);
+            console.log("每日推荐歌单:", response);
+            return formatSongList(response);
+        } catch (error) {
+            console.error('Error fetching daily recommended playlists:', error.message);
+            return null;
+        }
+
+    },
+
+    /**
+     * 获取每日推荐歌曲
+     * @returns {Object} 接口响应数据
+     */
+    getDailyRecommendedSongs() {
+        try{
+            const userStore = useUserStore();
+            const response = api.getDailyRecommendedSongs(userStore.cookies);
+            console.log("每日推荐歌曲:", response);
+            return formatSongList(response);
+        } catch (error) {
+            console.error('Error fetching daily recommended songs:', error.message);
             return null;
         }
     },

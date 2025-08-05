@@ -3,7 +3,7 @@ import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next";
 import { Sidebar } from "@/components/ui/sidebar";
 
 import { useColorMode } from "@vueuse/core";
-import { utils } from "@/stores/utils";
+import { useUserStore } from "@/stores/userStore";
 
 // Menu items.
 const items = [
@@ -27,15 +27,23 @@ const items = [
     url: "#",
     icon: Search,
   },
+  {
+    title: "登录",
+    url: "#/login_netease",
+    icon: Settings,
+  },
 ];
 const mode = useColorMode();
+const userStore = useUserStore();
 function toggleColorMode() {
   mode.value = mode.value === "light" ? "dark" : "light";
 }
 
 function handleSelect(key) {
-  utils.user_config.logout();
+  // if (key === "logout") {
+  userStore.logout();
   location.reload();
+  // }
 }
 </script>
 
@@ -96,12 +104,12 @@ function handleSelect(key) {
         </SidebarMenuItem>
       </SidebarMenu>
 
-      <div v-if="utils.user_config.uid != ''" class="mt-4">
+      <div v-if="userStore.loggedIn()" class="mt-4">
         <DropdownMenu>
           <DropdownMenuTrigger class="w-full">
             <Button variant="outline" class="w-full justify-start gap-2 cursor-pointer">
               <UserCircle class="h-4 w-4" />
-              {{ utils.user_config.name }}
+              {{ userStore.user.nickname }}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>

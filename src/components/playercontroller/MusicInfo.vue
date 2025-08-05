@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { utils } from "@/stores/utils";
 import player2 from "@/stores/player2";
 import { ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
 import { NIcon } from "naive-ui";
@@ -46,7 +45,6 @@ export default {
   },
   data() {
     return {
-      utils,
       player: player2.state,
       picurl: "",
     };

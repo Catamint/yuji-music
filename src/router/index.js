@@ -42,10 +42,6 @@ const routes = [
         component: SearchPage,
         props: route => ({ kw: route.query.kw, type: route.query.type, page: route.query.page || '1', qurl: route.query.qurl || '0' })
     },
-    // {
-    //     path:"/login",
-    //     component: Login
-    // },
     {
         path:"/login_netease",
         component: LoginNcm,

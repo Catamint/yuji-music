@@ -66,6 +66,69 @@ const api = {
     const params = new URLSearchParams({ id, limit, offset });
     return request(`/playlist/track/all?${params}`);
   },
+  // 刷新登录
+  refreshLogin() {
+    return request('/login/refresh');
+  },
+
+  sendCaptcha(phone, ctcode = 86) {
+    const params = new URLSearchParams({ phone, ctcode });
+    return request(`/captcha/sent?${params}`);
+  },
+
+  verifyCaptcha(phone, captcha, ctcode = 86) {
+    const params = new URLSearchParams({ phone, captcha, ctcode });
+    return request(`/captcha/verify?${params}`);
+  },
+
+  cellphoneLogin(phone, password, {countrycode, md5_password, captcha} = {}) {
+    const params = new URLSearchParams({ phone, password });
+    if (countrycode) params.set('countrycode', countrycode);
+    if (md5_password) params.set('md5_password', md5_password);
+    if (captcha) params.set('captcha', captcha);
+    return request(`/login/cellphone?${params}`);
+  },
+  
+  logout(cookie) {
+    const params = new URLSearchParams({ cookie });
+    return request(`/login/status?${params}`);
+  },
+
+  getUserDetail(cookie, uid) {
+    const params = new URLSearchParams({ cookie, uid });
+    return request(`/user/detail?${params}`);
+  },
+
+  getAccountInfo(cookie) {
+    cookie = encodeURIComponent(cookie);
+    const params = new URLSearchParams({ cookie });
+    return request(`/user/account?${params}`);
+  },
+
+  getUserSubcount() {
+    return request(`/user/subcount?${params}`);
+  },
+  
+  likeSong(id, cookie, like = true) {
+    const params = new URLSearchParams({ id, cookie, like });
+    return request(`/like?${params}`);
+  },
+
+  // 获取用户收藏的歌曲
+  getLikedSongs(uid, cookie) {
+    const params = new URLSearchParams({ uid, cookie });
+    return request(`/likelist?${params}`);
+  },
+
+  getDailyRecommendedPlaylists(cookie) {
+    const params = new URLSearchParams({ cookie });
+    return request('/recommend/resource?' + params);
+  },
+
+  getDailyRecommendedSongs(cookie) {
+    const params = new URLSearchParams({ cookie });
+    return request('/recommend/songs?' + params);
+  },
 
   // 以下是新增的 gdstudio 接口
   gdstudioSearch(name, source = 'netease', count = 20, pages = 1) {
@@ -88,5 +151,6 @@ const api = {
     return request(`?${params}`, {}, 'gdstudio');
   },
 };
+
 
 export default api;

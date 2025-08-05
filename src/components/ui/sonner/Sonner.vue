@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "vue-sonner";
 const props = defineProps({
   invert: { type: Boolean, required: false },
   theme: { type: String, required: false },
-  position: { type: String, required: false },
+  position: { type: String, required: false, default: "top-right" },
   hotkey: { type: Array, required: false },
   richColors: { type: Boolean, required: false },
   expand: { type: Boolean, required: false },
@@ -32,6 +32,18 @@ const props = defineProps({
       '--normal-bg': 'var(--popover)',
       '--normal-text': 'var(--popover-foreground)',
       '--normal-border': 'var(--border)',
+      '--error-bg': 'var(--popover)',
+      '--error-text': 'var(--destructive-foreground)',
+      '--error-border': 'var(--destructive)',
+      '--success-bg': 'var(--popover)',
+      '--success-text': 'var(--success-foreground)',
+      '--success-border': 'var(--success)',
+      '--warning-bg': 'var(--popover)',
+      '--warning-text': 'var(--warning-foreground)',
+      '--warning-border': 'var(--warning)',
+      '--info-bg': 'var(--popover)',
+      '--info-text': 'var(--primary-foreground)',
+      '--info-border': 'var(--primary)',
     }"
   />
 </template>

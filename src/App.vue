@@ -1,4 +1,5 @@
 <template>
+  <Toaster />
   <!-- 背景图片 -->
   <div
     v-if="themeStore.currentTheme.backgroundActive"
@@ -8,7 +9,7 @@
     }"
   >
     <div
-      class="bg-background inset-0 h-screen background-filter"
+      class="bg-body-background inset-0 h-screen background-filter"
       :style="{ backdropFilter: `blur(${themeStore.currentTheme.containerBlur})` }"
     ></div>
   </div>
@@ -33,10 +34,11 @@
 <script setup>
 import IndexView from "@/layout/IndexView.vue";
 import player2 from "./stores/player2";
-import { utils } from "@/stores/utils";
 import { useThemeStore } from "./stores/themeStore";
 import { useUiStore } from "./stores/uiStore";
 import Play from "./layout/Play.vue";
+import { Toaster } from "@/components/ui/sonner";
+import "vue-sonner/style.css";
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
@@ -45,7 +47,6 @@ const themeStore = useThemeStore();
 
 themeStore.initDefaultTheme(); // 设置默认主题
 player2.initAudio();
-utils.initUtils();
 </script>
 
 <style>

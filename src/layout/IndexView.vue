@@ -34,7 +34,6 @@ import FooterMobile from "@/layout/footerbar/FooterbarMobile.vue";
 import HeaderLayout from "@/layout/HeaderLayout.vue";
 import AppSidebar from "@/layout/AppSidebar.vue";
 import Play from "@/layout/Play.vue";
-import { utils } from "@/stores/utils";
 import { nextTick } from "vue";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { NScrollbar } from "naive-ui";
@@ -52,7 +51,6 @@ export default {
   },
   data() {
     return {
-      utils,
       isRefreshFlag: true,
     };
   },
