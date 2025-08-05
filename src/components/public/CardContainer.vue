@@ -35,7 +35,6 @@
 
 <script>
 import { ChevronRight16Filled } from "@vicons/fluent/lib";
-import { NButton, NIcon } from "naive-ui";
 import BaseMusicItem from "./BaseMusicItem.vue";
 import player2 from "@/stores/player2.js";
 
@@ -97,8 +96,6 @@ export default {
   components: {
     BaseMusicItem,
     ChevronRight16Filled,
-    NIcon,
-    NButton,
   },
 };
 </script>

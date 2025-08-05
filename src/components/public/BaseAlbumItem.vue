@@ -10,24 +10,17 @@
     @subtitle-click="onArtistClick"
   >
     <template #actions>
-      <n-button text @click.stop="playAlbum">
-        <n-icon size="24"><Play24Regular /></n-icon>
-        <span v-if="layout !== 'card'">播放</span>
-      </n-button>
-      <n-button text v-if="!isFavorite" @click.stop="addToFavorites">
-        <n-icon size="24"><Heart28Regular /></n-icon>
-        <span v-if="layout !== 'card'">收藏</span>
-      </n-button>
-      <n-button text v-else @click.stop="removeFromFavorites">
-        <n-icon size="24"><Heart28Filled /></n-icon>
-        <span v-if="layout !== 'card'">取消收藏</span>
-      </n-button>
+      <tooltip-button tooltipText="播放全部" class="play" @click="playAlbum">
+        <template #icon>
+          <Play24Regular />
+        </template>
+      </tooltip-button>
+      <like-button :id="albumInfo.id" />
     </template>
   </base-card>
 </template>
 
 <script>
-import { NButton, NEllipsis, NIcon } from "naive-ui";
 import { Play24Regular, Heart28Regular, Heart28Filled } from "@vicons/fluent";
 import songService from "@/services/songService.js";
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
@@ -88,9 +81,6 @@ export default {
     },
   },
   components: {
-    NButton,
-    NEllipsis,
-    NIcon,
     Play24Regular,
     Heart28Regular,
     Heart28Filled,

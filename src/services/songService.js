@@ -613,21 +613,28 @@ export default {
      * 喜欢歌曲
      * @param {string|number} id - 歌曲 ID
      * @param {boolean} like - 是否喜欢
-     * @returns {int} 正常为0
+     * @returns {boolean}
      */
-    likeSong(id, like = true) {
+    async likeSong(id, like = true) {
+        const userStore = useUserStore();
+        if (!userStore.loggedIn()) {
+            // 抛出错误，提供清晰的错误信息
+            throw new Error('未登录');
+        }
         try {
-            const userStore = useUserStore();
-            const response = api.likeSong(id, userStore.cookies, like);
+            // 假设 api.likeSong 是一个异步方法
+            const response = await api.likeSong(id, userStore.cookies, like);
+
             if (response.code === 200) {
-                return 0;
+                return true;
             } else {
-                console.error('Error liking song:', response.message);
-                return -1;
+                // 抛出 API 返回的错误
+                throw new Error(response.message || 'Error liking song.');
             }
         } catch (error) {
-            console.error('Error liking song:', error.message);
-            return -1;
+            // 重新抛出网络请求或其它异常
+            console.error('Error in likeSong service:', error.message);
+            throw error;
         }
     },
 

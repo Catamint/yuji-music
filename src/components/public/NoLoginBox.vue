@@ -17,8 +17,6 @@
 </template>
 
 <script setup>
-import { NButton, NEmpty, NIcon } from "naive-ui";
-import { Heart28Filled } from "@vicons/fluent";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import {

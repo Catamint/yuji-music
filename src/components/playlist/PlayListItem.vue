@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { NButton, NCard, NEllipsis, NFlex, NIcon } from "naive-ui";
 import player2 from "@/stores/player2";
 import {
   Heart28Regular,
@@ -62,14 +61,9 @@ export default {
     },
   },
   components: {
-    NCard,
     Heart28Regular,
     TextBulletListAdd24Filled,
-    NEllipsis,
-    NFlex,
     Play24Regular,
-    NIcon,
-    NButton,
     BaseCard,
   },
   data() {

@@ -17,7 +17,6 @@
 <script>
 import player2 from "@/stores/player2";
 import { ChevronDoubleUp16Filled } from "@vicons/fluent/lib";
-import { NIcon } from "naive-ui";
 import songService from "@/services/songService.js";
 import { useUiStore } from "@/stores/uiStore";
 
@@ -27,7 +26,6 @@ export default {
     msg: String,
   },
   components: {
-    NIcon,
     ChevronDoubleUp16Filled,
   },
   data() {

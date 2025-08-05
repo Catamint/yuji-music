@@ -12,41 +12,22 @@
     @description-click="albumOnClick"
   >
     <template #actions>
-      <!-- <tooltip-button
-            icon="Play24Regular"
-            tooltip="播放"
-            class="play"
-            @click="playMusic"
-            /> -->
-      <tooltip-button
-        v-if="!isFavorite"
-        icon="Heart28Regular"
-        tooltipText="收藏"
-        class="star"
-        @click.stop="addToFavorites"
-      />
-      <tooltip-button
-        v-else
-        icon="Heart28Filled"
-        tooltipText="取消收藏"
-        class="star"
-        @click.stop="removeFromFavorites"
-      />
-      <tooltip-button
-        icon="ReceiptPlay24Regular"
-        tooltipText="下一首播放"
-        class="next"
-        @click="addToPlayNext"
-      />
+      <like-button :id="musicInfo.id" />
+      <tooltip-button tooltipText="下一首播放" class="next" @click="addToPlayNext">
+        <template #icon>
+          <ReceiptPlay24Regular />
+        </template>
+      </tooltip-button>
     </template>
   </base-card>
 </template>
 
 <script>
-import { NButton, NEllipsis, NIcon, NTooltip } from "naive-ui";
 import TooltipButton from "./TooltipButton.vue";
 import songService from "@/services/songService"; // Make sure this path is correct and songService exports getPicUrl
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
+import LikeButton from "../playercontroller/buttons/LikeButton.vue";
+import { ReceiptPlay24Regular } from "@vicons/fluent";
 export default {
   name: "BaseMusicItem",
   props: {
@@ -125,12 +106,10 @@ export default {
     },
   },
   components: {
-    NButton,
-    NEllipsis,
-    NIcon,
     BaseCard,
     TooltipButton,
-    NTooltip,
+    LikeButton,
+    ReceiptPlay24Regular,
   },
 };
 </script>

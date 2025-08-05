@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { NButton } from "naive-ui";
 import Input from "@/components/ui/input/Input.vue";
 import { useUserStore } from "@/stores/userStore";
 import { toast } from "vue-sonner";
@@ -36,13 +35,10 @@ export default {
       cookies: "",
       userStore: useUserStore(),
       toast,
-      // onError: false,
-      // user_default
     };
   },
   mounted() {},
   components: {
-    NButton,
     Input,
   },
   methods: {

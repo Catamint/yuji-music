@@ -9,10 +9,7 @@
           text
           @click="$emit('click')"
         >
-          <n-icon v-if="icon" :size="iconSize">
-            <component :is="iconComponent" />
-          </n-icon>
-          <n-icon v-else :size="iconSize">
+          <n-icon :size="iconSize">
             <slot name="icon"></slot>
           </n-icon>
         </Button>
@@ -24,11 +21,9 @@
 
 <script setup>
 import { computed } from "vue";
-import * as Icons from "@vicons/fluent";
 // import { Tooltip } from "../ui/tooltip";
 
 const props = defineProps({
-  icon: String, // 图标名，如 "Play24Regular"
   tooltipText: String, // 提示文字
   class: String, // 可选样式类
   iconSize: {
@@ -37,8 +32,6 @@ const props = defineProps({
     default: 24,
   },
 });
-
-const iconComponent = computed(() => Icons[props.icon]);
 </script>
 
 <style scoped>

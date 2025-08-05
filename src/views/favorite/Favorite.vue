@@ -7,21 +7,18 @@
         :head="userStore?.user?.nickname + '的收藏'"
         layout="card"
       />
-      <n-empty v-else size="large" description="暂无收藏">
-        <template #icon>
-          <n-icon>
-            <Heart28Filled />
-          </n-icon>
-        </template>
-      </n-empty>
+      <div class="w-full h-full flex justify-center items-center" v-else>
+        <div class="flex flex-col gap-2 items-center">
+          <Heart28Filled class="text-primary size-12" />
+          <span class="text-xl text-secondary-foreground">空空如也</span>
+        </div>
+      </div>
     </template>
   </no-login-box>
 </template>
 
 <script>
 import { Heart28Filled } from "@vicons/fluent";
-import { NButton, NEmpty, NIcon } from "naive-ui";
-import songlistCardContainer from "@/components/public/SonglistCardContainer.vue";
 import songService from "@/services/songService.js";
 import { useUserStore } from "@/stores/userStore";
 import NoLoginBox from "@/components/public/NoLoginBox.vue";
@@ -29,9 +26,6 @@ import NoLoginBox from "@/components/public/NoLoginBox.vue";
 export default {
   name: "Favorite",
   components: {
-    NEmpty,
-    NIcon,
-    NButton,
     Heart28Filled,
     NoLoginBox,
   },

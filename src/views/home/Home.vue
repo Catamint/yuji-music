@@ -14,7 +14,6 @@
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
-import { NScrollbar } from "naive-ui";
 import songService from "@/services/songService.js";
 import SearchBox from "@/components/public/SearchBox.vue";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
@@ -25,7 +24,6 @@ export default {
   components: {
     // HotSongs,
     CardContainer,
-    NScrollbar,
   },
   data() {
     return {

@@ -36,7 +36,6 @@ import AppSidebar from "@/layout/AppSidebar.vue";
 import Play from "@/layout/Play.vue";
 import { nextTick } from "vue";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { NScrollbar } from "naive-ui";
 export default {
   name: "IndexView",
   components: {
@@ -47,7 +46,6 @@ export default {
     Play,
     SidebarProvider,
     SidebarTrigger,
-    NScrollbar,
   },
   data() {
     return {

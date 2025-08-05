@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div class="no-login-box" v-if="player.state.playlist.length == 0">
-      <n-empty size="large" description="空空如也">
-        <template #icon>
-          <n-icon>
-            <TextBulletListSquare24Filled />
-          </n-icon>
-        </template>
-      </n-empty>
+    <div
+      v-if="player.state.playlist.length == 0"
+      class="w-full h-full flex justify-center items-center"
+    >
+      <div class="flex flex-col gap-2 items-center">
+        <TextBulletListSquare24Filled class="text-primary size-12" />
+        <span class="text-xl text-secondary-foreground">空空如也</span>
+      </div>
     </div>
+
     <template v-else>
       <PlayListItem
         class="item"
@@ -24,17 +25,12 @@
 import PlayListItem from "@/components/playlist/PlayListItem.vue";
 import player2 from "../../stores/player2";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";
-import { NButton, NEmpty, NIcon, NScrollbar } from "naive-ui";
 
 export default {
   name: "PlayList",
   components: {
     PlayListItem,
     TextBulletListSquare24Filled,
-    NEmpty,
-    NIcon,
-    NButton,
-    NScrollbar,
   },
   data() {
     return {

@@ -32,11 +32,7 @@
 
 <script>
 import { ChevronRight16Filled } from "@vicons/fluent/lib";
-import { NButton, NIcon } from "naive-ui";
-import { Play24Regular } from "@vicons/fluent";
-// import { usePlayerStore } from '@/stores/playerStore.js';
 import BaseAlbumItem from "./BaseAlbumItem.vue";
-import songService from "@/services/songService.js";
 import player2 from "@/stores/player2.js";
 
 export default {
@@ -61,8 +57,6 @@ export default {
     };
   },
   components: {
-    NButton,
-    NIcon,
     ChevronRight16Filled,
   },
   methods: {
