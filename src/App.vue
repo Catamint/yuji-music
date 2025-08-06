@@ -3,13 +3,13 @@
   <!-- 背景图片 -->
   <div
     v-if="themeStore.currentTheme.backgroundActive"
-    class="fixed inset-0 h-screen -z-10 base-background-image background-filter"
+    class="fixed inset-0 h-dvh -z-10 base-background-image background-filter"
     :style="{
       backgroundImage: `url(${themeStore.currentTheme.backgroundImage})`,
     }"
   >
     <div
-      class="bg-body-background inset-0 h-screen background-filter"
+      class="bg-body-background inset-0 h-dvh background-filter"
       :style="{ backdropFilter: `blur(${themeStore.currentTheme.containerBlur})` }"
     ></div>
   </div>
@@ -18,7 +18,10 @@
   <IndexView class="font-misans" />
 
   <!-- Play 浮层 -->
-  <transition name="slide" class="font-misans">
+  <transition
+    name="slide"
+    class="font-misans pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
+  >
     <div
       v-if="uiStore.isPlayerPageVisible"
       class="fixed inset-0 h-dvh w-screen z-[1000] flex items-center justify-center pointer-events-none"

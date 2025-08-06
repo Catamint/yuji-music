@@ -17,6 +17,10 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+      find: 'my-cookie-manager',
+      replacement: path.resolve(__dirname, './my-cookie-manager'),
+      },
+      {
         find: /^~/,
         replacement: ''
       },

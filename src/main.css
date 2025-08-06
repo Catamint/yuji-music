@@ -6,10 +6,10 @@
   --safe-right: env(safe-area-inset-right);
 }
 
-body {
+/* body {
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
   padding-left: var(--safe-left);
   padding-right: var(--safe-right);
   box-sizing: border-box;
-}
+} */

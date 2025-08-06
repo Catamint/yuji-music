@@ -1,5 +1,8 @@
 {
   "appId": "com.yujie.music",
   "appName": "Music!",
-  "webDir": "dist"
+  "webDir": "dist",
+  "dependencies": {
+  "cookie-plugin": "file:./cookie-plugin"
+}
 }

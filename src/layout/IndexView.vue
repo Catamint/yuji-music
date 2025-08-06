@@ -3,9 +3,9 @@
     <AppSidebar />
     <div class="flex flex-1 flex-col min-w-0">
       <div
-        class="h-12 pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b backdrop-blur-lg glass-filter"
+        class="pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b backdrop-blur-lg glass-filter pt-[env(safe-area-inset-top)] box-border"
       >
-        <HeaderLayout class="w-full" />
+        <HeaderLayout class="h-12 w-full" />
       </div>
 
       <div class="h-full w-full flex flex-1 justify-center py-4 md:py-6 lg:py-8">
@@ -18,11 +18,9 @@
         </div>
       </div>
 
-      <div
-        class="sticky bottom-0 z-50 w-full border-t pb-[env(safe-area-inset-bottom)] backdrop-blur-lg glass-filter"
-      >
-        <FooterDesektop class="hidden h-18 md:block" />
-        <FooterMobile class="md:hidden h-16" />
+      <div class="sticky bottom-0 z-50 w-full border-t backdrop-blur-lg glass-filter">
+        <FooterDesektop class="hidden h-18 md:block pb-[env(safe-area-inset-bottom)]" />
+        <FooterMobile class="md:hidden h-16 pb-[env(safe-area-inset-bottom)]" />
       </div>
     </div>
   </SidebarProvider>

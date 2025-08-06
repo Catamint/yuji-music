@@ -1,9 +1,0 @@
-{
-  "name": "cookie-plugin",
-  "version": "0.0.1",
-  "main": "plugin.ts",
-  "types": "plugin.ts",
-  "capacitor": {
-    "platforms": ["android"]
-  }
-}
