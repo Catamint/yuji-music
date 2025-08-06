@@ -42,6 +42,8 @@ import { useUiStore } from "./stores/uiStore";
 import Play from "./layout/Play.vue";
 import { Toaster } from "@/components/ui/sonner";
 import "vue-sonner/style.css";
+import { App as CapApp } from "@capacitor/app";
+import { onBeforeUnmount, onMounted } from "vue";
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
@@ -50,6 +52,21 @@ const themeStore = useThemeStore();
 
 themeStore.initDefaultTheme(); // 设置默认主题
 player2.initAudio();
+
+onMounted(() => {
+  CapApp.addListener("backButton", ({ canGoBack }) => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      // 例如显示退出确认对话框，或者直接退出应用
+      CapApp.exitApp();
+    }
+  });
+});
+
+onBeforeUnmount(() => {
+  CapApp.removeAllListeners();
+});
 </script>
 
 <style>

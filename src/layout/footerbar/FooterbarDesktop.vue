@@ -32,7 +32,8 @@ const uiStore = useUiStore();
 <style scoped>
 .slider {
   position: absolute;
-  top: calc(0% - 8px);
+  top: calc(0% - 3px);
+  z-index: 100;
   left: 0;
   right: 0;
   width: 100%;

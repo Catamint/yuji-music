@@ -2,13 +2,13 @@
 import { ref } from "vue";
 import player2 from "@/stores/player2";
 import { on } from "events";
-
+import { Slider } from "../ui/slider";
 const dragging = ref(false);
 const tempCurrentTime = ref(0);
 
 function onDragstart() {
-  dragging.value = true;
   // tempCurrentTime = player2.state.currentTime;
+  dragging.value = true;
 }
 
 function onDragend() {
@@ -18,22 +18,19 @@ function onDragend() {
 }
 
 function onSliderUpdate(val) {
-  if (dragging.value) {
-    tempCurrentTime.value = val;
-  }
+  tempCurrentTime.value = val;
 }
 </script>
 
 <template>
-  <n-slider
-    id="mySlider"
-    class="slider"
-    :value="dragging ? tempCurrentTime : player2.state.currentTime"
+  <Slider
+    :modelValue="[dragging ? tempCurrentTime : player2.state.currentTime]"
     :step="1"
     :max="player2.state.duration"
-    :tooltip="false"
-    @update:value="onSliderUpdate"
-    @dragstart="onDragstart"
-    @dragend="onDragend"
-  />
+    :min-steps-between-thumbs="1"
+    @update:modelValue="onSliderUpdate"
+    @pointerdown="onDragstart"
+    @pointerup="onDragend"
+  >
+  </Slider>
 </template>

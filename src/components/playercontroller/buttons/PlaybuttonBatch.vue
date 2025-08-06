@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <n-icon class="playbutton" size="28" @click="player2.prev()">
-      <Previous32Filled />
-    </n-icon>
-    <n-icon class="playbutton" size="36" @click="player2.toggle()">
-      <Pause48Filled v-if="player2.state.isPlaying" />
-      <Play32Filled v-else />
-    </n-icon>
-    <n-icon class="playbutton" size="28" @click="player2.next()">
-      <Next32Filled />
-    </n-icon>
+  <div class="flex items-center gap-1">
+    <div class="playbutton" @click="player2.prev()">
+      <Previous32Filled class="w-6 h-6 text-primary" />
+    </div>
+    <div class="playbutton" @click="player2.toggle()">
+      <Pause48Filled class="w-8 h-8 text-primary" v-if="player2.state.isPlaying" />
+      <Play32Filled class="w-8 h-8 text-primary" v-else />
+    </div>
+    <div class="playbutton" @click="player2.next()">
+      <Next32Filled class="w-6 h-6 text-primary" />
+    </div>
   </div>
 </template>
 

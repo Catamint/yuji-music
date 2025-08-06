@@ -9,9 +9,9 @@
           text
           @click="$emit('click')"
         >
-          <n-icon :size="iconSize">
+          <div class="text-shadow-primary-foreground" :size="iconSize">
             <slot name="icon"></slot>
-          </n-icon>
+          </div>
         </Button>
       </tooltip-trigger>
       <tooltip-content>{{ tooltipText }}</tooltip-content>

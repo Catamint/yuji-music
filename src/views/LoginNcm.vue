@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col h-full w-full items-center justify-center gap-4">
+  <div
+    v-if="!userStore.loggedIn"
+    class="flex flex-col h-full w-full items-center justify-center gap-4"
+  >
     <div class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">
       <h1 class="text-2xl">cookies 登录</h1>
       <p class="text-sm text-muted-foreground">
@@ -33,6 +36,14 @@
         @click="loginCookies(item.cookies)"
         >{{ item.nickname }}</Button
       >
+    </div>
+  </div>
+  <div v-else class="flex flex-col h-full w-full items-center justify-center gap-4">
+    <div class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">
+      <h1 class="text-2xl">登录成功</h1>
+      <p class="text-sm text-muted-foreground">
+        欢迎回来，{{ userStore.user.nickname }}!
+      </p>
     </div>
   </div>
 </template>
