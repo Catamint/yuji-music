@@ -8,6 +8,7 @@ import 'vfonts/FiraCode.css'
 import { createPinia } from 'pinia'
 import "@/index.css"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import './main.css'
 
 const app = createApp(App)
 const pinia = createPinia() // Create an instance of Pinia
