@@ -3,7 +3,7 @@
     :title="music_info.name"
     :subtitle="music_info.artist.name"
     :description="music_info.album.name"
-    :image="music_info.album.img"
+    :image="music_info.album.picUrl"
     layout="compact"
     @title-click="player2.play_in_playlist(music_info.id)"
     @subtitle-click="goToArtist"

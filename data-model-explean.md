@@ -33,7 +33,7 @@ Class Music {
         id: album.id || null,
         name: album.name || '未知专辑',
         translatedName: album.transNames?.[0] || null,
-        img: album?.img || null,
+        picUrl: album?.picUrl || null,
         picId: album?.picId || null,
         picStr: album?.picStr || null,
     },
@@ -85,7 +85,7 @@ Class PlayList {
     id: rawPlaylist.id,
     name: rawPlaylist.name,
     description: rawPlaylist.description || '',
-    img: rawPlaylist.coverImgUrl || '',
+    picUrl: rawPlaylist.coverImgUrl || '',
     creator: {
         id: rawPlaylist.creator.userId,
         name: rawPlaylist.creator.nickname,

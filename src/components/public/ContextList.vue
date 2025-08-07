@@ -71,7 +71,7 @@ async function like() {
       <DrawerHeader>
         <!-- <DrawerTitle>更多</DrawerTitle> -->
         <BaseCardLayout
-          :image="props.musicInfo?.album?.img"
+          :image="props.musicInfo?.album?.picUrl"
           :title="props.musicInfo?.name"
           :subtitle="props.musicInfo?.artist?.name"
           :description="props.musicInfo?.album?.name"

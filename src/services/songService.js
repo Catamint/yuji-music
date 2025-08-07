@@ -47,7 +47,7 @@ async function formatSong(song) {
             id: album.id || null,
             name: album.name || '未知专辑',
             translatedName: album.transNames?.[0] || null,
-            img: album?.img || null,
+            picUrl: album?.picUrl || null,
             picId: album?.picId || null,
             picStr: album?.picStr || null,
         },
@@ -131,28 +131,28 @@ async function formatAlbumSong(song, picurl='') {
     return {
         id: song.id,
         name: song.name,
-        translatedName: song.tns?.[0] || song.transNames?.[0] || null,
-        publishDate: formatDate(album.publishTime || Date.now()),
-        duration: formatDuration(song.dt || song.duration || 0),
+        translatedName: song?.tns?.[0] || song?.transNames?.[0] || null,
+        publishDate: formatDate(album?.publishTime || Date.now()),
+        duration: formatDuration(song?.dt || song?.duration || 0),
         artist: {
-            id: artist.id || null,
-            name: artist.name || '未知艺人',
-            alias: artist.alia || artist.alias || [],
+            id: artist?.id || null,
+            name: artist?.name || '未知艺人',
+            alias: artist?.alia || artist.alias || [],
         },
         album: {
-            id: album.id || null,
-            name: album.name || '未知专辑',
-            translatedName: album.tns?.[0] || album.transNames?.[0] || null,
+            id: album?.id || null,
+            name: album?.name || '未知专辑',
+            translatedName: album?.tns?.[0] || album?.transNames?.[0] || null,
             // 构建专辑封面 URL
-            img: picurl || song.album?.picUrl || artist.img1v1Url || null,
-            picId: album.pic || album.picId || null,
-            picStr: album.pic_str || null,
+            picUrl: picurl || album?.picUrl || artist?.img1v1Url || null,
+            picId: album?.pic || album?.picId || null,
+            picStr: album?.pic_str || null,
         },
-        fee: song.fee || song.privilege?.fee || 0,    // 收费类型
-        mvId: song.mv || 0,              // MV ID
-        popularity: song.pop || 0,       // 流行度
-        no: song.no || 0,                // 专辑中的曲目号
-        cd: song.cd || '01',             // CD编号
+        fee: song?.fee || song?.privilege?.fee || 0,    // 收费类型
+        mvId: song?.mv || 0,              // MV ID
+        popularity: song?.pop || 0,       // 流行度
+        no: song?.no || 0,                // 专辑中的曲目号
+        cd: song?.cd || '01',             // CD编号
     };
 }
 
@@ -207,7 +207,7 @@ async function formatPlayListInfo(rawPlaylist) {
         id: rawPlaylist.id,
         name: rawPlaylist.name,
         description: rawPlaylist.description || '',
-        img: rawPlaylist.coverImgUrl || '',
+        picUrl: rawPlaylist.coverImgUrl || '',
     }
     return formattedPlaylist;
 }
@@ -266,8 +266,8 @@ export default {
         if (!musicInfo || !musicInfo.album || !musicInfo.album.id) {
             console.warn('音乐信息或专辑图片 URL 不正确:', musicInfo);
             return '';
-        } else if (musicInfo.album.img || musicInfo.album.picUrl) {
-            return `${musicInfo.album.img}?param=${size}y${size}` || `${musicInfo.album.picUrl}?param=${size}y${size}`;
+        } else if (musicInfo.album.picUrl || musicInfo.album.picUrl) {
+            return `${musicInfo.album.picUrl}?param=${size}y${size}` || `${musicInfo.album.picUrl}?param=${size}y${size}`;
         } else {
             const url = await this.getAlbumPicUrl(musicInfo.album.id);
             console.log(`获取专辑图片 URL: ${url}`);
@@ -349,7 +349,7 @@ export default {
                         ...temp,
                         song: {
                             ...temp.result?.song,
-                            songs: await formatSongList({ songs }),
+                            songs: await Promise.all(songs.map(formatAlbumSong)),
                         },
                         album: {
                             ...temp.result?.album,

@@ -58,9 +58,7 @@ export default {
   },
   methods: {
     getPicUrl(musicInfo) {
-      this.picurl =
-        musicInfo?.img?.replace(/^http:/, "https:") ||
-        musicInfo?.picUrl?.replace(/^http:/, "https:");
+      this.picurl = musicInfo?.picUrl?.replace(/^http:/, "https:");
       this.picurl += "?param=300y300";
     },
     playAlbum() {
