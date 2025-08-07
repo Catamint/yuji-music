@@ -4,18 +4,6 @@ import { computed } from "vue";
 import { reactive } from 'vue';
 import { CapacitorMusicControls } from "capacitor-music-controls-plugin";
 
-CapacitorMusicControls.create({
-  track: "Song Title",
-  artist: "Artist Name",
-  album: "Album Name",
-  cover: "url-or-local-path-to-artwork",
-  hasPrev: false,
-  hasNext: false,
-  hasClose: true,
-  duration: 180,   // 可选
-  elapsed: 0       // 可选
-});
-
 export const PlayMode = {
     SEQUENTIAL: 'sequential', // 顺序播放
     RANDOM: 'random',         // 随机播放
@@ -33,7 +21,7 @@ const state = reactive({
   duration: 0,                // 歌曲总时长
 });
 
-function initAudio() {
+async function initAudio() {
   if (!state.audio) {
     state.audio = new Audio();
   }
@@ -45,6 +33,24 @@ function initAudio() {
   state.audio.addEventListener('timeupdate', onTimeUpdate);
   state.audio.addEventListener('loadedmetadata', onLoadedMetadata);
   state.audio.volume = state.volume; // 设置初始音量
+  try {
+    // await CapacitorMusicControls.create({
+    //     track: "Song Title",
+    //     artist: "Artist Name",
+    //     album: "Album Name",
+    //     // cover: "url-or-local-path-to-artwork",
+    //     isPlaying: true,
+    //     dismissable : false,
+    //     hasPrev: true,
+    //     hasNext: true,
+    //     hasClose: true,
+    //     duration: 180,   // 可选
+    //     elapsed: 0       // 可选
+    // });
+  } catch (error) {
+    console.error('通知栏播放控件创建失败', error);
+  } 
+
 }
 
 function onEnded() {

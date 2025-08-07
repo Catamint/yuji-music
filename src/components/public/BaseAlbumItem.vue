@@ -1,6 +1,6 @@
 <template>
   <base-card
-    :image="(albumInfo?.img || albumInfo?.picUrl) + '?param=300y300'"
+    :image="picurl"
     :title="albumInfo?.name"
     :subtitle="albumInfo?.artist?.name"
     :description="albumInfo?.publishDate"
@@ -36,10 +36,6 @@ export default {
         return value && value.id && value.name;
       },
     },
-    isFavorite: {
-      type: Boolean,
-      default: false,
-    },
     layout: {
       type: String,
       default: "card", // 支持 'card', 'list', 'compact'
@@ -52,14 +48,20 @@ export default {
       default: "",
     },
   },
-  computed: {
-    layoutClass() {
-      return `layout-${this.layout}`;
-    },
+  data() {
+    return {
+      picurl: "",
+    };
+  },
+  async created() {
+    await this.getPicUrl(this.albumInfo);
   },
   methods: {
     getPicUrl(musicInfo) {
-      return songService.getPicUrl(musicInfo);
+      this.picurl =
+        musicInfo?.img?.replace(/^http:/, "https:") ||
+        musicInfo?.picUrl?.replace(/^http:/, "https:");
+      this.picurl += "?param=300y300";
     },
     playAlbum() {
       this.$emit("play", this.albumInfo);
@@ -71,7 +73,6 @@ export default {
       this.$emit("remove-from-favorites", this.albumInfo);
     },
     onClick() {
-      console.log("Clicked:", this.albumInfo);
       this.$emit("click", this.albumInfo);
     },
     onArtistClick() {
@@ -88,5 +89,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 m-4">
       <button
         v-if="head"
         class="flex items-center text-left hover:text-primary cursor-pointer transition-colors"
@@ -14,7 +14,7 @@
         </svg>
       </button>
     </div>
-    <div class="cards-block justify-start">
+    <div class="flex flex-wrap justify-start">
       <!-- 使用基础组件直接渲染 -->
       <BaseAlbumItem
         class="card-item"
@@ -31,7 +31,6 @@
 
 <script>
 import { ChevronRight16Filled } from "@vicons/fluent";
-// import { usePlayerStore } from '@/stores/playerStore.js';
 import BaseAlbumItem from "./BaseAlbumItem.vue";
 import songService from "@/services/songService.js";
 import player2 from "@/stores/player2.js";
@@ -95,27 +94,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.card-container {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.cards-block {
-  display: flex;
-  flex-wrap: wrap;
-  /* gap: 20px; */
-  border-radius: 10px;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-h2 {
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-}
-</style>

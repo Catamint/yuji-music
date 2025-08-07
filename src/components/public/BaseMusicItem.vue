@@ -1,6 +1,6 @@
 <template>
   <base-card
-    :image="musicInfo?.album?.picUrl || musicInfo?.album?.img"
+    :image="picurl"
     :title="musicInfo?.name"
     :subtitle="musicInfo?.artist?.name"
     :description="musicInfo?.album?.name"
@@ -41,10 +41,6 @@ export default {
         return value && value.id && value.name && value.artist;
       },
     },
-    isFavorite: {
-      type: Boolean,
-      default: false,
-    },
     layout: {
       type: String,
       default: "card", // 支持 'card', 'list', 'compact'
@@ -55,11 +51,6 @@ export default {
     index: {
       // type: String || Number,
       default: "",
-    },
-  },
-  computed: {
-    layoutClass() {
-      return `layout-${this.layout}`;
     },
   },
   data() {
@@ -116,5 +107,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

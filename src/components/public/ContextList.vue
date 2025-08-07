@@ -18,6 +18,7 @@ import { ref } from "vue";
 import songService from "@/services/songService";
 import { useMusicStore } from "@/stores/musicStore";
 import { toast } from "vue-sonner";
+import router from "@/router";
 
 const musicStore = useMusicStore();
 
@@ -80,11 +81,17 @@ async function like() {
       </DrawerHeader>
 
       <DrawerFooter>
+        <Button @click="router.push(`/album/${props.musicInfo.album.id}`)">
+          查看专辑：{{ props.musicInfo.album.name }}
+        </Button>
+        <Button @click="router.push(`/artist/${props.musicInfo.artist.id}`)">
+          查看歌手：{{ props.musicInfo.artist.name }}
+        </Button>
         <Button v-if="toLike" @click="like"> <Heart28Regular /> 收藏到我喜欢 </Button>
         <Button v-else @click="like"> <Heart28Filled />取消收藏 </Button>
         <!-- <Button>收藏</Button> -->
         <DrawerClose>
-          <Button variant="outline"> Cancel </Button>
+          <!-- <Button variant="outline"> 取消 </Button> -->
         </DrawerClose>
       </DrawerFooter>
     </DrawerContent>

@@ -47,7 +47,7 @@ async function formatSong(song) {
             id: album.id || null,
             name: album.name || '未知专辑',
             translatedName: album.transNames?.[0] || null,
-            img: song.album?.img || null,
+            img: album?.img || null,
             picId: album?.picId || null,
             picStr: album?.picStr || null,
         },
@@ -267,7 +267,7 @@ export default {
             console.warn('音乐信息或专辑图片 URL 不正确:', musicInfo);
             return '';
         } else if (musicInfo.album.img || musicInfo.album.picUrl) {
-            return `${musicInfo.album.img || musicInfo.album.picUrl}?param=${size}y${size}`;
+            return `${musicInfo.album.img}?param=${size}y${size}` || `${musicInfo.album.picUrl}?param=${size}y${size}`;
         } else {
             const url = await this.getAlbumPicUrl(musicInfo.album.id);
             console.log(`获取专辑图片 URL: ${url}`);

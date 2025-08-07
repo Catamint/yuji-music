@@ -9,7 +9,7 @@
       </div>
 
       <div class="h-full w-full flex flex-1 justify-center py-4 md:py-6 lg:py-8">
-        <div class="h-full w-full max-w-7xl box-border px-2 md:px-8">
+        <div class="h-full w-full max-w-7xl box-border px-2 md:px-4">
           <router-view v-if="isRefreshFlag" v-slot="{ Component }">
             <transition name="slide-up">
               <component :is="Component" />
