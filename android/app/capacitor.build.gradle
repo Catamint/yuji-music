@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
     implementation project(':catamint-my-cookie-manager')
+    implementation project(':capacitor-music-controls-plugin')
 
 }
 

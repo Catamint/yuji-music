@@ -1,5 +1,5 @@
 <template>
-  <div class="album-header flex flex-col md:flex-row">
+  <div class="album-header flex flex-row md:flex-row">
     <!-- 专辑封面 -->
     <img
       class="aspect-square mx-2 w-40 h-40 rounded-xl"
@@ -8,7 +8,7 @@
     />
 
     <!-- 信息区域 -->
-    <div class="h-full flex flex-col gap-2 ml-2">
+    <div class="h-full flex flex-col ml-2 justify-center">
       <h1 class="text-4xl font-bold mb-2">
         {{ album?.name }}
         <span v-if="album?.translatedName" class="translated-name"></span>
@@ -51,11 +51,6 @@
         <TooltipButton icon="Heart20Regular" tooltipText="收藏">
           <template #icon>
             <Heart20Regular />
-          </template>
-        </TooltipButton>
-        <TooltipButton icon="Share20Regular" tooltipText="分享">
-          <template #icon>
-            <Share20Regular />
           </template>
         </TooltipButton>
       </div>

@@ -2,6 +2,19 @@
 import songService from "@/services/songService";
 import { computed } from "vue";
 import { reactive } from 'vue';
+import { CapacitorMusicControls } from "capacitor-music-controls-plugin";
+
+CapacitorMusicControls.create({
+  track: "Song Title",
+  artist: "Artist Name",
+  album: "Album Name",
+  cover: "url-or-local-path-to-artwork",
+  hasPrev: false,
+  hasNext: false,
+  hasClose: true,
+  duration: 180,   // 可选
+  elapsed: 0       // 可选
+});
 
 export const PlayMode = {
     SEQUENTIAL: 'sequential', // 顺序播放

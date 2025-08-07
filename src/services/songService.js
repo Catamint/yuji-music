@@ -659,12 +659,26 @@ export default {
      * 获取每日推荐歌曲
      * @returns {Object} 接口响应数据
      */
-    getDailyRecommendedSongs() {
+    async getDailyRecommendedSongs() {
         try{
             const userStore = useUserStore();
-            const response = api.getDailyRecommendedSongs(userStore.cookies);
-            console.log("每日推荐歌曲:", response);
-            return formatSongList(response);
+            const response = await api.getDailyRecommendedSongs(userStore.cookies);
+            const data  = await Promise.all(
+            response.data.dailySongs.map(song => formatAlbumSong({
+                ...song,
+                // 确保每首歌都有专辑信息，如果歌曲没有 al 字段，使用专辑数据
+                album: song.al || {
+                    id: song.al.id,
+                    name: song.al.name,
+                    tns: song.al.transNames,
+                    pic_str: song.al.picId_str,
+                    picUrl: song.al.picUrl
+                },
+                // artists: rawAlbumData.artists || [],
+            }))
+        );
+            console.log("每日推荐歌曲:", data);
+            return data
         } catch (error) {
             console.error('Error fetching daily recommended songs:', error.message);
             return null;

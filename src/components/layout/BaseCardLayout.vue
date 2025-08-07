@@ -21,7 +21,7 @@
   </div>
   <div
     v-if="layout === 'list'"
-    class="flex w-full h-20 items-center gap-4 p-2 rounded-lg back-hover transition"
+    class="flex w-full h-20 my-2 items-center gap-4 p-2 rounded-lg back-hover transition"
   >
     <img :src="image" alt="cover" class="w-20 h-20 object-cover rounded-md shrink-0" />
     <div class="flex-1 min-w-0 overflow-hidden">

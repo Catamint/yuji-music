@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import api from '@/services/api.js';
+import { useMusicStore } from './musicStore';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -25,6 +26,10 @@ export const useUserStore = defineStore('user', {
                 if (response.code === 200 && response.profile != null && response.profile.userId != null) {
                     this.setUser(response.profile); 
                     this.importCookies(cookies);
+
+                    // 初始化
+                    const musicStore =useMusicStore();
+                    musicStore.initLikeList();
                     return true;
                 } else {
                     console.error('Error to login:', response.message);

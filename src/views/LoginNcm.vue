@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!userStore.loggedIn"
+    v-if="!userStore.loggedIn()"
     class="flex flex-col h-full w-full items-center justify-center gap-4"
   >
     <div class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">

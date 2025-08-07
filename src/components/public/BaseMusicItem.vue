@@ -1,6 +1,6 @@
 <template>
   <base-card
-    :image="musicInfo?.album?.picUrl"
+    :image="musicInfo?.album?.picUrl || musicInfo?.album?.img"
     :title="musicInfo?.name"
     :subtitle="musicInfo?.artist?.name"
     :description="musicInfo?.album?.name"
@@ -12,12 +12,13 @@
     @description-click="albumOnClick"
   >
     <template #actions>
-      <like-button :id="musicInfo.id" />
+      <!-- <like-button :id="musicInfo.id" /> -->
       <tooltip-button tooltipText="下一首播放" class="next" @click="addToPlayNext">
         <template #icon>
           <ReceiptPlay24Regular />
         </template>
       </tooltip-button>
+      <ContextList :music-info="musicInfo" :id="musicInfo.id" />
     </template>
   </base-card>
 </template>
@@ -28,6 +29,7 @@ import songService from "@/services/songService"; // Make sure this path is corr
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import LikeButton from "../playercontroller/buttons/LikeButton.vue";
 import { ReceiptPlay24Regular } from "@vicons/fluent";
+import ContextList from "./ContextList.vue";
 export default {
   name: "BaseMusicItem",
   props: {
@@ -110,6 +112,7 @@ export default {
     TooltipButton,
     LikeButton,
     ReceiptPlay24Regular,
+    ContextList,
   },
 };
 </script>

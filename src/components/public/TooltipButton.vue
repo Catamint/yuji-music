@@ -9,7 +9,10 @@
           text
           @click="$emit('click')"
         >
-          <div class="text-shadow-primary-foreground" :size="iconSize">
+          <div
+            class="text-shadow-primary-foreground"
+            :style="{ fontSize: `${iconSize}px` }"
+          >
             <slot name="icon"></slot>
           </div>
         </Button>
@@ -29,7 +32,7 @@ const props = defineProps({
   iconSize: {
     // 图标大小（默认 24）
     type: [Number, String],
-    default: 24,
+    default: 28,
   },
 });
 </script>

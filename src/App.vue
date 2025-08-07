@@ -44,10 +44,12 @@ import { Toaster } from "@/components/ui/sonner";
 import "vue-sonner/style.css";
 import { App as CapApp } from "@capacitor/app";
 import { onBeforeUnmount, onMounted } from "vue";
+import { useMusicStore } from "./stores/musicStore";
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
 const themeStore = useThemeStore();
+const musicStore = useMusicStore();
 // const storageManager = new StorageManager();
 
 themeStore.initDefaultTheme(); // 设置默认主题
@@ -62,6 +64,7 @@ onMounted(() => {
       CapApp.exitApp();
     }
   });
+  musicStore.initLikeList();
 });
 
 onBeforeUnmount(() => {

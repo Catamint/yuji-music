@@ -20,6 +20,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "@vueuse/core": "^13.6.0",
     "axios": "^1.11.0",
+    "capacitor-music-controls-plugin": "^6.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cordova-plugin-inappbrowser": "^6.0.0",

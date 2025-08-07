@@ -18,9 +18,11 @@
         </div>
       </div>
 
-      <div class="sticky bottom-0 z-50 w-full border-t backdrop-blur-lg glass-filter">
-        <FooterDesektop class="hidden h-18 md:block pb-[env(safe-area-inset-bottom)]" />
-        <FooterMobile class="md:hidden h-16 pb-[env(safe-area-inset-bottom)]" />
+      <div
+        class="sticky bottom-0 h-15 md:h-15 z-50 w-full border-t backdrop-blur-lg glass-filter flex items-center justify-center"
+      >
+        <FooterDesektop class="hidden h-15 md:block pb-[env(safe-area-inset-bottom)]" />
+        <FooterMobile class="md:hidden h-15 pb-[env(safe-area-inset-bottom)]" />
       </div>
     </div>
   </SidebarProvider>

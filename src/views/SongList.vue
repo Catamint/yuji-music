@@ -12,6 +12,11 @@
           {{ details?.name }}
         </h1>
         <div class="album-meta">{{ songList?.total }}<span> 首音乐</span></div>
+        <TooltipButton icon="Play20Regular" tooltipText="播放全部" @click="playAll">
+          <template #icon>
+            <Play20Regular />
+          </template>
+        </TooltipButton>
       </div>
     </template>
 
@@ -29,11 +34,14 @@
 import CardContainer from "@/components/public/CardContainer.vue";
 import DetailLayout from "@/components/layout/DetailLayout.vue";
 import songService from "@/services/songService.js";
+import player2 from "@/stores/player2.js";
+import { Play20Regular } from "@vicons/fluent";
 
 export default {
   name: "songList",
   components: {
     CardContainer,
+    Play20Regular,
   },
   data() {
     return {
@@ -52,6 +60,13 @@ export default {
     console.log("获取到的歌单详情:", this.details);
     this.songList = await songService.getSonglistContent(this.id);
     console.log("获取到的歌单信息:", this.songList);
+  },
+  methods: {
+    playAll: async () => {
+      console.log("播放全部操作");
+      console.log("专辑歌曲列表:", songList);
+      await player2.playMulti(songList.songs || []);
+    },
   },
 };
 </script>

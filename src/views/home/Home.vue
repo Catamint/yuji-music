@@ -6,7 +6,7 @@
       <SearchBox class="max-w-[300px]"></SearchBox>
     </div>
     <AlbumCardContainer :music_info_list="[album]" layout="card" />
-    <!-- <CardContainer head="精选" :music_info_list="top_10_list" /> -->
+    <CardContainer head="每日推荐" :music_info_list="DailyRecommend" />
     <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
   </div>
 </template>
@@ -16,6 +16,7 @@ import CardContainer from "@/components/public/CardContainer.vue";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import songService from "@/services/songService.js";
 import SearchBox from "@/components/public/SearchBox.vue";
+import { useUserStore } from "@/stores/userStore";
 // import CardContainerCol from "@/components/public/CardContainerCol.vue";
 // import HotSongs from "./HotSongs.vue"
 
@@ -28,9 +29,10 @@ export default {
   data() {
     return {
       music_info_list: [],
-      top_10_list: [],
+      DailyRecommend: [],
       hot_list: [],
       album: [],
+      userStore: useUserStore(),
     };
   },
   methods: {
@@ -44,13 +46,13 @@ export default {
         console.error("Error fetching top music:", error.message);
       }
     },
-    getTop10Music() {
-      this.$axios.get("/host/get_home_info").then((res) => {
-        let getted = res.data;
-        this.top_10_list = getted;
-        console.log(getted);
-        // console.log(getted);
-      });
+    async getDailyRecommend() {
+      if (this.userStore.cookies) {
+        this.DailyRecommend = await songService.getDailyRecommendedSongs();
+        console.log("获取到的每日推荐歌曲:", this.DailyRecommend);
+      } else {
+        console.log("未登录");
+      }
     },
     async getAlbum() {
       this.album = await songService.getAlbum("245695664");
@@ -58,10 +60,7 @@ export default {
   },
   async created() {
     await this.getAlbum();
-    // console.log("获取到的专辑信息:", this.album);
-    this.getTopMusic();
-    // this.getTop10Music();
-    // this.getHotMusic();
+    await this.getDailyRecommend();
   },
   mounted() {},
 };
