@@ -1,22 +1,30 @@
 <template>
   <no-login-box>
     <template #content>
-      <songlist-card-container
-        v-if="musicinfo_list.length > 0"
-        :music_info_list="musicinfo_list"
-        :head="userStore?.user?.nickname + '的收藏'"
-        :layout="layout"
-      >
+      <ContentViewLayout>
         <template #header>
+          <div class="flex flex-col justify-center mx-2 mb-2">
+            <h1 class="text-4xl font-bold">{{ userStore?.user?.nickname + "的收藏" }}</h1>
+          </div>
+        </template>
+        <template #tabs>
           <Button @click="ToggleLayout"> 切换布局 </Button>
-        </template></songlist-card-container
-      >
-      <div class="w-full h-full flex justify-center items-center" v-else>
-        <div class="flex flex-col gap-2 items-center">
-          <Heart28Filled class="text-primary size-12" />
-          <span class="text-xl text-secondary-foreground">空空如也</span>
-        </div>
-      </div>
+        </template>
+        <template #content>
+          <songlist-card-container
+            v-if="musicinfo_list.length > 0"
+            :music_info_list="musicinfo_list"
+            :layout="layout"
+          >
+          </songlist-card-container>
+          <div class="w-full flex flex-1 justify-center items-center" v-else>
+            <div class="flex flex-col gap-2 items-center">
+              <Heart28Filled class="text-primary size-12" />
+              <span class="text-xl text-secondary-foreground">空空如也</span>
+            </div>
+          </div>
+        </template>
+      </ContentViewLayout>
     </template>
   </no-login-box>
 </template>

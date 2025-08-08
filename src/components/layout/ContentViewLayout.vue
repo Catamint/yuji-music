@@ -2,7 +2,8 @@
 <template>
   <div class="flex flex-1 flex-col min-h-full w-full">
     <!-- 顶部信息 -->
-    <div class="flex my-6">
+
+    <div class="flex mt-8 mb-2">
       <slot name="header" />
     </div>
 

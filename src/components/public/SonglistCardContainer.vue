@@ -1,8 +1,7 @@
 <template>
   <div class="card-container">
-    <div class="flex flex-col gap-4 m-4">
+    <div v-if="head" class="flex flex-col gap-4 m-4">
       <button
-        v-if="head"
         class="flex items-center text-left hover:text-primary cursor-pointer transition-colors"
         @click="onHeaderClick"
       >
