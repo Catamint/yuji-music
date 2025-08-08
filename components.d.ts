@@ -13,7 +13,6 @@ declare module 'vue' {
     Avatar: typeof import('./src/components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./src/components/ui/avatar/AvatarFallback.vue')['default']
     AvatarImage: typeof import('./src/components/ui/avatar/AvatarImage.vue')['default']
-    BaseAlbumItem: typeof import('./src/components/public/BaseAlbumItem.vue')['default']
     BaseCardLayout: typeof import('./src/components/layout/BaseCardLayout.vue')['default']
     BaseMusicItem: typeof import('./src/components/public/BaseMusicItem.vue')['default']
     Button: typeof import('./src/components/ui/button/Button.vue')['default']

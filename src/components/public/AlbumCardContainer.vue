@@ -14,6 +14,9 @@
         </svg>
       </button>
     </div>
+    <div class="flex flex-wrap justify-start p-2">
+      <slot name="header" />
+    </div>
     <div class="flex flex-wrap justify-start">
       <!-- 使用基础组件直接渲染 -->
       <BaseMusicItem
