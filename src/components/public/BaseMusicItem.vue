@@ -3,15 +3,15 @@
     :image="picurl"
     :title="musicInfo?.name"
     :subtitle="musicInfo?.artist?.name"
-    :description="musicInfo?.album?.name"
+    :description="musicInfo?.album?.name || musicInfo?.publishDate"
     :layout="layout"
     :index="index"
-    @click="playMusic"
-    @title-click="playMusic"
-    @subtitle-click="artistOnClick"
-    @description-click="albumOnClick"
+    @click="onClick"
+    @title-click="onClick"
+    @subtitle-click="onSubTitleClick"
+    @description-click="onDescriptionClick"
   >
-    <template #actions>
+    <template v-if="mediaType === 'music'" #actions>
       <!-- <like-button :id="musicInfo.id" /> -->
       <tooltip-button tooltipText="下一首播放" class="next" @click="addToPlayNext">
         <template #icon>
@@ -19,6 +19,14 @@
         </template>
       </tooltip-button>
       <ContextList :music-info="musicInfo" :id="musicInfo.id" />
+    </template>
+    <template v-else #actions>
+      <tooltip-button tooltipText="播放全部" class="play" @click="playAlbum">
+        <template #icon>
+          <Play24Regular />
+        </template>
+      </tooltip-button>
+      <!-- <like-button :id="albumInfo.id" /> -->
     </template>
   </base-card>
 </template>
@@ -28,7 +36,7 @@ import TooltipButton from "./TooltipButton.vue";
 import songService from "@/services/songService"; // Make sure this path is correct and songService exports getPicUrl
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import LikeButton from "../playercontroller/buttons/LikeButton.vue";
-import { ReceiptPlay24Regular } from "@vicons/fluent";
+import { ReceiptPlay24Regular, Play24Regular } from "@vicons/fluent";
 import ContextList from "./ContextList.vue";
 export default {
   name: "BaseMusicItem",
@@ -37,8 +45,8 @@ export default {
       type: Object,
       required: true,
       validator(value) {
-        // 验证必须包含音乐的基本信息
-        return value && value.id && value.name && value.artist;
+        // 验证必须包含基本信息
+        return value && value.id && value.name;
       },
     },
     layout: {
@@ -51,6 +59,10 @@ export default {
     index: {
       // type: String || Number,
       default: "",
+    },
+    mediaType: {
+      type: String,
+      default: "music",
     },
   },
   data() {
@@ -66,23 +78,19 @@ export default {
       if (this.layout == "card" || this.layout == "list")
         this.picurl = (await songService.getPicUrl(musicInfo)) + "?param=300y300";
     },
-    playMusic() {
-      this.$emit("play", this.musicInfo);
-    },
-    addToFavorites() {
-      this.$emit("add-to-favorites", this.musicInfo);
-    },
-    removeFromFavorites() {
-      this.$emit("remove-from-favorites", this.musicInfo);
-    },
     onClick() {
-      this.$emit("click", this.musicInfo);
+      if (this.mediaType === "music") this.$emit("play", this.musicInfo);
+      else this.$emit("click", this.musicInfo);
+    },
+    playAlbum() {
+      this.$emit("play", this.musicInfo);
     },
     addToPlayNext() {
       console.log("addToPlayNext");
       this.$emit("add-to-play-next", this.musicInfo);
     },
-    artistOnClick() {
+    onSubTitleClick() {
+      this.$emit("artist-click", this.musicInfo.artist);
       this.$router.push({
         name: "artist",
         params: {
@@ -90,7 +98,7 @@ export default {
         },
       });
     },
-    albumOnClick() {
+    onDescriptionClick() {
       this.$router.push({
         name: "album",
         params: {
@@ -100,6 +108,7 @@ export default {
     },
   },
   components: {
+    Play24Regular,
     BaseCard,
     TooltipButton,
     LikeButton,

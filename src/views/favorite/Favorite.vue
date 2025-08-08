@@ -5,8 +5,12 @@
         v-if="musicinfo_list.length > 0"
         :music_info_list="musicinfo_list"
         :head="userStore?.user?.nickname + '的收藏'"
-        layout="card"
-      />
+        :layout="layout"
+      >
+        <template #header>
+          <Button @click="ToggleLayout"> 切换布局 </Button>
+        </template></songlist-card-container
+      >
       <div class="w-full h-full flex justify-center items-center" v-else>
         <div class="flex flex-col gap-2 items-center">
           <Heart28Filled class="text-primary size-12" />
@@ -35,6 +39,7 @@ export default {
       logined: false,
       user: {},
       userStore: useUserStore(),
+      layout: "card",
     };
   },
   created() {
@@ -54,6 +59,13 @@ export default {
       this.$router.push({
         path: "login_netease",
       });
+    },
+    ToggleLayout() {
+      if (this.layout === "card") {
+        this.layout = "list";
+      } else {
+        this.layout = "card";
+      }
     },
   },
 };

@@ -16,12 +16,13 @@
     </div>
     <div class="flex flex-wrap justify-start">
       <!-- 使用基础组件直接渲染 -->
-      <BaseAlbumItem
+      <BaseMusicItem
         class="card-item"
+        mediaType="album"
         v-for="(info, index) in music_info_list"
         :index="index + 1"
         :key="info.id"
-        :albumInfo="info"
+        :musicInfo="info"
         :layout="layout"
         @play="onPlay"
         @click="onClick"
@@ -32,7 +33,7 @@
 
 <script>
 import { ChevronRight16Filled } from "@vicons/fluent";
-import BaseAlbumItem from "./BaseAlbumItem.vue";
+import BaseMusicItem from "./BaseMusicItem.vue";
 import player2 from "@/stores/player2.js";
 
 export default {
@@ -58,6 +59,7 @@ export default {
   },
   components: {
     ChevronRight16Filled,
+    BaseMusicItem,
   },
   methods: {
     // 播放歌曲
