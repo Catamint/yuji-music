@@ -1,3 +1,5 @@
+### cardLayout
+
 我的项目中目前有如下组件
 
 ```
@@ -17,6 +19,10 @@ layout
  AlbumCardContainer，SonglistCardContainer派生自BaseAlbumItem，传入的是album对象列表，添加了header，v-for，actions。
 
 这样的组件有重复和不合理的逻辑，请指导我修改
+
+### songService
+
+我的vue项目从api获取的数据，包括音乐、专辑信息、专辑音乐列表、歌单信息、歌单音乐列表、搜索结果（包含音乐列表、歌单列表、专辑列表等）。其中音乐对象在歌单、专辑中的格式与音乐自身格式不同。这是我目前实现的songService，帮我修改成更优的格式。
 
 ``` js
 Class Music {
@@ -99,3 +105,14 @@ Class PlayList {
 Class Artist {
     // 未完成
 }
+
+使用说明与迁移建议
+容器层（列表组件）：继续在容器里对不同原始对象进行一次性转换（例如：rawList.map(item => normalizeSong(item, 'playlist'))），把转换后的统一结构传给通用卡片组件。
+
+保留 raw 字段：normalizeSong 会在 raw 字段保留原始对象，方便你在 actions（播放/收藏/跳转）时使用原始 API 字段。
+
+少用不必要的 async：大多数格式化函数是同步的，除非需要调用网络接口（如 getAlbumPicUrl），否则不需要 async/await。
+
+错误处理：重构后每个对外 async 函数有 try/catch，错误信息更清晰，便于排查。
+
+如果你有 TypeScript：建议把 normalizeSong 和 ViewModel 用 interface/type 明确声明，维护性会更好。
