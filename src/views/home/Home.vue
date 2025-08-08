@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" /> -->
-    <div class="search-container">
+    <div class="search-container backdrop-blur-lg">
       <h2>搜索音乐</h2>
       <SearchBox class="max-w-[300px]"></SearchBox>
     </div>
@@ -13,18 +13,24 @@
         id: 0,
         name: '每日推荐',
         artist: '',
-        picUrl: '/src/assets/image/background2.jpeg',
+        picUrl: bg2,
       }"
       @click="$router.push({ name: 'daily' })"
       @play="player2.playMulti(DailyRecommend)"
     ></BaseMusicItem>
     <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
-    <CardContainer head="每日推荐" layout="list" :music_info_list="DailyRecommend" />
+    <CardContainer
+      class="shadow-2xl shadow-black md:shadow-none dark:shadow-none bg-card backdrop-blur-lg dark:backdrop-blur-none rounded-t-3xl pt-1"
+      head="每日推荐"
+      layout="list"
+      :music_info_list="DailyRecommend"
+    />
   </div>
 </template>
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
+import bg2 from "@/assets/image/background2.jpeg";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import songService from "@/services/songService.js";
 import SearchBox from "@/components/public/SearchBox.vue";
@@ -49,6 +55,7 @@ export default {
       album: [],
       userStore: useUserStore(),
       player2,
+      bg2,
     };
   },
   methods: {
