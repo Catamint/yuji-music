@@ -28,7 +28,7 @@ export const useUserStore = defineStore('user', {
                     this.importCookies(cookies);
 
                     // 初始化
-                    const musicStore =useMusicStore();
+                    const musicStore = useMusicStore();
                     musicStore.initLikeList();
                     return true;
                 } else {

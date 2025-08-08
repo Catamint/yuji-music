@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 m-4">
       <button
         v-if="head"
         class="flex items-center text-left hover:text-primary cursor-pointer transition-colors"
@@ -14,14 +14,18 @@
         </svg>
       </button>
     </div>
-    <div class="cards-block justify-start">
+    <div class="flex flex-wrap justify-start p-2">
+      <slot name="header" />
+    </div>
+    <div class="flex flex-wrap justify-start">
       <!-- 使用基础组件直接渲染 -->
-      <BaseAlbumItem
+      <BaseMusicItem
         class="card-item"
+        mediaType="album"
         v-for="(info, index) in music_info_list"
         :index="index + 1"
         :key="info.id"
-        :albumInfo="info"
+        :musicInfo="info"
         :layout="layout"
         @play="onPlay"
         @click="onClick"
@@ -32,7 +36,7 @@
 
 <script>
 import { ChevronRight16Filled } from "@vicons/fluent";
-import BaseAlbumItem from "./BaseAlbumItem.vue";
+import BaseMusicItem from "./BaseMusicItem.vue";
 import player2 from "@/stores/player2.js";
 
 export default {
@@ -58,6 +62,7 @@ export default {
   },
   components: {
     ChevronRight16Filled,
+    BaseMusicItem,
   },
   methods: {
     // 播放歌曲
@@ -88,27 +93,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.card-container {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.cards-block {
-  display: flex;
-  flex-wrap: wrap;
-  /* gap: 40px; */
-  border-radius: 10px;
-  /* width: 400px; */
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-h2 {
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-}
-</style>

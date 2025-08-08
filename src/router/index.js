@@ -47,10 +47,11 @@ const routes = [
         component: LoginNcm,
         name: 'login_netease'
     },
-    // {
-    //     path:"/signup",
-    //     component: SignUp
-    // },
+    {
+        name: 'daily',
+        path: '/daily',
+        component: () => import('@/views/DailyRecommend.vue'),
+    },
     {
       path:'/album/:id',
       name:'album',
