@@ -12,7 +12,9 @@
     </div>
 
     <!-- 主体内容 -->
-    <div class="content rounded-t-4xl bg-card">
+    <div
+      class="content shadow-2xl shadow-black md:shadow-none dark:shadow-none rounded-t-3xl bg-card backdrop-blur-lg dark:backdrop-blur-none"
+    >
       <slot name="content" />
     </div>
   </div>
