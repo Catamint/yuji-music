@@ -1,6 +1,15 @@
 <template>
   <div class="grid grid-cols-[1fr_3fr_1fr] ml-2 items-center">
-    <SidebarTrigger class="" />
+    <div class="flex items-center gap-2">
+      <SidebarTrigger class="" />
+      <Button
+        variant="ghost"
+        size="icon"
+        class="h-7 w-7"
+        @click="$router.push({ path: $route.fullPath, query: { t: Date.now() } })"
+        >刷新</Button
+      >
+    </div>
     <div class="flex w-full items-center justify-center">
       <SearchBox class="max-w-md py-1 flex-1"></SearchBox>
     </div>

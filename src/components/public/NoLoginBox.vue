@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full">
+  <div>
     <div class="no-login-box" v-if="!userStore.loggedIn()">
       <Card class="w-[350px]">
         <CardHeader>

@@ -17,7 +17,7 @@
             :layout="layout"
           >
           </songlist-card-container>
-          <div class="w-full flex flex-1 justify-center items-center" v-else>
+          <div class="w-full flex flex-1 justify-center items-center my-16" v-else>
             <div class="flex flex-col gap-2 items-center">
               <Heart28Filled class="text-primary size-12" />
               <span class="text-xl text-secondary-foreground">空空如也</span>
