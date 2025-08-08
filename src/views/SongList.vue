@@ -1,5 +1,5 @@
 <template>
-  <detail-layout>
+  <ContentViewLayout>
     <template #header>
       <!-- <h1>专辑详情</h1> -->
       <img
@@ -27,12 +27,12 @@
     <template #content>
       <card-container layout="compact" :music_info_list="songList.songs" />
     </template>
-  </detail-layout>
+  </ContentViewLayout>
 </template>
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
-import DetailLayout from "@/components/layout/DetailLayout.vue";
+import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import songService from "@/services/songService.js";
 import player2 from "@/stores/player2.js";
 import { Play20Regular } from "@vicons/fluent";

@@ -1,5 +1,5 @@
 <template>
-  <detail-layout>
+  <ContentViewLayout>
     <template #header>
       <!-- <h1>专辑详情</h1> -->
       <album-header :album="album" />
@@ -12,12 +12,12 @@
     <template #content>
       <card-container layout="compact" :music_info_list="music_info_list" />
     </template>
-  </detail-layout>
+  </ContentViewLayout>
 </template>
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
-import DetailLayout from "@/components/layout/DetailLayout.vue";
+import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import songService from "@/services/songService.js";
 import AlbumHeader from "@/views/AlbumHeader.vue";
 

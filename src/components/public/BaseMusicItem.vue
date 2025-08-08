@@ -76,7 +76,7 @@ export default {
   methods: {
     async getPicUrl(musicInfo) {
       if (this.layout == "card" || this.layout == "list")
-        this.picurl = (await songService.getPicUrl(musicInfo)) + "?param=300y300";
+        this.picurl = await songService.getPicUrl(musicInfo);
     },
     onClick() {
       if (this.mediaType === "music") this.$emit("play", this.musicInfo);

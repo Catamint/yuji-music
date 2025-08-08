@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min-h-full">
     <!-- <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" /> -->
     <div class="search-container backdrop-blur-lg">
       <h2>搜索音乐</h2>
@@ -19,12 +19,16 @@
       @play="player2.playMulti(DailyRecommend)"
     ></BaseMusicItem>
     <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
-    <CardContainer
-      class="shadow-2xl shadow-black md:shadow-none dark:shadow-none bg-card backdrop-blur-lg dark:backdrop-blur-none rounded-t-3xl pt-1"
-      head="每日推荐"
-      layout="list"
-      :music_info_list="DailyRecommend"
-    />
+    <div
+      class="flex-1 shadow-2xl shadow-black md:shadow-none dark:shadow-none bg-card backdrop-blur-lg dark:backdrop-blur-none rounded-t-3xl pt-1"
+    >
+      <CardContainer
+        class=""
+        head="每日推荐"
+        layout="list"
+        :music_info_list="DailyRecommend"
+      />
+    </div>
   </div>
 </template>
 

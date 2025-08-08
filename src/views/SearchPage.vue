@@ -1,31 +1,52 @@
 <template>
-  <div>
-    <h1 class="text-3xl font-bold mb-6">{{ head + " : " + route.query.kw }}</h1>
-    <CardContainer
-      v-if="all_info.song?.songs || music_info_list.length"
-      class="detail"
-      :music_info_list="all_info.song?.songs || music_info_list"
-      head="歌曲"
-      layout="compact"
-      @header-click="reSearch('music')"
-    />
-    <AlbumCardContainer
-      v-if="all_info.album?.albums"
-      class="detail"
-      :music_info_list="all_info.album.albums"
-      head="专辑"
-      layout="card"
-      @header-click="reSearch('album')"
-    />
-    <SonglistCardContainer
-      v-if="all_info.playList?.playLists"
-      class="detail"
-      :music_info_list="all_info.playList.playLists"
-      head="歌单"
-      layout="card"
-      @header-click="reSearch('songlist')"
-    />
-  </div>
+  <ContentViewLayout>
+    <template #header>
+      <div class="flex flex-col justify-center mx-2">
+        <h1 class="text-4xl font-bold">{{ head }}</h1>
+        <p class="text-lg text-muted-foreground">{{ route.query.kw }}</p>
+      </div>
+    </template>
+
+    <template #tabs>
+      <div class="tabs">
+        <Tabs default-value="all" class="w-full">
+          <TabsList>
+            <TabsTrigger value="all">ALL</TabsTrigger>
+            <TabsTrigger value="music">音乐</TabsTrigger>
+            <TabsTrigger value="album">专辑</TabsTrigger>
+            <TabsTrigger value="songlist">歌单</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </template>
+
+    <template #content>
+      <AlbumCardContainer
+        v-if="all_info.album?.albums"
+        class="detail"
+        :music_info_list="all_info.album.albums"
+        head="专辑"
+        layout="list"
+        @header-click="reSearch('album')"
+      />
+      <CardContainer
+        v-if="all_info.song?.songs || music_info_list.length"
+        class="detail"
+        :music_info_list="all_info.song?.songs || music_info_list"
+        head="歌曲"
+        layout="compact"
+        @header-click="reSearch('music')"
+      />
+      <SonglistCardContainer
+        v-if="all_info.playList?.playLists"
+        class="detail"
+        :music_info_list="all_info.playList.playLists"
+        head="歌单"
+        layout="card"
+        @header-click="reSearch('songlist')"
+      />
+    </template>
+  </ContentViewLayout>
 </template>
 
 <script setup>

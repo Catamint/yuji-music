@@ -199,11 +199,13 @@ async function getAlbumPicUrl(albumId) {
  * getPicUrl(musicInfo, size)
  * 优化：先尝试直接从 musicInfo.album.picUrl，再去 API 获取
  */
-async function getPicUrl(musicInfo = {}, size = 300) {
+async function getPicUrl(musicInfo = {}, type = 'music', size = 300) {
     const album = musicInfo?.album ?? musicInfo?.raw?.album ?? null;
     const pic = album?.picUrl ?? album?.img1v1Url ?? musicInfo?.picUrl ?? null;
-    if (pic) return `${pic.replace(/^http:/, "https:")}?param=${size}y${size}`;
-    if (album?.id) {
+    if (pic) {
+        return `${pic.replace(/^http:/, "https:")}?param=${size}y${size}`;
+    }
+    if (type === 'music' ? album?.id : musicInfo?.id) {
         const url = await getAlbumPicUrl(album.id);
         if (url) return `${url.replace(/^http:/, "https:")}?param=${size}y${size}`;
     }

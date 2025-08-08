@@ -13,18 +13,25 @@ import { MoreVertical20Filled } from "@vicons/fluent";
 import TooltipButton from "./TooltipButton.vue";
 import { Heart28Regular, Heart28Filled } from "@vicons/fluent";
 import BaseCardLayout from "@/components/layout/BaseCardLayout.vue";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { ref } from "vue";
 import songService from "@/services/songService";
 import { useMusicStore } from "@/stores/musicStore";
 import { toast } from "vue-sonner";
 import router from "@/router";
+import { on } from "events";
 
 const musicStore = useMusicStore();
 
 const props = defineProps({
   musicInfo: { type: Object, required: true },
   id: { type: Number, required: true },
+});
+
+const img = ref("");
+
+onMounted(async () => {
+  img.value = await songService.getPicUrl(props.musicInfo);
 });
 
 const toLike = ref(true);
@@ -69,9 +76,9 @@ async function like() {
     </DrawerTrigger>
     <DrawerContent class="bg-popover">
       <DrawerHeader>
-        <!-- <DrawerTitle>更多</DrawerTitle> -->
+        <DrawerTitle></DrawerTitle>
         <BaseCardLayout
-          :image="props.musicInfo?.album?.picUrl"
+          :image="img"
           :title="props.musicInfo?.name"
           :subtitle="props.musicInfo?.artist?.name"
           :description="props.musicInfo?.album?.name"

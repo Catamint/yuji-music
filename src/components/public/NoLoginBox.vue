@@ -1,19 +1,21 @@
 <template>
-  <div class="no-login-box" v-if="!userStore.loggedIn()">
-    <Card class="w-[350px]">
-      <CardHeader>
-        <CardTitle>需要登录</CardTitle>
-        <CardDescription>还没有登录哦o(╥_╥)o</CardDescription>
-      </CardHeader>
+  <div class="w-full h-full">
+    <div class="no-login-box" v-if="!userStore.loggedIn()">
+      <Card class="w-[350px]">
+        <CardHeader>
+          <CardTitle>需要登录</CardTitle>
+          <CardDescription>还没有登录哦o(╥_╥)o</CardDescription>
+        </CardHeader>
 
-      <CardFooter>
-        <Button @click="gotoLogin"> 登录 </Button>
-      </CardFooter>
-    </Card>
+        <CardFooter>
+          <Button @click="gotoLogin"> 登录 </Button>
+        </CardFooter>
+      </Card>
+    </div>
+    <template v-else>
+      <slot name="content"></slot>
+    </template>
   </div>
-  <template v-else>
-    <slot name="content"></slot>
-  </template>
 </template>
 
 <script setup>

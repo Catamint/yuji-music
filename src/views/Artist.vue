@@ -1,5 +1,5 @@
 <template>
-  <detail-layout>
+  <ContentViewLayout>
     <template #header>
       <img class="album-cover" :src="artistBrief?.picUrl || null" alt="艺术家封面" />
       <div class="album-info">
@@ -18,12 +18,12 @@
     <template #content>
       <album-card-container head="专辑" layout="card" :music_info_list="album" />
     </template>
-  </detail-layout>
+  </ContentViewLayout>
 </template>
 
 <script>
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
-import DetailLayout from "@/components/layout/DetailLayout.vue";
+import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import songService from "@/services/songService.js";
 
 export default {

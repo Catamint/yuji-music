@@ -116,3 +116,21 @@ Class Artist {
 错误处理：重构后每个对外 async 函数有 try/catch，错误信息更清晰，便于排查。
 
 如果你有 TypeScript：建议把 normalizeSong 和 ViewModel 用 interface/type 明确声明，维护性会更好。
+
+
+TODO:
+
+歌曲缓存、歌单列表缓存、歌曲信息缓存
+收藏, 收藏搜索
+图片懒加载, 搜索滑动更新
+线程池
+安卓播放控件
+列表遮罩覆盖
+浮动搜索, 搜索历史, 搜索联想
+play页 歌词
+主页
+用户页
+pc上下文菜单
+菜单显示问题
+加载动画 错误信息
+
