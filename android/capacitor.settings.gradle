@@ -12,4 +12,4 @@ include ':catamint-my-cookie-manager'
 project(':catamint-my-cookie-manager').projectDir = new File('../my-cookie-manager/android')
 
 include ':capacitor-music-controls-plugin'
-project(':capacitor-music-controls-plugin').projectDir = new File('../node_modules/capacitor-music-controls-plugin/android')
+project(':capacitor-music-controls-plugin').projectDir = new File('../capacitor-music-controls-plugin/android')
