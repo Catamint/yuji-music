@@ -22,7 +22,7 @@
       </p>
       <div class="mt-1">
         <span class="px-2 py-0.5 text-xs bg-blue-100 text-blue-600 rounded-full">
-          已注册 {{ registerDays }} 天
+          IP: {{ user.IP }}
         </span>
       </div>
     </div>
@@ -40,7 +40,7 @@ const props = defineProps({
       avatarUrl: "",
       nickname: "",
       signature: "",
-      createTime: 0, // 时间戳
+      IP: "未知", // 时间戳
       uid: "",
     }),
   },

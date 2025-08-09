@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col xl:p-30 md:flex-row h-full w-full">
+  <div class="flex flex-col xl:p-30 md:flex-row pt-8 h-full w-full">
     <button @click="uiStore.togglePlayerPage">返回</button>
     <!-- 移动端切换按钮 -->
     <button v-if="isMobile" class="rounded-full shadow-md" @click="toggleLyrics">
@@ -20,7 +20,12 @@
           <PlaybuttonBatch class="flex flex-1 items-center justify-center gap-4" />
           <!-- <PrevButton />
           <NextButton /> -->
-          <!-- 更多按钮可以继续添加 -->
+        </div>
+
+        <!-- 更多按钮可以继续添加 -->
+        <div class="flex justify-between items-center">
+          <!-- <PlayMode />
+          <LikeButton /> -->
         </div>
       </div>
 
@@ -44,6 +49,7 @@ import PlaySlider from "@/components/playercontroller/PlaySlider.vue";
 import PlaybuttonBatch from "@/components/playercontroller/buttons/PlaybuttonBatch.vue";
 import PlayTime from "@/components/playercontroller/PlayTime.vue";
 import { useUiStore } from "@/stores/uiStore";
+import LikeButton from "@/components/playercontroller/buttons/LikeButton.vue";
 
 const uiStore = useUiStore();
 const { width } = useWindowSize();

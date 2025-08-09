@@ -11,11 +11,11 @@
         <UserCard
           class="search-container m-2 p-2"
           :user="{
-            avatarUrl: bg2,
-            nickname: 'catamint',
-            signature: '这个人很神秘，什么都没写~',
-            createTime: 0,
-            uid: '0',
+            avatarUrl: userStore.user.avatarUrl,
+            nickname: userStore.user.nickname,
+            signature: userStore.user.signature || '这个人很神秘，什么都没写~',
+            IP: userStore.user.lastLoginIP,
+            uid: userStore.user.userId,
           }"
         />
       </template>

@@ -234,7 +234,7 @@ async function searchNetease(keywords, limit = 30, offset = 0, type = 'all') {
             }
             case 'songlist': {
                 const resp = await api.search(keywords, limit, offset, 1000);
-                const pls = resp?.result?.playLists ?? [];
+                const pls = resp?.result?.playlists ?? [];
                 result.playList = { ...resp.result?.playList, playLists: pls.map(formatPlayListInfo) };
                 return result;
             }
