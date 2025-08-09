@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col xl:p-30 md:flex-row pt-8 h-full w-full">
-    <button @click="uiStore.togglePlayerPage">返回</button>
+    <button @click="uiStore.togglePlayerPage">{{ "<-" }}</button>
     <!-- 移动端切换按钮 -->
     <button v-if="isMobile" class="rounded-full shadow-md" @click="toggleLyrics">
       {{ showLyrics ? "返回" : "歌词" }}
@@ -18,17 +18,13 @@
         <!-- 控制按钮区 -->
         <div class="flex justify-between items-center mb-2">
           <PlaybuttonBatch class="flex flex-1 items-center justify-center gap-4" />
-          <!-- <PrevButton />
-          <NextButton /> -->
-        </div>
-
-        <!-- 更多按钮可以继续添加 -->
-        <div class="flex justify-between items-center">
-          <!-- <PlayMode />
-          <LikeButton /> -->
         </div>
       </div>
-
+      <!-- 更多按钮可以继续添加 -->
+      <div class="flex justify-between items-center">
+        <PlayMode />
+        <!-- <LikeButton /> -->
+      </div>
       <PlayTime />
     </div>
 

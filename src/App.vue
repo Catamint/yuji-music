@@ -59,6 +59,10 @@ player2.initAudio();
 
 onMounted(() => {
   CapApp.addListener("backButton", ({ canGoBack }) => {
+    if (uiStore.isPlayerPageVisible) {
+      uiStore.togglePlayerPage();
+      return;
+    }
     if (window.history.length > 1) {
       window.history.back();
     } else {
