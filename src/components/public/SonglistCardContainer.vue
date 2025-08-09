@@ -1,8 +1,7 @@
 <template>
   <div class="card-container">
-    <div class="flex flex-col gap-4 m-4">
+    <div v-if="head" class="flex flex-col gap-4 m-4">
       <button
-        v-if="head"
         class="flex items-center text-left hover:text-primary cursor-pointer transition-colors"
         @click="onHeaderClick"
       >
@@ -13,9 +12,6 @@
           />
         </svg>
       </button>
-    </div>
-    <div class="flex flex-wrap justify-start p-2">
-      <slot name="header" />
     </div>
     <div class="flex flex-wrap justify-start">
       <!-- 使用基础组件直接渲染 -->

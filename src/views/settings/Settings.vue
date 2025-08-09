@@ -1,71 +1,76 @@
 <template>
-  <div class="flex flex-col h-full gap-6 px-4 py-6 text-lg items-center">
-    <div class="grid grid-cols-1 gap-4 w-full max-w-md">
-      <!-- 背景开关 -->
-      <div class="flex items-center justify-between w-full gap-2">
-        <span>背景</span>
-        <Switch v-model="backgroundActive" />
-      </div>
+  <ContentViewLayout>
+    <template #header>
+      <h1 class="text-4xl font-bold p-4 mb-8">设置</h1>
+    </template>
+    <template #content>
+      <div class="flex flex-col p-4 gap-4 w-full">
+        <!-- 背景开关 -->
+        <div class="flex items-center justify-between w-full gap-2">
+          <span>背景</span>
+          <Switch v-model="backgroundActive" />
+        </div>
 
-      <!-- 主题选择 -->
-      <div class="flex items-center justify-between w-full gap-2">
-        <span>主题</span>
-        <Select @update:modelValue="setColorMode" class="w-full">
-          <SelectTrigger>
-            <SelectValue :placeholder="mode" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="auto"> 跟随系统 </SelectItem>
-              <SelectItem value="light"> 浅色 </SelectItem>
-              <SelectItem value="dark"> 深色 </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+        <!-- 主题选择 -->
+        <div class="flex items-center justify-between w-full gap-2">
+          <span>主题</span>
+          <Select @update:modelValue="setColorMode" class="w-full">
+            <SelectTrigger>
+              <SelectValue :placeholder="mode" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="auto"> 跟随系统 </SelectItem>
+                <SelectItem value="light"> 浅色 </SelectItem>
+                <SelectItem value="dark"> 深色 </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
 
-      <!-- 背景模糊度设置 -->
-      <div class="flex items-center justify-between w-full gap-2">
-        <span>背景模糊</span>
-        <Select class="w-full" @update:modelValue="handleBlurChange">
-          <SelectTrigger>
-            <SelectValue :placeholder="currentContainerBlur" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>模糊度 (px)</SelectLabel>
-              <SelectItem value="0px"> 0px </SelectItem>
-              <SelectItem value="10px"> 10px </SelectItem>
-              <SelectItem value="50px"> 50px </SelectItem>
-              <SelectItem value="80px"> 80px </SelectItem>
-              <SelectItem value="100px"> 100px </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+        <!-- 背景模糊度设置 -->
+        <div class="flex items-center justify-between w-full gap-2">
+          <span>背景模糊</span>
+          <Select class="w-full" @update:modelValue="handleBlurChange">
+            <SelectTrigger>
+              <SelectValue :placeholder="currentContainerBlur" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>模糊度 (px)</SelectLabel>
+                <SelectItem value="0px"> 0px </SelectItem>
+                <SelectItem value="10px"> 10px </SelectItem>
+                <SelectItem value="50px"> 50px </SelectItem>
+                <SelectItem value="80px"> 80px </SelectItem>
+                <SelectItem value="100px"> 100px </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
 
-      <!-- 上传背景图片 -->
-      <div class="grid grid-cols-1 gap-2">
-        <Label for="picture">背景图片</Label>
-        <Button @click="setBackgroundImage" id="picture" type="file"> 上传图片 </Button>
-      </div>
+        <!-- 上传背景图片 -->
+        <div class="grid grid-cols-1 gap-2">
+          <Label for="picture">背景图片</Label>
+          <Button @click="setBackgroundImage" id="picture" type="file"> 上传图片 </Button>
+        </div>
 
-      <!-- 重置按钮 -->
-      <div class="grid grid-cols-1 gap-2">
-        <Button @click="handleResetTheme" type="warning" secondary>
-          重置为默认主题
-        </Button>
-        <Button
-          @click="handleDeleteCustomTheme"
-          type="error"
-          secondary
-          :disabled="!hasCustomTheme"
-        >
-          删除自定义主题
-        </Button>
+        <!-- 重置按钮 -->
+        <div class="grid grid-cols-1 gap-2">
+          <Button @click="handleResetTheme" type="warning" secondary>
+            重置为默认主题
+          </Button>
+          <Button
+            @click="handleDeleteCustomTheme"
+            type="error"
+            secondary
+            :disabled="!hasCustomTheme"
+          >
+            删除自定义主题
+          </Button>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </ContentViewLayout>
 </template>
 
 <script setup>

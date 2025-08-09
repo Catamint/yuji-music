@@ -1,11 +1,25 @@
 <template>
-  <div>
+  <div class="min-h-full">
     <!-- <CardContainer head="今日推荐" layout="card" :music_info_list="music_info_list" /> -->
-    <div class="search-container backdrop-blur-lg">
+    <div class="search-container bg-card backdrop-blur-lg m-2 p-2">
       <h2>搜索音乐</h2>
       <SearchBox class="max-w-[300px]"></SearchBox>
     </div>
     <!-- <AlbumCardContainer :music_info_list="[album]" layout="card" /> -->
+    <NoLoginBox>
+      <template #content>
+        <UserCard
+          class="search-container m-2 p-2"
+          :user="{
+            avatarUrl: userStore.user.avatarUrl,
+            nickname: userStore.user.nickname,
+            signature: userStore.user.signature || '这个人很神秘，什么都没写~',
+            IP: userStore.user.lastLoginIP,
+            uid: userStore.user.userId,
+          }"
+        />
+      </template>
+    </NoLoginBox>
     <BaseMusicItem
       layout="card"
       mediaType="Album"
@@ -18,13 +32,10 @@
       @click="$router.push({ name: 'daily' })"
       @play="player2.playMulti(DailyRecommend)"
     ></BaseMusicItem>
-    <!-- <CardContainer head="推荐" subcomponent="halflist" :music_info_list="top_10_list" /> -->
-    <CardContainer
-      class="shadow-2xl shadow-black md:shadow-none dark:shadow-none bg-card backdrop-blur-lg dark:backdrop-blur-none rounded-t-3xl pt-1"
-      head="每日推荐"
-      layout="list"
-      :music_info_list="DailyRecommend"
-    />
+    <div
+      v-if="0"
+      class="flex-1 shadow-2xl shadow-black md:shadow-none dark:shadow-none bg-card backdrop-blur-lg dark:backdrop-blur-none rounded-t-3xl pt-1"
+    ></div>
   </div>
 </template>
 
@@ -93,11 +104,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .search-container {
-  margin: 20px;
-  padding: 10px;
-  max-width: 400px;
-  background-color: #ffffff23;
-  border-radius: 8px;
+  max-width: 600px;
+  border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>

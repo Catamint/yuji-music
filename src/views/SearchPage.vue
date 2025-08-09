@@ -1,31 +1,56 @@
 <template>
-  <div>
-    <h1 class="text-3xl font-bold mb-6">{{ head + " : " + route.query.kw }}</h1>
-    <CardContainer
-      v-if="all_info.song?.songs || music_info_list.length"
-      class="detail"
-      :music_info_list="all_info.song?.songs || music_info_list"
-      head="歌曲"
-      layout="compact"
-      @header-click="reSearch('music')"
-    />
-    <AlbumCardContainer
-      v-if="all_info.album?.albums"
-      class="detail"
-      :music_info_list="all_info.album.albums"
-      head="专辑"
-      layout="card"
-      @header-click="reSearch('album')"
-    />
-    <SonglistCardContainer
-      v-if="all_info.playList?.playLists"
-      class="detail"
-      :music_info_list="all_info.playList.playLists"
-      head="歌单"
-      layout="card"
-      @header-click="reSearch('songlist')"
-    />
-  </div>
+  <ContentViewLayout>
+    <template #header>
+      <div class="flex flex-col justify-center mx-2">
+        <h1 class="text-4xl font-bold">{{ head }}</h1>
+        <p class="text-lg text-muted-foreground">{{ route.query.kw }}</p>
+      </div>
+    </template>
+
+    <template #tabs>
+      <div class="tabs">
+        <Tabs :default-value="$route.query.type" class="w-full">
+          <TabsList>
+            <TabsTrigger value="all" @click="reSearch('all')">ALL</TabsTrigger>
+            <TabsTrigger value="music" @click="reSearch('music')">音乐</TabsTrigger>
+            <TabsTrigger value="album" @click="reSearch('album')">专辑</TabsTrigger>
+            <TabsTrigger value="songlist" @click="reSearch('songlist')">歌单</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </template>
+
+    <template #content>
+      <div class="w-full flex flex-col flex-1 space-x-4 p-4 gap-4" v-if="searching">
+        <Skeleton class="h-16 w-full rounded-xl" />
+        <Skeleton class="h-16 w-full rounded-xl" />
+        <Skeleton class="h-16 w-full rounded-xl" />
+      </div>
+      <div class="w-full flex flex-col flex-1" v-else>
+        <AlbumCardContainer
+          v-if="all_info.album?.albums"
+          class="detail"
+          :music_info_list="all_info.album.albums"
+          :head="route.query.type === 'all' ? '专辑' : ''"
+          layout="list"
+        />
+        <CardContainer
+          v-if="all_info.song?.songs"
+          class="detail"
+          :music_info_list="all_info.song?.songs"
+          :head="route.query.type === 'all' ? '音乐' : ''"
+          layout="compact"
+        />
+        <SonglistCardContainer
+          v-if="all_info.playList?.playLists"
+          class="detail"
+          :music_info_list="all_info.playList.playLists"
+          :head="route.query.type === 'all' ? '歌单' : ''"
+          layout="card"
+        />
+      </div>
+    </template>
+  </ContentViewLayout>
 </template>
 
 <script setup>
@@ -36,18 +61,20 @@ import songService from "@/services/songService.js";
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const music_info_list = ref([]);
 const all_info = ref({});
 const route = useRoute();
 
+const searching = ref(true);
 async function search(kw, type) {
   if (!kw) return;
-
+  searching.value = true;
   console.log("搜索关键词:", kw, type);
   try {
     all_info.value = await songService.searchNetease(kw, 30, 0, type);
-    // console.log("搜索结果:", all_info.value);
+    searching.value = false;
+    console.log("搜索结果:", all_info.value);
   } catch (error) {
     console.error("搜索失败:", error);
     all_info.value = {};
@@ -55,6 +82,7 @@ async function search(kw, type) {
 }
 
 function reSearch(type) {
+  if (router.currentRoute.value.query.type === type) return;
   router.push({
     path: "/search",
     query: {

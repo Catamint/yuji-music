@@ -1,6 +1,8 @@
 <template>
   <div class="grid grid-cols-[1fr_3fr_1fr] ml-2 items-center">
-    <SidebarTrigger class="" />
+    <div class="flex items-center gap-2">
+      <SidebarTrigger class="" />
+    </div>
     <div class="flex w-full items-center justify-center">
       <SearchBox class="max-w-md py-1 flex-1"></SearchBox>
     </div>

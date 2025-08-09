@@ -10,11 +10,16 @@ import SearchPage from "../views/SearchPage.vue"
 // import SignUp from "../views/SignUp.vue"
 import LoginNcm from "@/views/LoginNcm.vue"
 import Album from "@/views/Album.vue"
+import HomeNew from "@/views/home/HomeNew.vue"
 
 const routes = [
     {
         path:"/",
         component: Home
+    },
+        {
+        path:"/home",
+        component: HomeNew 
     },
     {
         path:"/favorite",

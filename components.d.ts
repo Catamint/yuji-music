@@ -35,8 +35,8 @@ declare module 'vue' {
     ComboboxSeparator: typeof import('./src/components/ui/combobox/ComboboxSeparator.vue')['default']
     ComboboxTrigger: typeof import('./src/components/ui/combobox/ComboboxTrigger.vue')['default']
     ComboboxViewport: typeof import('./src/components/ui/combobox/ComboboxViewport.vue')['default']
+    ContentViewLayout: typeof import('./src/components/layout/ContentViewLayout.vue')['default']
     ContextList: typeof import('./src/components/public/ContextList.vue')['default']
-    DetailLayout: typeof import('./src/components/layout/DetailLayout.vue')['default']
     Drawer: typeof import('./src/components/ui/drawer/Drawer.vue')['default']
     DrawerClose: typeof import('./src/components/ui/drawer/DrawerClose.vue')['default']
     DrawerContent: typeof import('./src/components/ui/drawer/DrawerContent.vue')['default']
@@ -145,5 +145,6 @@ declare module 'vue' {
     TooltipContent: typeof import('./src/components/ui/tooltip/TooltipContent.vue')['default']
     TooltipProvider: typeof import('./src/components/ui/tooltip/TooltipProvider.vue')['default']
     TooltipTrigger: typeof import('./src/components/ui/tooltip/TooltipTrigger.vue')['default']
+    UserCard: typeof import('./src/components/public/UserCard.vue')['default']
   }
 }

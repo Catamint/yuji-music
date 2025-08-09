@@ -6,6 +6,8 @@
     class="fixed inset-0 h-dvh -z-10 base-background-image background-filter"
     :style="{
       backgroundImage: `url(${themeStore.currentTheme.backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     }"
   >
     <div
