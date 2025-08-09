@@ -1,0 +1,3 @@
+[submodule "capacitor-music-controls-plugin"]
+	path = capacitor-music-controls-plugin
+	url = https://github.com/Catamint/capacitor-music-controls-plugin.git
