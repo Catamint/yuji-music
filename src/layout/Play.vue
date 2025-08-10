@@ -21,8 +21,8 @@
         </div>
       </div>
       <!-- 更多按钮可以继续添加 -->
-      <div class="flex justify-between items-center">
-        <PlayMode />
+      <div class="flex justify-between items-center gap-2 mb-4">
+        <PlayMode /> <PlaylistToggle />
         <!-- <LikeButton /> -->
       </div>
       <PlayTime />
@@ -46,6 +46,7 @@ import PlaybuttonBatch from "@/components/playercontroller/buttons/PlaybuttonBat
 import PlayTime from "@/components/playercontroller/PlayTime.vue";
 import { useUiStore } from "@/stores/uiStore";
 import LikeButton from "@/components/playercontroller/buttons/LikeButton.vue";
+import PlaylistToggle from "@/components/playercontroller/buttons/PlaylistToggle.vue";
 
 const uiStore = useUiStore();
 const { width } = useWindowSize();

@@ -22,18 +22,18 @@
   <!-- Play 浮层 -->
   <transition
     name="slide"
-    class="font-misans pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
+    class="font-misans z-[100] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
   >
     <div
       v-if="uiStore.isPlayerPageVisible"
-      class="fixed inset-0 h-dvh w-screen z-[1000] flex items-center justify-center pointer-events-none"
-      style=""
+      class="fixed inset-0 h-dvh w-screen flex items-center justify-center pointer-events-none"
     >
       <div class="box backdrop-blur-3xl glass-filter pointer-events-auto h-dvh w-screen">
         <Play />
       </div>
     </div>
   </transition>
+  <PlayListContainer class="fixed z-[5000]" />
 </template>
 
 <script setup>
@@ -47,11 +47,17 @@ import "vue-sonner/style.css";
 import { App as CapApp } from "@capacitor/app";
 import { onBeforeUnmount, onMounted } from "vue";
 import { useMusicStore } from "./stores/musicStore";
+import { useSidebar } from "./components/ui/sidebar";
+import { useMediaQuery } from "@vueuse/core";
+import { useRouter } from "vue-router";
+import PlayListContainer from "./components/playlist/PlayListContainer.vue";
+
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
 const themeStore = useThemeStore();
 const musicStore = useMusicStore();
+const router = useRouter();
 // const storageManager = new StorageManager();
 
 themeStore.initDefaultTheme(); // 设置默认主题
@@ -59,15 +65,24 @@ player2.initAudio();
 
 onMounted(() => {
   CapApp.addListener("backButton", ({ canGoBack }) => {
-    if (uiStore.isPlayerPageVisible) {
+    if (uiStore.isContextListOpen) {
+      // uiStore.toggleContextList(); // 上下文菜单 暂缓
+      return;
+    } else if (uiStore.isPlayListVisible) {
+      uiStore.togglePlayList(false);
+      return;
+    } else if (uiStore.isPlayerPageVisible) {
       uiStore.togglePlayerPage();
       return;
-    }
-    if (window.history.length > 1) {
-      window.history.back();
+    } else if (useMediaQuery("(max-width: 768px)").value && uiStore.isSidebarOpenMobile) {
+      uiStore.toggleSidebar();
+      return;
+    } else if (router.currentRoute.value.name !== "home") {
+      router.back();
+      return;
     } else {
       // 例如显示退出确认对话框，或者直接退出应用
-      CapApp.exitApp();
+      CapApp.minimizeApp();
     }
   });
   musicStore.initLikeList();

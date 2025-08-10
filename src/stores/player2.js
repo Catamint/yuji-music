@@ -5,9 +5,9 @@ import { reactive } from 'vue';
 import { CapacitorMusicControls } from "capacitor-music-controls-plugin";
 
 export const PlayMode = {
-    SEQUENTIAL: 'sequential', // 顺序播放
-    RANDOM: 'random',         // 随机播放
-    REPEAT_ONE: 'repeat-one'  // 单曲循环
+    SEQUENTIAL: '列表循环', // 顺序播放
+    RANDOM: '随机播放',         // 随机播放
+    REPEAT_ONE: '单曲循环'  // 单曲循环
 };
 
 const state = reactive({

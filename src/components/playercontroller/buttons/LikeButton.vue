@@ -10,16 +10,23 @@ const props = defineProps({
   toLike: { type: Boolean, default: true },
 });
 
+const loading = ref(false);
+
 async function like() {
+  loading.value = true;
   try {
+    props.toLike = !props.toLike;
     await songService.likeSong(props.id, props.toLike);
     console.log("收藏结果:", props.toLike);
-    props.toLike = !props.toLike;
+    toast.success("收藏成功");
   } catch (error) {
     console.log(error);
+    props.toLike = !props.toLike;
     toast.error("收藏失败。" + error, {
       richColors: true,
     });
+  } finally {
+    loading.value = false;
   }
 }
 </script>

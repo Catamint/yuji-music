@@ -38,6 +38,7 @@ import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import LikeButton from "../playercontroller/buttons/LikeButton.vue";
 import { ReceiptPlay24Regular, Play24Regular } from "@vicons/fluent";
 import ContextList from "./ContextList.vue";
+
 export default {
   name: "BaseMusicItem",
   props: {

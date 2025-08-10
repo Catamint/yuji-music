@@ -1,19 +1,21 @@
 <script setup>
-import { ref } from "vue";
 import TooltipButton from "@/components/public/TooltipButton.vue";
-import PlayListContainer from "@/components/playlist/PlayListContainer.vue";
 import { TextBulletListLtr24Filled } from "@vicons/fluent";
 import { useUiStore } from "@/stores/uiStore";
+
+const uiStore = useUiStore();
 </script>
 
 <template>
-  <PlayListContainer v-model="useUiStore().isPlayListVisible">
-    <template #trigger>
-      <TooltipButton tooltipText="播放列表" class="">
-        <template #icon>
-          <TextBulletListLtr24Filled />
-        </template>
-      </TooltipButton>
+  <!-- v-model="useUiStore().isPlayListVisible -->
+
+  <TooltipButton
+    @click="uiStore.isPlayListVisible = !uiStore.isPlayListVisible"
+    tooltipText="播放列表"
+    class=""
+  >
+    <template #icon>
+      <TextBulletListLtr24Filled />
     </template>
-  </PlayListContainer>
+  </TooltipButton>
 </template>

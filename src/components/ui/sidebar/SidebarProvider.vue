@@ -15,17 +15,22 @@ import {
 const props = defineProps({
   defaultOpen: { type: Boolean, required: false, default: true },
   open: { type: Boolean, required: false, default: undefined },
+  openMobile: { type: Boolean, required: false, default: undefined }, // mobile version
   class: { type: null, required: false },
 });
 
-const emits = defineEmits(["update:open"]);
+const emits = defineEmits(["update:open", "update:openMobile"]);
 
 const isMobile = useMediaQuery("(max-width: 768px)");
-const openMobile = ref(false);
 
 const open = useVModel(props, "open", emits, {
   defaultValue: props.defaultOpen ?? false,
   passive: props.open === undefined,
+});
+
+const openMobile = useVModel(props, "openMobile", emits, {
+  defaultValue: false,
+  passive: props.openMobile === undefined,
 });
 
 function setOpen(value) {
@@ -41,16 +46,11 @@ function setOpenMobile(value) {
 
 // Helper to toggle the sidebar.
 function toggleSidebar() {
-  return isMobile.value
-    ? setOpenMobile(!openMobile.value)
-    : setOpen(!open.value);
+  return isMobile.value ? setOpenMobile(!openMobile.value) : setOpen(!open.value);
 }
 
 useEventListener("keydown", (event) => {
-  if (
-    event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-    (event.metaKey || event.ctrlKey)
-  ) {
+  if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
     event.preventDefault();
     toggleSidebar();
   }
@@ -82,7 +82,7 @@ provideSidebarContext({
       :class="
         cn(
           'group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full',
-          props.class,
+          props.class
         )
       "
       v-bind="$attrs"

@@ -13,42 +13,6 @@ export const useThemeStore = defineStore('theme', {
                 containerBackgroundColor: 'rgba(255, 255, 255, 0.6)',
                 containerBlur: '10px',
                 iconColor: 'rgba(225, 120, 120, 0.9)',
-                overrides: {
-                    common: {
-                        primaryColor: 'rgba(225, 120, 120, 0.9)',
-                        primaryColorHover: 'rgba(220, 70, 70, 0.64)',
-                        primaryColorPressed: 'rgba(225, 120, 120, 0.9)',
-                        textColor: '#333333',
-                        textColorDisabled: '#BFBFBF',
-                        borderColor: 'rgba(225, 120, 120, 0.9)',
-                        iconColor: 'rgba(225, 120, 120, 0.9)',
-                        iconColorHover: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Button: {
-                        textColor: '#FFFFFF',
-                        color: 'rgba(170, 40, 40, 0.44)',
-                        colorHover: 'rgba(225, 120, 120, 0.9)',
-                        colorPressed: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Menu: {
-                        itemColorActive: 'rgba(255, 77, 79, 0.1)',
-                        textColor: '#333333',
-                        textColorActive: 'rgba(225, 120, 120, 0.9)',
-                        itemTextColorActive: '#rgba(225, 120, 120, 0.9)',
-                        itemTextColorChildActive: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Icon: {
-                        color: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Empty: {
-                        textColor: '#333333',
-                    },
-                    Select: {
-                        peers: {
-                            InternalSelection: {},
-                        },
-                    }
-                },
             },
             dark: {
                 key: 'dark', // 添加 key 属性
@@ -59,44 +23,6 @@ export const useThemeStore = defineStore('theme', {
                 containerBackgroundColor: 'rgba(15, 15, 15, 0.6)',
                 containerBlur: '80px',
                 iconColor: 'rgba(225, 120, 120, 0.9)',
-                overrides: {
-                    common: {
-                        primaryColor: 'rgba(225, 120, 120, 0.9)',
-                        primaryColorHover: 'rgba(225, 120, 120, 0.6)',
-                        primaryColorPressed: 'rgba(225, 120, 120, 0.9)',
-                        textColorBase: '#CCCCCC',
-                        textColor1: '#CCCCCC',
-                        textColor2: '#CCCCCC',
-                        textColorDisabled: '#666666',
-                        borderColor: 'rgba(225, 120, 120, 0.9)',
-                        iconColor: 'rgba(225, 120, 120, 0.3)',
-                        iconColorHover: 'rgba(225, 120, 120, 0.6)',
-                    },
-                    Button: {
-                        textColor: '#FFFFFF',
-                        color: 'rgba(225, 120, 120, 0.3)',
-                        colorHover: 'rgba(225, 120, 120, 0.6)',
-                        colorPressed: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Menu: {
-                        itemColorActive: 'rgba(255, 77, 79, 0.1)',
-                        textColor: '#FFFFFF',
-                        textColorActive: 'rgba(225, 120, 120, 0.9)',
-                        itemTextColorActive: 'rgba(225, 120, 120, 0.9)',
-                        itemTextColorChildActive: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Icon: {
-                        color: 'rgba(225, 120, 120, 0.9)',
-                    },
-                    Empty: {
-                        textColor: '#FFFFFF',
-                    },
-                    Select: {
-                        peers: {
-                            InternalSelection: {},
-                        },
-                    },
-                },
             },
         },
         currentTheme: {}, // 当前主题
