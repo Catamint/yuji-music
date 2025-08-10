@@ -57,6 +57,16 @@ function handleSelect(key) {
           <span class="text">Beta</span>
         </div>
       </div>
+      <UserCard
+        v-if="userStore.loggedIn()"
+        class=""
+        :short="true"
+        :user="{
+          avatarUrl: userStore.user.avatarUrl,
+          nickname: userStore.user.nickname,
+          IP: userStore.user.lastLoginIP,
+        }"
+      />
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>

@@ -15,6 +15,7 @@ import HomeNew from "@/views/home/HomeNew.vue"
 const routes = [
     {
         path:"/",
+        name:"home",
         component: Home
     },
         {
@@ -23,6 +24,7 @@ const routes = [
     },
     {
         path:"/favorite",
+        name:"favorite",
         component: Favorite
     },
     {

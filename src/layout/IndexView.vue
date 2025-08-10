@@ -1,7 +1,10 @@
 <template>
-  <SidebarProvider class="md:grid grid-cols-1 md:grid-cols-[auto_1fr] min-h-dvh w-full">
+  <SidebarProvider
+    v-model:openMobile="uiStore.isSidebarOpenMobile"
+    class="md:grid grid-cols-1 md:grid-cols-[auto_1fr] min-h-dvh max-w-dvw"
+  >
     <AppSidebar />
-    <div class="flex flex-1 flex-col min-w-0">
+    <div class="flex flex-1 flex-col min-w-0 w-full">
       <div
         class="pr-1 border-grid inline-flex items-center sticky top-0 z-50 w-full border-b backdrop-blur-lg glass-filter pt-[env(safe-area-inset-top)] box-border"
       >
@@ -19,10 +22,10 @@
       </div>
 
       <div
-        class="sticky bottom-0 h-15 md:h-15 z-50 w-full border-t backdrop-blur-lg glass-filter flex items-center justify-center"
+        class="sticky bottom-0 h-16 md:h-15 z-50 w-full max-w-dvw border-t backdrop-blur-lg glass-filter flex items-center justify-center"
       >
-        <FooterDesektop class="hidden h-15 md:block pb-[env(safe-area-inset-bottom)]" />
-        <FooterMobile class="md:hidden h-15 pb-[env(safe-area-inset-bottom)]" />
+        <FooterDesektop class="hidden h-16 md:block pb-[env(safe-area-inset-bottom)]" />
+        <FooterMobile class="md:hidden w-full h-16 pb-[env(safe-area-inset-bottom)]" />
       </div>
     </div>
   </SidebarProvider>
@@ -36,6 +39,7 @@ import AppSidebar from "@/layout/AppSidebar.vue";
 import Play from "@/layout/Play.vue";
 import { nextTick } from "vue";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { useUiStore } from "@/stores/uiStore";
 export default {
   name: "IndexView",
   components: {
@@ -50,6 +54,7 @@ export default {
   data() {
     return {
       isRefreshFlag: true,
+      uiStore: useUiStore(),
     };
   },
 };

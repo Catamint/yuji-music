@@ -4,7 +4,9 @@
     @click="uiStore.togglePlayerPage"
   >
     <!-- <PlaySlider class="slider" /> -->
-    <div class="grid grid-cols-[3fr_1fr] items-center px-2 py-1 box-border relative z-10">
+    <div
+      class="grid grid-cols-[3fr_1fr] items-center w-full px-2 py-1 box-border relative z-10"
+    >
       <MusicInfo
         :imgSize="12"
         :animation="false"

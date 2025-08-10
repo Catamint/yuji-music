@@ -19,10 +19,10 @@ import songService from "@/services/songService";
 import { useMusicStore } from "@/stores/musicStore";
 import { toast } from "vue-sonner";
 import router from "@/router";
-import { on } from "events";
+import { useUiStore } from "@/stores/uiStore";
 
 const musicStore = useMusicStore();
-
+const uiStore = useUiStore();
 const props = defineProps({
   musicInfo: { type: Object, required: true },
   id: { type: Number, required: true },
@@ -66,7 +66,13 @@ async function like() {
 </script>
 
 <template>
-  <Drawer>
+  <Drawer
+    @update:open="
+      (event) => {
+        uiStore.isContextListOpen = event;
+      }
+    "
+  >
     <DrawerTrigger>
       <TooltipButton tooltipText="更多操作">
         <template #icon>

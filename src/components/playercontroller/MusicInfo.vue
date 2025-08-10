@@ -1,20 +1,29 @@
 <template>
-  <div>
+  <div class="w-full flex items-center truncate">
+    <!-- 图片容器，固定大小，禁止收缩 -->
     <div
-      class="aspect-square relative overflow-hidden"
+      class="aspect-square relative overflow-hidden shrink-0"
       :class="{ 'w-12': imgSize == 12, 'w-14': imgSize == 14, 'w-16': imgSize == 16 }"
       v-if="playlistNotNull"
     >
       <img class="w-full h-full rounded-md" :src="picurl" alt="" />
     </div>
-    <div class="info-container ml-3 flex flex-1 items-center gap-2">
-      <p class="text-[16px] font-bold truncate" :class="{ 'animate-marquee': animation }">
+
+    <!-- 信息容器，允许收缩 -->
+    <div class="ml-3 flex flex-1 min-w-0 items-center gap-2">
+      <!-- 歌名，flex-1 + min-w-0 保证可收缩 -->
+      <p
+        class="flex-1 min-w-0 text-[16px] font-bold truncate"
+        :class="{ 'animate-marquee': animation }"
+      >
         {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
       </p>
-      <p class="hidden md:block hover:underline info">
-        <span @click.stop="onArtistClick">{{
-          playlistNotNull ? songOnPlay.artist.name : "歌手"
-        }}</span>
+
+      <!-- 歌手，禁止收缩 -->
+      <p class="hidden xl:block hover:underline shrink-0">
+        <span @click.stop="onArtistClick">
+          {{ playlistNotNull ? songOnPlay.artist.name : "歌手" }}
+        </span>
       </p>
     </div>
   </div>

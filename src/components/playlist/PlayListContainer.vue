@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/drawer";
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import PlayList from "@/components/playlist/PlayList.vue";
-
+import { useUiStore } from "@/stores/uiStore";
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -47,14 +47,15 @@ onUnmounted(() => {
 
 <template>
   <Sheet
-    :model-value="modelValue"
-    @update:model-value="(val) => emit('update:modelValue', val)"
+    :open="useUiStore().isPlayListVisible"
+    @update:open="
+      (event) => {
+        useUiStore().isPlayListVisible = event;
+      }
+    "
     v-if="isDesktop"
   >
-    <SheetTrigger>
-      <slot name="trigger" />
-    </SheetTrigger>
-    <SheetContent side="right" class="w-full md:w-[450px] lg:w-[500px]">
+    <SheetContent side="right" class="w-full md:w-[450px] lg:w-[500px] fixed z-[1000]">
       <SheetHeader class="mb-4">
         <SheetTitle>播放列表</SheetTitle>
         <SheetDescription>当前播放的歌曲列表</SheetDescription>
@@ -63,11 +64,16 @@ onUnmounted(() => {
     </SheetContent>
   </Sheet>
 
-  <Drawer v-else>
-    <DrawerTrigger>
-      <slot name="trigger" />
-    </DrawerTrigger>
-    <DrawerContent class="bg-popover">
+  <Drawer
+    @update:open="
+      (event) => {
+        useUiStore().isPlayListVisible = event;
+      }
+    "
+    :open="useUiStore().isPlayListVisible"
+    v-else
+  >
+    <DrawerContent class="bg-popover fixed z-[1000]">
       <DrawerHeader>
         <DrawerTitle>播放列表</DrawerTitle>
         <DrawerDescription>长按可拖动（假的）</DrawerDescription>

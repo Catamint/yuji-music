@@ -2,36 +2,37 @@
 import player2, { PlayMode } from "@/stores/player2";
 import TooltipButton from "@/components/public/TooltipButton.vue";
 import {
-  Pause48Filled,
+  CubeMultiple20Filled,
   ArrowSync24Filled,
-  ArrowRotateCounterclockwise24Filled,
+  ArrowCounterclockwise12Filled,
 } from "@vicons/fluent";
+import { toast } from "vue-sonner";
 
 function getNextMode(currentMode) {
   const modes = [PlayMode.SEQUENTIAL, PlayMode.RANDOM, PlayMode.REPEAT_ONE];
   const idx = modes.indexOf(currentMode);
   return modes[(idx + 1) % modes.length];
 }
-const myicons = {
-  sequential: ArrowSync24Filled,
-  random: ArrowRotateCounterclockwise24Filled,
-  "repeat-one": Pause48Filled,
-};
+
+function setMode(mode) {
+  player2.setMode(mode);
+  toast(`${mode}`);
+}
 </script>
 
 <template>
   <TooltipButton
     class="playbutton"
     style="font-size: 24px"
-    @click="player2.setMode(getNextMode(player2.state.mode))"
+    @click="setMode(getNextMode(player2.state.mode))"
     tooltipText="顺序/随机/单曲循环"
   >
     <template #icon>
       <ArrowSync24Filled v-show="player2.state.mode === PlayMode.SEQUENTIAL" />
-      <ArrowRotateCounterclockwise24Filled
-        v-show="player2.state.mode === PlayMode.RANDOM"
+      <ArrowCounterclockwise12Filled
+        v-show="player2.state.mode === PlayMode.REPEAT_ONE"
       />
-      <Pause48Filled v-show="player2.state.mode === PlayMode.REPEAT_ONE" />
+      <CubeMultiple20Filled v-show="player2.state.mode === PlayMode.RANDOM" />
     </template>
   </TooltipButton>
 </template>

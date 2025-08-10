@@ -63,6 +63,7 @@ import TooltipButton from "@/components/public/TooltipButton.vue"; // 根据你�
 import { useRouter } from "vue-router";
 import player2 from "@/stores/player2.js";
 import { Play20Regular, Heart20Regular, Share20Regular } from "@vicons/fluent";
+import { toast } from "vue-sonner";
 
 const props = defineProps({
   album: {
@@ -74,7 +75,12 @@ const props = defineProps({
 const playAll = async () => {
   console.log("播放全部操作");
   console.log("专辑歌曲列表:", props.album);
-  await player2.playMulti(props.album.songs || []);
+  try {
+    await player2.playMulti(props.album.songs || []);
+  } catch (error) {
+    console.error("播放失败:", error);
+    toast.error("播放失败,请检查网络连接");
+  }
 };
 
 const toggleFavorite = () => {

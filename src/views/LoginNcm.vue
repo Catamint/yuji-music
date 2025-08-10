@@ -86,7 +86,8 @@ export default {
       const res = await this.userStore.loginCookies(cookies);
       if (res) {
         console.log("登录成功" + this.userStore.user);
-        this.$router.push({ path: "/favorite" });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        this.$router.back();
       } else {
         this.toast.error("登录失败", {
           description: "cookies可能错误或过期，请重试o(╥_╥)o",

@@ -1,20 +1,22 @@
 <template>
   <tooltip-provider>
     <tooltip>
-      <tooltip-trigger>
+      <tooltip-trigger
+        class=""
+        :style="`--icon-size: ${iconSize}px; max-width: ${4 + iconSize}px;`"
+      >
         <Button
-          class="max-w-[28px] press-active"
+          class="press-active"
           variant="ghost"
-          :class="class"
+          :style="`max-width: ${4 + iconSize}px;`"
           text
           @click="$emit('click')"
         >
-          <div
-            class="text-shadow-primary-foreground"
-            :style="{ fontSize: `${iconSize}px` }"
+          <span
+            class="icon-wrapper inline-flex items-center justify-center w-[var(--icon-size)] h-[var(--icon-size)]"
           >
             <slot name="icon"></slot>
-          </div>
+          </span>
         </Button>
       </tooltip-trigger>
       <tooltip-content>{{ tooltipText }}</tooltip-content>
@@ -30,15 +32,16 @@ const props = defineProps({
   tooltipText: String, // 提示文字
   class: String, // 可选样式类
   iconSize: {
-    // 图标大小（默认 24）
+    // 图标大小（默认 22）
     type: [Number, String],
-    default: 28,
+    default: 22,
   },
 });
 </script>
 
 <style scoped>
-.n-button {
-  min-width: 24px;
+.icon-wrapper :deep(svg) {
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 </style>

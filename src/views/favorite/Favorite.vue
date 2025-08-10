@@ -12,16 +12,24 @@
         </template>
         <template #content>
           <songlist-card-container
-            v-if="musicinfo_list.length > 0"
+            v-if="musicinfo_list.length > 0 && mounted"
             :music_info_list="musicinfo_list"
             :layout="layout"
           >
           </songlist-card-container>
-          <div class="w-full flex flex-1 justify-center items-center my-16" v-else>
+          <div
+            class="w-full flex flex-1 justify-center items-center my-16"
+            v-else-if="mounted"
+          >
             <div class="flex flex-col gap-2 items-center">
               <Heart28Filled class="text-primary size-12" />
               <span class="text-xl text-secondary-foreground">空空如也</span>
             </div>
+          </div>
+          <div class="w-full flex flex-col flex-1 space-x-4 p-4 gap-4" v-else>
+            <Skeleton class="h-16 w-full rounded-xl" />
+            <Skeleton class="h-16 w-full rounded-xl" />
+            <Skeleton class="h-16 w-full rounded-xl" />
           </div>
         </template>
       </ContentViewLayout>
@@ -48,6 +56,7 @@ export default {
       user: {},
       userStore: useUserStore(),
       layout: "card",
+      mounted: false,
     };
   },
   created() {
@@ -61,6 +70,7 @@ export default {
         this.musicinfo_list = await songService.getUserSonglist(
           this.userStore.user.userId
         );
+        this.mounted = true;
       }
     },
     gotoLogin() {

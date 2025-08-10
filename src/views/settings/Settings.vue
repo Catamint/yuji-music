@@ -96,7 +96,7 @@ const themeStore = useThemeStore();
 // 初始化默认主题
 onMounted(() => {
   if (!themeStore.currentTheme.key) {
-    themeStore.setDefaultTheme();
+    themeStore.initDefaultTheme();
   }
 });
 

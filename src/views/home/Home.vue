@@ -9,7 +9,7 @@
     <NoLoginBox>
       <template #content>
         <UserCard
-          class="search-container m-2 p-2"
+          class="search-container m-2 p-2 min-w-[300px]"
           :user="{
             avatarUrl: userStore.user.avatarUrl,
             nickname: userStore.user.nickname,
@@ -18,20 +18,34 @@
             uid: userStore.user.userId,
           }"
         />
+        <div class="flex">
+          <BaseMusicItem
+            layout="card"
+            mediaType="Album"
+            :musicInfo="{
+              id: 0,
+              name: '每日推荐',
+              artist: '',
+              picUrl: bg2,
+            }"
+            @click="$router.push({ name: 'daily' })"
+            @play="player2.playMulti(DailyRecommend)"
+          ></BaseMusicItem>
+          <BaseMusicItem
+            layout="card"
+            mediaType="Album"
+            :musicInfo="{
+              id: 0,
+              name: '我的收藏',
+              artist: '',
+              picUrl: bg,
+            }"
+            @click="$router.push({ name: 'favorite' })"
+          ></BaseMusicItem>
+        </div>
       </template>
     </NoLoginBox>
-    <BaseMusicItem
-      layout="card"
-      mediaType="Album"
-      :musicInfo="{
-        id: 0,
-        name: '每日推荐',
-        artist: '',
-        picUrl: bg2,
-      }"
-      @click="$router.push({ name: 'daily' })"
-      @play="player2.playMulti(DailyRecommend)"
-    ></BaseMusicItem>
+
     <div
       v-if="0"
       class="flex-1 shadow-2xl shadow-black md:shadow-none dark:shadow-none bg-card backdrop-blur-lg dark:backdrop-blur-none rounded-t-3xl pt-1"
@@ -41,6 +55,7 @@
 
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
+import bg from "@/assets/image/background.png";
 import bg2 from "@/assets/image/background2.jpeg";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import songService from "@/services/songService.js";
@@ -67,6 +82,7 @@ export default {
       userStore: useUserStore(),
       player2,
       bg2,
+      bg,
     };
   },
   methods: {
