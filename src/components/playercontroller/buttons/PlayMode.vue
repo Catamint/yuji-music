@@ -4,7 +4,7 @@ import TooltipButton from "@/components/public/TooltipButton.vue";
 import {
   CubeMultiple20Filled,
   ArrowSync24Filled,
-  ArrowRotateCounterclockwise24Filled,
+  ArrowCounterclockwise12Filled,
 } from "@vicons/fluent";
 import { toast } from "vue-sonner";
 
@@ -29,7 +29,7 @@ function setMode(mode) {
   >
     <template #icon>
       <ArrowSync24Filled v-show="player2.state.mode === PlayMode.SEQUENTIAL" />
-      <ArrowRotateCounterclockwise24Filled
+      <ArrowCounterclockwise12Filled
         v-show="player2.state.mode === PlayMode.REPEAT_ONE"
       />
       <CubeMultiple20Filled v-show="player2.state.mode === PlayMode.RANDOM" />

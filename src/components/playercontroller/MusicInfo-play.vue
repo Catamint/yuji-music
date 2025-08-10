@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="relative h-full cursor-pointer" v-if="playlistNotNull" @click="">
-      <img class="album-image w-3xs aspect-square" :src="picurl" alt="" />
+      <img class="album-image w-3xs aspect-square mb-4" :src="picurl" alt="" />
     </div>
     <div class="info-container">
       <p class="music-name">{{ playlistNotNull ? songOnPlay.name : "正在播放" }}</p>
