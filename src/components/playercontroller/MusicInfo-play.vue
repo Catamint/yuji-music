@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="relative h-full cursor-pointer truncate" v-if="playlistNotNull" @click="">
+    <div
+      class="relative flex justify-center items-center h-full cursor-pointer truncate"
+      v-show="playlistNotNull"
+      @click=""
+    >
       <img class="album-image w-3xs aspect-square mb-4" :src="picurl" alt="" />
     </div>
     <div class="info-container">
