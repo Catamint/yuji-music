@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box bg-accent backdrop-blur-3xl pointer-events-auto h-dvh w-screen transition-all duration-800 delay-600"
+    class="box box-border bg-accent backdrop-blur-3xl pointer-events-auto h-dvh w-screen transition-all duration-800 delay-600"
     :style="{ backgroundImage: `url(${getPic})` }"
   >
     <div
@@ -23,7 +23,7 @@
         class="flex flex-col flex-1 md:w-1/2 p-4 justify-center items-center"
       >
         <div class="flex flex-col h-full justify-center items-center w-full max-w-md">
-          <div><MusicInfo @click="toggleLyrics" class="mb-4" /></div>
+          <div class="w-full"><MusicInfo @click="toggleLyrics" class="mb-4" /></div>
           <PlaySlider class="mb-4" />
 
           <!-- 控制按钮区 -->
@@ -32,7 +32,7 @@
           </div>
         </div>
         <!-- 更多按钮可以继续添加 -->
-        <div class="flex justify-between items-center gap-2 mb-4">
+        <div class="flex justify-between items-center gap-4 mb-4">
           <PlayMode /> <PlaylistToggle />
           <LikeButton :id="musicInfo.id" />
         </div>

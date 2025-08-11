@@ -22,11 +22,11 @@
   <!-- Play 浮层 -->
   <transition
     name="slide"
-    class="font-misans z-[100] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
+    class="fixed font-misans box-border h-dvh z-[100] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
   >
     <div
       v-if="uiStore.isPlayerPageVisible"
-      class="fixed inset-0 h-dvh w-screen flex items-center justify-center pointer-events-none"
+      class="fixed box-border inset-0 h-dvh w-screen flex items-center justify-center pointer-events-none"
     >
       <Play />
     </div>
