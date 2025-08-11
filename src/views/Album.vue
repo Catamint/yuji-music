@@ -1,5 +1,5 @@
 <template>
-  <ContentViewLayout>
+  <ContentViewLayout :loading="loading">
     <template #header>
       <!-- <h1>专辑详情</h1> -->
       <album-header :album="album" />
@@ -31,6 +31,7 @@ export default {
     return {
       album: [],
       music_info_list: [],
+      loading: true,
     };
   },
   props: {
@@ -54,6 +55,7 @@ export default {
   async created() {
     await this.getAlbum();
     this.getMusic();
+    this.loading = false;
   },
 };
 </script>

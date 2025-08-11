@@ -4,11 +4,7 @@
       <div class="flex flex-col justify-center mx-2">
         <h1 class="text-4xl font-bold">每日推荐</h1>
         <p class="">欲买桂花同载酒AAA徒步协会钟老板</p>
-        <TooltipButton tooltipText="播放全部" @click="playAll">
-          <template #icon>
-            <Play20Regular />
-          </template>
-        </TooltipButton>
+        <Button @click="playAll"> <Play20Regular />播放全部 </Button>
       </div>
     </template>
     <template #content>

@@ -9,7 +9,7 @@
         @click="uiStore.togglePlayerPage"
       />
       <PlaybuttonBatch class="flex flex-1 items-center justify-center" />
-      <div class="flex flex-1 justify-end items-center">
+      <div class="flex flex-1 justify-end items-center gap-1 pr-1">
         <PlayTime class="mr-2 text-xs" />
         <PlayModeButton />
         <PlaylistToggle />

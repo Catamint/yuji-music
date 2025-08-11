@@ -28,9 +28,7 @@
       v-if="uiStore.isPlayerPageVisible"
       class="fixed inset-0 h-dvh w-screen flex items-center justify-center pointer-events-none"
     >
-      <div class="box backdrop-blur-3xl glass-filter pointer-events-auto h-dvh w-screen">
-        <Play />
-      </div>
+      <Play />
     </div>
   </transition>
   <PlayListContainer class="fixed z-[5000]" />
@@ -51,11 +49,16 @@ import { useSidebar } from "./components/ui/sidebar";
 import { useMediaQuery } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import PlayListContainer from "./components/playlist/PlayListContainer.vue";
-
+import { useColorMode } from "@vueuse/core";
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
 const themeStore = useThemeStore();
+// 设置颜色模式
+const mode = useColorMode();
+function setColorMode() {
+  mode.value = "dark";
+}
 const musicStore = useMusicStore();
 const router = useRouter();
 // const storageManager = new StorageManager();

@@ -43,16 +43,7 @@
 
       <!-- 操作统计 -->
       <div class="album-stats">
-        <TooltipButton icon="Play20Regular" tooltipText="播放全部" @click="playAll">
-          <template #icon>
-            <Play20Regular />
-          </template>
-        </TooltipButton>
-        <TooltipButton icon="Heart20Regular" tooltipText="收藏">
-          <template #icon>
-            <Heart20Regular />
-          </template>
-        </TooltipButton>
+        <Button @click="playAll"> <Play20Regular />播放全部 </Button>
       </div>
     </div>
   </div>
