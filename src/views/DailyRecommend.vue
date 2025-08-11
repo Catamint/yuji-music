@@ -1,14 +1,13 @@
 <template>
   <ContentViewLayout>
     <template #header>
-      <div class="flex flex-col justify-center mx-2">
+      <div class="flex flex-col justify-center mx-2 gap-2">
         <h1 class="text-4xl font-bold">每日推荐</h1>
         <p class="">欲买桂花同载酒AAA徒步协会钟老板</p>
-        <TooltipButton tooltipText="播放全部" @click="playAll">
-          <template #icon>
-            <Play20Regular />
-          </template>
-        </TooltipButton>
+        <div class="flex mb-4 gap-2">
+          <Button @click="playAll"> <Play20Regular /> 播放全部 </Button>
+          <Button @click="fresh"> <ArrowSync24Filled /> 刷新 </Button>
+        </div>
       </div>
     </template>
     <template #content>
@@ -24,8 +23,9 @@ import { useUserStore } from "@/stores/userStore";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import CardContainer from "@/components/public/CardContainer.vue";
 import TooltipButton from "@/components/public/TooltipButton.vue";
-import { Play20Regular } from "@vicons/fluent";
+import { Play20Regular, ArrowSync24Filled } from "@vicons/fluent";
 import player2 from "@/stores/player2.js";
+import { toast } from "vue-sonner";
 
 const musicStore = useMusicStore();
 const userStore = useUserStore();
@@ -54,6 +54,15 @@ function playAll() {
   } catch (error) {
     console.error("播放失败:", error);
     toast.error("播放失败,请检查网络连接");
+  }
+}
+async function fresh() {
+  try {
+    DailyRecommend.value = await musicStore.freshDailyRecommend();
+    toast.success("刷新成功");
+  } catch (error) {
+    console.error("刷新失败:", error);
+    toast.error("刷新失败,请检查网络连接");
   }
 }
 onMounted(async () => {

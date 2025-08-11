@@ -1,5 +1,5 @@
 <template>
-  <ContentViewLayout>
+  <ContentViewLayout :loading="loading">
     <template #header>
       <!-- <h1>专辑详情</h1> -->
       <img
@@ -12,11 +12,7 @@
           {{ details?.name }}
         </h1>
         <div class="album-meta">{{ songList?.total }}<span> 首音乐</span></div>
-        <TooltipButton icon="Play20Regular" tooltipText="播放全部" @click="playAll">
-          <template #icon>
-            <Play20Regular />
-          </template>
-        </TooltipButton>
+        <Button @click="playAll(songList)"> <Play20Regular />播放全部 </Button>
       </div>
     </template>
 
@@ -47,6 +43,7 @@ export default {
     return {
       details: {},
       songList: {},
+      loading: true,
     };
   },
   props: {
@@ -60,9 +57,10 @@ export default {
     console.log("获取到的歌单详情:", this.details);
     this.songList = await songService.getSonglistContent(this.id);
     console.log("获取到的歌单信息:", this.songList);
+    this.loading = false;
   },
   methods: {
-    playAll: async () => {
+    playAll: async (songList) => {
       console.log("播放全部操作");
       console.log("专辑歌曲列表:", songList);
       await player2.playMulti(songList.songs || []);

@@ -38,7 +38,7 @@ export const useMusicStore = defineStore('music', {
       this.likeList = likeList;
     },
     async getDailyRecommend() {
-      const todayStartTs = new Date().setHours(0, 0, 0, 0); // number
+      const todayStartTs = new Date().setHours(6, 0, 0, 0); // number
       if ((this.dailyRecommend.updateTime ?? 0) < todayStartTs) {
         const res = await songService.getDailyRecommendedSongs();
         this.dailyRecommend.updateTime = todayStartTs;
@@ -52,7 +52,12 @@ export const useMusicStore = defineStore('music', {
         );
         return this.dailyRecommend.songs;
       }
-    }
+    },
+    async freshDailyRecommend() {
+      this.dailyRecommend.songs = await songService.getDailyRecommendedSongs();
+      this.dailyRecommend.updateTime = new Date().setHours(6, 0, 0, 0);
+      return this.dailyRecommend.songs;
+    },
   },
       persist: {
         enabled: true,

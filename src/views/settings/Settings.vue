@@ -37,7 +37,6 @@
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>模糊度 (px)</SelectLabel>
                 <SelectItem value="0px"> 0px </SelectItem>
                 <SelectItem value="10px"> 10px </SelectItem>
                 <SelectItem value="50px"> 50px </SelectItem>

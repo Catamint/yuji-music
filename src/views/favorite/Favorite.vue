@@ -1,7 +1,7 @@
 <template>
   <no-login-box>
     <template #content>
-      <ContentViewLayout>
+      <ContentViewLayout :loading="!mounted">
         <template #header>
           <div class="flex flex-col justify-center mx-2 mb-2">
             <h1 class="text-4xl font-bold">{{ userStore?.user?.nickname + "的收藏" }}</h1>
