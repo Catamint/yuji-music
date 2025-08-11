@@ -16,7 +16,7 @@
 
   <div v-else class="flex flex-1 flex-col min-h-full w-full">
     <!-- 顶部信息 -->
-    <div class="flex w-full mt-8 mb-2">
+    <div class="flex w-full mt-8 mb-2 p-2">
       <slot name="header" />
     </div>
 
