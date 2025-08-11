@@ -6,7 +6,7 @@ const props = defineProps({
   theme: { type: String, required: false },
   position: { type: String, required: false, default: "top-right" },
   hotkey: { type: Array, required: false },
-  richColors: { type: Boolean, required: false },
+  richColors: { type: Boolean, default: true, required: false },
   expand: { type: Boolean, required: false },
   duration: { type: Number, required: false },
   gap: { type: Number, required: false },
