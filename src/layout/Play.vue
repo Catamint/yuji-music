@@ -22,6 +22,9 @@
         v-if="!isMobile || !showLyrics"
         class="flex flex-col flex-1 md:w-1/2 p-4 justify-center items-center"
       >
+        <div v-if="showHint" class="lyrics-hint text-muted-foreground">
+          点击专辑封面查看歌词
+        </div>
         <div class="flex flex-col h-full justify-center items-center w-full max-w-md">
           <div class="w-full"><MusicInfo @click="toggleLyrics" class="mb-4" /></div>
           <PlaySlider class="mb-4" />
@@ -33,8 +36,7 @@
         </div>
         <!-- 更多按钮可以继续添加 -->
         <div class="flex justify-between items-center gap-4 mb-4">
-          <PlayMode /> <PlaylistToggle />
-          <LikeButton :id="musicInfo.id" />
+          <LikeButton :id="musicInfo.id" /><PlayMode /> <PlaylistToggle />
         </div>
         <PlayTime />
       </div>
@@ -78,7 +80,6 @@
           <Toggle v-model="settings.showTlrc">翻译</Toggle>
           <Toggle v-model="settings.showRlrc">注音</Toggle>
         </div>
-        <PlaybuttonBatch class="flex flex-1 items-center justify-center gap-4" />
         <Button class="m-4" variant="outline" @click="toggleLyrics">返回</Button>
       </div>
     </div>
@@ -201,6 +202,14 @@ watch(
   }
 );
 
+const showHint = ref(true);
+
+onMounted(() => {
+  setTimeout(() => {
+    showHint.value = false;
+  }, 5000); // 5 秒后隐藏
+});
+
 onMounted(() => {
   document.body.style.overflow = "hidden";
 });
@@ -226,5 +235,16 @@ onBeforeUnmount(() => {
   mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
   mask-repeat: no-repeat;
   mask-size: 100% 100%;
+}
+
+.lyrics-hint {
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  pointer-events: none;
+  /* animation: floatHint 1.5s ease-in-out infinite alternate; */
+  opacity: 0.8;
+  transition: all 0.3s ease-in-out;
 }
 </style>
