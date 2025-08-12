@@ -3,7 +3,7 @@
     <template #header>
       <!-- <h1>专辑详情</h1> -->
       <img
-        class="ratio-1-1 ml-2 mr-4 h-40 rounded-xl"
+        class="ratio-1-1 mr-4 h-40 rounded-xl"
         :src="details?.coverImgUrl + '?param=300y300' || null"
         alt="艺术家封面"
       />

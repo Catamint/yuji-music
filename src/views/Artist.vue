@@ -1,9 +1,13 @@
 <template>
   <ContentViewLayout>
     <template #header>
-      <img class="album-cover" :src="artistBrief?.picUrl || null" alt="艺术家封面" />
-      <div class="album-info">
-        <h1 class="album-name">
+      <img
+        class="ratio-1-1 mr-4 h-40 rounded-xl"
+        :src="artistBrief?.picUrl || null"
+        alt="艺术家封面"
+      />
+      <div class="h-full flex flex-col gap-2">
+        <h1 class="text-4xl font-bold mb-2">
           {{ artistBrief?.name }}
         </h1>
         <div class="album-meta">{{ artistBrief?.musicSize }}<span> 首音乐</span></div>
@@ -52,62 +56,3 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.album-header {
-  display: flex;
-  gap: 20px;
-  padding: 24px;
-  /* background: linear-gradient(to right, #f9f9f9, #ffffff); */
-  border-radius: 12px;
-}
-
-.album-cover {
-  width: 180px;
-  height: 180px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.album-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.album-name {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.translated-name {
-  font-size: 16px;
-  /* color: #999; */
-  margin-left: 8px;
-}
-
-.album-meta {
-  font-size: 14px;
-  /* color: #555; */
-}
-
-.artist-name {
-  /* color: #42b983; */
-  text-decoration: none;
-}
-
-.album-desc {
-  font-size: 14px;
-  /* color: #666; */
-  line-height: 1.4;
-  margin-top: 8px;
-}
-
-.album-stats {
-  margin-top: 12px;
-  display: flex;
-  gap: 12px;
-}
-</style>

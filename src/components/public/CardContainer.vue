@@ -57,7 +57,8 @@ export default {
     // 播放歌曲
     async onPlay(details) {
       try {
-        await player2.play(details);
+        await player2.playMulti(this.music_info_list);
+        player2.play_in_playlist(details.id);
         // console.log('Playing:', details);
       } catch (error) {
         console.error("Error playing song:", error.message);

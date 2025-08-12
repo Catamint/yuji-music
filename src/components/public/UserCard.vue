@@ -1,6 +1,6 @@
 <template>
   <div
-    class="backdrop-blur-lg bg-card rounded-xl shadow p-4 flex items-center space-x-4 dark:backdrop-blur-none"
+    class="backdrop-blur-lg bg-card backdrop-saturate-150 dark:backdrop-saturate-100 rounded-xl shadow p-4 flex items-center space-x-4 dark:backdrop-blur-none"
   >
     <!-- 头像 -->
     <div class="flex-shrink-0">

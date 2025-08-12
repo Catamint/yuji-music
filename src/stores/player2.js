@@ -321,7 +321,7 @@ async function play(music_details) {
  * 播放歌曲列表
  * @param {Array} songlist
  */
-async function playMulti(songlist) {
+async function playMulti(songlist, index = 0) {
     if (!Array.isArray(songlist) || songlist.length === 0) {
         console.log(songlist);
         console.error('歌曲列表不正确');
@@ -334,7 +334,7 @@ async function playMulti(songlist) {
         url: track.url || '' // 确保每首歌都有 url 属性
     }));
 
-    state.currentIndex = 0;
+    state.currentIndex = index;
     playIndex();
 }
 

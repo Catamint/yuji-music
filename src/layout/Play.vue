@@ -4,7 +4,7 @@
     :style="{ backgroundImage: `url(${getPic})` }"
   >
     <div
-      class="flex flex-col xl:p-30 md:flex-row pt-4 h-full w-full backdrop-blur-2xl glass-filter"
+      class="flex flex-col xl:p-30 md:flex-row pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] h-full w-full backdrop-blur-2xl glass-filter"
     >
       <div class="flex flex-col items-start p-4">
         <button @click="uiStore.togglePlayerPage">

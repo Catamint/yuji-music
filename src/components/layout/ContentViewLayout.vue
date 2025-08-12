@@ -16,7 +16,7 @@
 
   <div v-else class="flex flex-1 flex-col min-h-full w-full">
     <!-- 顶部信息 -->
-    <div class="flex w-full mt-8 mb-2 p-2">
+    <div class="flex w-full mt-8 mb-2 p-2 box-border">
       <slot name="header" />
     </div>
 
@@ -27,7 +27,7 @@
 
     <!-- 主体内容 -->
     <div
-      class="content w-full flex-1 shadow-2xl min-h-full shadow-black md:shadow-none dark:shadow-none rounded-t-3xl bg-card backdrop-blur-lg dark:backdrop-blur-none"
+      class="content w-full flex-1 shadow-2xl min-h-full shadow-black md:shadow-none dark:shadow-none rounded-t-3xl backdrop-saturate-150 dark:backdrop-saturate-100 bg-card backdrop-blur-lg dark:backdrop-blur-none"
     >
       <slot name="content" />
     </div>
