@@ -139,6 +139,7 @@ declare module 'vue' {
     TabsContent: typeof import('./src/components/ui/tabs/TabsContent.vue')['default']
     TabsList: typeof import('./src/components/ui/tabs/TabsList.vue')['default']
     TabsTrigger: typeof import('./src/components/ui/tabs/TabsTrigger.vue')['default']
+    Toggle: typeof import('./src/components/ui/toggle/Toggle.vue')['default']
     Tooltip: typeof import('./src/components/ui/tooltip/Tooltip.vue')['default']
     TooltipButton: typeof import('./src/components/public/TooltipButton.vue')['default']
     TooltipContent: typeof import('./src/components/ui/tooltip/TooltipContent.vue')['default']

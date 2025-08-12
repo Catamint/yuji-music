@@ -42,7 +42,7 @@
       <!-- 歌词区域（桌面端显示，移动端通过切换显示） -->
       <div
         v-if="!isMobile || showLyrics"
-        class="md:w-1/2 px-4 py-30 h-full flex justify-center items-center overflow-hidden relative"
+        class="lyric-wrapper my-20 md:my-0 md:w-1/2 px-4 h-full flex justify-center items-center overflow-hidden relative"
       >
         <!-- 歌词组件可在这里插入 -->
         <!-- <div class="text-center flex text-gray-400 justify-center"> -->
@@ -50,18 +50,37 @@
           :lyrics="lyrics"
           :currentTime="playerTime"
           :isPlaying="isPlaying"
-          :showFields="{ lrc: true, tlrc: true, rlrc: false }"
+          :showFields="{ lrc: true, tlrc: settings.showTlrc, rlrc: settings.showRlrc }"
           @seek="onSeek"
         />
         <!-- </div> -->
+        <!-- <div class="px-20" v-if="!isMobile">
+          <Toggle
+            @click="settings.showTlrc = !settings.showTlrc"
+            class="m-4"
+            variant="outline"
+            >翻译</Toggle
+          >
+          <Toggle
+            @click="settings.showRlrc = !settings.showRlrc"
+            class="m-4"
+            variant="outline"
+            >注音</Toggle
+          >
+        </div> -->
       </div>
-      <Button
-        class="m-4"
-        variant="outline"
+
+      <div
         v-if="isMobile && showLyrics"
-        @click="toggleLyrics"
-        >返回</Button
+        class="flex flex-col justify-between items-stretch mb-2"
       >
+        <div class="flex w-full justify-end">
+          <Toggle v-model="settings.showTlrc">翻译</Toggle>
+          <Toggle v-model="settings.showRlrc">注音</Toggle>
+        </div>
+        <PlaybuttonBatch class="flex flex-1 items-center justify-center gap-4" />
+        <Button class="m-4" variant="outline" @click="toggleLyrics">返回</Button>
+      </div>
     </div>
   </div>
 </template>
@@ -81,10 +100,16 @@ import PlaylistToggle from "@/components/playercontroller/buttons/PlaylistToggle
 import { ChevronLeft12Filled } from "@vicons/fluent";
 import { onMounted, onBeforeUnmount } from "@vue/runtime-core";
 import songService from "@/services/songService";
+import { Toggle } from "@/components/ui/toggle";
 
 // 模拟播放器状态
 const isPlaying = computed(() => player2.state.isPlaying);
 const playerTime = computed(() => player2.state.currentTime);
+
+const settings = ref({
+  showTlrc: true,
+  showRlrc: false,
+});
 
 function onSeek(time) {
   console.log("跳转到:", time);
@@ -184,3 +209,22 @@ onBeforeUnmount(() => {
   document.body.style.overflow = "auto";
 });
 </script>
+
+<style scoped>
+.lyric-wrapper {
+  /* 渐变遮罩 */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+</style>
