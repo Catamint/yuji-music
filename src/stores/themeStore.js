@@ -11,7 +11,7 @@ export const useThemeStore = defineStore('theme', {
                 backgroundImage: bg,
                 backgroundSaturation: 1.6,
                 containerBackgroundColor: 'rgba(255, 255, 255, 0.6)',
-                containerBlur: '10px',
+                containerBlur: '0px',
                 iconColor: 'rgba(225, 120, 120, 0.9)',
             },
             dark: {
@@ -21,7 +21,7 @@ export const useThemeStore = defineStore('theme', {
                 backgroundImage: bg,
                 backgroundSaturation: 2,
                 containerBackgroundColor: 'rgba(15, 15, 15, 0.6)',
-                containerBlur: '80px',
+                containerBlur: '0px',
                 iconColor: 'rgba(225, 120, 120, 0.9)',
             },
         },
@@ -132,7 +132,7 @@ export const useThemeStore = defineStore('theme', {
         
         // 重置为默认主题
         resetTheme() {
-            this.setTheme('light');
+            this.setTheme('dark');
         },
         
         // 删除自定义主题

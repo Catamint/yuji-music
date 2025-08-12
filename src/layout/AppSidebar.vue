@@ -50,12 +50,13 @@ function handleSelect(key) {
 <template>
   <Sidebar class="backdrop-blur-3xl glass-filter">
     <SidebarHeader>
-      <div class="flex m-2 items-center space-x-2">
+      <div class="flex flex-col m-2 items-start space-x-2">
         <!-- <img src="@/assets/logo.png" alt="Logo" class="h-8 w-8" /> -->
         <div class="flex items-end space-x-2">
           <span class="text-2xl font-semibold">Music!</span>
           <span class="text">Beta</span>
         </div>
+        <div class="text-sm text-gray-500 flex-1">雨 霁 音 乐</div>
       </div>
       <UserCard
         v-if="userStore.loggedIn()"
@@ -70,7 +71,7 @@ function handleSelect(key) {
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupLabel>一些随便放的功能</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">

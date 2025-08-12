@@ -23,7 +23,7 @@
           @click="player2.del_from_list(music_info.id)"
           class="p-2 rounded-full back-hover press-active transition-colors"
         >
-          <TextBulletListAdd24Filled class="w-5 h-5" />
+          <SubtractCircle20Regular class="w-5 h-5" />
         </button>
 
         <!-- <ContextList :music-info="music_info" :id="music_info.id" /> -->
@@ -34,7 +34,7 @@
 
 <script>
 import player2 from "@/stores/player2";
-import { Heart28Regular, Play24Regular, TextBulletListAdd24Filled } from "@vicons/fluent";
+import { Heart28Regular, Play24Regular, SubtractCircle20Regular } from "@vicons/fluent";
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 
 export default {
@@ -57,7 +57,7 @@ export default {
   },
   components: {
     Heart28Regular,
-    TextBulletListAdd24Filled,
+    SubtractCircle20Regular,
     Play24Regular,
     BaseCard,
   },

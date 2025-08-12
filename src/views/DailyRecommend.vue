@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex flex-col justify-center mx-2 gap-2">
         <h1 class="text-4xl font-bold">每日推荐</h1>
-        <p class="">欲买桂花同载酒AAA徒步协会钟老板</p>
+        <p class="">云 销 雨 霁， 彩 彻 区 明</p>
         <div class="flex mb-4 gap-2">
           <Button @click="playAll"> <Play20Regular /> 播放全部 </Button>
           <Button @click="fresh"> <ArrowSync24Filled /> 刷新 </Button>

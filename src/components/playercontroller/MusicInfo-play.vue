@@ -1,10 +1,16 @@
 <template>
   <div>
-    <div class="relative h-full cursor-pointer" v-if="playlistNotNull" @click="">
+    <div
+      class="relative flex justify-center items-center h-full cursor-pointer truncate"
+      v-show="playlistNotNull"
+      @click=""
+    >
       <img class="album-image w-3xs aspect-square mb-4" :src="picurl" alt="" />
     </div>
     <div class="info-container">
-      <p class="music-name">{{ playlistNotNull ? songOnPlay.name : "正在播放" }}</p>
+      <p class="music-name truncate">
+        {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
+      </p>
       <p class="info">
         <span @click="onArtistClick">{{
           playlistNotNull ? songOnPlay.artist.name : "歌手"
