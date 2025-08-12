@@ -12,19 +12,19 @@
     </div>
 
     <!-- 用户信息 -->
-    <div class="flex-1 min-w-0">
+    <div class="flex-1 min-w-0 gap-2">
       <div class="flex items-center space-x-2">
         <h2 class="text-lg font-semibold truncate">{{ user.nickname }}</h2>
         <span v-if="!short" class="text-xs text-gray-500">UID: {{ user.uid }}</span>
       </div>
-      <p class="text-sm text-gray-500 truncate">
-        {{ user.signature || "什么都没写~" }}
+      <p v-if="!short" class="text-sm text-gray-500 truncate overflow-ellipsis">
+        {{ user.signature || "悄悄地路过, 什么都没写~" }}
       </p>
-      <div class="mt-1">
-        <span class="px-2 py-0.5 text-xs bg-blue-100 text-blue-600 rounded-full">
-          IP: {{ user.IP }}
-        </span>
-      </div>
+      <p
+        class="px-2 py-0.5 text-xs bg-blue-100 text-blue-600 rounded-full truncate overflow-ellipsis max-w-fit"
+      >
+        IP: {{ user.IP }}
+      </p>
     </div>
   </div>
 </template>

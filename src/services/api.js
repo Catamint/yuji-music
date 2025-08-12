@@ -130,6 +130,11 @@ const api = {
     return await request('/recommend/songs?' + params);
   },
 
+  async getSongLyric(id) {
+    const params = new URLSearchParams({ id });
+    return await request(`/lyric/new?${params}`);
+  },
+  
   // 以下是新增的 gdstudio 接口
   async gdstudioSearch(name, source = 'netease', count = 20, pages = 1) {
     const params = new URLSearchParams({ types: 'search', source, name, count, pages });
@@ -147,7 +152,7 @@ const api = {
   },
 
   async gdstudioGetLyric(source = 'netease', id) {
-    const params = new URLSearchParams({ types: 'lyric', source, id });
+    const params = new URLSearchParams({ types: 'lyric/new', source, id });
     return await request(`?${params}`, {}, 'gdstudio');
   },
 };

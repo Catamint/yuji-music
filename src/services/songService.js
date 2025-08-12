@@ -346,7 +346,8 @@ export default {
      */
     async getSongLyric(id, source = 'netease') {
         try {
-            const response = await api.gdstudioGetLyric(source, id);
+            // const response = await api.gdstudioGetLyric(source, id);
+            const response = await api.getSongLyric(id);
             return response;
         } catch (error) {
             console.error('Error fetching song lyric:', error.message);

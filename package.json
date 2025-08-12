@@ -27,7 +27,6 @@
     "core-js": "^3.44.0",
     "lucide-react": "^0.532.0",
     "lucide-vue-next": "^0.532.0",
-    "lyric-vue3": "^1.1.2",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.4.1",
     "querystring": "^0.2.1",
