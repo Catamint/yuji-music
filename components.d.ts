@@ -73,6 +73,8 @@ declare module 'vue' {
     PlayListItem: typeof import('./src/components/playlist/PlayListItem.vue')['default']
     PlaylistToggle: typeof import('./src/components/playercontroller/buttons/PlaylistToggle.vue')['default']
     PlayMode: typeof import('./src/components/playercontroller/buttons/PlayMode.vue')['default']
+    PlayNext: typeof import('./src/components/playercontroller/buttons/PlayNext.vue')['default']
+    PlayPrev: typeof import('./src/components/playercontroller/buttons/PlayPrev.vue')['default']
     PlaySlider: typeof import('./src/components/playercontroller/PlaySlider.vue')['default']
     PlayTime: typeof import('./src/components/playercontroller/PlayTime.vue')['default']
     PlayToggle: typeof import('./src/components/playercontroller/buttons/PlayToggle.vue')['default']
