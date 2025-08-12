@@ -7,22 +7,26 @@
       class="lyric-container absolute transition-all duration-300"
       @scroll.passive="onScroll"
     >
-      <div class="h-[25dvh]"></div>
+      <!-- <div class="h-[25dvh]"></div> -->
       <div
         v-for="(line, index) in lyrics"
         :key="index"
-        class="lyric-line transition-all duration-300 ease-in-out"
+        class="lyric-line transition-all duration-300 ease-in-out active:scale-120 active:font-bold"
         :class="{ active: index === activeIndex }"
         @click="onClickLine(line)"
       >
         <!-- 原文 -->
-        <div v-if="showFields.lrc" class="lrc">{{ line.lrc }}</div>
+        <div v-if="showFields.lrc" class="lrc text-lg">{{ line.lrc }}</div>
         <!-- 翻译 -->
-        <div v-if="showFields.tlrc" class="tlrc">{{ line.tlrc }}</div>
+        <div v-if="showFields.tlrc" class="tlrc text-secondary-foreground">
+          {{ line.tlrc }}
+        </div>
         <!-- 注音 -->
-        <div v-if="showFields.rlrc" class="rlrc">{{ line.rlrc }}</div>
+        <div v-if="showFields.rlrc" class="rlrc text-muted-foreground">
+          {{ line.rlrc }}
+        </div>
       </div>
-      <div class="h-[25dvh]"></div>
+      <!-- <div class="h-[25dvh]"></div> -->
     </div>
   </transition>
 </template>
@@ -159,22 +163,8 @@ function onClickLine(line) {
 
 .lyric-line.active .lrc {
   color: #ff4081;
-  transform: scale(1.05);
+  transform: scale(1.1);
   font-weight: bold;
   font-size: 1.1em;
-}
-
-.lrc {
-  color: #fff;
-}
-
-.tlrc {
-  font-size: 0.85em;
-  color: #ccc;
-}
-
-.rlrc {
-  font-size: 0.8em;
-  color: #aaa;
 }
 </style>
