@@ -1,12 +1,14 @@
 // src/stores/request.js
 
 import axios from 'axios';
-
-const baseUrls = {
-  // default: '/api', // 默认接口
-  default: 'https://netease-cloud-music-api-backup-ashy.vercel.app', // 默认接口
-  gdstudio: 'https://music-api.gdstudio.xyz/api.php', // 新增的 gdstudio 接口
-};
+import { useMusicStore } from '@/stores/musicStore';
+function getBaseUrl() {
+  const musicStore = useMusicStore();
+  return {
+    default: musicStore.defaultApi,
+    gdstudio: 'https://music-api.gdstudio.xyz/api.php',
+  };
+}
 
 const instance = axios.create({
   headers: {
@@ -20,6 +22,7 @@ const instance = axios.create({
 
 async function request(url, options = {}, apiType = 'default') {
   try {
+    const baseUrls = getBaseUrl();
     const baseUrl = baseUrls[apiType] || baseUrls.default; // 根据 apiType 选择 baseUrl
     const fullUrl = baseUrl + url;
 

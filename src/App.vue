@@ -42,7 +42,6 @@ import "vue-sonner/style.css";
 import { App as CapApp } from "@capacitor/app";
 import { onBeforeUnmount, onMounted } from "vue";
 import { useMusicStore } from "./stores/musicStore";
-import { useSidebar } from "./components/ui/sidebar";
 import { useMediaQuery } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import PlayListContainer from "./components/playlist/PlayListContainer.vue";

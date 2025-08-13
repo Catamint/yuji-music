@@ -26,47 +26,39 @@
           <SubtractCircle20Regular class="w-5 h-5" />
         </button>
 
-        <!-- <ContextList :music-info="music_info" :id="music_info.id" /> -->
+        <ContextList :music-info="music_info" :id="music_info.id" />
       </div>
     </template>
   </base-card>
 </template>
 
-<script>
+<script setup>
 import player2 from "@/stores/player2";
 import { Heart28Regular, Play24Regular, SubtractCircle20Regular } from "@vicons/fluent";
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
+import { computed, onMounted } from "vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import ContextList from "@/components/public/ContextList.vue";
 
-export default {
-  name: "PlayListItem",
-  methods: {
-    goToArtist() {
-      this.$router.push({ name: "artist", params: { id: this.music_info.artist.id } });
+const router = useRouter();
+
+function goToArtist() {
+  router.push({ name: "artist", params: { id: props.music_info.artist.id } });
+}
+
+function goToAlbum() {
+  router.push({ name: "album", params: { id: props.music_info.album.id } });
+}
+
+const props = defineProps({
+  music_info: {
+    type: Object,
+    default: function () {
+      return {};
     },
-    goToAlbum() {
-      this.$router.push({ name: "album", params: { id: this.music_info.album.id } });
-    },
   },
-  props: {
-    music_info: {
-      type: Object,
-      default: function () {
-        return {};
-      },
-    },
-  },
-  components: {
-    Heart28Regular,
-    SubtractCircle20Regular,
-    Play24Regular,
-    BaseCard,
-  },
-  data() {
-    return {
-      player2,
-    };
-  },
-};
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -12,7 +12,7 @@ import {
 import { MoreVertical20Filled } from "@vicons/fluent";
 import TooltipButton from "./TooltipButton.vue";
 import { Heart28Regular, Heart28Filled } from "@vicons/fluent";
-import BaseCardLayout from "@/components/layout/BaseCardLayout.vue";
+import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import { computed, onMounted } from "vue";
 import { ref } from "vue";
 import songService from "@/services/songService";
@@ -80,10 +80,10 @@ async function like() {
         </template>
       </TooltipButton>
     </DrawerTrigger>
-    <DrawerContent class="bg-popover">
+    <DrawerContent class="bg-popover z-8000">
       <DrawerHeader>
         <DrawerTitle></DrawerTitle>
-        <BaseCardLayout
+        <BaseCard
           :image="img"
           :title="props.musicInfo?.name"
           :subtitle="props.musicInfo?.artist?.name"

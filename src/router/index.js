@@ -3,7 +3,6 @@ import Home from "../views/home/Home.vue"
 import Favorite from "../views/favorite/Favorite.vue"
 // import Mv from "../views/mv/Mv.vue"
 import Settings from "../views/settings/Settings.vue"
-import PlayList from "../components/playlist/PlayList.vue"
 import Play from "../layout/Play.vue"
 import SearchPage from "../views/SearchPage.vue"
 // import Login from "../views/Login.vue"
@@ -11,6 +10,7 @@ import SearchPage from "../views/SearchPage.vue"
 import LoginNcm from "@/views/LoginNcm.vue"
 import Album from "@/views/Album.vue"
 import HomeNew from "@/views/home/HomeNew.vue"
+// import PlayList from "@/components/playlist/PlayList.vue"
 
 const routes = [
     {
@@ -34,10 +34,6 @@ const routes = [
     {
         path:"/searchpage",
         component: SearchPage
-    },
-    {
-        path:"/playlist",
-        component: PlayList
     },
     {
         path:"/play",

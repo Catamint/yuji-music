@@ -1,6 +1,6 @@
 <template>
   <base-card
-    :image="picurl"
+    :image="picUrl"
     :title="musicInfo?.name"
     :subtitle="musicInfo?.artist?.name"
     :description="musicInfo?.album?.name || musicInfo?.publishDate"
@@ -31,90 +31,83 @@
   </base-card>
 </template>
 
-<script>
+<script setup>
 import TooltipButton from "./TooltipButton.vue";
 import songService from "@/services/songService"; // Make sure this path is correct and songService exports getPicUrl
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
-import LikeButton from "../playercontroller/buttons/LikeButton.vue";
+// import LikeButton from "../playercontroller/buttons/LikeButton.vue";
 import { ReceiptPlay24Regular, Play24Regular } from "@vicons/fluent";
 import ContextList from "./ContextList.vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-export default {
-  name: "BaseMusicItem",
-  props: {
-    musicInfo: {
-      type: Object,
-      required: true,
-      validator(value) {
-        // 验证必须包含基本信息
-        return value && value.id && value.name;
-      },
-    },
-    layout: {
-      type: String,
-      default: "card", // 支持 'card', 'list', 'compact'
-      validator(value) {
-        return ["card", "list", "compact"].includes(value);
-      },
-    },
-    index: {
-      // type: String || Number,
-      default: "",
-    },
-    mediaType: {
-      type: String,
-      default: "music",
+const router = useRouter();
+
+const props = defineProps({
+  musicInfo: {
+    type: Object,
+    required: true,
+    // validator(value) {
+    //   // 验证必须包含基本信息
+    //   return value && value.id && value.name;
+    // },
+  },
+  layout: {
+    type: String,
+    default: "card", // 支持 'card', 'list', 'compact'
+    validator(value) {
+      return ["card", "list", "compact"].includes(value);
     },
   },
-  data() {
-    return {
-      picurl: "",
-    };
+  index: {
+    // type: String || Number,
+    default: "",
   },
-  async created() {
-    await this.getPicUrl(this.musicInfo);
+  mediaType: {
+    type: String,
+    default: "music",
   },
-  methods: {
-    async getPicUrl(musicInfo) {
-      if (this.layout == "card" || this.layout == "list")
-        this.picurl = await songService.getPicUrl(musicInfo);
+});
+
+const picUrl = ref("");
+getPicUrl(props.musicInfo);
+
+async function getPicUrl(musicInfo) {
+  if (props.layout == "card" || props.layout == "list")
+    picUrl.value = await songService.getPicUrl(musicInfo);
+}
+
+const emit = defineEmits(["click", "play", "artist-click", "add-to-play-next"]);
+function onClick() {
+  if (props.mediaType === "music") emit("play", props.musicInfo);
+  else emit("click", props.musicInfo);
+}
+
+function playAlbum() {
+  this.emit("play", props.musicInfo);
+}
+
+function addToPlayNext() {
+  console.log("addToPlayNext");
+  this.emit("add-to-play-next", props.musicInfo);
+}
+
+function onSubTitleClick() {
+  this.emit("artist-click", props.musicInfo.artist);
+  router.push({
+    name: "artist",
+    params: {
+      id: props.musicInfo?.artist?.id,
     },
-    onClick() {
-      if (this.mediaType === "music") this.$emit("play", this.musicInfo);
-      else this.$emit("click", this.musicInfo);
+  });
+}
+
+function onDescriptionClick() {
+  router.push({
+    name: "album",
+    params: {
+      id: props.musicInfo?.album?.id,
     },
-    playAlbum() {
-      this.$emit("play", this.musicInfo);
-    },
-    addToPlayNext() {
-      console.log("addToPlayNext");
-      this.$emit("add-to-play-next", this.musicInfo);
-    },
-    onSubTitleClick() {
-      this.$emit("artist-click", this.musicInfo.artist);
-      this.$router.push({
-        name: "artist",
-        params: {
-          id: this.musicInfo?.artist?.id,
-        },
-      });
-    },
-    onDescriptionClick() {
-      this.$router.push({
-        name: "album",
-        params: {
-          id: this.musicInfo?.album?.id,
-        },
-      });
-    },
-  },
-  components: {
-    Play24Regular,
-    BaseCard,
-    TooltipButton,
-    LikeButton,
-    ReceiptPlay24Regular,
-    ContextList,
-  },
-};
+  });
+}
 </script>
