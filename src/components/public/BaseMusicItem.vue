@@ -13,7 +13,7 @@
   >
     <template v-if="mediaType === 'music'" #actions>
       <!-- <like-button :id="musicInfo.id" /> -->
-      <tooltip-button tooltipText="下一首播放" class="next" @click="addToPlayNext">
+      <tooltip-button tooltipText="下一首播放" class="next" @click.stop="addToPlayNext">
         <template #icon>
           <ReceiptPlay24Regular />
         </template>
@@ -21,7 +21,7 @@
       <ContextList :music-info="musicInfo" :id="musicInfo.id" />
     </template>
     <template v-else #actions>
-      <tooltip-button tooltipText="播放全部" class="play" @click="playAlbum">
+      <tooltip-button tooltipText="播放全部" class="play" @click.stop="playAlbum">
         <template #icon>
           <Play24Regular />
         </template>
@@ -84,16 +84,16 @@ function onClick() {
 }
 
 function playAlbum() {
-  this.emit("play", props.musicInfo);
+  emit("play", props.musicInfo);
 }
 
 function addToPlayNext() {
   console.log("addToPlayNext");
-  this.emit("add-to-play-next", props.musicInfo);
+  emit("add-to-play-next", props.musicInfo);
 }
 
 function onSubTitleClick() {
-  this.emit("artist-click", props.musicInfo.artist);
+  emit("artist-click", props.musicInfo.artist);
   router.push({
     name: "artist",
     params: {

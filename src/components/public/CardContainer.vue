@@ -22,7 +22,7 @@
         :musicInfo="info"
         :layout="layout"
         :index="index + 1"
-        @play="onPlay"
+        @play="onPlay(info, index)"
         @add-to-favorites="onAddToFavorites"
         @remove-from-favorites="onRemoveFromFavorites"
         @put-in-playlist="put_in_playlist"
@@ -55,10 +55,9 @@ export default {
   },
   methods: {
     // 播放歌曲
-    async onPlay(details) {
+    async onPlay(details, index) {
       try {
-        await player2.playMulti(this.music_info_list);
-        player2.play_in_playlist(details.id);
+        await player2.playMulti(this.music_info_list, index);
         // console.log('Playing:', details);
       } catch (error) {
         console.error("Error playing song:", error.message);

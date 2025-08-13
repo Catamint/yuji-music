@@ -3,6 +3,7 @@ import songService from "@/services/songService";
 import { computed } from "vue";
 import { reactive } from 'vue';
 import { CapacitorMusicControls } from "capacitor-music-controls-plugin";
+import { toast } from "vue-sonner";
 
 export const PlayMode = {
     SEQUENTIAL: '列表循环', // 顺序播放
@@ -218,11 +219,7 @@ async function updateMusicControls() {
                 hasNext: true,
                 hasClose: true,
                 ticker: `正在播放: "${track.name}"`,
-                album: track.album?.name || '', // optional, default: ''
-                // hasSkipForward: true, // default: false. true value overrides hasNext.
-                // hasSkipBackward: true, // default: false. true value overrides hasPrev.
-                // skipForwardInterval: 15, // default: 15.
-                // skipBackwardInterval: 15, // default: 15.
+                album: track.album?.name || '', 
                 hasScrubbing: false, // default: false. Enable scrubbing from control center progress bar
                 playIcon: "media_play",
                 pauseIcon: "media_pause",
@@ -251,10 +248,6 @@ async function updateMusicControls() {
                 hasClose: true,
                 ticker: `正在播放: "${track.name}"`,
                 album: track.album?.name || '', // optional, default: ''
-                // hasSkipForward: true, // default: false. true value overrides hasNext.
-                // hasSkipBackward: true, // default: false. true value overrides hasPrev.
-                // skipForwardInterval: 15, // default: 15.
-                // skipBackwardInterval: 15, // default: 15.
                 hasScrubbing: false, // default: false. Enable scrubbing from control center progress bar
                 playIcon: "media_play",
                 pauseIcon: "media_pause",
@@ -279,12 +272,20 @@ async function playIndex(index = state.currentIndex) {
     state.currentIndex = index;
 
     const track = state.playlist[state.currentIndex];
-    if (!track.url) {
+    if (!track.url || track.url === '') {
         // 懒加载 URL
-        track.url = await songService.getSongUrl(track.id);
+        for (let i = 0; i < 3; i++) {
+            track.url = await songService.getSongUrl(track.id);
+            if (track.url) break;
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            toast.error('无法获取歌曲链接,重试' + (i + 1) + '次');
+        }
     }
     if (!track.url) {
         console.error('无法获取歌曲链接');
+        if (state.currentIndex > 1) {
+            next();
+        }
         return;
     }
 

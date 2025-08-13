@@ -23,8 +23,13 @@
     v-if="layout === 'list'"
     class="flex w-full h-20 my-2 items-center gap-4 p-2 rounded-lg back-hover transition"
   >
-    <img :src="image" alt="cover" class="w-20 h-20 object-cover rounded-xl shrink-0" />
-    <div class="flex-1 min-w-0 overflow-hidden">
+    <img
+      :src="image"
+      alt="cover"
+      class="w-20 h-20 object-cover rounded-xl shrink-0"
+      @click.stop="onTitleClick"
+    />
+    <div class="flex-1 min-w-0 overflow-hidden" @click.stop="onTitleClick">
       <div
         class="text-base font-medium truncate cursor-pointer hover:underline"
         @click.stop="onTitleClick"
@@ -32,13 +37,13 @@
         {{ title }}
       </div>
       <div
-        class="text-sm text-gray-500 truncate cursor-pointer hover:underline"
+        class="text-sm text-gray-500 truncate cursor-pointer hover:underline pointer-events-none md:pointer-events-auto"
         @click.stop="onSubtitleClick"
       >
         {{ subtitle }}
       </div>
       <div
-        class="text-xs text-gray-400 truncate cursor-pointer"
+        class="text-xs text-gray-400 truncate cursor-pointer pointer-events-none md:pointer-events-auto"
         @click.stop="onDescriptionClick"
       >
         {{ description }}
@@ -58,7 +63,10 @@
       {{ index }}
     </div>
     <!-- 内容主体 -->
-    <div class="flex flex-col flex-1 md:flex-row md:items-center gap-1 md:gap-4 min-w-0">
+    <div
+      class="flex flex-col flex-1 md:flex-row md:items-center gap-1 md:gap-4 min-w-0"
+      @click.stop="onTitleClick"
+    >
       <!-- 标题 -->
       <div
         class="font-semibold flex-1 truncate md:text-lg md:w-2/5 md:flex-1 cursor-pointer hover:underline"
@@ -72,13 +80,13 @@
         class="flex flex-inline max-w-3xs md:max-w-xl md:flex-col gap-2 md:gap-0 md:flex-1 truncate text-xs md:text-sm min-w-0 pointer-events-none md:pointer-events-auto"
       >
         <div
-          class="truncate text-neutral-400 cursor-pointer hover:underline"
+          class="truncate text-neutral-400 cursor-pointer hover:underline pointer-events-none md:pointer-events-auto"
           @click.stop="onSubtitleClick"
         >
           {{ subtitle }}
         </div>
         <div
-          class="truncate max-w-32 md:max-w-xl text-neutral-500 cursor-pointer hover:underline"
+          class="truncate max-w-32 md:max-w-xl text-neutral-500 cursor-pointer hover:underline pointer-events-none md:pointer-events-auto"
           @click.stop="onDescriptionClick"
         >
           {{ description }}
