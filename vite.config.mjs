@@ -10,6 +10,7 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 // import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import tailwindcss from '@tailwindcss/vite'
 import { visualizer } from 'rollup-plugin-visualizer';
+// import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -49,6 +50,7 @@ export default defineConfig({
     tailwindcss(),
     viteCommonjs(),
     envCompatible(),
+    // basicSsl(),
     createHtmlPlugin({
       inject: {
         data: {

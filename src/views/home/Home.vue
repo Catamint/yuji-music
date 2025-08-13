@@ -38,7 +38,7 @@
               id: 0,
               name: '我的收藏',
               artist: '',
-              picUrl: bg,
+              picUrl: cover,
             }"
             @click="$router.push({ name: 'favorite' })"
           ></BaseMusicItem>
@@ -56,16 +56,13 @@
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
 import bg from "@/assets/image/background.png";
-import bg2 from "@/assets/image/background2.jpeg";
-import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
+import bg2 from "@/assets/image/bg2.jpeg";
+import cover from "@/assets/image/cover.png";
 import songService from "@/services/songService.js";
 import SearchBox from "@/components/public/SearchBox.vue";
 import { useUserStore } from "@/stores/userStore";
-import router from "@/router";
 import player2 from "@/stores/player2";
 import { useMusicStore } from "@/stores/musicStore";
-// import CardContainerCol from "@/components/public/CardContainerCol.vue";
-// import HotSongs from "./HotSongs.vue"
 
 export default {
   name: "Home",
@@ -83,6 +80,7 @@ export default {
       player2,
       bg2,
       bg,
+      cover,
     };
   },
   methods: {

@@ -5,6 +5,18 @@
     </template>
     <template #content>
       <div class="flex flex-col p-4 gap-4 w-full">
+        <!-- API设置 -->
+        <div class="flex items-center justify-between w-full gap-2">
+          <span>API</span>
+          <Input
+            class="w-full"
+            v-model="musicStore.defaultApi"
+            placeholder="请输入API"
+            @update:modelValue="handleApiChange"
+          />
+          <Button @click="musicStore.resetApi">恢复默认</Button>
+        </div>
+
         <!-- 背景开关 -->
         <div class="flex items-center justify-between w-full gap-2">
           <span>背景</span>
@@ -89,9 +101,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { useMusicStore } from "@/stores/musicStore";
 const themeStore = useThemeStore();
-
+const musicStore = useMusicStore();
 // 初始化默认主题
 onMounted(() => {
   if (!themeStore.currentTheme.key) {

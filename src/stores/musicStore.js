@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import api from '@/services/api';
 import { useUserStore } from './userStore';
 import songService from '@/services/songService';
+
 export const useMusicStore = defineStore('music', {
   state: () => ({
     likeList: [],
@@ -13,12 +14,16 @@ export const useMusicStore = defineStore('music', {
       songs: [],
       updateTime: 0,
     },
+    defaultApi: 'https://ncm-api-enhanced.vercel.app',
   }),
   actions: {
     addToLikeList(id) {
       if (!this.likeList.includes(id)) {
         this.likeList.push(id);
         }
+    },
+    resetApi() {
+      this.defaultApi = 'https://ncm-api-enhanced.vercel.app';
     },
     removeFromLikeList(id) {
       this.likeList = this.likeList.filter(item => item !== id);

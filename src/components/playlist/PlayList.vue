@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="player.state.playlist.length == 0"
+      v-if="player2.state.playlist.length == 0"
       class="w-full h-[300px] flex justify-center items-center"
     >
       <div class="flex flex-col h-full gap-2 items-center justify-center">
@@ -14,7 +14,7 @@
       <ScrollArea class="h-[60vh]">
         <PlayListItem
           class="item"
-          v-for="info in player.state.playlist"
+          v-for="info in player2.state.playlist"
           :music_info="info"
           :key="info.id"
         />
@@ -23,30 +23,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import PlayListItem from "@/components/playlist/PlayListItem.vue";
 import player2 from "../../stores/player2";
 import { TextBulletListSquare24Filled } from "@vicons/fluent";
 import ScrollArea from "../ui/scroll-area/ScrollArea.vue";
-export default {
-  name: "PlayList",
-  components: {
-    PlayListItem,
-    TextBulletListSquare24Filled,
-    ScrollArea,
-  },
-  data() {
-    return {
-      player: player2,
-    };
-  },
-  mounted() {
-    console.log(this.player.state);
-  },
-  methods: {
-    // play()
-  },
-};
+import { onMounted } from "vue";
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

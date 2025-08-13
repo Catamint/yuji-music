@@ -34,7 +34,6 @@ async function like() {
     });
   } catch (error) {
     console.log(error);
-    toLike.value = !toLike.value;
     toast.error("收藏失败。" + error, {
       richColors: true,
     });
