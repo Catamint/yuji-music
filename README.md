@@ -2,9 +2,9 @@
 
 ## 简介
 
-基于 Vue 3 + Vite 构建的跨平台音乐播放器，支持网页端与 Android 客户端。
+<div align="center"><img src="https://private-user-images.githubusercontent.com/93304173/477992418-6509f757-1891-4071-9fed-3adf4d6bae63.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTUxNzE5MTQsIm5iZiI6MTc1NTE3MTYxNCwicGF0aCI6Ii85MzMwNDE3My80Nzc5OTI0MTgtNjUwOWY3NTctMTg5MS00MDcxLTlmZWQtM2FkZjRkNmJhZTYzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA4MTQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwODE0VDExNDAxNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTY4OWY1ZTk2YzRkZGE5NTEzODA4YTFkYjZjM2U0MGFhZGYwZDA3NWQzYTgxOGViODQwODk2MGI0MmIxOTJjNjcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.dhC2sbEnY7w6LT2ehJI77eHm10EDoz9G_HhUL8e-y-8" style="max-width: 480px"  /></div>
 
-<!-- ![screenshoot](docs/screenshoots/screenshoot-2.png) -->
+基于 Vue 3 + Vite 构建的跨平台音乐播放器，支持网页端与 Android 客户端。
 
 ## 🔣 功能特性
 
