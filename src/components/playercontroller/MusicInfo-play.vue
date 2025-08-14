@@ -25,6 +25,7 @@ import player2 from "@/stores/player2";
 import { ChevronDoubleUp16Filled } from "@vicons/fluent";
 import songService from "@/services/songService.js";
 import { useUiStore } from "@/stores/uiStore";
+import defaultPic from "@/assets/image/default_cover.jpg";
 
 export default {
   name: "FooterLayout",
@@ -37,7 +38,7 @@ export default {
   data() {
     return {
       player: player2.state,
-      picurl: "",
+      picurl: defaultPic,
       uiStore: useUiStore(),
     };
   },

@@ -39,6 +39,7 @@ import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import { ReceiptPlay24Regular, Play24Regular } from "@vicons/fluent";
 import ContextList from "./ContextList.vue";
 import { ref } from "vue";
+import defaultImage from "@/assets/image/default_cover.jpg";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -69,7 +70,7 @@ const props = defineProps({
   },
 });
 
-const picUrl = ref("");
+const picUrl = ref(defaultImage);
 getPicUrl(props.musicInfo);
 
 async function getPicUrl(musicInfo) {

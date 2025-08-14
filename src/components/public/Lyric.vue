@@ -7,7 +7,7 @@
       class="lyric-container absolute transition-all duration-300"
       @scroll.passive="onScroll"
     >
-      <div class="h-[25dvh]"></div>
+      <div class="h-[50dvh]"></div>
       <div
         v-for="(line, index) in lyrics"
         :key="index"
@@ -27,7 +27,7 @@
           {{ line.rlrc }}
         </div>
       </div>
-      <div class="h-[25dvh]"></div>
+      <div class="h-[50dvh]"></div>
     </div>
   </transition>
 </template>

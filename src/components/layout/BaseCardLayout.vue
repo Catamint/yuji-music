@@ -102,11 +102,15 @@
 </template>
 
 <script>
+import defaultImage from "@/assets/image/default_cover.jpg";
 export default {
   name: "BaseCard",
   inheritAttrs: false,
   props: {
-    image: String,
+    image: {
+      type: String,
+      default: defaultImage,
+    },
     title: String,
     subtitle: String,
     description: String,

@@ -4,14 +4,15 @@
     :style="{ backgroundImage: `url(${getPic})` }"
   >
     <div
-      class="flex flex-col p-4 md:py-30 xl:px-30 md:flex-row pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] h-full w-full backdrop-blur-2xl glass-filter"
+      class="flex flex-col py-4 md:p-20 lg:p-28 xl:p-40 md:flex-row pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] h-full w-full backdrop-blur-2xl glass-filter"
     >
-      <div class="flex flex-col items-start p-4">
+      <div
+        class="fixed top-4 left-4 pt-[env(safe-area-inset-top)] lg:top-16 lg:left-16 xl:top-24 xl:left-28 flex flex-col p-2"
+      >
         <button @click="uiStore.togglePlayerPage">
-          <ChevronLeft12Filled class="w-8 h-8" />
+          <ChevronLeft12Filled class="w-8 h-8 text-muted-foreground" />
         </button>
       </div>
-
       <!-- 移动端切换按钮 -->
       <!-- <button v-if="isMobile" class="rounded-full shadow-md" @click="toggleLyrics">
       {{ showLyrics ? "返回" : "歌词" }}
@@ -25,7 +26,9 @@
         <div v-if="showHint && isMobile" class="lyrics-hint text-muted-foreground">
           点击专辑封面查看歌词
         </div>
-        <div class="flex flex-col h-full justify-center items-center w-full max-w-md">
+        <div
+          class="flex flex-col h-full w-full px-8 justify-center items-center max-w-md"
+        >
           <div class="w-full"><MusicInfo @click="toggleLyrics" class="mb-4" /></div>
           <PlaySlider class="mb-4" />
 
@@ -46,7 +49,7 @@
       <!-- 歌词区域（桌面端显示，移动端通过切换显示） -->
       <div
         v-if="!isMobile || showLyrics"
-        class="lyric-wrapper my-20 md:my-0 md:w-1/2 px-4 h-full flex justify-center items-center overflow-hidden relative"
+        class="lyric-wrapper mt-20 md:my-0 md:w-1/2 px-4 h-full flex justify-center items-center overflow-hidden"
       >
         <!-- 歌词组件可在这里插入 -->
         <!-- <div class="text-center flex text-gray-400 justify-center"> -->
@@ -57,26 +60,17 @@
           :showFields="{ lrc: true, tlrc: settings.showTlrc, rlrc: settings.showRlrc }"
           @seek="onSeek"
         />
-        <!-- </div> -->
-        <!-- <div class="px-20" v-if="!isMobile">
-          <Toggle
-            @click="settings.showTlrc = !settings.showTlrc"
-            class="m-4"
-            variant="outline"
-            >翻译</Toggle
-          >
-          <Toggle
-            @click="settings.showRlrc = !settings.showRlrc"
-            class="m-4"
-            variant="outline"
-            >注音</Toggle
-          >
-        </div> -->
       </div>
-
+      <div
+        v-if="!isMobile"
+        class="fixed gap-1 right-10 xl:right-30 bottom-10 xl:bottom-30 flex items-center justify-center"
+      >
+        <Toggle v-model="settings.showTlrc">翻译</Toggle>
+        <Toggle v-model="settings.showRlrc">注音</Toggle>
+      </div>
       <div
         v-if="isMobile && showLyrics"
-        class="flex flex-col justify-between items-stretch mb-2"
+        class="flex flex-col justify-between items-stretch m-2"
       >
         <div class="flex w-full justify-end">
           <Toggle v-model="settings.showTlrc">翻译</Toggle>
