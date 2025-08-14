@@ -1,3 +1,6 @@
 [submodule "capacitor-music-controls-plugin"]
 	path = capacitor-music-controls-plugin
 	url = https://github.com/Catamint/capacitor-music-controls-plugin.git
+[submodule "my-cookie-manager"]
+	path = my-cookie-manager
+	url = https://github.com/Catamint/my-cookie-manager
