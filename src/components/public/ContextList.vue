@@ -10,7 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { MoreVertical20Filled } from "@vicons/fluent";
-import TooltipButton from "./TooltipButton.vue";
+import TooltipButton from "../layout/TooltipButton.vue";
 import { Heart28Regular, Heart28Filled } from "@vicons/fluent";
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import { computed, onMounted } from "vue";

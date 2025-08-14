@@ -1,5 +1,5 @@
 <script setup>
-import TooltipButton from "@/components/public/TooltipButton.vue";
+import TooltipButton from "@/components/layout/TooltipButton.vue";
 import songService from "@/services/songService";
 import { computed, ref } from "vue";
 import { toast } from "vue-sonner";

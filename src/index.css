@@ -159,5 +159,5 @@
 }
 
 .press-active {
-  @apply duration-150 ease-in-out transform active:scale-95;
+  @apply duration-150 active:bg-ring ease-in-out transform active:scale-98;
 }

@@ -18,11 +18,6 @@ const items = [
     icon: Inbox,
   },
   {
-    title: "播放列表",
-    url: "#/playlist",
-    icon: Calendar,
-  },
-  {
     title: "搜索",
     url: "#",
     icon: Search,

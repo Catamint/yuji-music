@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import TooltipButton from "@/components/public/TooltipButton.vue"; // 根据你的路径调整
+import TooltipButton from "@/components/layout/TooltipButton.vue"; // 根据你的路径调整
 import { useRouter } from "vue-router";
 import player2 from "@/stores/player2.js";
 import { Play20Regular, Heart20Regular, Share20Regular } from "@vicons/fluent";

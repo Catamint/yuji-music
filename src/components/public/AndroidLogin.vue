@@ -8,18 +8,6 @@ import { Button } from "../ui/button";
 const emit = defineEmits(["loginCookies"]);
 
 async function getCookie() {
-  // try {
-  //   const result = await CookieManager.getCookies({
-  //     url: "https://y.music.163.com",
-  //   });
-  //   console.log("Got cookies from native:", result);
-  //   cookies.value = result.cookies;
-  //   isLoggedIn.value = true;
-  // } catch (err) {
-  //   console.error("Get cookies failed:", err);
-  //   cookies.value = "获取失败";
-  // }
-
   try {
     const result = await CookieManager.getCookies({
       url: "https://y.music.163.com",

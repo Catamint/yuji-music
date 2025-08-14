@@ -1,20 +1,14 @@
 <template>
   <tooltip-provider>
     <tooltip>
-      <tooltip-trigger
-        class=""
-        :style="`--icon-size: ${iconSize}px; max-width: ${4 + iconSize}px;`"
-      >
+      <tooltip-trigger :style="`--icon-size: ${iconSize}px;`">
         <Button
-          class="press-active"
+          class="press-active aspect-square w-fit h-fit p-2"
           variant="ghost"
-          :style="`max-width: ${4 + iconSize}px;`"
           text
           @click="$emit('click')"
         >
-          <span
-            class="icon-wrapper inline-flex items-center justify-center w-[var(--icon-size)] h-[var(--icon-size)]"
-          >
+          <span class="icon-wrapper inline-flex items-center justify-center">
             <slot name="icon"></slot>
           </span>
         </Button>
@@ -25,9 +19,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-// import { Tooltip } from "../ui/tooltip";
-
 const props = defineProps({
   tooltipText: String, // 提示文字
   class: String, // 可选样式类

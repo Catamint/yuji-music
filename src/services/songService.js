@@ -308,7 +308,8 @@ export default {
             };
         } catch (err) {
             console.error('getPlaylistDetail error:', err);
-            return null;
+            // 抛出错误
+            throw err;
         }
     },
 
