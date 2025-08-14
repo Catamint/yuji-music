@@ -10,10 +10,13 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 // import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import tailwindcss from '@tailwindcss/vite'
 import { visualizer } from 'rollup-plugin-visualizer';
+import { VitePWA } from 'vite-plugin-pwa';
+import fs from 'fs'
 // import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/yuji-music/',
   publicDir: 'public',
   resolve: {
     alias: [
@@ -41,6 +44,38 @@ export default defineConfig({
     ]
   },
   plugins: [
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        cleanupOutdatedCaches: true,
+        globPatterns: ['**/*.{js,css,html,png,svg,ico}']
+      },
+      // devOptions: {
+      //   enabled: true // 方便开发调试
+      // },
+      manifest: {
+        name: '雨霁音乐',
+        short_name: '雨霁音乐',
+        description: '就一个听歌的应用',
+        theme_color: '#f6889f',
+        start_url: '/',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/yuji-music/icon/icon-192.png',
+            // src: '/icon/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/yuji-music/icon/icon-512.png',
+            // src: '/icon/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
     vue(),
     // visualizer({ open: true, brotliSize: true, filename: "report.html" }),
     Components({
@@ -57,7 +92,13 @@ export default defineConfig({
           title: 'music-2'
         }
       }
-    })
+    }),
+    {
+      name: 'copy-404',
+      closeBundle() {
+        fs.copyFileSync('dist/index.html', 'dist/404.html')
+      }
+    }
   ],
   server: {
     strictPort: false,
