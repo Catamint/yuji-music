@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/yuji-music/sw.js', { scope: '/yuji-music/' })})}
