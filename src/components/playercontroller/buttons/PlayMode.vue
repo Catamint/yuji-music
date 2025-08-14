@@ -1,6 +1,6 @@
 <script setup>
 import player2, { PlayMode } from "@/stores/player2";
-import TooltipButton from "@/components/public/TooltipButton.vue";
+import TooltipButton from "@/components/layout/TooltipButton.vue";
 import {
   CubeMultiple20Filled,
   ArrowSync24Filled,

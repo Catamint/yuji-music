@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import TooltipButton from "./TooltipButton.vue";
+import TooltipButton from "../layout/TooltipButton.vue";
 import songService from "@/services/songService"; // Make sure this path is correct and songService exports getPicUrl
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 // import LikeButton from "../playercontroller/buttons/LikeButton.vue";

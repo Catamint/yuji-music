@@ -22,7 +22,7 @@ import { useMusicStore } from "@/stores/musicStore";
 import { useUserStore } from "@/stores/userStore";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import CardContainer from "@/components/public/CardContainer.vue";
-import TooltipButton from "@/components/public/TooltipButton.vue";
+import TooltipButton from "@/components/layout/TooltipButton.vue";
 import { Play20Regular, ArrowSync24Filled } from "@vicons/fluent";
 import player2 from "@/stores/player2.js";
 import { toast } from "vue-sonner";

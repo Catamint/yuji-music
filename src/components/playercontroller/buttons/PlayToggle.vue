@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import player2 from "@/stores/player2";
-import TooltipButton from "@/components/public/TooltipButton.vue";
+import TooltipButton from "@/components/layout/TooltipButton.vue";
 import { Play32Filled, Pause48Filled } from "@vicons/fluent";
 </script>
 

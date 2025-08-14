@@ -97,12 +97,6 @@ onBeforeUnmount(() => {
 @import "@/index.css";
 
 .base-background-image {
-  /* top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  z-index: -1; */
   background-size: cover; /* 背景图片覆盖容器 */
   background-repeat: no-repeat; /* 防止背景重复 */
   background-position: center; /* 背景居中显示 */
@@ -113,7 +107,6 @@ onBeforeUnmount(() => {
 }
 
 .box {
-  /* backdrop-filter: blur(20px); */
   height: 100%;
   width: 100%;
   border-radius: 10px;

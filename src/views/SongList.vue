@@ -1,5 +1,5 @@
 <template>
-  <ContentViewLayout :loading="loading">
+  <ContentViewLayout :loading="loading" :onError="onError">
     <template #header>
       <!-- <h1>专辑详情</h1> -->
       <img
@@ -32,6 +32,7 @@ import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import songService from "@/services/songService.js";
 import player2 from "@/stores/player2.js";
 import { Play20Regular } from "@vicons/fluent";
+import { toast } from "vue-sonner";
 
 export default {
   name: "songList",
@@ -44,6 +45,7 @@ export default {
       details: {},
       songList: {},
       loading: true,
+      onError: false,
     };
   },
   props: {
@@ -53,11 +55,17 @@ export default {
     },
   },
   async created() {
-    this.details = await songService.getPlaylistDetail(this.id);
-    console.log("获取到的歌单详情:", this.details);
-    this.songList = await songService.getSonglistContent(this.id);
-    console.log("获取到的歌单信息:", this.songList);
-    this.loading = false;
+    try {
+      this.details = await songService.getPlaylistDetail(this.id);
+      console.log("获取到的歌单详情:", this.details);
+      this.songList = await songService.getSonglistContent(this.id);
+      console.log("获取到的歌单信息:", this.songList);
+    } catch (error) {
+      console.error("Error fetching songlist:", error);
+      this.onError = true;
+    } finally {
+      this.loading = false;
+    }
   },
   methods: {
     playAll: async (songList) => {

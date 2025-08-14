@@ -141,7 +141,7 @@ declare module 'vue' {
     TabsTrigger: typeof import('./src/components/ui/tabs/TabsTrigger.vue')['default']
     Toggle: typeof import('./src/components/ui/toggle/Toggle.vue')['default']
     Tooltip: typeof import('./src/components/ui/tooltip/Tooltip.vue')['default']
-    TooltipButton: typeof import('./src/components/public/TooltipButton.vue')['default']
+    TooltipButton: typeof import('./src/components/layout/TooltipButton.vue')['default']
     TooltipContent: typeof import('./src/components/ui/tooltip/TooltipContent.vue')['default']
     TooltipProvider: typeof import('./src/components/ui/tooltip/TooltipProvider.vue')['default']
     TooltipTrigger: typeof import('./src/components/ui/tooltip/TooltipTrigger.vue')['default']

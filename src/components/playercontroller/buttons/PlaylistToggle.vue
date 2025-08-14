@@ -1,5 +1,5 @@
 <script setup>
-import TooltipButton from "@/components/public/TooltipButton.vue";
+import TooltipButton from "@/components/layout/TooltipButton.vue";
 import { TextBulletListLtr24Filled } from "@vicons/fluent";
 import { useUiStore } from "@/stores/uiStore";
 

@@ -22,7 +22,7 @@
         v-if="!isMobile || !showLyrics"
         class="flex flex-col flex-1 md:w-1/2 p-4 justify-center items-center"
       >
-        <div v-if="showHint" class="lyrics-hint text-muted-foreground">
+        <div v-if="showHint && isMobile" class="lyrics-hint text-muted-foreground">
           点击专辑封面查看歌词
         </div>
         <div class="flex flex-col h-full justify-center items-center w-full max-w-md">
@@ -36,7 +36,9 @@
         </div>
         <!-- 更多按钮可以继续添加 -->
         <div class="flex justify-between items-center gap-4 mb-4">
-          <LikeButton :id="musicInfo.id" /><PlayMode /> <PlaylistToggle />
+          <LikeButton :id="musicInfo.id" />
+          <PlayMode />
+          <PlaylistToggle />
         </div>
         <PlayTime />
       </div>

@@ -26,13 +26,17 @@ import player2 from "@/stores/player2";
 <style scoped>
 .playbutton:hover {
   background-color: #ffffff69;
+  transform: scale(1.1);
   cursor: pointer;
+}
+.playbutton:active {
+  background-color: #ffffff69;
   transform: scale(1.1);
 }
 .playbutton {
   transition: all 0.3s ease;
   border-radius: 50%;
-  /* padding: 2px; */
+  padding: 2px;
   z-index: 2;
   pointer-events: auto; /* 恢复鼠标事件 */
 }

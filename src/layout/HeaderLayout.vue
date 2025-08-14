@@ -17,7 +17,7 @@
 <script>
 import SearchBox from "@/components/public/SearchBox.vue";
 import { Home24Regular } from "@vicons/fluent";
-import TooltipButton from "@/components/public/TooltipButton.vue";
+import TooltipButton from "@/components/layout/TooltipButton.vue";
 export default {
   name: "HeaderLayout",
   props: {
