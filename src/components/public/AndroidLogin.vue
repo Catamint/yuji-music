@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { CookieManager } from "my-cookie-manager";
+import { CookieManager } from "my-cookie-manager/src";
 const isLoggedIn = ref(false);
 const cookies = ref("");
 import { toast } from "vue-sonner";

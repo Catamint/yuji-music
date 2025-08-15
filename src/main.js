@@ -17,3 +17,15 @@ pinia.use(piniaPluginPersistedstate);
 app.config.globalProperties.$axios = axios
 app.use(pinia) // Use the Pinia instance
 app.use(router).mount('#app')
+
+// main.js
+if ('serviceWorker' in navigator ) {
+  // 只在浏览器环境中注册 Service Worker
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(registration => {
+      console.log('Service Worker registered:', registration.scope);
+    }).catch(error => {
+      console.error('Service Worker registration failed:', error);
+    });
+  });
+}

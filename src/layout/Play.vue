@@ -187,8 +187,8 @@ watch(
       const lyricData = parseLyrics(await songService.getSongLyric(musicInfo.value.id));
       console.log(lyricData);
       lyrics.value = lyricData;
-      isPlaying = computed(() => player2.state.isPlaying);
-      playerTime = computed(() => player2.state.currentTime);
+      isPlaying.value = player2.state.isPlaying;
+      playerTime.value = player2.state.currentTime;
     } catch (error) {
       console.log(error);
     }
