@@ -1,1 +1,0 @@
-import{W as o}from"./index-BJodI4HF.js";class r extends o{async echo(e){return console.log("ECHO",e),e}async getCookies(){return console.log("GETTING COOKIES from Web"),{cookies:"WEB: "+document.cookie}}}export{r as CookieManagerWeb};
