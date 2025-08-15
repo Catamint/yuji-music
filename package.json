@@ -4,8 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
     "serve-vite": "vite",
     "build-vite": "vite build",
     "preview-vite": "vite preview",
