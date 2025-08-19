@@ -21,18 +21,20 @@ onMounted(() => {
 async function like() {
   loading.value = true;
   try {
-    await songService.likeSong(props.id, toLike.value);
-    if (toLike.value) {
+    const toLikeOrigin = toLike.value;
+    toLike.value = !toLikeOrigin;
+    await songService.likeSong(props.id, toLikeOrigin);
+    if (toLikeOrigin) {
       useMusicStore().addToLikeList(props.id);
     } else {
       useMusicStore().removeFromLikeList(props.id);
     }
-    toLike.value = !toLike.value;
-    console.log("收藏结果:", toLike.value);
-    toast.success(!toLike.value ? "收藏成功" : "取消收藏", {
+    console.log("收藏结果:", toLikeOrigin);
+    toast.success(toLikeOrigin ? "收藏成功" : "取消收藏", {
       richColors: true,
     });
   } catch (error) {
+    toLike.value = toLikeOrigin;
     console.log(error);
     toast.error("收藏失败。" + error, {
       richColors: true,
