@@ -18,14 +18,14 @@
           <ReceiptPlay24Regular />
         </template>
       </tooltip-button>
-      <ContextList :music-info="musicInfo" :id="musicInfo.id" />
+      <!-- <ContextList :music-info="musicInfo" :id="musicInfo.id" /> -->
     </template>
     <template v-else #actions>
-      <tooltip-button tooltipText="播放全部" class="play" @click.stop="playAlbum">
+      <Tooltip-button tooltipText="播放全部" class="play" @click.stop="playAlbum">
         <template #icon>
           <Play24Regular />
         </template>
-      </tooltip-button>
+      </Tooltip-button>
       <!-- <like-button :id="albumInfo.id" /> -->
     </template>
   </base-card>

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="box box-border bg-accent backdrop-blur-3xl pointer-events-auto h-dvh w-screen transition-all duration-800 delay-600"
+    class="box bg-center bg-no-repeat bg-cover box-border bg-accent backdrop-blur-3xl pointer-events-auto h-dvh w-screen transition-all duration-800 delay-600"
     :style="{ backgroundImage: `url(${getPic})` }"
   >
     <div
-      class="flex flex-col py-4 md:p-20 lg:p-28 xl:p-40 md:flex-row pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] h-full w-full backdrop-blur-2xl glass-filter"
+      class="flex flex-col py-4 md:p-20 lg:p-28 xl:p-40 md:flex-row pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] h-full w-full backdrop-blur-3xl glass-filter"
     >
       <div
         class="fixed top-4 left-4 pt-[env(safe-area-inset-top)] lg:top-16 lg:left-16 xl:top-24 xl:left-28 flex flex-col p-2"
