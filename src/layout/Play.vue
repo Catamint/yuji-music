@@ -117,21 +117,22 @@ const uiStore = useUiStore();
 const { width } = useWindowSize();
 const isMobile = computed(() => width.value < 768);
 
+const musicInfo = computed(() => {
+  return player2.state.playlist[player2.state.currentIndex];
+});
+
+const getPic = ref("");
+onMounted(async () => {
+  getPic.value = await songService.getPicUrl(musicInfo.value);
+});
+watch(musicInfo, async () => {
+  getPic.value = await songService.getPicUrl(musicInfo.value);
+});
+
 const showLyrics = ref(false);
 const toggleLyrics = () => {
   showLyrics.value = !showLyrics.value;
 };
-
-const getPic = computed(() => {
-  const pic = musicInfo.value?.album?.picUrl;
-  return `${pic.replace(/^http:/, "https:")}?param=${300}y${300}`;
-});
-
-const imageLoaded = ref(false);
-
-const musicInfo = computed(() => {
-  return player2.state.playlist[player2.state.currentIndex];
-});
 
 /**
  * 将 API 返回的歌词数据解析为 [{time, lrc, tlrc, rlrc}] 格式
