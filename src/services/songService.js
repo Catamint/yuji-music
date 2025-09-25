@@ -340,6 +340,23 @@ export default {
     },
 
     /**
+     * 获取歌曲解灰播放 URL
+     * @param {string|number} id - 歌曲 ID（必选）
+     * @returns {string|null} 播放 URL 或 null
+     */
+    async getSongUnblockUrl(id) {
+        try {
+            // 根据 source 参数选择接口路径
+            const response = await api.getSongUnblockUrl(id);
+            console.log('解锁歌曲链接:', response);
+            return response.data.url || null;
+        } catch (error) {
+            console.error('Error fetching unblock song URL:', error.message);
+            return null;
+        }
+    },
+
+    /**
      * 获取歌词
      * @param {string|number} id - 歌曲 ID
      * @param {string} source - 音乐源，默认为 'netease'
