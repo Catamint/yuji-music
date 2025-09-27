@@ -134,6 +134,11 @@ const api = {
     const params = new URLSearchParams({ id });
     return await request(`/lyric/new?${params}`);
   },
+
+  async getSongUnblockUrl(id) {
+    const params = new URLSearchParams({ id });
+    return await request(`/song/url/unblock?${params}`);
+  },
   
   // 以下是新增的 gdstudio 接口
   async gdstudioSearch(name, source = 'netease', count = 20, pages = 1) {

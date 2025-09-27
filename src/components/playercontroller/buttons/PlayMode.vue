@@ -2,9 +2,9 @@
 import player2, { PlayMode } from "@/stores/player2";
 import TooltipButton from "@/components/layout/TooltipButton.vue";
 import {
-  CubeMultiple20Filled,
-  ArrowSync24Filled,
-  ArrowCounterclockwise12Filled,
+  ArrowRouting20Filled,
+  ArrowRepeatAll20Filled,
+  ArrowReset20Filled,
 } from "@vicons/fluent";
 import { toast } from "vue-sonner";
 
@@ -25,14 +25,12 @@ function setMode(mode) {
     class="playbutton"
     style="font-size: 24px"
     @click="setMode(getNextMode(player2.state.mode))"
-    tooltipText="顺序/随机/单曲循环"
+    :tooltipText="player2.state.mode"
   >
     <template #icon>
-      <ArrowSync24Filled v-show="player2.state.mode === PlayMode.SEQUENTIAL" />
-      <ArrowCounterclockwise12Filled
-        v-show="player2.state.mode === PlayMode.REPEAT_ONE"
-      />
-      <CubeMultiple20Filled v-show="player2.state.mode === PlayMode.RANDOM" />
+      <ArrowRepeatAll20Filled v-show="player2.state.mode === PlayMode.SEQUENTIAL" />
+      <ArrowReset20Filled v-show="player2.state.mode === PlayMode.REPEAT_ONE" />
+      <ArrowRouting20Filled v-show="player2.state.mode === PlayMode.RANDOM" />
     </template>
   </TooltipButton>
 </template>

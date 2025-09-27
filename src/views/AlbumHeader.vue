@@ -1,32 +1,33 @@
 <template>
-  <div class="album-header flex flex-row md:flex-row">
-    <!-- 专辑封面 -->
-    <img
-      class="aspect-square mx-2 w-40 h-40 rounded-xl"
-      :src="album?.picUrl || null"
-      alt="专辑封面"
-    />
+  <div class="album-header flex flex-col">
+    <div class="flex flex-row md:flex-row">
+      <!-- 专辑封面 -->
+      <img
+        class="aspect-square w-40 h-40 rounded-xl"
+        :src="album?.picUrl || null"
+        alt="专辑封面"
+      />
 
-    <!-- 信息区域 -->
-    <div class="h-full flex flex-col ml-2 justify-center">
-      <h1 class="text-4xl font-bold mb-2">
-        {{ album?.name }}
-        <span v-if="album?.translatedName" class="translated-name"></span>
-      </h1>
+      <!-- 信息区域 -->
+      <div class="h-full flex flex-col ml-4 justify-center">
+        <h1 class="text-4xl font-bold mb-2">
+          {{ album?.name }}
+          <span v-if="album?.translatedName" class="translated-name"></span>
+        </h1>
 
-      <div class="album-meta">
-        <!-- <span>艺人：</span> -->
-        <router-link class="artist-name" :to="`/artist/${album?.artist?.id}`">
-          {{ album?.artist?.name }}
-        </router-link>
-      </div>
+        <div class="album-meta">
+          <!-- <span>艺人：</span> -->
+          <router-link class="artist-name" :to="`/artist/${album?.artist?.id}`">
+            {{ album?.artist?.name }}
+          </router-link>
+        </div>
 
-      <div class="album-meta">
-        <!-- <span>发行时间：</span> -->
-        {{ album?.publishDate }}
-      </div>
+        <div class="album-meta">
+          <!-- <span>发行时间：</span> -->
+          {{ album?.publishDate }}
+        </div>
 
-      <!-- <div class="album-meta" v-if="album?.company">
+        <!-- <div class="album-meta" v-if="album?.company">
         <span>发行公司：</span>
         {{ album?.company }}
       </div>
@@ -36,15 +37,15 @@
         {{ album?.type }}<span v-if="album?.subType"> / {{ album?.subType }}</span>
       </div> -->
 
-      <!-- 描述 -->
-      <!-- <div v-if="album?.briefDesc || album?.description" class="album-desc">
+        <!-- 描述 -->
+        <!-- <div v-if="album?.briefDesc || album?.description" class="album-desc">
         <p>{{ album?.briefDesc || album?.description }}</p>
       </div> -->
-
-      <!-- 操作统计 -->
-      <div class="album-stats">
-        <Button @click="playAll"> <Play20Regular />播放全部 </Button>
       </div>
+    </div>
+    <!-- 操作统计 -->
+    <div class="gap-2 flex">
+      <Button @click="playAll"> <Play20Regular />播放全部 </Button>
     </div>
   </div>
 </template>

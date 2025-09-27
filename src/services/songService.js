@@ -216,26 +216,26 @@ async function getPicUrl(musicInfo = {}, type = 'music', size = 300) {
  * 高级：搜索接口整合（示例）
  * 这里只保留结构化调用，具体 map 业务与原来相近
  */
-async function searchNetease(keywords, limit = 30, offset = 0, type = 'all') {
+async function searchNetease(keywords, type = 'all', limit = 30, offset = 0) {
     try {
         const result = {};
         switch (type) {
             case 'music': {
                 const resp = await api.search(keywords, limit, offset, 1);
                 const songs = resp?.result?.songs ?? [];
-                result.song = { ...resp.result?.song, songs: songs.map(s => normalizeSong(s, 'search')) };
+                result.song = { ...resp.result, songs: songs.map(s => normalizeSong(s, 'search')) };
                 return result;
             }
             case 'album': {
                 const resp = await api.search(keywords, limit, offset, 10);
                 const albums = resp?.result?.albums ?? [];
-                result.album = { ...resp.result?.album, albums: albums.map(formatAlbum) };
+                result.album = { ...resp.result, albums: albums.map(formatAlbum) };
                 return result;
             }
             case 'songlist': {
                 const resp = await api.search(keywords, limit, offset, 1000);
                 const pls = resp?.result?.playlists ?? [];
-                result.playList = { ...resp.result?.playList, playLists: pls.map(formatPlayListInfo) };
+                result.playList = { ...resp.result, playLists: pls.map(formatPlayListInfo) };
                 return result;
             }
             case 'all': {
@@ -335,6 +335,23 @@ export default {
             return response?.url || null;
         } catch (error) {
             console.error('Error fetching song URL:', error.message);
+            return null;
+        }
+    },
+
+    /**
+     * 获取歌曲解灰播放 URL
+     * @param {string|number} id - 歌曲 ID（必选）
+     * @returns {string|null} 播放 URL 或 null
+     */
+    async getSongUnblockUrl(id) {
+        try {
+            // 根据 source 参数选择接口路径
+            const response = await api.getSongUnblockUrl(id);
+            console.log('解锁歌曲链接:', response);
+            return response.data.url || null;
+        } catch (error) {
+            console.error('Error fetching unblock song URL:', error.message);
             return null;
         }
     },

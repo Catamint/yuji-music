@@ -4,7 +4,7 @@
       <tooltip-trigger :style="`--icon-size: ${iconSize}px;`">
         <Button
           class="press-active aspect-square w-fit h-fit p-2"
-          variant="ghost"
+          :variant="variant"
           text
           @click="$emit('click')"
         >
@@ -21,7 +21,10 @@
 <script setup>
 const props = defineProps({
   tooltipText: String, // 提示文字
-  class: String, // 可选样式类
+  variant: {
+    type: String,
+    default: "ghost",
+  }, // 可选样式类
   iconSize: {
     // 图标大小（默认 22）
     type: [Number, String],

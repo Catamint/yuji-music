@@ -153,7 +153,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* 通用卡片样式 */
 .base-item {
   display: flex;
@@ -211,7 +211,7 @@ export default {
   margin: 10px;
   position: relative;
   overflow: hidden;
-  cursor: pointer;
+  cursor: auto;
   flex: 1 1 calc(20% - 40px) !important;
   /* 默认每行5个 */
   aspect-ratio: 1 / 1 !important;
@@ -318,40 +318,25 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
   z-index: 3;
-  pointer-events: none;
-}
-
-.layout-card:hover .actions {
-  opacity: 1;
   pointer-events: auto;
 }
 
-.layout-card .actions .n-button {
-  width: 36px;
-  height: 36px;
+.layout-card .actions button {
+  background-color: rgba(80, 80, 80, 0.4);
+  --icon-size: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  color: #333;
-  transition: all 0.2s ease;
-  min-width: unset;
-  padding: 0;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.layout-card .actions:hover button {
+  transform: scale(1.05);
+  background-color: rgba(80, 80, 80, 0.6);
 }
 
-.layout-card .actions .n-button:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.1);
-}
-
-.layout-card .actions .star {
-  background: rgba(255, 0, 0, 0.1);
-  color: #ff4757;
-}
-
-.layout-card .actions .star:hover {
-  background: rgba(255, 0, 0, 0.2);
-}
+/* .layout-card .actions button {
+  @apply bg-primary;
+} */
 </style>
