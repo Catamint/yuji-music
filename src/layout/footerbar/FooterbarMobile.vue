@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col h-full w-full justify-center"
-    @click="uiStore.togglePlayerPage"
+    @click="uiStore.toggleDomVisible('playingPage')"
   >
     <!-- <PlaySlider class="slider" /> -->
     <div

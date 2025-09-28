@@ -22,7 +22,7 @@
   <!-- Play 浮层 -->
   <transition name="slide" class="fixed box-border h-dvh z-[100]">
     <div
-      v-if="uiStore.isPlayerPageVisible"
+      v-if="uiStore.domVisible.playingPage"
       class="fixed box-border inset-0 h-dvh w-screen flex items-center justify-center pointer-events-none"
     >
       <Play />
@@ -45,42 +45,33 @@ import { useMusicStore } from "./stores/musicStore";
 import { useMediaQuery } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import PlayListContainer from "./components/playlist/PlayListContainer.vue";
-import { useColorMode } from "@vueuse/core";
 // import StorageManager from './stores/StorageManager';
 
 const uiStore = useUiStore();
 const themeStore = useThemeStore();
-// 设置颜色模式
-const mode = useColorMode();
-function setColorMode() {
-  mode.value = "dark";
-}
 const musicStore = useMusicStore();
 const router = useRouter();
 // const storageManager = new StorageManager();
 
-themeStore.initDefaultTheme(); // 设置默认主题
 player2.initAudio();
+themeStore.initDefaultTheme(); // 设置默认主题
+
+const domKeys = Object.keys(uiStore.domVisible);
 
 onMounted(() => {
+  uiStore.updateUiState();
+  window.addEventListener("resize", uiStore.updateUiState);
+
   CapApp.addListener("backButton", ({ canGoBack }) => {
-    if (uiStore.isContextListOpen) {
-      // uiStore.toggleContextList(); // 上下文菜单 暂缓
-      return;
-    } else if (uiStore.isPlayListVisible) {
-      uiStore.togglePlayList(false);
-      return;
-    } else if (uiStore.isPlayerPageVisible) {
-      uiStore.togglePlayerPage();
-      return;
-    } else if (useMediaQuery("(max-width: 768px)").value && uiStore.isSidebarOpenMobile) {
-      uiStore.toggleSidebar();
-      return;
+    if (uiStore.hasOpenModal) {
+      domKeys.forEach((key) => {
+        if (uiStore.domVisible[key]) {
+          uiStore.setDomVisible(key, false);
+        }
+      });
     } else if (router.currentRoute.value.name !== "home") {
       router.back();
-      return;
     } else {
-      // 例如显示退出确认对话框，或者直接退出应用
       CapApp.minimizeApp();
     }
   });

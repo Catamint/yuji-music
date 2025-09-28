@@ -39,7 +39,7 @@ import BaseCard from "@/components/layout/BaseCardLayout.vue";
 import { computed, onMounted } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import ContextList from "@/components/public/ContextList.vue";
+import ContextList from "@/components/public/DetailMenu.vue";
 
 const router = useRouter();
 

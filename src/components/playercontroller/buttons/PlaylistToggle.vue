@@ -7,13 +7,7 @@ const uiStore = useUiStore();
 </script>
 
 <template>
-  <!-- v-model="useUiStore().isPlayListVisible -->
-
-  <TooltipButton
-    @click="uiStore.isPlayListVisible = !uiStore.isPlayListVisible"
-    tooltipText="播放列表"
-    class=""
-  >
+  <TooltipButton @click="uiStore.toggleDomVisible('playList')" tooltipText="播放列表">
     <template #icon>
       <TextBulletListLtr24Filled />
     </template>

@@ -1,6 +1,6 @@
 <template>
   <SidebarProvider
-    v-model:openMobile="uiStore.isSidebarOpenMobile"
+    v-model:openMobile="uiStore.domVisible.sideBarMobile"
     class="md:grid grid-cols-1 md:grid-cols-[auto_1fr] min-h-dvh max-w-dvw"
   >
     <AppSidebar />

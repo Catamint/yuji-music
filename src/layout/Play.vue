@@ -9,21 +9,24 @@
       <div
         class="fixed top-4 left-4 pt-[env(safe-area-inset-top)] lg:top-16 lg:left-16 xl:top-24 xl:left-28 flex flex-col p-2"
       >
-        <button @click="uiStore.togglePlayerPage">
+        <button @click="uiStore.toggleDomVisible('playingPage')">
           <ChevronLeft12Filled class="w-8 h-8 text-muted-foreground" />
         </button>
       </div>
       <!-- 移动端切换按钮 -->
-      <!-- <button v-if="isMobile" class="rounded-full shadow-md" @click="toggleLyrics">
+      <!-- <button v-if="uiStore.isMobile" class="rounded-full shadow-md" @click="toggleLyrics">
       {{ showLyrics ? "返回" : "歌词" }}
       </button> -->
 
       <!-- 左侧内容区域（桌面端显示，移动端为第一页） -->
       <div
-        v-if="!isMobile || !showLyrics"
+        v-if="!uiStore.isMobile || !showLyrics"
         class="flex flex-col flex-1 md:w-1/2 p-4 justify-center items-center"
       >
-        <div v-if="showHint && isMobile" class="lyrics-hint text-muted-foreground">
+        <div
+          v-if="showHint && uiStore.isMobile"
+          class="lyrics-hint text-muted-foreground"
+        >
           点击专辑封面查看歌词
         </div>
         <div
@@ -45,10 +48,10 @@
         </div>
         <PlayTime />
       </div>
-      <!-- <div class="py-60 h-full border-l border-gray-300" v-if="!isMobile"></div> -->
+      <!-- <div class="py-60 h-full border-l border-gray-300" v-if="!uiStore.isMobile"></div> -->
       <!-- 歌词区域（桌面端显示，移动端通过切换显示） -->
       <div
-        v-if="!isMobile || showLyrics"
+        v-if="!uiStore.isMobile || showLyrics"
         class="lyric-wrapper mt-20 md:my-0 md:w-1/2 px-4 h-full flex justify-center items-center overflow-hidden"
       >
         <!-- 歌词组件可在这里插入 -->
@@ -62,14 +65,14 @@
         />
       </div>
       <div
-        v-if="!isMobile"
+        v-if="!uiStore.isMobile"
         class="fixed gap-1 right-10 xl:right-30 bottom-10 xl:bottom-30 flex items-center justify-center"
       >
         <Toggle v-model="settings.showTlrc">翻译</Toggle>
         <Toggle v-model="settings.showRlrc">注音</Toggle>
       </div>
       <div
-        v-if="isMobile && showLyrics"
+        v-if="uiStore.isMobile && showLyrics"
         class="flex flex-col justify-between items-stretch m-2"
       >
         <div class="flex w-full justify-end">
@@ -84,7 +87,6 @@
 
 <script setup>
 import { ref, watch, computed } from "vue";
-import { useWindowSize } from "@vueuse/core";
 
 import MusicInfo from "@/components/playercontroller/MusicInfo-play.vue";
 import PlaySlider from "@/components/playercontroller/PlaySlider.vue";
@@ -114,8 +116,6 @@ function onSeek(time) {
 }
 
 const uiStore = useUiStore();
-const { width } = useWindowSize();
-const isMobile = computed(() => width.value < 768);
 
 const musicInfo = computed(() => {
   return player2.state.playlist[player2.state.currentIndex];

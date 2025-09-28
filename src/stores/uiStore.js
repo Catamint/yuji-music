@@ -1,41 +1,38 @@
 import { defineStore } from 'pinia';
-import { ref }  from 'vue';
 import { useMediaQuery } from '@vueuse/core';
+
 export const useUiStore = defineStore('ui', {
   state: () => ({
-    isPlayerPageVisible: false,
-    isPlayListVisible: false,
-    isSidebarOpen: false,
-    isSidebarOpenMobile: false,
-    isContextListOpen: false,
+    isMobile: false,
+    domVisible: {
+      playingPage: false,
+      playList: false,
+      sideBarMobile: false,
+      contextList: false,
+    },
   }),
   actions: {
-    togglePlayerPage() {
-      console.log("togglePlayerPage");
-      // this.isPlayListVisible = false;
-      // this.isSidebarVisible = false;
-      this.isPlayerPageVisible = !this.isPlayerPageVisible;
+    updateUiState() {
+      this.isMobile = useMediaQuery('(max-width: 768px)').value;
     },
-    togglePlayList(val) {
-      console.log("togglePlayList");
-      // this.isPlayerPageVisible = false;
-      // this.isSidebarVisible = false;
-      console.log("val", val);
-      this.isPlayListVisible = val;
+    toggleDomVisible(key) {
+      console.log("toggleDomVisible", key);
+      this.domVisible[key] = !this.domVisible[key];
     },
-    toggleSidebar() {
-      console.log("toggleSidebar");
-      // this.isPlayerPageVisible = false;
-      // this.isPlayListVisible = false;
-      if (useMediaQuery("(max-width: 768px)").value) {
-        this.isSidebarOpenMobile = !this.isSidebarOpenMobile;
-      } else {
-        this.isSidebarOpen = !this.isSidebarOpen;
-      }
-    },
-    toggleContextList() {
-      console.log("toggleContextList");
-      this.isContextListOpen = !this.isContextListOpen;
+    setDomVisible(key, value) {
+      console.log("setDomVisible", key, value);
+      this.domVisible[key] = value;
     },
   },
+  getters: {
+    // layoutClass: (state) => ({
+    //   mobile: state.isMobile,
+    //   desktop: !state.isMobile
+    // }),
+    
+    // 是否有弹窗开启
+    hasOpenModal: (state) => {
+      return Object.values(state.domVisible).some(Boolean)
+    }
+  }
 });

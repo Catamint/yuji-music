@@ -1,6 +1,5 @@
 <script setup>
 import {
-  Drawer,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -9,6 +8,14 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+
 import { MoreVertical20Filled } from "@vicons/fluent";
 import TooltipButton from "../layout/TooltipButton.vue";
 import { Heart28Regular, Heart28Filled } from "@vicons/fluent";
@@ -28,15 +35,10 @@ const props = defineProps({
   id: { type: Number, required: true },
 });
 
-const img = ref("");
-
-onMounted(async () => {
-  img.value = await songService.getPicUrl(props.musicInfo);
-});
-
+const img = ref(props?.musicInfo?.album?.picUrl || "");
 const toLike = ref(true);
 
-onMounted(() => {
+async function onClick() {
   if (musicStore.likeList.includes(props.id)) {
     toLike.value = false;
     console.log("之前已收藏");
@@ -44,7 +46,10 @@ onMounted(() => {
     toLike.value = true;
     console.log("之前未收藏");
   }
-});
+  if (img.value === "" || img.value === undefined) {
+    img.value = await songService.getPicUrl(props.musicInfo);
+  }
+}
 
 async function like() {
   try {
@@ -74,7 +79,7 @@ async function like() {
     "
   >
     <DrawerTrigger>
-      <TooltipButton tooltipText="更多操作">
+      <TooltipButton tooltipText="更多操作" @click="onClick()">
         <template #icon>
           <MoreVertical20Filled />
         </template>
