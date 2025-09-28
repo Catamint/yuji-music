@@ -6,7 +6,7 @@
         :animation="false"
         :imgSize="12"
         class="flex flex-1 justify-start items-center transition-transform transition-filter duration-300 cursor-pointer transform hover:scale-102 hover:brightness-110 press-active"
-        @click="uiStore.togglePlayerPage"
+        @click="uiStore.toggleDomVisible('playingPage')"
       />
       <PlaybuttonBatch class="flex flex-1 items-center justify-center" />
       <div class="flex flex-1 justify-end items-center gap-1 pr-1">

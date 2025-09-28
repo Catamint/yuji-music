@@ -28,32 +28,17 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:modelValue"]);
-
-// 响应式判断当前是否为桌面端
-const isDesktop = ref(window.innerWidth >= 768);
-const handleResize = () => {
-  isDesktop.value = window.innerWidth >= 768;
-};
-
-// 监听窗口尺寸变化
-onMounted(() => {
-  window.addEventListener("resize", handleResize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
 </script>
 
 <template>
   <Sheet
-    :open="useUiStore().isPlayListVisible"
+    :open="useUiStore().domVisible.playList"
     @update:open="
       (event) => {
-        useUiStore().isPlayListVisible = event;
+        useUiStore().setDomVisible('playList', event);
       }
     "
-    v-if="isDesktop"
+    v-if="!useUiStore().isMobile"
   >
     <SheetContent side="right" class="w-full md:w-[450px] lg:w-[500px] fixed z-[1000]">
       <SheetHeader class="mb-4">
@@ -67,10 +52,10 @@ onUnmounted(() => {
   <Drawer
     @update:open="
       (event) => {
-        useUiStore().isPlayListVisible = event;
+        useUiStore().setDomVisible('playList', event);
       }
     "
-    :open="useUiStore().isPlayListVisible"
+    :open="useUiStore().domVisible.playList"
     v-else
   >
     <DrawerContent class="bg-popover fixed z-[1000]">

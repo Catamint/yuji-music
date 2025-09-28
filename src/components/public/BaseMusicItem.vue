@@ -18,7 +18,7 @@
           <ReceiptPlay24Regular />
         </template>
       </tooltip-button>
-      <!-- <ContextList :music-info="musicInfo" :id="musicInfo.id" /> -->
+      <ContextList :music-info="musicInfo" :id="musicInfo.id" />
     </template>
     <template v-else #actions>
       <Tooltip-button tooltipText="播放全部" class="play" @click.stop="playAlbum">
@@ -37,7 +37,7 @@ import songService from "@/services/songService"; // Make sure this path is corr
 import BaseCard from "@/components/layout/BaseCardLayout.vue";
 // import LikeButton from "../playercontroller/buttons/LikeButton.vue";
 import { ReceiptPlay24Regular, Play24Regular } from "@vicons/fluent";
-import ContextList from "./ContextList.vue";
+import ContextList from "./DetailMenu.vue";
 import { ref } from "vue";
 import defaultImage from "@/assets/image/default_cover.jpg";
 import { useRouter } from "vue-router";

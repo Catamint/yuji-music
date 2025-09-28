@@ -52,7 +52,6 @@ export default {
     this.album = await songService.getArtistAlbums(this.id);
     console.log("获取到的艺术家信息:", this.artistDetail);
     console.log("获取到的艺术家专辑信息:", this.album);
-    this.getMusic();
   },
 };
 </script>
