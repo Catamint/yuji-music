@@ -1,1 +1,0 @@
-import{W as e}from"./index-CLuqHeX9.js";class n extends e{async echo(o){return console.log("ECHO",o),o}async getCookies(o){return console.log("GETTING COOKIES from Web for URL:",o.url),{cookies:document.cookie}}}export{n as CookieManagerWeb};
