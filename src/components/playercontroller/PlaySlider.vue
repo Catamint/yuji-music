@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import player2 from "@/stores/player2";
-import { on } from "events";
 import { Slider } from "../ui/slider";
 const dragging = ref(false);
 const tempCurrentTime = ref(0);

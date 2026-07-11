@@ -1,6 +1,6 @@
 <script setup>
 import { reactiveOmit } from "@vueuse/core";
-import { SearchIcon } from "lucide-vue-next";
+import { SearchIcon } from "@lucide/vue";
 import { ComboboxInput, useForwardPropsEmits } from "reka-ui";
 import { cn } from "@/lib/utils";
 

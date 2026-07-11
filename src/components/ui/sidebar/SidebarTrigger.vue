@@ -1,5 +1,5 @@
 <script setup>
-import { PanelLeft } from "lucide-vue-next";
+import { PanelLeft } from "@lucide/vue";
 import { cn } from "@/lib/utils";
 import { Button } from '@/components/ui/button';
 import { useSidebar } from "./utils";

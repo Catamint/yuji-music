@@ -1,5 +1,5 @@
 <script setup>
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next";
+import { Calendar, Home, Inbox, Search, Settings } from "@lucide/vue";
 import { Sidebar } from "@/components/ui/sidebar";
 
 import { useColorMode } from "@vueuse/core";

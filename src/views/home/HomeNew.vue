@@ -32,7 +32,6 @@ import CardContainer from "@/components/public/CardContainer.vue";
 // import UserInfoCard from "@/components/UserInfoCard.vue";
 // import LoginPromptCard from "@/components/LoginPromptCard.vue";
 import SearchBox from "@/components/public/SearchBox.vue";
-import { on } from "events";
 // import LyricDisplay from "@/components/LyricDisplay.vue";
 
 const userStore = useUserStore();
