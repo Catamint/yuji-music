@@ -59,7 +59,7 @@
 import CardContainer from "@/components/public/CardContainer.vue";
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import SonglistCardContainer from "@/components/public/SonglistCardContainer.vue";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { Skeleton } from "@/components/ui/skeleton";

@@ -32,7 +32,7 @@
 <script>
 import { ChevronRight16Filled } from "@vicons/fluent";
 import BaseMusicItem from "./BaseMusicItem.vue";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 import player2 from "@/stores/player2.js";
 
 export default {

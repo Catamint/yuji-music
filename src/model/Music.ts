@@ -20,11 +20,12 @@ export default class Music {
     trackNumber?: number, cd?: string, songId?: string, publishDate?: string
   } = {}, source = 'unknown', opts = {}) 
   {
-    if (!raw || !raw.id) {
-      throw new Error('Invalid raw music data');
+    let id = raw.id ?? raw.songId;
+    if (!id) {
+      throw new Error('Invalid raw music data: missing id');
     }
     return new Music(
-      raw.id ?? raw.songId ?? null,
+      id,
       raw.name ?? raw.songName ?? raw.title ?? '',
       raw.tns?.[0] ?? raw.transNames?.[0] ?? null,
       DateTimeFormatter.formatDuration(raw.dt ?? raw.duration ?? raw.ms ?? 0),

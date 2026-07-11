@@ -9,7 +9,7 @@
 
 <script>
 import SonglistCardContainer from "@/components/public/SonglistCardContainer.vue";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 
 export default {
   name: "UserSonglist",

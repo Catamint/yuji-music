@@ -29,7 +29,7 @@
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 import player2 from "@/stores/player2.js";
 import { Play20Regular } from "@vicons/fluent";
 import { toast } from "vue-sonner";

@@ -39,7 +39,7 @@
 
 <script>
 import { Heart28Filled } from "@vicons/fluent";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 import { useUserStore } from "@/stores/userStore";
 import NoLoginBox from "@/components/public/NoLoginBox.vue";
 

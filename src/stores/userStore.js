@@ -16,6 +16,8 @@ export const useUserStore = defineStore('user', {
             this.user = user;
             // console.log(user,this.cookies);
         },
+
+        /** @returns {boolean} */
         loggedIn() {
             return !!this.cookies;
         },

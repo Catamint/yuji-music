@@ -58,7 +58,7 @@ import CardContainer from "@/components/public/CardContainer.vue";
 import bg from "@/assets/image/background.png";
 import bg2 from "@/assets/image/bg2.jpeg";
 import cover from "@/assets/image/cover.png";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 import SearchBox from "@/components/public/SearchBox.vue";
 import { useUserStore } from "@/stores/userStore";
 import player2 from "@/stores/player2";

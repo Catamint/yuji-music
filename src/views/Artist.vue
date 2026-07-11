@@ -28,7 +28,7 @@
 <script>
 import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 
 export default {
   name: "artist",

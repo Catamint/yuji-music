@@ -18,7 +18,7 @@
 <script>
 import CardContainer from "@/components/public/CardContainer.vue";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
-import songService from "@/services/songService.js";
+import songService from "@/services/songService.ts";
 import AlbumHeader from "@/views/AlbumHeader.vue";
 
 export default {

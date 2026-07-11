@@ -11,11 +11,12 @@ export default class User {
       authStatus?: number
     } = {}) 
   {
-    if (!raw || !raw.id) {
-      throw new Error('Invalid raw user data');
+    let id = raw.id ?? raw.userId;
+    if (!id) {
+      throw new Error('Invalid raw user data: missing id');
     }
     return new User(
-      raw.id ?? raw.userId,
+      id,
       raw.name ?? raw.nickname ?? raw.username ?? '匿名用户',
       raw.signature ?? '',
       raw.avatarUrl ?? raw.picUrl ?? raw.img1v1Url ?? '',
