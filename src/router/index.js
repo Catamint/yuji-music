@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router"
-import Home from "../views/home/Home.vue"
+import Home from "../views/Home.vue"
 import Favorite from "../views/Favorite.vue"
 // import Mv from "../views/mv/Mv.vue"
 import Settings from "../views/Settings.vue"
@@ -9,7 +9,6 @@ import SearchPage from "../views/SearchPage.vue"
 // import SignUp from "../views/SignUp.vue"
 import LoginNcm from "@/views/LoginNcm.vue"
 import Album from "@/views/Album.vue"
-import HomeNew from "@/views/home/HomeNew.vue"
 // import PlayList from "@/components/playlist/PlayList.vue"
 
 const routes = [
@@ -17,10 +16,6 @@ const routes = [
         path:"/",
         name:"home",
         component: Home
-    },
-        {
-        path:"/home",
-        component: HomeNew 
     },
     {
         path:"/favorite",
