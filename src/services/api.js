@@ -100,7 +100,7 @@ const api = {
   },
 
   async getAccountInfo(cookie) {
-    cookie = encodeURIComponent(cookie);
+    // cookie = encodeURIComponent(cookie);
     const params = new URLSearchParams({ cookie });
     return await request(`/user/account?${params}`);
   },
@@ -137,7 +137,12 @@ const api = {
 
   async getSongUnblockUrl(id) {
     const params = new URLSearchParams({ id });
-    return await request(`/song/url/unblock?${params}`);
+    return await request(`/song/url/match?${params}`);
+  },
+
+  async getSong(source = 'netease', id, br = 320) {
+    const params = new URLSearchParams({ id });
+    return await request(`/song/url?${params}`);
   },
   
   // 以下是新增的 gdstudio 接口

@@ -269,20 +269,22 @@ async function updateMusicControls() {
  */
 async function playIndex(index = state.currentIndex) {
     if (!state.playlist.length) return;
+    
+    pause();
     state.currentIndex = index;
 
     const track = state.playlist[state.currentIndex];
     if (!track.url || track.url === '') {
         // 懒加载 URL
         for (let i = 0; i < 2; i++) {
-            track.url = await songService.getSongUrl(track.id);
-            await new Promise((resolve) => setTimeout(resolve, 100));
-            if (track.url) break;
-            else {
-                toast.error('无法获取歌曲链接,尝试解锁' + (i + 1) + '次');
-                track.url = await songService.getSongUnblockUrl(track.id);
-                await new Promise((resolve) => setTimeout(resolve, 100));
-            } 
+            // track.url = await songService.getSongUrl(track.id);
+            track.url = await songService.getSongUnblockUrl(track.id);
+            await new Promise((resolve) => setTimeout(resolve, 20));
+            // if (track.url) break;
+            // else {
+            //     toast.error('无法获取歌曲链接,尝试解锁' + (i + 1) + '次');
+            //     await new Promise((resolve) => setTimeout(resolve, 20));
+            // } 
             if (track.url) break;
             else {
                 toast.error('无法获取歌曲链接,重试' + (i + 1) + '次');
@@ -291,9 +293,6 @@ async function playIndex(index = state.currentIndex) {
     }
     if (!track.url) {
         console.error('无法获取歌曲链接');
-        if (state.currentIndex > 1) {
-            next();
-        }
         return;
     }
 

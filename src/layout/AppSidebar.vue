@@ -47,11 +47,11 @@ function handleSelect(key) {
     <SidebarHeader>
       <div class="flex flex-col m-2 items-start space-x-2">
         <!-- <img src="@/assets/logo.png" alt="Logo" class="h-8 w-8" /> -->
-        <div class="flex items-end space-x-2">
+        <div class="flex items-end space-x-1">
           <span class="text-2xl font-semibold">Music!</span>
           <span class="text">Beta</span>
         </div>
-        <div class="text-sm text-gray-500 flex-1">雨 霁 音 乐</div>
+        <div class="text-sm text-gray-500 flex-1 tracking-widest">雨霁音乐</div>
       </div>
       <UserCard
         v-if="userStore.loggedIn()"
@@ -124,6 +124,11 @@ function handleSelect(key) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+      <div v-else class="mt-4">
+        <Button variant="outline" class="w-full justify-center gap-2 cursor-pointer">
+          登录
+        </Button>
       </div>
     </SidebarFooter>
   </Sidebar>

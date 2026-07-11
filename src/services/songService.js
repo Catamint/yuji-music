@@ -154,7 +154,7 @@ async function formatAlbumWithSongs(rawAlbumData = {}) {
                 { picUrl: picurl }
             )
         );
-
+                                
         return {
             ...albumInfo,
             songs: formatted,
@@ -331,8 +331,8 @@ export default {
      */
     async getSongUrl(id, source = 'netease', br = 320) {
         try {
-            const response = await api.gdstudioGetSong(source, id, br);
-            return response?.url || null;
+            const response = await api.getSong(source, id, br);
+            return response?.url || response?.data?.[0]?.url || null;
         } catch (error) {
             console.error('Error fetching song URL:', error.message);
             return null;
@@ -349,7 +349,7 @@ export default {
             // 根据 source 参数选择接口路径
             const response = await api.getSongUnblockUrl(id);
             console.log('解锁歌曲链接:', response);
-            return response.data.url || null;
+            return response?.data?.url || response?.data || null;
         } catch (error) {
             console.error('Error fetching unblock song URL:', error.message);
             return null;
