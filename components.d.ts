@@ -8,7 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AlbumCardContainer: typeof import('./src/components/public/AlbumCardContainer.vue')['default']
     AndroidLogin: typeof import('./src/components/public/AndroidLogin.vue')['default']
     Avatar: typeof import('./src/components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./src/components/ui/avatar/AvatarFallback.vue')['default']
@@ -134,7 +133,6 @@ declare module 'vue' {
     SidebarTrigger: typeof import('./src/components/ui/sidebar/SidebarTrigger.vue')['default']
     Skeleton: typeof import('./src/components/ui/skeleton/Skeleton.vue')['default']
     Slider: typeof import('./src/components/ui/slider/Slider.vue')['default']
-    SonglistCardContainer: typeof import('./src/components/public/SonglistCardContainer.vue')['default']
     Sonner: typeof import('./src/components/ui/sonner/Sonner.vue')['default']
     Switch: typeof import('./src/components/ui/switch/Switch.vue')['default']
     Tabs: typeof import('./src/components/ui/tabs/Tabs.vue')['default']

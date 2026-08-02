@@ -16,23 +16,24 @@
         class="flex-1 min-w-0 text-[16px] font-bold truncate"
         :class="{ 'animate-marquee': animation }"
       >
-        {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
+        {{ playlistNotNull ? songOnPlay?.name : "正在播放" }}
       </p>
 
       <!-- 歌手，禁止收缩 -->
       <p class="hidden xl:block hover:underline shrink-0">
         <span @click.stop="onArtistClick">
-          {{ playlistNotNull ? songOnPlay.artist.name : "歌手" }}
+          {{ playlistNotNull ? songOnPlay?.getArtistInfo().name : "歌手" }}
         </span>
       </p>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import player2 from "@/stores/player2";
 import { ChevronDoubleUp16Filled } from "@vicons/fluent";
-import songService from "@/services/songService.ts";
+import songService from "@/services/songService";
+import type { Music } from "@/model";
 
 export default {
   name: "FooterLayout",
@@ -57,20 +58,20 @@ export default {
     };
   },
   computed: {
-    songOnPlay() {
-      return this.player.playlist.at(this.player.currentIndex) || {};
+    songOnPlay() : Music | undefined {
+      return this.player.playlist.at(this.player.currentIndex);
     },
     playlistNotNull() {
       return this.player.playlist.length != 0;
     },
   },
   methods: {
-    async getPicUrl(musicInfo) {
-      this.picurl = await songService.getPicUrl(musicInfo);
+    async getPicUrl(music: Music) {
+      this.picurl = await music.updatePicUrl(300);
     },
     onArtistClick() {
-      if (this.songOnPlay.artist.id) {
-        this.$router.push({ name: "artist", params: { id: this.songOnPlay.artist.id } });
+      if (this.songOnPlay && this.songOnPlay.getArtistInfo().id) {
+        this.$router.push({ name: "artist", params: { id: this.songOnPlay.getArtistInfo().id } });
       }
     },
   },

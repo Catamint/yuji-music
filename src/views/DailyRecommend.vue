@@ -11,7 +11,7 @@
       </div>
     </template>
     <template #content>
-      <CardContainer layout="list" :music_info_list="DailyRecommend" />
+      <music-container layout="list" :music-list="DailyRecommend" />
     </template>
   </ContentViewLayout>
 </template>
@@ -20,11 +20,12 @@
 import { onMounted, ref } from "vue";
 import { useMusicStore } from "@/stores/musicStore";
 import { useUserStore } from "@/stores/userStore";
+import MusicContainer from "@/components/contents/MusicContainer.vue";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
-import CardContainer from "@/components/public/CardContainer.vue";
+import songService from "@/services/songService";
 import TooltipButton from "@/components/layout/TooltipButton.vue";
 import { Play20Regular, ArrowSync24Filled } from "@vicons/fluent";
-import player2 from "@/stores/player2.js";
+import player2 from "@/stores/player2";
 import { toast } from "vue-sonner";
 
 const musicStore = useMusicStore();
@@ -38,7 +39,7 @@ const getDailyRecommend = async () => {
     return [];
   }
   try {
-    const songs = await musicStore.getDailyRecommend();
+    const songs = await songService.getDailyRecommendedSongs();
     console.log("获取到的每日推荐歌曲:", songs);
     return songs;
   } catch (err) {

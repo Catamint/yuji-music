@@ -5,27 +5,28 @@
       v-show="playlistNotNull"
       @click=""
     >
-      <img class="album-image w-3xs aspect-square mb-4" :src="picurl" alt="" />
+      <img class="album-image w-3xs aspect-square mb-4" :src="songOnPlay?.getPicUrl(600)" alt="" />
     </div>
     <div class="info-container">
       <p class="music-name truncate">
-        {{ playlistNotNull ? songOnPlay.name : "正在播放" }}
+        {{ playlistNotNull ? songOnPlay?.name : "正在播放" }}
       </p>
       <p class="info">
         <span @click="onArtistClick">{{
-          playlistNotNull ? songOnPlay.artist.name : "歌手"
+          playlistNotNull ? songOnPlay?.getArtistInfo()?.name : "歌手"
         }}</span>
       </p>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import player2 from "@/stores/player2";
 import { ChevronDoubleUp16Filled } from "@vicons/fluent";
-import songService from "@/services/songService.ts";
+import songService from "@/services/songService";
 import { useUiStore } from "@/stores/uiStore";
 import defaultPic from "@/assets/image/default_cover.jpg";
+import type { Music } from "@/model";
 
 export default {
   name: "FooterLayout",
@@ -43,31 +44,19 @@ export default {
     };
   },
   computed: {
-    songOnPlay() {
-      return this.player.playlist.at(this.player.currentIndex) || {};
+    songOnPlay(): Music | null {
+      return this.player.playlist.at(this.player.currentIndex) || null;
     },
     playlistNotNull() {
       return this.player.playlist.length != 0;
     },
   },
   methods: {
-    async getPicUrl(musicInfo) {
-      this.picurl = await songService.getPicUrl(musicInfo, 600);
-    },
+
     onArtistClick() {
-      if (this.songOnPlay.artist.id) {
-        this.$router.push({ name: "artist", params: { id: this.songOnPlay.artist.id } });
+      if (this.songOnPlay?.getArtistInfo()?.id) {
+        this.$router.push({ name: "artist", params: { id: this.songOnPlay.getArtistInfo().id } });
       }
-    },
-  },
-  watch: {
-    songOnPlay: {
-      immediate: true,
-      handler(newSong) {
-        if (newSong) {
-          this.getPicUrl(newSong);
-        }
-      },
     },
   },
 };

@@ -91,8 +91,8 @@ function handleSelect(key) {
               @click.prevent="toggleColorMode"
               class="flex items-center space-x-2 text-sm hover:bg-secondary/80 rounded-md p-2 transition-colors"
             >
-              <Sun v-if="mode.value === 'dark'" class="h-4 w-4" />
-              <Moon v-else class="h-4 w-4" />
+              <!-- <Sun v-if="mode.value === 'dark'" class="h-4 w-4" />
+              <Moon v-else class="h-4 w-4" /> -->
               <span>切换主题</span>
             </a>
           </SidebarMenuButton>
@@ -114,7 +114,7 @@ function handleSelect(key) {
         <DropdownMenu>
           <DropdownMenuTrigger class="w-full">
             <Button variant="outline" class="w-full justify-start gap-2 cursor-pointer">
-              <UserCircle class="h-4 w-4" />
+              <!-- <UserCircle class="h-4 w-4" /> -->
               {{ userStore.user.nickname }}
             </Button>
           </DropdownMenuTrigger>

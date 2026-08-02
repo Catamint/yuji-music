@@ -22,7 +22,7 @@
       </div>
 
       <div
-        class="sticky bottom-0 h-16 md:h-15 z-50 w-full max-w-dvw border-t backdrop-blur-lg glass-filter flex items-center justify-center"
+        class="sticky bottom-0 h-16 md:h-15 z-50 w-full max-w-dvw flex items-center justify-center"
       >
         <FooterDesektop class="hidden h-16 md:block pb-[env(safe-area-inset-bottom)]" />
         <FooterMobile class="md:hidden w-full h-16 pb-[env(safe-area-inset-bottom)]" />
@@ -36,7 +36,7 @@ import FooterDesektop from "@/layout/footerbar/FooterbarDesktop.vue";
 import FooterMobile from "@/layout/footerbar/FooterbarMobile.vue";
 import HeaderLayout from "@/layout/HeaderLayout.vue";
 import AppSidebar from "@/layout/AppSidebar.vue";
-import Play from "@/layout/Play.vue";
+import Play from "@/views/Play.vue";
 import { nextTick } from "vue";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useUiStore } from "@/stores/uiStore";

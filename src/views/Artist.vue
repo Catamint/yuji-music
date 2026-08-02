@@ -1,11 +1,7 @@
 <template>
   <ContentViewLayout>
     <template #header>
-      <img
-        class="ratio-1-1 mr-4 h-40 rounded-xl"
-        :src="artistBrief?.picUrl || null"
-        alt="艺术家封面"
-      />
+      <img class="ratio-1-1 mr-4 h-40 rounded-xl" :src="artistBrief?.picUrl || null" alt="艺术家封面" />
       <div class="h-full flex flex-col gap-2">
         <h1 class="text-4xl font-bold mb-2">
           {{ artistBrief?.name }}
@@ -20,20 +16,20 @@
     </template>
 
     <template #content>
-      <album-card-container head="专辑" layout="card" :music_info_list="album" />
+      <album-container head="专辑" layout="card" :album-list="album" />
     </template>
   </ContentViewLayout>
 </template>
 
 <script>
-import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
+import AlbumContainer from "@/components/contents/AlbumContainer.vue";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
 import songService from "@/services/songService.ts";
 
 export default {
   name: "artist",
   components: {
-    AlbumCardContainer,
+    AlbumContainer,
   },
   data() {
     return {

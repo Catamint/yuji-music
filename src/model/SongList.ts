@@ -1,33 +1,40 @@
 import User from './User';
-import Music from './Music';
+import Music, {MusicRaw} from './Music';
 import DateTimeFormatter from './utils';
+import songService from '@/services/songService';
 
-export default class SongList {
-
-  constructor(public id: string | null, public name: string, public description: string,
-    public coverImgUrl: string, public picId: string | null,
-    public playCount: number, public followCount: number, public shareCount: number,
-    public commentCount: number, public creator: User, public tags: Array<string>,
-    public createTime: string | null, public updateTime: string | null,
-    public songs: Array<Music>, public trackCount: number,
-    public subscribed: boolean, public liked: boolean,
-    public raw: object) {}
-
-  static fromRaw(raw: {
-    id?: string, name?: string, title?: string,
+interface SongListRaw {
+    id: string, name?: string, title?: string,
     description?: string, summary?: string, coverImgUrl?: string,
     picUrl?: string, thumbnail?: string, picId?: string, playlistId?: string,
     playCount?: number, followCount?: number, shareCount?: number, commentCount?: number,
     creator?: object, tags?: Array<string>, createTime?: number, updateTime?: number,
-    tracks?: Array<object>, trackCount?: number,
+    tracks?: Array<MusicRaw>, trackCount?: number,
     subscribed?: boolean, liked?: boolean
-  } = {}) {
+}
+
+export default class SongList {
+
+  constructor(public id: string, public name: string, public description: string, public picUrl: string | null,
+    public playCount: number, public followCount: number, public shareCount: number,
+    public commentCount: number, public creator: User, public tags: Array<string>,
+    public createTime: string | null, public updateTime: string | null,
+    private songs: Array<Music> | null, public trackCount: number,
+    public subscribed: boolean, public liked: boolean) {}
+
+  static fromRaw(raw: SongListRaw, opts = {}) {
+
+    // let musics: Array<Music> | null = Music.fromRawArray(raw.tracks ?? []);
+    // if (musics.length === 0) {
+    //   musics = null;
+    // }
+    let musics = null;
+
     return new SongList(
-      raw.id ?? raw.playlistId ?? null,
+      raw.id,
       raw.name ?? raw.title ?? '',
       raw.description ?? raw.summary ?? '',
       raw.coverImgUrl ?? raw.picUrl ?? raw.thumbnail ?? '',
-      raw.picId ?? null,
       raw.playCount ?? 0,
       raw.followCount ?? 0,
       raw.shareCount ?? 0,
@@ -36,22 +43,40 @@ export default class SongList {
       raw.tags ?? [],
       DateTimeFormatter.formatDate(raw.createTime ?? null),
       DateTimeFormatter.formatDate(raw.updateTime ?? null),
-      Music.fromRawArray(raw.tracks ?? []),
+      musics,
       raw.trackCount ?? 0,
       raw.subscribed ?? false,
       raw.liked ?? false,
-      raw
     );
   }
 
+  getMusics() {
+    if (this.songs === null) {
+      this.updateMusics();
+    }
+    return this.songs;
+  }
+
+  async updateMusics() {
+    let songs = await songService.getSonglistContent(this.id);
+    if (songs) {
+      this.songs = songs;
+    }
+  }
+
+  getPicUrl(size: number = 300) {
+    if (!this.picUrl) {
+      return null;
+    }
+    else {
+      return `${this.picUrl.replace(/^http:/, "https:")}?param=${size}y${size}`;
+    }
+  }
   /**
    * 添加歌曲
    */
   addSong(music: Music) {
-    if (music instanceof Music) {
-      this.songs.push(music);
-      this.trackCount = this.songs.length;
-    }
+
   }
 
   /**
@@ -65,15 +90,7 @@ export default class SongList {
    * 移除歌曲
    */
   removeSong(musicId: string) {
-    this.songs = this.songs.filter(s => s.id !== musicId);
-    this.trackCount = this.songs.length;
-  }
 
-  /**
-   * 获取所有歌曲
-   */
-  getSongs() {
-    return [...this.songs];
   }
 
   /**

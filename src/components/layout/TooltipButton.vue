@@ -18,7 +18,8 @@
   </tooltip-provider>
 </template>
 
-<script setup>
+<script setup lang="ts">
+
 const props = defineProps({
   tooltipText: String, // 提示文字
   variant: {

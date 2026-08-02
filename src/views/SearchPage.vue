@@ -22,24 +22,24 @@
 
     <template #content>
       <div class="w-full flex flex-col flex-1">
-        <AlbumCardContainer
+        <AlbumContainer
           v-if="results.album?.albums"
           class="detail"
-          :music_info_list="results.album.albums"
+          :albumList="results.album.albums"
           :head="type === 'all' ? '专辑' : ''"
           layout="list"
         />
-        <CardContainer
+        <MusicContainer
           v-if="results.song?.songs"
           class="detail"
-          :music_info_list="results.song?.songs"
+          :musicList="results.song?.songs"
           :head="type === 'all' ? '音乐' : ''"
           layout="compact"
         />
-        <SonglistCardContainer
+        <SongListContainer
           v-if="results.playList?.playLists"
           class="detail"
-          :music_info_list="results.playList.playLists"
+          :songListList="results.playList.playLists"
           :head="type === 'all' ? '歌单' : ''"
           layout="card"
         />
@@ -56,9 +56,11 @@
 </template>
 
 <script setup>
-import CardContainer from "@/components/public/CardContainer.vue";
-import AlbumCardContainer from "@/components/public/AlbumCardContainer.vue";
-import SonglistCardContainer from "@/components/public/SonglistCardContainer.vue";
+
+import MusicContainer from "@/components/contents/MusicContainer.vue";
+import AlbumContainer from "@/components/contents/AlbumContainer.vue";
+import SongListContainer from "@/components/contents/SongListContainer.vue";
+
 import songService from "@/services/songService.ts";
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
 import { useRoute } from "vue-router";

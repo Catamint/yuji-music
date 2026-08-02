@@ -3,7 +3,8 @@
     v-if="!userStore.loggedIn()"
     class="flex flex-col h-full w-full items-center justify-center gap-4"
   >
-    <div class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">
+
+    <div v-if="loginType === 'cookies'" class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">
       <h1 class="text-2xl">cookies 登录</h1>
       <p class="text-sm text-muted-foreground">
         PC：打开网易云登录页面，登录成功后在浏览器F12中获取 cookies并粘贴到此处.
@@ -26,6 +27,45 @@
         />
       </div>
     </div>
+
+    <div v-else-if="loginType === 'account'" class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">
+      <h1 class="text-2xl">手机号登录</h1>
+      <p class="text-sm text-muted-foreground">
+      </p>
+      <InputGroup>
+        <InputGroupInput placeholder="手机号" v-model="phoneNumber" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton :active="!!phoneNumber" @click="queryCodes(phoneNumber)">获取验证码</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+      <Input placeholder="验证码" type="password" v-model="codes">
+        <template #prefix> </template>
+      </Input>
+      <Button @click="loginByPhone(phoneNumber, codes)">登录</Button>
+    </div>
+
+    <div v-else-if="loginType === 'qr'" class="grid gap-4 items-center justify-center p-4 rounded-2xl bg-card">
+      <h1 class="text-2xl">扫码登录</h1>
+      <p class="text-sm text-muted-foreground">
+        请使用网易云音乐APP扫描二维码进行登录。
+      </p>
+      <AndroidLogin
+        @loginCookies="
+          (res) => {
+            cookies = res;
+          }
+        "
+      />
+    </div>
+
+    <Tabs v-model="loginType">
+      <TabsList>
+        <TabsTrigger value="cookies">cookies 登录</TabsTrigger>
+        <TabsTrigger value="account">手机号登录</TabsTrigger>
+        <TabsTrigger value="qr">扫码登录</TabsTrigger>
+      </TabsList>
+    </Tabs>
+
     <div class="grid gap-4 items-center w-full max-w-md p-4 rounded-2xl bg-card">
       <h2 class="text-xl">历史记录</h2>
       <Button
@@ -49,6 +89,8 @@
 <script>
 import AndroidLogin from "@/components/public/AndroidLogin.vue";
 import LoginWebview from "@/components/public/LoginWebview.vue";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs/index.js";
+import { InputGroup, InputGroupInput, InputGroupAddon, InputGroupButton } from "@/components/ui/input-group/index.js";
 import Input from "@/components/ui/input/Input.vue";
 import { useUserStore } from "@/stores/userStore";
 import { toast } from "vue-sonner";
@@ -57,12 +99,13 @@ export default {
   name: "LoginNcm",
   data() {
     return {
-      username: "",
-      pwd: "",
+      phoneNumber: "",
+      codes: "",
       cookies: "",
       userStore: useUserStore(),
       receivedCookie: "",
       toast,
+      loginType: "cookies",
     };
   },
   mounted() {
@@ -77,7 +120,7 @@ export default {
   },
   components: {
     Input,
-    AndroidLogin,
+    AndroidLogin
   },
   methods: {
     async loginCookies(cookies) {
@@ -93,8 +136,35 @@ export default {
         });
       }
     },
+    async loginByPhone(phoneNumber, codes) {
+      const res = await this.userStore.loginByPhone(phoneNumber, codes);
+      if (res) {
+        console.log("登录成功" + this.userStore.user);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        this.$router.back();
+      } else {
+        this.toast.error("登录失败", {
+          description: "验证码可能错误或过期，请重试o(╥_╥)o",
+          richColors: true,
+        });
+      }
+    },
+    async queryCodes(phoneNumber) {
+      const res = await this.userStore.queryCodes(phoneNumber);
+      if (res) {
+        this.toast.success("验证码发送成功", {
+          description: "请注意查收短信，验证码可能会有延迟，请耐心等待o(╥_╥)o",
+          richColors: true,
+        });
+      } else {
+        this.toast.error("验证码发送失败", {
+          description: "请检查手机号是否正确，或稍后重试o(╥_╥)o",
+          richColors: true,
+        });
+      }
+    },
   },
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

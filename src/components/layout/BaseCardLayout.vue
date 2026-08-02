@@ -19,6 +19,7 @@
       </div>
     </div>
   </div>
+  
   <div
     v-if="layout === 'list'"
     class="flex w-full h-20 my-2 items-center gap-4 p-2 rounded-lg back-hover transition"
@@ -101,7 +102,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import defaultImage from "@/assets/image/default_cover.jpg";
 export default {
   name: "BaseCard",

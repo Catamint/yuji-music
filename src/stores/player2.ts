@@ -4,6 +4,7 @@ import { computed } from "vue";
 import { reactive } from 'vue';
 import { CapacitorMusicControls } from "capacitor-music-controls-plugin";
 import { toast } from "vue-sonner";
+import type { Music } from "@/model";
 
 export const PlayMode = {
     SEQUENTIAL: '列表循环', // 顺序播放
@@ -11,7 +12,18 @@ export const PlayMode = {
     REPEAT_ONE: '单曲循环'  // 单曲循环
 };
 
-const state = reactive({
+interface PlayerState {
+    audio: HTMLAudioElement;
+    playlist: Music[];
+    currentIndex: number;
+    isPlaying: boolean;
+    mode: string;
+    volume: number;
+    currentTime: number;
+    duration: number;
+}
+
+const state: PlayerState = reactive({
     audio: new Audio(),         // 音频对象
     playlist: [],               // 播放列表
     currentIndex: -1,           // 当前播放的歌曲索引
@@ -27,7 +39,7 @@ const state = reactive({
  * @param {string} url - 图片的远程 URL
  * @returns {Promise<string>} - Base64 字符串，如果失败则返回空字符串
  */
-async function getBase64Image(url) {
+async function getBase64Image(url: string): Promise<string> {
     if (!url) return '';
     try {
         url = url.replace('http:', 'https:') + '?param=300y300';
@@ -40,18 +52,6 @@ async function getBase64Image(url) {
 
 // 新增：判断通知栏是否已创建的标志
 let isMusicControlsCreated = false;
-
-/**
- * 将毫秒转换为 mm:ss 格式
- * @param {number} ms
- * @returns {string}
- */
-function formatDuration(ms) {
-    if (ms === undefined || ms === null || isNaN(ms)) return '0:00';
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-}
 
 async function initAudio() {
     if (!state.audio) {
@@ -72,7 +72,7 @@ async function initAudio() {
     });
     // 针对 Android 13 的兼容性处理
     document.addEventListener("controlsNotification", (event) => {
-        const info = { message: event.message, position: 0 };
+        const info = { message: event, position: 0 };
         handleControlsEvent(info);
     });
     
@@ -80,7 +80,7 @@ async function initAudio() {
      * 处理来自 MusicControls 的事件
      * @param {Object} action - 事件对象
      */
-    function handleControlsEvent(action) {
+    function handleControlsEvent(action: any) {
         const message = action.message;
         switch (message) {
             case 'music-controls-play':
@@ -159,7 +159,7 @@ function onLoadedMetadata() {
  * 设置播放时间
  * @param {number} time
  */
-function setCurrentTime(time) {
+function setCurrentTime(time: number) {
     if (state.currentIndex === -1) return;
 
     if (isNaN(time)) {
@@ -179,7 +179,7 @@ function setCurrentTime(time) {
  * 设置播放列表
  * @param {Array} playlist
  */
-function setPlaylist(playlist) {
+function setPlaylist(playlist: any[]) {
     state.playlist = playlist;
     state.currentIndex = 0;
 }
@@ -188,7 +188,7 @@ function setPlaylist(playlist) {
  * 设置音频源
  * @param {string} url
  */
-function setSrc(url) {
+function setSrc(url: string) {
     state.audio.src = url;
     state.audio.load();
 }
@@ -200,8 +200,8 @@ async function updateMusicControls() {
     const track = state.playlist[state.currentIndex];
     if (!track) return;
 
-    const artistName = track.artist?.name || '未知艺人';
-    const coverUrl = track.album?.picUrl || '';
+    const artistName = track.getArtistInfo().name || '未知艺人';
+    const coverUrl = track.getPicUrl() || '';
     console.log("coverurl", coverUrl);
     const duration = state.duration;
     const base64Cover = await getBase64Image(coverUrl);
@@ -219,7 +219,7 @@ async function updateMusicControls() {
                 hasNext: true,
                 hasClose: true,
                 ticker: `正在播放: "${track.name}"`,
-                album: track.album?.name || '', 
+                album: track.albumInfo.name || '', 
                 hasScrubbing: false, // default: false. Enable scrubbing from control center progress bar
                 playIcon: "media_play",
                 pauseIcon: "media_pause",
@@ -247,7 +247,7 @@ async function updateMusicControls() {
                 hasNext: true,
                 hasClose: true,
                 ticker: `正在播放: "${track.name}"`,
-                album: track.album?.name || '', // optional, default: ''
+                album: track.albumInfo.name || '', // optional, default: ''
                 hasScrubbing: false, // default: false. Enable scrubbing from control center progress bar
                 playIcon: "media_play",
                 pauseIcon: "media_pause",
@@ -274,31 +274,31 @@ async function playIndex(index = state.currentIndex) {
     state.currentIndex = index;
 
     const track = state.playlist[state.currentIndex];
-    if (!track.url || track.url === '') {
-        // 懒加载 URL
+    if (!track.playUrl || track.playUrl === '') {
+        // 懒加载 playUrl
         for (let i = 0; i < 2; i++) {
-            // track.url = await songService.getSongUrl(track.id);
-            track.url = await songService.getSongUnblockUrl(track.id);
+            // track.playUrl = await songService.getSongUrl(track.id);
+            track.playUrl = await songService.getSongUnblockUrl(track.id);
             await new Promise((resolve) => setTimeout(resolve, 20));
-            // if (track.url) break;
+            // if (track.playUrl) break;
             // else {
             //     toast.error('无法获取歌曲链接,尝试解锁' + (i + 1) + '次');
             //     await new Promise((resolve) => setTimeout(resolve, 20));
             // } 
-            if (track.url) break;
+            if (track.playUrl) break;
             else {
                 toast.error('无法获取歌曲链接,重试' + (i + 1) + '次');
             }
         }
     }
-    if (!track.url) {
+    if (!track.playUrl) {
         console.error('无法获取歌曲链接');
         return;
     }
 
-    setSrc(track.url);
+    setSrc(track.playUrl);
     state.audio.play();
-    track.playing = true;
+    // track.playing = true;
 
     // 更新通知栏
     await updateMusicControls();
@@ -306,42 +306,40 @@ async function playIndex(index = state.currentIndex) {
 
 /**
  * 播放单曲
- * @param {Object} music_details
+ * @param {Object} music
  */
-async function play(music_details) {
-    try {
-        const songUrl = await songService.getSongUrl(music_details.id);
-        if (songUrl) {
-            music_details.url = songUrl;
-            music_details.playing = true;
-            state.playlist = [music_details];
-            state.currentIndex = 0;
-            playIndex();
-        } else {
-            console.error('无法获取歌曲链接');
+async function play(music: Music) {
+
+    if (!music.playUrl || music.playUrl === '') {
+        try {
+            const songUrl = await songService.getSongUrl(music.id);
+            if (songUrl) {
+                music.playUrl = songUrl;
+            } else {
+                console.error('无法获取歌曲链接');
+            }
+        } catch (error: any) {
+            console.error('Error fetching song URL:', error.message);
         }
-    } catch (error) {
-        console.error('Error fetching song URL:', error.message);
     }
+    // music.playing = true;
+    state.playlist = [music];
+    state.currentIndex = 0;
+    playIndex();
 }
 
 /**
  * 播放歌曲列表
  * @param {Array} songlist
  */
-async function playMulti(songlist, index = 0) {
-    if (!Array.isArray(songlist) || songlist.length === 0) {
+async function playMulti(songlist: Music[] | null, index = 0) {
+    if (!songlist || songlist.length === 0) {
         console.log(songlist);
         console.error('歌曲列表不正确');
         return;
     }
 
-    state.playlist = await songlist.map(track => ({
-        ...track,
-        playing: false,
-        url: track.url || '' // 确保每首歌都有 url 属性
-    }));
-
+    state.playlist = [...songlist];
     state.currentIndex = index;
     playIndex();
 }
@@ -350,10 +348,10 @@ async function playMulti(songlist, index = 0) {
  * 从播放列表中播放指定歌曲
  * @param {number} id
  */
-function play_in_playlist(id) {
+function play_in_playlist(id: string) {
     const songIndex = state.playlist.findIndex(item => item.id === id);
     if (songIndex !== -1) {
-        state.playlist[state.currentIndex].playing = false;
+        // state.playlist[state.currentIndex].playing = false;
         state.currentIndex = songIndex;
         playIndex();
     } else {
@@ -411,7 +409,7 @@ async function prev() {
  * 设置播放模式
  * @param {string} mode
  */
-function setMode(mode) {
+function setMode(mode: string) {
     if (Object.values(PlayMode).includes(mode)) {
         state.mode = mode;
     }
@@ -421,7 +419,22 @@ function setMode(mode) {
  * 将歌曲插入到下一首播放
  * @param {Object} song
  */
-function put_in_playlist(song) {
+function put_in_playlist(song: Music) {
+    let existingIndex = state.playlist.findIndex(item => item.id === song.id);
+    if (existingIndex !== -1) {
+        // 如果歌曲已经在播放列表中，先移除它
+        state.playlist.splice(existingIndex, 1);
+        if (existingIndex < state.currentIndex) {
+            state.currentIndex--; // 调整当前索引
+        }
+    }
+    if (state.currentIndex === -1) {
+        state.playlist.push(song);
+        state.currentIndex = 0;
+        playIndex();
+        return;
+    }
+    toast.success('已添加到下一首播放');
     state.playlist.splice(state.currentIndex + 1, 0, song);
 }
 
@@ -429,7 +442,7 @@ function put_in_playlist(song) {
  * 从播放列表中删除歌曲
  * @param {number} id
  */
-function del_from_list(id) {
+function del_from_list(id: string) {
     const songIndex = state.playlist.findIndex(item => item.id === id);
     if (songIndex !== -1) {
         state.playlist.splice(songIndex, 1);

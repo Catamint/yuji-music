@@ -1,7 +1,7 @@
 <template>
   <div
     class="box bg-center bg-no-repeat bg-cover box-border bg-accent backdrop-blur-3xl pointer-events-auto h-dvh w-screen transition-all duration-800 delay-600"
-    :style="{ backgroundImage: `url(${getPic})` }"
+    :style="{ backgroundImage: `url(${backgroundPic})` }"
   >
     <div
       class="flex flex-col py-4 md:p-20 lg:p-28 xl:p-40 md:flex-row pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] h-full w-full backdrop-blur-3xl glass-filter"
@@ -25,7 +25,7 @@
       >
         <div
           v-if="showHint && uiStore.isMobile"
-          class="lyrics-hint text-muted-foreground"
+          class="lyrics-hint text-muted-foreground fixed top-20 left-1/2 transform -translate-x-1/2"
         >
           点击专辑封面查看歌词
         </div>
@@ -85,7 +85,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, computed } from "vue";
 
 import MusicInfo from "@/components/playercontroller/MusicInfo-play.vue";
@@ -100,6 +100,7 @@ import { ChevronLeft12Filled } from "@vicons/fluent";
 import { onMounted, onBeforeUnmount } from "@vue/runtime-core";
 import songService from "@/services/songService";
 import { Toggle } from "@/components/ui/toggle";
+import type { Music } from "@/model";
 
 // 模拟播放器状态
 const isPlaying = computed(() => player2.state.isPlaying);
@@ -110,7 +111,7 @@ const settings = ref({
   showRlrc: false,
 });
 
-function onSeek(time) {
+function onSeek(time: number) {
   console.log("跳转到:", time);
   player2.state.audio.currentTime = time;
 }
@@ -121,12 +122,13 @@ const musicInfo = computed(() => {
   return player2.state.playlist[player2.state.currentIndex];
 });
 
-const getPic = ref("");
+const backgroundPic = ref("");
+
 onMounted(async () => {
-  getPic.value = await songService.getPicUrl(musicInfo.value);
+  backgroundPic.value = musicInfo.value?.getPicUrl(600) || "";
 });
 watch(musicInfo, async () => {
-  getPic.value = await songService.getPicUrl(musicInfo.value);
+  backgroundPic.value = musicInfo.value?.getPicUrl(600) || "";
 });
 
 const showLyrics = ref(false);
@@ -139,8 +141,8 @@ const toggleLyrics = () => {
  * @param {Object} lyricData API 返回的数据对象
  * @returns {Array} 解析后的歌词数组
  */
-function parseLyrics(lyricData) {
-  const parseLrcString = (lrcString) => {
+function parseLyrics(lyricData: any) {
+  const parseLrcString = (lrcString: string) => {
     if (!lrcString) return [];
     const lines = lrcString.split("\n");
     const regex = /\[(\d{2}):(\d{2}(?:\.\d{1,3})?)\](.*)/;

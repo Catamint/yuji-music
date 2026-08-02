@@ -22,34 +22,22 @@ function formatDate(timestamp: number | string | null) {
 /**
  * getAlbumPicUrl - 简化调用并添加基本的检查
  */
-async function getAlbumPicUrl(albumId: string | number | null) {
+async function getAlbumPicUrl(albumId: string | number | null, size = 300) {
+
     if (!albumId) return null;
     try {
         const resp = await api.getAlbum(albumId);
         const a = resp?.album ?? resp;
-        return a?.picUrl ?? a?.img1v1Url ?? null;
+        const url = a?.picUrl ?? a?.img1v1Url ?? null;
+        if (url) {
+            return `${url.replace(/^http:/, "https:")}?param=${size}y${size}`;
+        }
+        return null;
     } catch (err) {
         console.error('getAlbumPicUrl error:', err);
         return null;
     }
 }
-
-/**
- * getPicUrl(musicInfo, size)
- * 优化：先尝试直接从 musicInfo.album.picUrl，再去 API 获取
- */
-// async function getPicUrl(musicInfo = {}, type = 'music', size = 300) {
-//     const album = musicInfo?.album ?? musicInfo?.raw?.album ?? null;
-//     const pic = album?.picUrl ?? album?.img1v1Url ?? musicInfo?.picUrl ?? null;
-//     if (pic) {
-//         return `${pic.replace(/^http:/, "https:")}?param=${size}y${size}`;
-//     }
-//     if (type === 'music' ? album?.id : musicInfo?.id) {
-//         const url = await getAlbumPicUrl(album.id);
-//         if (url) return `${url.replace(/^http:/, "https:")}?param=${size}y${size}`;
-//     }
-//     return '';
-// }
 
 /**
  * 高级：搜索接口整合（示例）
@@ -147,10 +135,16 @@ export default {
         }
     },
 
+    /**
+     * 获取专辑详情
+     * @param {string|number} id - 专辑 ID
+     * @returns {Array<Music>|null} 专辑所有歌曲或 null
+     */
     async getAlbum(id: string) {
         try {
             let response = await api.getAlbum(id);
             let album = await response?.album ?? response;
+            album.tracks = await response?.songs ?? response?.tracks ?? [];
             return Album.fromRaw(album);
         } catch (err) {
             console.error('getAlbum error:', err);
@@ -302,17 +296,13 @@ export default {
     /**
      * 获取歌单所有歌曲
      * @param {string|number} id - 播放列表 ID
-     * @returns {Object|null} 歌单所有歌曲或 null
+     * @returns {Array<Music>|null} 歌单所有歌曲或 null
      */
     async getSonglistContent(id: string | number) {
         try {
             const resp = await api.getPlaylistAllTracks(id);
             const songs = resp?.songs ?? [];
-            return {
-                ...resp,
-                songs: Music.fromRawArray(songs),
-                total: (songs || []).length,
-            };
+            return Music.fromRawArray(songs);
         } catch (err: any) {
             console.error('getSonglistContent error:', err);
             return null;

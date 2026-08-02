@@ -9,7 +9,11 @@ export const useUiStore = defineStore('ui', {
       playList: false,
       sideBarMobile: false,
       contextList: false,
+      commandPalette: false,
+      detailMenu: false,
     },
+    commandPalettePayload: null,
+    detailMenuPayload: null,
   }),
   actions: {
     updateUiState() {
@@ -22,6 +26,24 @@ export const useUiStore = defineStore('ui', {
     setDomVisible(key, value) {
       console.log("setDomVisible", key, value);
       this.domVisible[key] = value;
+    },
+    openCommandPalette(payload = {}) {
+      console.log("openCommandPalette", payload);
+      this.commandPalettePayload = payload;
+      this.domVisible.commandPalette = true;
+    },
+    closeCommandPalette() {
+      this.domVisible.commandPalette = false;
+      this.commandPalettePayload = null;
+    },
+    openDetailMenu(payload = null) {
+      console.log("openDetailMenu", payload);
+      this.detailMenuPayload = payload;
+      this.domVisible.detailMenu = true;
+    },
+    closeDetailMenu() {
+      this.domVisible.detailMenu = false;
+      this.detailMenuPayload = null;
     },
   },
   getters: {

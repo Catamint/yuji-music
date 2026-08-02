@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "allowJs": true,
+    "outDir": "./dist",
+    "target": "es5",
+    "module": "esnext",
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  }
+}

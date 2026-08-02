@@ -1,4 +1,9 @@
-class StorageManager {
+class ResourceLoader {
+
+  linkCache: LinkCache;
+  songCache: SongCache;
+  userPrefs: UserPrefs;
+
   constructor() {
     this.linkCache = new LinkCache();
     this.songCache = new SongCache();

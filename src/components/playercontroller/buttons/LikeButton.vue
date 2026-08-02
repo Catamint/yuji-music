@@ -5,9 +5,9 @@ import { computed, ref } from "vue";
 import { toast } from "vue-sonner";
 import { Heart28Regular, Heart28Filled } from "@vicons/fluent";
 import { onMounted } from "vue";
-import { useMusicStore } from "@/stores/musicStore";
+import { useMusicStore as musicStore } from "@/stores/musicStore";
 const props = defineProps({
-  id: { type: Number, required: true },
+  id: { type: String, required: true },
 });
 
 const loading = ref(false);
@@ -15,7 +15,7 @@ const loading = ref(false);
 const toLike = ref(false);
 
 onMounted(() => {
-  toLike.value = !useMusicStore().likeList.includes(props.id);
+  toLike.value = !musicStore().likeList.includes(props.id);
 });
 
 async function like() {
@@ -25,9 +25,9 @@ async function like() {
     toLike.value = !toLikeOrigin;
     await songService.likeSong(props.id, toLikeOrigin);
     if (toLikeOrigin) {
-      useMusicStore().addToLikeList(props.id);
+      musicStore().addToLikeList(props.id);
     } else {
-      useMusicStore().removeFromLikeList(props.id);
+      musicStore().removeFromLikeList(props.id);
     }
     console.log("收藏结果:", toLikeOrigin);
     toast.success(toLikeOrigin ? "收藏成功" : "取消收藏", {

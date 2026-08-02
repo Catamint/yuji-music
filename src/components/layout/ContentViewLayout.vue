@@ -35,7 +35,7 @@
 
     <!-- 主体内容 -->
     <div
-      class="content w-full flex-1 shadow-2xl min-h-full shadow-black md:shadow-none dark:shadow-none rounded-t-3xl backdrop-saturate-150 dark:backdrop-saturate-100 bg-card backdrop-blur-lg dark:backdrop-blur-none"
+      class="content w-full flex-1 shadow-2xl min-h-full shadow-none rounded-t-3xl backdrop-saturate-150 dark:backdrop-saturate-100 backdrop-blur-none"
     >
       <slot name="content" />
     </div>

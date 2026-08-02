@@ -29,6 +29,8 @@
     </div>
   </transition>
   <PlayListContainer class="fixed z-[5000]" />
+  <CommandPaletteContent />
+  <DetailMenuContent />
 </template>
 
 <script setup>
@@ -36,7 +38,9 @@ import IndexView from "@/layout/IndexView.vue";
 import player2 from "./stores/player2";
 import { useThemeStore } from "./stores/themeStore";
 import { useUiStore } from "./stores/uiStore";
-import Play from "./layout/Play.vue";
+import Play from "./views/Play.vue";
+import CommandPaletteContent from "./components/ui/command/CommandPaletteContent.vue";
+import DetailMenuContent from "./components/public/DetailMenuContent.vue";
 import { Toaster } from "@/components/ui/sonner";
 import "vue-sonner/style.css";
 import { App as CapApp } from "@capacitor/app";

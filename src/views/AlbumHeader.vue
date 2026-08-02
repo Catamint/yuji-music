@@ -53,7 +53,7 @@
 <script setup>
 import TooltipButton from "@/components/layout/TooltipButton.vue"; // 根据你的路径调整
 import { useRouter } from "vue-router";
-import player2 from "@/stores/player2.js";
+import player2 from "@/stores/player2";
 import { Play20Regular, Heart20Regular, Share20Regular } from "@vicons/fluent";
 import { toast } from "vue-sonner";
 
@@ -68,7 +68,7 @@ const playAll = async () => {
   console.log("播放全部操作");
   console.log("专辑歌曲列表:", props.album);
   try {
-    await player2.playMulti(props.album.songs || []);
+    await player2.playMulti(props.album.musicList || []);
   } catch (error) {
     console.error("播放失败:", error);
     toast.error("播放失败,请检查网络连接");

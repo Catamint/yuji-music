@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full w-full justify-center">
+  <div class="flex flex-col h-full w-full justify-center border border-border/60 bg-background/40 text-foreground shadow-sm backdrop-blur-xl">
     <PlaySlider class="slider" />
     <div class="grid grid-cols-[1fr_1fr_1fr] items-center p-2 box-border relative z-10">
       <MusicInfo

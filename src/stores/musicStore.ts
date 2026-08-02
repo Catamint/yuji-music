@@ -2,22 +2,30 @@ import { defineStore } from 'pinia';
 import api from '@/services/api';
 import { useUserStore } from './userStore';
 import songService from '@/services/songService';
+import Music from '@/model/Music';
+
+interface DailyRecommend {
+  picUrl: string;
+  songs: Music[];
+  updateTime: number;
+}
+
+function createDefaultDailyRecommend(): DailyRecommend {
+  return {
+    picUrl: '',
+    songs: [],
+    updateTime: 0,
+  };
+}
 
 export const useMusicStore = defineStore('music', {
   state: () => ({
-    likeList: [],
-    dailyRecommend: {
-      id: 0,
-      name: '每日推荐',
-      artist: '',
-      picUrl: '/src/assets/image/background2.jpeg',
-      songs: [],
-      updateTime: 0,
-    },
+    likeList: [] as string[],
+    dailyRecommend: createDefaultDailyRecommend(),
     defaultApi: 'https://ncm-api-enhanced.vercel.app',
   }),
   actions: {
-    addToLikeList(id) {
+    addToLikeList(id: string) {
       if (!this.likeList.includes(id)) {
         this.likeList.push(id);
         }
@@ -25,7 +33,7 @@ export const useMusicStore = defineStore('music', {
     resetApi() {
       this.defaultApi = 'https://ncm-api-enhanced.vercel.app';
     },
-    removeFromLikeList(id) {
+    removeFromLikeList(id: string) {
       this.likeList = this.likeList.filter(item => item !== id);
     },
     async initLikeList() {
@@ -43,11 +51,18 @@ export const useMusicStore = defineStore('music', {
       this.likeList = likeList;
     },
     async getDailyRecommend() {
+      if (!this.dailyRecommend) {
+        this.dailyRecommend = createDefaultDailyRecommend();
+      }
+
       const todayStartTs = new Date().setHours(6, 0, 0, 0); // number
       if ((this.dailyRecommend.updateTime ?? 0) < todayStartTs) {
-        const res = await songService.getDailyRecommendedSongs();
-        this.dailyRecommend.updateTime = todayStartTs;
-        this.dailyRecommend.songs = res;
+        const res = (await songService.getDailyRecommendedSongs()) ?? [];
+        this.dailyRecommend = {
+          ...this.dailyRecommend,
+          updateTime: todayStartTs,
+          songs: res,
+        };
         return res;
       } else {
         console.log(
@@ -55,12 +70,19 @@ export const useMusicStore = defineStore('music', {
           new Date(this.dailyRecommend.updateTime),
           new Date(todayStartTs)
         );
-        return this.dailyRecommend.songs;
+        return this.dailyRecommend.songs || [];
       }
     },
     async freshDailyRecommend() {
-      this.dailyRecommend.songs = await songService.getDailyRecommendedSongs();
-      this.dailyRecommend.updateTime = new Date().setHours(6, 0, 0, 0);
+      if (!this.dailyRecommend) {
+        this.dailyRecommend = createDefaultDailyRecommend();
+      }
+      const songs = (await songService.getDailyRecommendedSongs()) ?? [];
+      this.dailyRecommend = {
+        ...this.dailyRecommend,
+        songs,
+        updateTime: new Date().setHours(6, 0, 0, 0),
+      };
       return this.dailyRecommend.songs;
     },
   },

@@ -10,27 +10,28 @@
     </template>
 
     <template #content>
-      <card-container layout="compact" :music_info_list="music_info_list" />
+      <music-container layout="compact" :musicList="album?.musicList || []" />
     </template>
   </ContentViewLayout>
 </template>
 
-<script>
-import CardContainer from "@/components/public/CardContainer.vue";
+<script lang="ts">
+import MusicContainer from "@/components/contents/MusicContainer.vue";
 import ContentViewLayout from "@/components/layout/ContentViewLayout.vue";
-import songService from "@/services/songService.ts";
+import songService from "@/services/songService";
 import AlbumHeader from "@/views/AlbumHeader.vue";
+
+import type { Album } from "@/model";
 
 export default {
   name: "album",
   components: {
-    CardContainer,
+    MusicContainer,
     AlbumHeader,
   },
   data() {
     return {
-      album: [],
-      music_info_list: [],
+      album: {} as Album,
       loading: true,
     };
   },
@@ -41,20 +42,13 @@ export default {
     },
   },
   methods: {
-    async getMusic() {
-      try {
-        this.music_info_list = this?.album?.songs || [];
-      } catch (error) {
-        console.error("Error fetching music:", error.message);
-      }
-    },
     async getAlbum() {
-      this.album = await songService.getAlbum(this.id);
+      this.album = await songService.getAlbum(this.id) || {} as Album;
+      console.log("获取到的专辑信息:", this.album);
     },
   },
   async created() {
     await this.getAlbum();
-    this.getMusic();
     this.loading = false;
   },
 };

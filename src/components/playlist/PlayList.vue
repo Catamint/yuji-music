@@ -11,11 +11,11 @@
     </div>
 
     <template v-else>
-      <ScrollArea class="h-[60vh]">
+      <ScrollArea class="h-[80vh]">
         <PlayListItem
           class="item"
           v-for="info in player2.state.playlist"
-          :music_info="info"
+          :music="info"
           :key="info.id"
         />
       </ScrollArea>

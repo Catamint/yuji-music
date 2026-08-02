@@ -1,47 +1,44 @@
 <template>
-  <div
-    class="flex flex-col h-full w-full justify-center"
-    @click="uiStore.toggleDomVisible('playingPage')"
-  >
-    <!-- <PlaySlider class="slider" /> -->
-    <div
-      class="grid grid-cols-[3fr_1fr] items-center w-full px-2 py-1 box-border relative z-10"
-    >
-      <MusicInfo
-        :imgSize="12"
-        :animation="false"
-        class="flex flex-1 justify-start items-center"
-      />
-      <!-- <PlaybuttonBatch class="flex flex-1 items-center justify-center" /> -->
-      <div @click.stop class="flex gap-2 flex-1 justify-end items-center">
-        <PlayToggle class="mr-2" />
-        <!-- <PlayTime class="mr-2 text-xs" /> -->
-        <PlayModeButton />
-        <PlaylistToggle />
+  <div class="flex h-full w-full items-center px-2 mb-4 pt-1 box-border">
+    <div class="flex h-14 w-full items-center gap-2">
+      <div
+        class="flex h-full min-w-0 flex-[1.3] items-center gap-2 overflow-hidden rounded-[22px] border border-white/20 bg-background/70 px-2 py-2 shadow-[0_0_0_1px_rgba(255,255,255,0.16),inset_0_1px_0_rgba(255,255,255,0.24)] backdrop-blur-xl transition hover:bg-muted/80"
+        @click="uiStore.toggleDomVisible('playingPage')">
+        <MusicInfo :imgSize="12" :animation="false" class="flex min-w-0 flex-1 items-center justify-start" />
+        <div @click.stop class="flex items-center gap-1">
+          <PlayToggle />
+        </div>
       </div>
+      <button
+        class="flex h-14 w-14 flex-none items-center justify-center rounded-[22px] border border-white/20 bg-background/70 p-2 text-foreground shadow-[0_0_0_1px_rgba(255,255,255,0.16),inset_0_1px_0_rgba(255,255,255,0.24)] backdrop-blur-xl transition hover:bg-muted/80">
+        <PlaylistToggle />
+      </button>
+      <button @click.stop="goToHome"
+        class="flex h-14 w-14 flex-none items-center justify-center rounded-[22px] border border-white/20 bg-background/70 p-2 text-foreground shadow-[0_0_0_1px_rgba(255,255,255,0.16),inset_0_1px_0_rgba(255,255,255,0.24)] backdrop-blur-xl transition hover:bg-muted/80">
+        <Home class="h-5 w-5" />
+        <!-- <span>主页</span> -->
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { Heart, Home } from "@lucide/vue";
+import { useRouter } from "vue-router";
 import MusicInfo from "@/components/playercontroller/MusicInfo.vue";
 import PlayModeButton from "@/components/playercontroller/buttons/PlayMode.vue";
-import PlaybuttonBatch from "@/components/playercontroller/buttons/PlaybuttonBatch.vue";
-import PlayTime from "@/components/playercontroller/PlayTime.vue";
 import PlaylistToggle from "@/components/playercontroller/buttons/PlaylistToggle.vue";
 import PlayToggle from "@/components/playercontroller/buttons/PlayToggle.vue";
 import { useUiStore } from "@/stores/uiStore";
 
 const uiStore = useUiStore();
-</script>
+const router = useRouter();
 
-<style scoped>
-.slider {
-  position: absolute;
-  top: calc(0% - 8px);
-  left: 0;
-  right: 0;
-  width: 100%;
-  box-sizing: border-box;
+function goToHome() {
+  router.push("/");
 }
-</style>
+
+function goToFavorite() {
+  router.push("/favorite");
+}
+</script>

@@ -18,6 +18,7 @@ const instance = axios.create({
     // 'Authorization': `Bearer ${yourToken}`
   },
   timeout: 10000, // 设置超时时间为 10 秒
+  withCredentials: true // 如果需要跨域请求携带 cookie，可以设置为 true
 });
 
 async function request(url, options = {}, apiType = 'default') {

@@ -1,5 +1,5 @@
 <template>
-  <songlist-card-container
+  <SongListContainer
     class="card-container"
     :music_info_list="music_info_list"
     :head="head + ' : ' + id"
@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import SonglistCardContainer from "@/components/public/SonglistCardContainer.vue";
+import SongListContainer from "@/components/contents/SongListContainer.vue";
 import songService from "@/services/songService.ts";
 
 export default {
   name: "UserSonglist",
   components: {
-    SonglistCardContainer,
+    SongListContainer: SongListContainer,
   },
   data() {
     return {

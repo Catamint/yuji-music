@@ -11,12 +11,12 @@
           <Button @click="ToggleLayout"> 切换布局 </Button>
         </template>
         <template #content>
-          <songlist-card-container
-            v-if="musicinfo_list.length > 0 && mounted"
-            :music_info_list="musicinfo_list"
+          <song-list-container
+            v-if="musicList.length > 0 && mounted"
+            :songListList="musicList"
             :layout="layout"
           >
-          </songlist-card-container>
+          </song-list-container>
           <div
             class="w-full flex flex-1 justify-center items-center my-16"
             v-else-if="mounted"
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      musicinfo_list: [],
+      musicList: [],
       logined: false,
       user: {},
       userStore: useUserStore(),
@@ -61,13 +61,13 @@ export default {
   },
   created() {
     this.getFavorites();
-    console.log(this.musicinfo_list);
+    console.log(this.musicList);
   },
   mounted() {},
   methods: {
     async getFavorites() {
       if (this.userStore.loggedIn()) {
-        this.musicinfo_list = await songService.getUserSonglist(
+        this.musicList = await songService.getUserSonglist(
           this.userStore.user.userId
         );
         this.mounted = true;
