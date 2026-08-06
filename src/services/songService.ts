@@ -3,23 +3,6 @@ import api from '@/services/api.js';
 import { useUserStore } from '@/stores/userStore';
 import { User, Music, Artist, Album, SongList } from '@/model';
 /**
- * Utils
- */
-function formatDuration(ms = 0) {
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000);
-    return `${minutes}:${String(seconds).padStart(2, '0')}`;
-}
-
-function formatDate(timestamp: number | string | null) {
-    timestamp = Number(timestamp);
-    if (!timestamp || isNaN(timestamp)) return null;
-    const d = new Date(timestamp);
-    if (isNaN(d.getTime())) return '';
-    return d.toISOString().split('T')[0];
-}
-
-/**
  * getAlbumPicUrl - 简化调用并添加基本的检查
  */
 async function getAlbumPicUrl(albumId: string | number | null, size = 300) {
