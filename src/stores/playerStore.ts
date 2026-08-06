@@ -3,7 +3,7 @@ import type { PluginListenerHandle } from '@capacitor/core';
 import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
 import { toast } from 'vue-sonner';
 import songService from '@/services/songService';
-import type { Music } from '@/model';
+import Music from '@/model/Music';
 
 export const PlayMode = {
   SEQUENTIAL: '列表循环',
@@ -31,6 +31,82 @@ function createAudio(): HTMLAudioElement {
   return new Audio();
 }
 
+interface StoredTrack {
+  id: string;
+  name: string;
+  translatedName: string | null;
+  duration: string;
+  albumInfo: { id: string; name: string; picUrl: string | null };
+  artistsInfoArr: { id: string; name: string }[];
+  mvId: number;
+  popularity: number;
+  fee: number;
+  no: number;
+  cd: string;
+  source: string;
+  playUrl: string | null;
+  lyrics: string | null;
+}
+
+function musicToPlain(m: Music): StoredTrack {
+  return {
+    id: m.id,
+    name: m.name,
+    translatedName: m.translatedName,
+    duration: m.duration,
+    albumInfo: m.albumInfo,
+    artistsInfoArr: m.artistsInfoArr,
+    mvId: m.mvId,
+    popularity: m.popularity,
+    fee: m.fee,
+    no: m.no,
+    cd: m.cd,
+    source: m.source,
+    playUrl: m.playUrl,
+    lyrics: m.lyrics,
+  };
+}
+
+function plainToMusic(p: StoredTrack): Music {
+  return new Music(
+    p.id, p.name, p.translatedName, p.duration,
+    p.albumInfo, p.artistsInfoArr,
+    p.mvId ?? 0, p.popularity ?? 0, p.fee ?? 0, p.no ?? 0,
+    p.cd ?? '01', p.source ?? 'unknown',
+    p.playUrl ?? null, p.lyrics ?? null,
+  );
+}
+
+let lastPersistSig = '';
+let lastPersistJson = '';
+
+function serializePlayer(state: any): string {
+  const playlist = state.playlist ?? [];
+  const sig = `${state.currentIndex}|${state.mode}|${state.volume}|${playlist.length}|${playlist.map((t: Music) => `${t.id}:${t.playUrl}`).join(',')}`;
+  if (sig === lastPersistSig) return lastPersistJson;
+  lastPersistSig = sig;
+  lastPersistJson = JSON.stringify({
+    playlist: playlist.map(musicToPlain),
+    currentIndex: state.currentIndex,
+    mode: state.mode,
+    volume: state.volume,
+  });
+  return lastPersistJson;
+}
+
+function deserializePlayer(str: string): Partial<PlayerState> {
+  const raw = JSON.parse(str) as { playlist?: StoredTrack[]; currentIndex?: number; mode?: PlayModeValue; volume?: number };
+  const playlist = (Array.isArray(raw.playlist) ? raw.playlist : []).map(plainToMusic);
+  return {
+    playlist,
+    currentIndex: playlist.length === 0
+      ? -1
+      : Math.min(Math.max(Number(raw.currentIndex) || 0, 0), playlist.length - 1),
+    mode: Object.values(PlayMode).includes(raw.mode as PlayModeValue) ? (raw.mode as PlayModeValue) : PlayMode.SEQUENTIAL,
+    volume: typeof raw.volume === 'number' ? raw.volume : 1,
+  };
+}
+
 export const usePlayerStore = defineStore('player', {
   state: (): PlayerState => ({
     audio: createAudio(),
@@ -46,6 +122,15 @@ export const usePlayerStore = defineStore('player', {
 
   getters: {
     currentTrack: (state) => state.playlist[state.currentIndex] ?? null,
+  },
+
+  persist: {
+    key: 'player',
+    pick: ['playlist', 'currentIndex', 'mode', 'volume'],
+    serializer: {
+      serialize: serializePlayer,
+      deserialize: deserializePlayer,
+    },
   },
 
   actions: {
@@ -252,7 +337,12 @@ export const usePlayerStore = defineStore('player', {
 
     _onControlsEvent(action: { message?: string }) {
       switch (action.message) {
-        case 'music-controls-play': void this.playIndex(); break;
+        case 'music-controls-play':
+          if (this.audio.paused) {
+            if (this.audio.src) void this.audio.play();
+            else void this.playIndex();
+          }
+          break;
         case 'music-controls-pause': this.pause(); break;
         case 'music-controls-next': void this.next(); break;
         case 'music-controls-previous': void this.prev(); break;
@@ -265,7 +355,13 @@ export const usePlayerStore = defineStore('player', {
     },
 
     _onDocumentControlsEvent(event: Event) {
-      this._onControlsEvent({ message: (event as CustomEvent<string>).detail });
+      const evt = event as unknown as { message?: unknown; detail?: unknown };
+      const payload = typeof evt.message === 'string' ? evt.message : evt.detail;
+      if (typeof payload === 'string') {
+        this._onControlsEvent({ message: payload });
+      } else if (payload && typeof payload === 'object') {
+        this._onControlsEvent(payload as { message?: string });
+      }
     },
 
     async _updateMusicControls() {

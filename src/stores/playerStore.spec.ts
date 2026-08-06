@@ -1,7 +1,10 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
+import { createApp } from 'vue';
+import { createPersistedState } from 'pinia-plugin-persistedstate';
 import { usePlayerStore, PlayMode } from '@/stores/playerStore';
 import player2 from '@/stores/player2';
+import Music from '@/model/Music';
 
 class FakeAudio {
   currentTime = 0;
@@ -261,5 +264,93 @@ describe('player2 兼容层', () => {
     player2.setPlaylist([makeTrack('1', 'u1')]);
     expect(player2.state.playlist.length).toBe(1);
     expect(player2.state.playlist[0].id).toBe('1');
+  });
+});
+
+describe('Android 媒体通知事件', () => {
+  it('document 事件(message 属性, Capacitor Android 风格) 触发暂停', async () => {
+    store.playlist = [makeTrack('1', 'u1')];
+    await store.playIndex(0);
+    expect(store.audio.paused).toBe(false);
+
+    store._onDocumentControlsEvent({ message: 'music-controls-pause' } as any);
+    expect(store.audio.paused).toBe(true);
+    expect(store.isPlaying).toBe(false);
+  });
+
+  it('document 事件(CustomEvent string detail) 触发下一首', async () => {
+    store.playlist = [makeTrack('1', 'u1'), makeTrack('2', 'u2')];
+    store.currentIndex = 0;
+    store._onDocumentControlsEvent({ detail: 'music-controls-next' } as any);
+    await flush();
+    expect(store.currentIndex).toBe(1);
+  });
+
+  it('document 事件(CustomEvent object detail) 触发上一首', async () => {
+    store.playlist = [makeTrack('1', 'u1'), makeTrack('2', 'u2')];
+    store.currentIndex = 1;
+    store._onDocumentControlsEvent({ detail: { message: 'music-controls-previous' } } as any);
+    await flush();
+    expect(store.currentIndex).toBe(0);
+  });
+
+  it('play 按钮在暂停后续播, 不重载从头播放', async () => {
+    store.playlist = [makeTrack('1', 'u1')];
+    await store.playIndex(0);
+    store.pause();
+    store.audio.currentTime = 42;
+    store._onControlsEvent({ message: 'music-controls-play' });
+    await flush();
+    expect(store.audio.paused).toBe(false);
+    expect(store.audio.currentTime).toBe(42);
+  });
+});
+
+describe('播放器状态持久化(刷新恢复)', () => {
+  function setupPersistPinia() {
+    const pinia = createPinia();
+    pinia.use(createPersistedState());
+    const app = createApp({});
+    app.use(pinia);
+    setActivePinia(pinia);
+    return pinia;
+  }
+
+  it('playlist/mode/volume 持久化, 刷新后恢复为 Music 实例', () => {
+    const fakeStore: Record<string, string> = {};
+    (globalThis as any).window = {
+      localStorage: {
+        getItem: (k: string) => fakeStore[k] ?? null,
+        setItem: (k: string, v: string) => { fakeStore[k] = v; },
+        removeItem: (k: string) => { delete fakeStore[k]; },
+      },
+    };
+
+    const makeMusic = (id: string, playUrl = '') => new Music(
+      id, `Song ${id}`, null, '4:29',
+      { id: `al${id}`, name: 'Album', picUrl: null },
+      [{ id: `ar${id}`, name: 'Artist' }],
+      0, 0, 0, 0, '01', 'netease', playUrl, null,
+    );
+
+    setupPersistPinia();
+    const s1 = usePlayerStore();
+    s1.setPlaylist([makeMusic('1', 'u1'), makeMusic('2', 'u2')]);
+    s1.setMode(PlayMode.RANDOM);
+    s1.volume = 0.5;
+    s1.$persist();
+
+    const raw = fakeStore['player'];
+    expect(raw).toBeTruthy();
+    expect(raw).not.toContain('getArtistInfo');
+
+    setupPersistPinia();
+    const s2 = usePlayerStore();
+    expect(s2.playlist.length).toBe(2);
+    expect(s2.playlist[0]).toBeInstanceOf(Music);
+    expect(s2.playlist.map((t) => t.id)).toEqual(['1', '2']);
+    expect(s2.currentIndex).toBe(0);
+    expect(s2.mode).toBe(PlayMode.RANDOM);
+    expect(s2.volume).toBe(0.5);
   });
 });
