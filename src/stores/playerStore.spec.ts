@@ -5,6 +5,7 @@ import { createPersistedState } from 'pinia-plugin-persistedstate';
 import { usePlayerStore, PlayMode } from '@/stores/playerStore';
 import player2 from '@/stores/player2';
 import Music from '@/model/Music';
+import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
 
 class FakeAudio {
   currentTime = 0;
@@ -67,7 +68,7 @@ vi.mock('@/services/songService', () => ({
 vi.mock('capacitor-music-controls-plugin', () => ({
   CapacitorMusicControls: {
     addListener: vi.fn(async () => ({ remove: vi.fn(async () => undefined) })),
-    updateIsPlaying: vi.fn(),
+    updateElapsed: vi.fn(),
     destroy: vi.fn(async () => undefined),
     create: vi.fn(async () => undefined),
   },
@@ -255,6 +256,56 @@ describe('播放控制', () => {
     store.setCurrentTime(-5);
     expect(store.audio.currentTime).toBe(0);
   });
+
+  it('setCurrentTime 在时长未知(0)时不钳制为 0, 允许拖动', () => {
+    store.playlist = [makeTrack('1', 'u1')];
+    store.currentIndex = 0;
+    store.duration = 0;
+
+    store.setCurrentTime(50);
+    expect(store.audio.currentTime).toBe(50);
+    expect(store.currentTime).toBe(50);
+  });
+
+  it('loadedmetadata 为 Infinity/NaN 时回退到歌曲展示时长', () => {
+    store.playlist = [{ ...makeTrack('1', 'u1'), duration: '4:29' }];
+    store.currentIndex = 0;
+    store.duration = 0;
+    (store.audio as any).duration = Infinity;
+
+    store._onLoadedMetadata();
+    expect(store.duration).toBe(269);
+  });
+
+  it('playIndex 先用歌曲展示时长兜底', async () => {
+    store.playlist = [{ ...makeTrack('1'), duration: '3:45' }];
+    await store.playIndex(0);
+    expect(store.duration).toBe(225);
+  });
+
+  it('_updateMusicControls 将解析后的时长传给通知(展示时长兜底)', async () => {
+    store.playlist = [{ ...makeTrack('1', 'u1'), duration: '4:29' }];
+    store.currentIndex = 0;
+    store.duration = 0;
+    (store.audio as any).duration = Infinity;
+
+    await store._updateMusicControls();
+    expect(vi.mocked(CapacitorMusicControls.create)).toHaveBeenCalledWith(
+      expect.objectContaining({ duration: 269, hasScrubbing: true })
+    );
+  });
+
+  it('_updateMusicControls 优先使用真实音频时长', async () => {
+    store.playlist = [{ ...makeTrack('1', 'u1'), duration: '4:29' }];
+    store.currentIndex = 0;
+    store.duration = 0;
+    (store.audio as any).duration = 240;
+
+    await store._updateMusicControls();
+    expect(vi.mocked(CapacitorMusicControls.create)).toHaveBeenCalledWith(
+      expect.objectContaining({ duration: 240 })
+    );
+  });
 });
 
 describe('player2 兼容层', () => {
@@ -303,6 +354,42 @@ describe('Android 媒体通知事件', () => {
     await flush();
     expect(store.audio.paused).toBe(false);
     expect(store.audio.currentTime).toBe(42);
+  });
+
+  it('play/pause 通过 updateElapsed 同步播放状态与时间', async () => {
+    store.playlist = [makeTrack('1', 'u1')];
+    await store.playIndex(0);
+    store.audio.currentTime = 12;
+    store.pause();
+    expect(vi.mocked(CapacitorMusicControls.updateElapsed)).toHaveBeenLastCalledWith({ isPlaying: false, elapsed: 12 });
+
+    store.audio.currentTime = 13;
+    await store.toggle();
+    expect(vi.mocked(CapacitorMusicControls.updateElapsed)).toHaveBeenLastCalledWith({ isPlaying: true, elapsed: 13 });
+  });
+
+  it('seek-to 事件按 position 跳转并同步通知', async () => {
+    store.playlist = [makeTrack('1', 'u1')];
+    await store.playIndex(0);
+    store.duration = 100;
+    store.pause();
+    store.audio.currentTime = 0;
+
+    store._onControlsEvent({ message: 'music-controls-seek-to', position: 35 });
+    expect(store.audio.currentTime).toBe(35);
+    expect(vi.mocked(CapacitorMusicControls.updateElapsed)).toHaveBeenLastCalledWith({ isPlaying: false, elapsed: 35 });
+  });
+
+  it('document 事件(message + position 属性) 携带 seek 信息', async () => {
+    store.playlist = [makeTrack('1', 'u1')];
+    await store.playIndex(0);
+    store.duration = 100;
+    store.pause();
+    store.audio.currentTime = 0;
+
+    store._onDocumentControlsEvent({ message: 'music-controls-seek-to', position: 72 } as any);
+    expect(store.audio.currentTime).toBe(72);
+    expect(vi.mocked(CapacitorMusicControls.updateElapsed)).toHaveBeenLastCalledWith({ isPlaying: false, elapsed: 72 });
   });
 });
 

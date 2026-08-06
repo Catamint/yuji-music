@@ -33,12 +33,23 @@
       <p class="text-sm text-muted-foreground">
       </p>
       <InputGroup>
-        <InputGroupInput placeholder="手机号" v-model="phoneNumber" />
+        <InputGroupInput placeholder="手机号" v-model="phoneNumber" @input="phoneNumber = phoneNumber.replace(/\D/g, '').slice(0, 11)" />
         <InputGroupAddon align="inline-end">
-          <InputGroupButton :active="!!phoneNumber" @click="queryCodes(phoneNumber)">获取验证码</InputGroupButton>
+          <InputGroupButton
+            :active="!!phoneNumber"
+            :disabled="countdown > 0"
+            @click="queryCodes(phoneNumber)"
+            >{{ countdown > 0 ? `${countdown}s` : '获取验证码' }}</InputGroupButton
+          >
         </InputGroupAddon>
       </InputGroup>
-      <Input placeholder="验证码" type="password" v-model="codes">
+      <Input
+        placeholder="验证码"
+        type="text"
+        inputmode="numeric"
+        v-model="codes"
+        @input="codes = codes.replace(/\D/g, '').slice(0, 6)"
+      >
         <template #prefix> </template>
       </Input>
       <Button @click="loginByPhone(phoneNumber, codes)">登录</Button>
@@ -106,7 +117,12 @@ export default {
       receivedCookie: "",
       toast,
       loginType: "cookies",
+      countdown: 0,
+      timer: null,
     };
+  },
+  beforeUnmount() {
+    clearInterval(this.timer);
   },
   mounted() {
     window.addEventListener("message", (event) => {
@@ -136,7 +152,37 @@ export default {
         });
       }
     },
+    isValidPhone(phoneNumber) {
+      return /^1[3-9]\d{9}$/.test(phoneNumber);
+    },
+    isValidCode(codes) {
+      return /^\d{4,6}$/.test(codes);
+    },
+    startCountdown() {
+      this.countdown = 60;
+      clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        this.countdown -= 1;
+        if (this.countdown <= 0) {
+          clearInterval(this.timer);
+        }
+      }, 1000);
+    },
     async loginByPhone(phoneNumber, codes) {
+      if (!this.isValidPhone(phoneNumber)) {
+        this.toast.error("手机号格式错误", {
+          description: "请输入正确的11位手机号",
+          richColors: true,
+        });
+        return;
+      }
+      if (!this.isValidCode(codes)) {
+        this.toast.error("验证码格式错误", {
+          description: "请输入4-6位数字验证码",
+          richColors: true,
+        });
+        return;
+      }
       const res = await this.userStore.loginByPhone(phoneNumber, codes);
       if (res) {
         console.log("登录成功" + this.userStore.user);
@@ -150,12 +196,20 @@ export default {
       }
     },
     async queryCodes(phoneNumber) {
+      if (!this.isValidPhone(phoneNumber)) {
+        this.toast.error("手机号格式错误", {
+          description: "请输入正确的11位手机号",
+          richColors: true,
+        });
+        return;
+      }
       const res = await this.userStore.queryCodes(phoneNumber);
       if (res) {
         this.toast.success("验证码发送成功", {
           description: "请注意查收短信，验证码可能会有延迟，请耐心等待o(╥_╥)o",
           richColors: true,
         });
+        this.startCountdown();
       } else {
         this.toast.error("验证码发送失败", {
           description: "请检查手机号是否正确，或稍后重试o(╥_╥)o",

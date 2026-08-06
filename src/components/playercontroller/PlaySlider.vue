@@ -1,35 +1,67 @@
 <script setup>
-import { ref } from "vue";
+import { computed, onBeforeUnmount, ref } from "vue";
 import player2 from "@/stores/player2";
-import { Slider } from "../ui/slider";
+
+const trackEl = ref(null);
 const dragging = ref(false);
-const tempCurrentTime = ref(0);
+const dragValue = ref(0);
 
-function onDragstart() {
-  // tempCurrentTime = player2.state.currentTime;
+const currentTime = computed(() => player2.state.currentTime);
+const duration = computed(() => player2.state.duration || 0);
+
+const displayValue = computed(() => (dragging.value ? dragValue.value : currentTime.value));
+
+const percent = computed(() => {
+  if (duration.value <= 0) return 0;
+  const p = (displayValue.value / duration.value) * 100;
+  return Math.min(Math.max(p, 0), 100);
+});
+
+function valueFromClientX(clientX) {
+  const el = trackEl.value;
+  if (!el || duration.value <= 0) return;
+  const rect = el.getBoundingClientRect();
+  const ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+  dragValue.value = ratio * duration.value;
+}
+
+function onPointerDown(event) {
+  if (event.button !== 0) return;
   dragging.value = true;
+  dragValue.value = currentTime.value;
+  valueFromClientX(event.clientX);
+  event.preventDefault();
+  window.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("pointerup", onPointerUp);
 }
 
-function onDragend() {
-  player2.setCurrentTime(tempCurrentTime.value);
-  console.log("tempCurrentTime:", tempCurrentTime.value);
+function onPointerMove(event) {
+  valueFromClientX(event.clientX);
+}
+
+function onPointerUp() {
+  window.removeEventListener("pointermove", onPointerMove);
+  window.removeEventListener("pointerup", onPointerUp);
   dragging.value = false;
+  if (duration.value > 0) player2.setCurrentTime(dragValue.value);
 }
 
-function onSliderUpdate(val) {
-  tempCurrentTime.value = val;
-}
+onBeforeUnmount(() => {
+  window.removeEventListener("pointermove", onPointerMove);
+  window.removeEventListener("pointerup", onPointerUp);
+});
 </script>
 
 <template>
-  <Slider
-    :modelValue="[dragging ? tempCurrentTime : player2.state.currentTime]"
-    :step="1"
-    :max="player2.state.duration"
-    :min-steps-between-thumbs="1"
-    @update:modelValue="onSliderUpdate"
-    @pointerdown="onDragstart"
-    @pointerup="onDragend"
+  <div
+    ref="trackEl"
+    class="group relative h-1.5 w-full cursor-pointer touch-none select-none bg-muted transition-[height] hover:h-2.5"
+    @pointerdown="onPointerDown"
   >
-  </Slider>
+    <!-- 已播放进度 -->
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 bg-primary"
+      :style="{ width: percent + '%' }"
+    ></div>
+  </div>
 </template>

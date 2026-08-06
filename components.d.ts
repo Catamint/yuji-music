@@ -25,6 +25,7 @@ declare module 'vue' {
     CardHeader: typeof import('./src/components/ui/card/CardHeader.vue')['default']
     CardsBlockLayout: typeof import('./src/components/layout/CardsBlockLayout.vue')['default']
     CardTitle: typeof import('./src/components/ui/card/CardTitle.vue')['default']
+    CircularProgress: typeof import('./src/components/playercontroller/CircularProgress.vue')['default']
     Combobox: typeof import('./src/components/ui/combobox/Combobox.vue')['default']
     ComboboxAnchor: typeof import('./src/components/ui/combobox/ComboboxAnchor.vue')['default']
     ComboboxEmpty: typeof import('./src/components/ui/combobox/ComboboxEmpty.vue')['default']

@@ -42,6 +42,43 @@ export const useUserStore = defineStore('user', {
                 return false;
             }
         },
+        async queryCodes(phoneNumber) {
+            try {
+                const res = await api.sendCaptcha(phoneNumber);
+                return res.code === 200;
+            } catch (error) {
+                console.error('验证码发送失败:', error.message);
+                return false;
+            }
+        },
+        async loginByPhone(phoneNumber, captcha) {
+            try {
+                const res = await api.verifyCaptcha(phoneNumber, captcha);
+                if (res.code !== 200 || !res.data) {
+                    console.error('验证码错误:', res.message);
+                    return false;
+                }
+                // 登录成功后服务端将 cookie 写入当前页面, 从 document.cookie 中取得并持久化
+                const cookie = document.cookie || '';
+                if (!cookie) {
+                    console.error('登录失败: 未获取到 cookie');
+                    return false;
+                }
+                const account = await api.getAccountInfo(cookie);
+                if (account.code === 200 && account.profile && account.profile.userId != null) {
+                    this.setUser(account.profile);
+                    this.importCookies(cookie);
+                    const musicStore = useMusicStore();
+                    musicStore.initLikeList();
+                    return true;
+                }
+                console.error('登录失败:', account.message);
+                return false;
+            } catch (error) {
+                console.error('验证码登录失败:', error.message);
+                return false;
+            }
+        },
         logout() {
             if(this.user == null){
                 console.log("user is null");

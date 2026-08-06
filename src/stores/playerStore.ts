@@ -31,6 +31,24 @@ function createAudio(): HTMLAudioElement {
   return new Audio();
 }
 
+// 将 '4:29' / '1:02:03' 这类展示时长解析为秒
+function parseTrackDuration(duration: string | null | undefined): number {
+  if (!duration) return 0;
+  const parts = String(duration).split(':').map((p) => Number(p));
+  if (!parts.length || parts.some((p) => !Number.isFinite(p))) return 0;
+  let seconds = 0;
+  for (const p of parts) seconds = seconds * 60 + p;
+  return seconds > 0 ? seconds : 0;
+}
+
+// 优先取真实音频时长, 其次取 store 已记录时长, 最后回退到歌曲 API 展示时长
+function resolveDuration(state: { audio: HTMLAudioElement; duration: number }, track: Music | null): number {
+  const audioDuration = state.audio?.duration;
+  if (Number.isFinite(audioDuration) && audioDuration > 0) return audioDuration;
+  if (Number.isFinite(state.duration) && state.duration > 0) return state.duration;
+  return parseTrackDuration(track?.duration);
+}
+
 interface StoredTrack {
   id: string;
   name: string;
@@ -144,6 +162,7 @@ export const usePlayerStore = defineStore('player', {
       audio.addEventListener('pause', this._onPause);
       audio.addEventListener('timeupdate', this._onTimeUpdate);
       audio.addEventListener('loadedmetadata', this._onLoadedMetadata);
+      audio.addEventListener('durationchange', this._onDurationChange);
 
       void CapacitorMusicControls.addListener('controlsNotification', this._onControlsEvent)
         .then((listener) => { controlsListener = listener; })
@@ -162,6 +181,7 @@ export const usePlayerStore = defineStore('player', {
       audio.removeEventListener('pause', this._onPause);
       audio.removeEventListener('timeupdate', this._onTimeUpdate);
       audio.removeEventListener('loadedmetadata', this._onLoadedMetadata);
+      audio.removeEventListener('durationchange', this._onDurationChange);
       document.removeEventListener('controlsNotification', this._onDocumentControlsEvent);
       await controlsListener?.remove().catch(() => undefined);
       controlsListener = null;
@@ -180,7 +200,10 @@ export const usePlayerStore = defineStore('player', {
 
     setCurrentTime(time: number) {
       if (this.currentIndex < 0 || !Number.isFinite(time)) return;
-      this.audio.currentTime = Math.min(Math.max(time, 0), this.duration || 0);
+      const clamped = Math.min(Math.max(time, 0), this.duration > 0 ? this.duration : Infinity);
+      this.audio.currentTime = clamped;
+      this.currentTime = clamped;
+      CapacitorMusicControls.updateElapsed({ isPlaying: !this.audio.paused, elapsed: clamped });
     },
 
     setMode(mode: PlayModeValue) {
@@ -194,6 +217,9 @@ export const usePlayerStore = defineStore('player', {
       this.currentIndex = index;
       const track = this.currentTrack;
       if (!track) return;
+
+      // 先用 API 展示时长兜底, 待 loadedmetadata/durationchange 后修正为真实时长
+      this.duration = parseTrackDuration(track.duration) || this.duration;
 
       if (!track.playUrl) {
         track.playUrl = await this._resolvePlayUrl(track);
@@ -319,12 +345,12 @@ export const usePlayerStore = defineStore('player', {
 
     _onPlay() {
       this.isPlaying = true;
-      CapacitorMusicControls.updateIsPlaying({ isPlaying: true });
+      CapacitorMusicControls.updateElapsed({ isPlaying: true, elapsed: this.audio.currentTime });
     },
 
     _onPause() {
       this.isPlaying = false;
-      CapacitorMusicControls.updateIsPlaying({ isPlaying: false });
+      CapacitorMusicControls.updateElapsed({ isPlaying: false, elapsed: this.audio.currentTime });
     },
 
     _onTimeUpdate() {
@@ -332,10 +358,20 @@ export const usePlayerStore = defineStore('player', {
     },
 
     _onLoadedMetadata() {
-      this.duration = Number.isFinite(this.audio.duration) ? this.audio.duration : 0;
+      const d = this.audio.duration;
+      if (Number.isFinite(d) && d > 0) {
+        this.duration = d;
+      } else if (!(this.duration > 0)) {
+        this.duration = parseTrackDuration(this.currentTrack?.duration) || this.duration;
+      }
     },
 
-    _onControlsEvent(action: { message?: string }) {
+    _onDurationChange() {
+      const d = this.audio.duration;
+      if (Number.isFinite(d) && d > 0) this.duration = d;
+    },
+
+    _onControlsEvent(action: { message?: string; position?: number }) {
       switch (action.message) {
         case 'music-controls-play':
           if (this.audio.paused) {
@@ -346,6 +382,11 @@ export const usePlayerStore = defineStore('player', {
         case 'music-controls-pause': this.pause(); break;
         case 'music-controls-next': void this.next(); break;
         case 'music-controls-previous': void this.prev(); break;
+        case 'music-controls-seek-to': {
+          const position = Number(action.position);
+          if (Number.isFinite(position) && position >= 0) this.setCurrentTime(position);
+          break;
+        }
         case 'music-controls-toggle-play-pause': void this.toggle(); break;
         case 'music-controls-destroy':
           this.pause();
@@ -355,32 +396,46 @@ export const usePlayerStore = defineStore('player', {
     },
 
     _onDocumentControlsEvent(event: Event) {
-      const evt = event as unknown as { message?: unknown; detail?: unknown };
-      const payload = typeof evt.message === 'string' ? evt.message : evt.detail;
-      if (typeof payload === 'string') {
-        this._onControlsEvent({ message: payload });
-      } else if (payload && typeof payload === 'object') {
-        this._onControlsEvent(payload as { message?: string });
+      const evt = event as unknown as { message?: unknown; position?: unknown; detail?: unknown };
+      let message: unknown = evt.message;
+      let position: unknown = evt.position;
+      if (typeof message !== 'string' && evt.detail !== undefined) {
+        const detail = evt.detail;
+        if (typeof detail === 'string') {
+          message = detail;
+        } else if (detail && typeof detail === 'object') {
+          const obj = detail as { message?: unknown; position?: unknown };
+          message = obj.message;
+          position = obj.position;
+        }
       }
+      if (typeof message !== 'string') return;
+      this._onControlsEvent({
+        message,
+        position: typeof position === 'number' ? position : 0,
+      });
     },
 
     async _updateMusicControls() {
       const track = this.currentTrack;
       if (!track) return;
       const artist = track.getArtistInfo()?.name || '未知艺人';
+      const duration = Math.floor(resolveDuration(this, track));
+      const elapsed = Number.isFinite(this.audio.currentTime) ? Math.floor(Math.max(this.audio.currentTime, 0)) : 0;
       try {
-        await CapacitorMusicControls.destroy();
         await CapacitorMusicControls.create({
           track: track.name,
           artist,
           cover: track.getPicUrl() || '',
           album: track.albumInfo.name || '',
+          duration,
+          elapsed,
+          hasScrubbing: duration > 0,
           isPlaying: !this.audio.paused,
           dismissable: true,
           hasPrev: true,
           hasNext: true,
           hasClose: true,
-          hasScrubbing: false,
           ticker: `正在播放: "${track.name}"`,
           playIcon: 'media_play',
           pauseIcon: 'media_pause',

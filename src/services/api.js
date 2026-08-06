@@ -66,18 +66,19 @@ const api = {
     return await request('/login/refresh');
   },
 
-  async sendCaptcha(phone, ctcode = 86) {
-    const params = new URLSearchParams({ phone, ctcode });
-    return await request(`/captcha/sent?${params}`);
+  async sendCaptcha(phone) {
+    const params = new URLSearchParams({ phone });
+    return await request(`/captcha/sent/v1?${params}`);
   },
 
-  async verifyCaptcha(phone, captcha, ctcode = 86) {
-    const params = new URLSearchParams({ phone, captcha, ctcode });
+  async verifyCaptcha(phone, captcha) {
+    const params = new URLSearchParams({ phone, captcha });
     return await request(`/captcha/verify?${params}`);
   },
 
-  async cellphoneLogin(phone, password, {countrycode, md5_password, captcha} = {}) {
-    const params = new URLSearchParams({ phone, password });
+  async cellphoneLogin(phone, password = '', {countrycode, md5_password, captcha} = {}) {
+    const params = new URLSearchParams({ phone });
+    if (password) params.set('password', password);
     if (countrycode) params.set('countrycode', countrycode);
     if (md5_password) params.set('md5_password', md5_password);
     if (captcha) params.set('captcha', captcha);

@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from "vue";
 import { SearchIcon } from "@lucide/vue";
 import { useUiStore } from "@/stores/uiStore";
 
