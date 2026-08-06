@@ -30,18 +30,22 @@
 ## 📂 项目结构
 
 ```
-.
-┣ android                         # Android 平台工程  
-┣ capacitor-music-controls-plugin # Android 媒体通知插件  
-┣ my-cookie-manager               # Android Cookies 插件
-┗ src                             # Vue 应用源码
-  ┣ assets     # 静态资源
-  ┣ components # 组件
-  ┣ layout     # 顶层页面及其布局
-  ┣ router     # vue-router
-  ┣ services   # api services
-  ┣ stores     # 状态管理 / 播放控件
-  ┗ views      # 子页面
+yuji-music
+ ├─ android                         Android 平台工程  
+ ├─ capacitor-music-controls-plugin Android 媒体通知插件  
+ ├─ my-cookie-manager               Android Cookies 插件
+ ├─ src
+ ├─ views/                页面：首页、搜索、歌单、专辑、歌手、播放页、设置、登录
+ ├─ layout/               应用壳：侧栏、顶部栏、底部播放控制栏
+ ├─ components/
+ │   ├─ contents/         歌曲/歌单/专辑内容组件
+ │   ├─ playercontroller/ 播放控制 UI
+ │   ├─ public/           登录、歌词、搜索、详情菜单等业务共享组件
+ │   └─ ui/               shadcn/vue / Reka UI 基础组件
+ ├─ stores/               Pinia：用户、主题、UI、音乐数据；全局播放器单例
+ ├─ services/             Axios 请求、API、业务服务
+ ├─ model/                Music / Album / Artist / SongList 领域模型与内存缓存
+ └─ router/               Hash 路由
 ```
 
 ## 🚀 本地开发 & 构建

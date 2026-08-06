@@ -1,7 +1,6 @@
 import User from './User';
 import Music, {MusicRaw} from './Music';
 import DateTimeFormatter from './utils';
-import songService from '@/services/songService';
 
 interface SongListRaw {
     id: string, name?: string, title?: string,
@@ -39,7 +38,7 @@ export default class SongList {
       raw.followCount ?? 0,
       raw.shareCount ?? 0,
       raw.commentCount ?? 0,
-      User.fromRaw(raw.creator ?? {}),
+      User.fromRaw(raw.creator ?? { id: 'unknown', name: '未知用户' }),
       raw.tags ?? [],
       DateTimeFormatter.formatDate(raw.createTime ?? null),
       DateTimeFormatter.formatDate(raw.updateTime ?? null),
@@ -58,6 +57,7 @@ export default class SongList {
   }
 
   async updateMusics() {
+    const songService = (await import('@/services/songService')).default;
     let songs = await songService.getSonglistContent(this.id);
     if (songs) {
       this.songs = songs;

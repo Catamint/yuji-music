@@ -1,4 +1,7 @@
-import { Music, Album, Artist, SongList } from './index';
+import Music from './Music';
+import Album from './Album';
+import Artist from './Artist';
+import SongList from './SongList';
 
 type EntityCache<T extends Music | Album | Artist | SongList> = Map<string, StoreItem<T>>;
 

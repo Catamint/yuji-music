@@ -3,8 +3,6 @@ import DateTimeFormatter from './utils';
 import Music, { MusicRaw } from './Music';
 import EntityStore from './EntityStore';
 
-import songService from '@/services/songService';
-
 interface ArtistInfo {
   id: string;
   name: string;
@@ -60,17 +58,16 @@ export default class Album {
     return `${this.picUrl.replace(/^http:/, "https:")}?param=${size}y${size}`;
   }
 
-  static get(id: string, opts = {}): Album | undefined {
+  static async get(id: string, opts = {}): Promise<Album | undefined> {
     const album = EntityStore.getAlbum(id);
     if (album) {
       return album;
     }
-    else {
-      const newAlbum = songService.getAlbum(id);
-      if (newAlbum instanceof Album) {
-        EntityStore.saveAlbum(newAlbum);
-        return newAlbum;
-      }
+    const songService = (await import('@/services/songService')).default;
+    const newAlbum = await songService.getAlbum(id);
+    if (newAlbum instanceof Album) {
+      EntityStore.saveAlbum(newAlbum);
+      return newAlbum;
     }
     return undefined;
   }

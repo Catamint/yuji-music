@@ -22,12 +22,12 @@
   
   <div
     v-if="layout === 'list'"
-    class="flex w-full h-20 my-2 items-center gap-4 p-2 rounded-lg back-hover transition"
+    class="flex w-full h-15 my-2 items-center gap-4 p-2 rounded-lg back-hover transition"
   >
     <img
       :src="image"
       alt="cover"
-      class="w-20 h-20 object-cover rounded-xl shrink-0"
+      class="w-15 h-15 object-cover rounded-xl shrink-0"
       @click.stop="onTitleClick"
     />
     <div class="flex-1 min-w-0 overflow-hidden" @click.stop="onTitleClick">
@@ -224,6 +224,7 @@ export default {
 }
 
 /* 响应式布局 */
+
 @media (max-width: 1200px) {
   .layout-card {
     flex: 1 1 calc(25% - 30px) !important;
@@ -240,20 +241,13 @@ export default {
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 480px) {
   .layout-card {
     flex: 1 1 calc(50% - 20px) !important;
     /* 每行2个 */
     max-width: calc(50% - 20px) !important;
   }
-}
-
-/* @media (max-width: 480px) {
-    .layout-card {
-        flex: 1 1 100% !important;
-        max-width: 100% !important;
-    }
-} */
+} 
 
 .layout-card .cover-img {
   width: 100%;

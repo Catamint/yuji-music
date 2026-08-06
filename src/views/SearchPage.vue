@@ -22,27 +22,12 @@
 
     <template #content>
       <div class="w-full flex flex-col flex-1">
-        <AlbumContainer
-          v-if="results.album?.albums"
-          class="detail"
-          :albumList="results.album.albums"
-          :head="type === 'all' ? '专辑' : ''"
-          layout="list"
-        />
-        <MusicContainer
-          v-if="results.song?.songs"
-          class="detail"
-          :musicList="results.song?.songs"
-          :head="type === 'all' ? '音乐' : ''"
-          layout="compact"
-        />
-        <SongListContainer
-          v-if="results.playList?.playLists"
-          class="detail"
-          :songListList="results.playList.playLists"
-          :head="type === 'all' ? '歌单' : ''"
-          layout="card"
-        />
+        <MusicContainer v-if="results.song?.songs" class="detail" :musicList="results.song?.songs"
+          :head="type === 'all' ? '音乐' : ''" layout="compact" />
+        <AlbumContainer v-if="results.album?.albums" class="detail" :albumList="results.album.albums"
+          :head="type === 'all' ? '专辑' : ''" layout="card" />
+        <SongListContainer v-if="results.playList?.playLists" class="detail" :songListList="results.playList.playLists"
+          :head="type === 'all' ? '歌单' : ''" layout="list" />
       </div>
       <div class="w-full flex flex-col flex-1 space-x-4 p-4 gap-4" v-if="searching">
         <Skeleton class="h-12 w-full rounded-xl" />
@@ -65,6 +50,8 @@ import songService from "@/services/songService.ts";
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { Skeleton } from "@/components/ui/skeleton";
+
+import toast from "vue-sonner";
 
 const route = useRoute();
 const searching = ref(false);

@@ -1,4 +1,3 @@
-import songService from '@/services/songService';
 import DateTimeFormatter from './utils';
 import defaultCoverImg from '@/assets/image/default_cover.jpg';
 
@@ -52,6 +51,7 @@ export default class Music {
 
     const defaultPicUrl = defaultCoverImg;
     if (!this.albumInfo.picUrl) {
+      const songService = (await import('@/services/songService')).default;
       this.albumInfo.picUrl = await songService.getAlbumPicUrl(this.albumInfo.id, size) || defaultPicUrl;
     }
     return `${this.albumInfo.picUrl?.replace(/^http:/, "https:")}?param=${size}y${size}`;

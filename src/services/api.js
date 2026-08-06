@@ -27,7 +27,7 @@ const api = {
     return await request(`/playlist/detail?${params}`);
   },
 
-  async getPlaylistAllTracks(id, limit = 100, offset = 0) {
+  async getPlaylistAllTracks(id, limit = 1000, offset = 0) {
     const params = new URLSearchParams({ id, limit, offset });
     return await request(`/playlist/track/all?${params}`);
   },
@@ -54,17 +54,12 @@ const api = {
 
   async getArtistDetail(id) {
       const params = new URLSearchParams({ id });
-      return await api.request(`/artist/detail?${params}`);
+      return await request(`/artist/detail?${params}`);
   },
   // 获取用户歌单
   async getUserPlaylist(uid, limit = 30, offset = 0) {
     const params = new URLSearchParams({ uid, limit, offset });
     return await request(`/user/playlist?${params}`);
-  },
-  // 获取歌单所有歌曲
-  async getPlaylistAllTracks(id, limit = 1000, offset = 0) {
-    const params = new URLSearchParams({ id, limit, offset });
-    return await request(`/playlist/track/all?${params}`);
   },
   // 刷新登录
   async refreshLogin() {
@@ -106,6 +101,7 @@ const api = {
   },
 
   async getUserSubcount() {
+    const params = new URLSearchParams();
     return await request(`/user/subcount?${params}`);
   },
   

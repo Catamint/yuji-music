@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
 import { MoreVertical20Filled } from "@vicons/fluent";
 import TooltipButton from "../layout/TooltipButton.vue";
 import { useUiStore } from "@/stores/uiStore";

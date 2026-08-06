@@ -49,7 +49,7 @@ export const useThemeStore = defineStore('theme', {
             if (localStorage.getItem('currentTheme')) {
                 this.currentTheme = JSON.parse(localStorage.getItem('currentTheme'));
             } else {
-                this.currentTheme = { ...this.themes.light };
+                this.currentTheme = { ...this.themes.dark };
                 this.saveCurrentTheme();
             }
         },
